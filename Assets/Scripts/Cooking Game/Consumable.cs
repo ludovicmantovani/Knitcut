@@ -7,6 +7,7 @@ public class Consumable : ScriptableObject
     public int baseQuantity = 20;
     public int quantity;
     public GameObject consumableObject;
+    public Sprite consumableSprite;
 
     public void InitializeQuantity()
     {

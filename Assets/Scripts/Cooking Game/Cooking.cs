@@ -7,6 +7,7 @@ public class Cooking : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
     [SerializeField] private GameObject consumableUI;
+    [SerializeField] private GameObject popup;
     [SerializeField] private Transform contentRecipes;
     [SerializeField] private Transform contentConsumables;
 
@@ -15,8 +16,15 @@ public class Cooking : MonoBehaviour
     [SerializeField] private List<Consumable> consumablesPossessed = new List<Consumable>();
     [SerializeField] private List<GameObject> finalProducts = new List<GameObject>();
 
+    public List<Consumable> ConsumablesPossessed
+    {
+        get { return consumablesPossessed; }
+    }
+
     private void Start()
     {
+        popup.SetActive(false);
+
         AddRecipesAtStart();
         AddConsumablesAtStart();
     }
@@ -100,9 +108,16 @@ public class Cooking : MonoBehaviour
     private void AddRecipeFromListToUI(Recipe recipeToAdd)
     {
         GameObject recipe = Instantiate(recipeUI, contentRecipes);
+
         recipe.name = recipeToAdd.recipeName;
         recipe.transform.GetChild(0).GetComponent<Text>().text = recipeToAdd.recipeName;
+
         recipe.GetComponent<Button>().onClick.AddListener(delegate { CookingRecipe(recipeToAdd.recipeName); });
+
+        recipe.GetComponent<Image>().sprite = recipeToAdd.recipeSprite;
+
+        recipe.GetComponent<RecipePopup>().recipe = recipeToAdd;
+        recipe.GetComponent<RecipePopup>().popup = popup;
     }
 
     public void RemoveRecipeFromList(Recipe recipeToRemove)
@@ -204,9 +219,12 @@ public class Cooking : MonoBehaviour
         consumableToAdd.InitializeQuantity();
 
         GameObject consumable = Instantiate(consumableUI, contentConsumables);
+
         consumable.name = consumableToAdd.consumableName;
         consumable.transform.GetChild(0).GetComponent<Text>().text = consumableToAdd.consumableName;
         consumable.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = consumableToAdd.quantity.ToString();
+
+        consumable.GetComponent<Image>().sprite = consumableToAdd.consumableSprite;
     }
 
     public void RemoveConsumableFromList(Consumable consumableToRemove)
