@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef1c9be13ecd0240881a3c487a6db78, type: 3}
+  m_Name: Recipe 2
+  m_EditorClassIdentifier: 
+  recipeName: Recipe 2
+  consumablesRequired:
+  - consumable: {fileID: 11400000, guid: 3aa6bd84dc18ca545aed8fc04094c8ae, type: 2}
+    quantity: 2
+  - consumable: {fileID: 11400000, guid: 3de1b7089c237594d90b176dab0eedb2, type: 2}
+    quantity: 5
+  - consumable: {fileID: 11400000, guid: f9c2127cdb774204b9f9004b7c5e3582, type: 2}
+    quantity: 3
+  finalProduct: {fileID: 412880846473995412, guid: 41940bedfae61a6419ad104445aef1c3, type: 3}
+  canBeCooked: 0
