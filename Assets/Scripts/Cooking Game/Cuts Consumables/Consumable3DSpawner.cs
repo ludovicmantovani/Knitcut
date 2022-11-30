@@ -22,9 +22,8 @@ public class Consumable3DSpawner : MonoBehaviour
     void Start()
     {
         cooking = FindObjectOfType<Cooking>();
-        spawning = false;
 
-        StartCoroutine(SpawnConsumables());
+        spawning = false;
     }
 
     void Update()
@@ -32,6 +31,7 @@ public class Consumable3DSpawner : MonoBehaviour
         if (!spawning && canSpawnConsumables)
         {
             spawning = true;
+
             StartCoroutine(SpawnConsumables());
         }
     }
@@ -69,6 +69,8 @@ public class Consumable3DSpawner : MonoBehaviour
         }
 
         spawning = false;
+
+        yield return new WaitForSeconds(3f);
 
         cooking.HandleFinalProduct();
     }

@@ -8,8 +8,11 @@ public class Cooking : MonoBehaviour
     [SerializeField] private GameObject recipeUI;
     [SerializeField] private GameObject consumableUI;
     [SerializeField] private GameObject popup;
+    [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
     [SerializeField] private Transform contentConsumables;
+    [SerializeField] private float consumables3Dsliced = 0;
+    [SerializeField] private float totalConsumablesRequired = 0;
 
     [Header("Lists")]
     [SerializeField] private List<Recipe> recipes = new List<Recipe>();
@@ -39,9 +42,24 @@ public class Cooking : MonoBehaviour
         HandleConsumablesPossessed();
     }
 
+    public void AddSlicedConsumablesToCount()
+    {
+        consumables3Dsliced++;
+    }
+
     public void HandleFinalProduct()
     {
-        //finalProducts.Add(recipe.finalProduct);
+        float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
+
+        GameObject finalProduct = Instantiate(currentRecipe.finalProduct, transform);
+
+        finalProduct.name = currentRecipe.recipeName;
+        finalProduct.GetComponent<RecipeInfos>().recipeName = currentRecipe.recipeName;
+        finalProduct.GetComponent<RecipeInfos>().price = finalPrice;
+
+        finalProducts.Add(finalProduct);
+
+        Debug.Log($"Recipe '{currentRecipe.finalProduct}' cooked successfully : price = {finalPrice}");
     }
 
     #region Recipes
@@ -143,7 +161,6 @@ public class Cooking : MonoBehaviour
         if (recipe.canBeCooked)
         {
             // Get total of required consumables (differents consumables with their quantity)
-            int totalConsumablesRequired = 0;
             for (int i = 0; i < recipe.consumablesRequired.Count; i++)
             {
                 for (int j = 0; j < recipe.consumablesRequired[i].quantity; j++)
@@ -153,7 +170,7 @@ public class Cooking : MonoBehaviour
             }
 
             // Create temporary array to stock consumables objects
-            GameObject[] consumablesRequired = new GameObject[totalConsumablesRequired];
+            GameObject[] consumablesRequired = new GameObject[(int)totalConsumablesRequired];
 
             // Get consumables objects of each required consumables with quantity
             int index = 0;
@@ -167,6 +184,9 @@ public class Cooking : MonoBehaviour
                     index++;
                 }
             }
+
+            // Save current recipe
+            currentRecipe = recipe;
 
             // Transfer temporary array to Consumable3DSpawner
             consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);

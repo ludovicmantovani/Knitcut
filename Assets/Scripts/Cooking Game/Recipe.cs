@@ -16,7 +16,8 @@ public class Recipe : ScriptableObject
     public string recipeName;
     public List<ConsumablesRequired> consumablesRequired;
     public GameObject finalProduct;
-    public int basePrice;
+    public float basePrice;
+    public float finalPrice;
     public bool canBeCooked;
     public Sprite recipeSprite;
 

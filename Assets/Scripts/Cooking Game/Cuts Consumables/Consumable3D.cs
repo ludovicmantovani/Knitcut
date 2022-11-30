@@ -17,13 +17,21 @@ public class Consumable3D : MonoBehaviour
     {
         if (collision.CompareTag("Blade"))
         {
-            Vector3 direction = (collision.transform.position - transform.position).normalized;
-
-            Quaternion rotation = Quaternion.LookRotation(direction);
-
-            GameObject slicedConsumable = Instantiate(consumableSlicedPrefab, transform.position, rotation);
-            Destroy(slicedConsumable, 3f);
-            Destroy(gameObject);
+            SliceConsumable(collision.transform.position);
         }
+    }
+
+    private void SliceConsumable(Vector3 consumablePosition)
+    {
+        Vector3 direction = (consumablePosition - transform.position).normalized;
+
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        GameObject slicedConsumable = Instantiate(consumableSlicedPrefab, transform.position, rotation);
+
+        FindObjectOfType<Cooking>().AddSlicedConsumablesToCount();
+
+        Destroy(slicedConsumable, 3f);
+        Destroy(gameObject);
     }
 }
