@@ -21,8 +21,12 @@ public class Cooking : MonoBehaviour
         get { return consumablesPossessed; }
     }
 
+    Consumable3DSpawner consumable3DSpawner;
+
     private void Start()
     {
+        consumable3DSpawner = FindObjectOfType<Consumable3DSpawner>();
+
         popup.SetActive(false);
 
         AddRecipesAtStart();
@@ -33,6 +37,11 @@ public class Cooking : MonoBehaviour
     {
         HandleRecipesPossessed();
         HandleConsumablesPossessed();
+    }
+
+    public void HandleFinalProduct()
+    {
+        //finalProducts.Add(recipe.finalProduct);
     }
 
     #region Recipes
@@ -133,12 +142,34 @@ public class Cooking : MonoBehaviour
 
         if (recipe.canBeCooked)
         {
+            // Get total of required consumables (differents consumables with their quantity)
+            int totalConsumablesRequired = 0;
+            for (int i = 0; i < recipe.consumablesRequired.Count; i++)
+            {
+                for (int j = 0; j < recipe.consumablesRequired[i].quantity; j++)
+                {
+                    totalConsumablesRequired++;
+                }
+            }
+
+            // Create temporary array to stock consumables objects
+            GameObject[] consumablesRequired = new GameObject[totalConsumablesRequired];
+
+            // Get consumables objects of each required consumables with quantity
+            int index = 0;
             for (int i = 0; i < recipe.consumablesRequired.Count; i++)
             {
                 UpdateConsumable(recipe.consumablesRequired[i].consumable, recipe.consumablesRequired[i].consumable.quantity - recipe.consumablesRequired[i].quantity);
+
+                for (int j = 0; j < recipe.consumablesRequired[i].quantity; j++)
+                {
+                    consumablesRequired[index] = recipe.consumablesRequired[i].consumable.consumableObject;
+                    index++;
+                }
             }
 
-            finalProducts.Add(recipe.finalProduct);
+            // Transfer temporary array to Consumable3DSpawner
+            consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);
         }
     }
 
