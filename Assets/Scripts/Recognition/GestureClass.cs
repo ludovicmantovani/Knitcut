@@ -194,7 +194,7 @@ public class GestureClass
     }
 
     // NEW
-    public float[] CompareDrawingWithPattern(Texture2D textureDrawing, Texture2D texturePattern)
+    public float[] CompareDrawingWithPattern(Texture2D textureDrawing, Texture2D texturePattern, float tolerance)
     {
         float[] results = new float[2]; // 0:score - 1:extra
 
@@ -229,7 +229,9 @@ public class GestureClass
         }
 
         float percentageExtra = numExtraPixels / numBlackPixelsTDrawing;
-        
+
+        numBlackPixelsTDrawing *= tolerance;
+
         /*Debug.Log($"drawing black={numBlackPixelsTDrawing} - total={percentagePixelsDrawing}%\n" +
             $"same {numSamePixelsTextures} => {percentageSame}\n" +
             $"extra {numExtraPixels} => {percentageExtra}\n" +
