@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,7 +68,13 @@ public class Cooking : MonoBehaviour
 
         finalProducts.Add(finalProduct);
 
-        result.text = $"Recipe '{currentRecipe.finalProduct.name}' cooked successfully : \nprice = {finalPrice}";
+        // Rich Text
+        StringBuilder builder = new StringBuilder();
+
+        builder.Append($"Dish <color=orange>'{finalProduct.name}'</color> cooked successfully :").AppendLine().AppendLine();
+        builder.Append($"price = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
+
+        result.text = builder.ToString();
 
         Debug.Log(result.text);
     }
@@ -202,6 +209,8 @@ public class Cooking : MonoBehaviour
 
             // Save current recipe
             currentRecipe = recipe;
+
+            consumables3Dsliced = 0;
 
             // Transfer temporary array to Consumable3DSpawner
             consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);

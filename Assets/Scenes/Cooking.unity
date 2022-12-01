@@ -1306,7 +1306,7 @@ GameObject:
   - component: {fileID: 1170388604}
   - component: {fileID: 1170388606}
   - component: {fileID: 1170388605}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1496,6 +1496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bladeTrailPrefab: {fileID: 8421100686429264655, guid: ad66e0b872c41e24184fb4adbea3e4b3, type: 3}
+  minCuttingVelocity: 0.001
 --- !u!58 &1225549804
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1667,7 +1668,7 @@ GameObject:
   - component: {fileID: 1510710888}
   - component: {fileID: 1510710887}
   - component: {fileID: 1510710886}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2043,7 +2044,7 @@ GameObject:
   - component: {fileID: 1852466526}
   - component: {fileID: 1852466525}
   - component: {fileID: 1852466524}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

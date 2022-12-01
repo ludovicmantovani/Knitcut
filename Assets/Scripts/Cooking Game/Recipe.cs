@@ -25,7 +25,7 @@ public class Recipe : ScriptableObject
     {
         StringBuilder builder = new StringBuilder();
 
-        builder.Append("<size=40>").Append($"Recette <color=blue>'{recipeName}'</color> :").Append("</size>").AppendLine().AppendLine();
+        builder.Append("<size=40>").Append($"Recipe <color=orange>'{recipeName}'</color> :").Append("</size>").AppendLine().AppendLine();
 
         for (int i = 0; i < consumablesRequired.Count; i++)
         {

@@ -21,9 +21,9 @@ public class Consumable3D : MonoBehaviour
         }
     }
 
-    private void SliceConsumable(Vector3 consumablePosition)
+    private void SliceConsumable(Vector3 consumable)
     {
-        Vector3 direction = (consumablePosition - transform.position).normalized;
+        Vector3 direction = (consumable - transform.position).normalized;
 
         Quaternion rotation = Quaternion.LookRotation(direction);
 
