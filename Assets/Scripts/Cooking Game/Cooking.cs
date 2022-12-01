@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class Cooking : MonoBehaviour
     [SerializeField] private GameObject recipeUI;
     [SerializeField] private GameObject consumableUI;
     [SerializeField] private GameObject popup;
+    [SerializeField] private TextMeshProUGUI result;
     [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
     [SerializeField] private Transform contentConsumables;
@@ -65,7 +67,9 @@ public class Cooking : MonoBehaviour
 
         finalProducts.Add(finalProduct);
 
-        Debug.Log($"Recipe '{currentRecipe.finalProduct}' cooked successfully : price = {finalPrice}");
+        result.text = $"Recipe '{currentRecipe.finalProduct.name}' cooked successfully : \nprice = {finalPrice}";
+
+        Debug.Log(result.text);
     }
 
     #region Recipes
@@ -283,7 +287,7 @@ public class Cooking : MonoBehaviour
         GameObject consumable = Instantiate(consumableUI, contentConsumables);
 
         consumable.name = consumableToAdd.consumableName;
-        consumable.transform.GetChild(0).GetComponent<Text>().text = consumableToAdd.consumableName;
+        //consumable.transform.GetChild(0).GetComponent<Text>().text = consumableToAdd.consumableName;
         consumable.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = consumableToAdd.quantity.ToString();
 
         consumable.GetComponent<Image>().sprite = consumableToAdd.consumableSprite;

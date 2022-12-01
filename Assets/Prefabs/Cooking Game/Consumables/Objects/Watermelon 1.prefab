@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8800288200959287660}
   - component: {fileID: 8800288200959287662}
   m_Layer: 0
-  m_Name: Watermelon 2
+  m_Name: Watermelon 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d127c95bd76fc48a311273b0978455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  consumableSlicedPrefab: {fileID: 5730560288573082518, guid: 62a6468ee747001479cf6f42deb88640, type: 3}
+  consumableSlicedPrefab: {fileID: 5730560288573082518, guid: 48e6b436c698fb74a8a70ba53870b474, type: 3}
   startForce: 13
 --- !u!1001 &8800288200359720834
 PrefabInstance:
@@ -136,10 +136,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: 6e8526f1a8c00cd44840d2f222962a01, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e554b20346c6f2a4e9158c0b92330921, type: 2}
     - target: {fileID: 919132149155446097, guid: 6e8526f1a8c00cd44840d2f222962a01, type: 3}
       propertyPath: m_Name
       value: Watermelon
