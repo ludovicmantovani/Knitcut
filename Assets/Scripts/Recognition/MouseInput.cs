@@ -13,7 +13,8 @@ namespace Recognition
         [SerializeField] private GestureClass gesture = new GestureClass();
         [SerializeField] private float correctRate;
         [SerializeField] private Vector2 resolution;
-        [Range(0.01f, 1f)][SerializeField] private float percentageExtraLimit = 20;
+        [Range(0.01f, 1f)][SerializeField] private float percentageExtraLimit = 20f;
+        [Range(0.01f, 2f)][SerializeField] private float tolerance = 1f;
 
         private RaycastHit hit;
 
@@ -98,9 +99,11 @@ namespace Recognition
 
             if ((bool)texture2D)
             {
-                float[] results = gesture.CompareDrawingWithPattern(texture2D, mouseGesture.CurrentPattern);
+                float[] results = gesture.CompareDrawingWithPattern(texture2D, mouseGesture.CurrentPattern, tolerance);
                 float score = results[0];
                 float percentageExtra = results[1];
+
+                Debug.Log($"score={score} - extra={percentageExtra}");
 
                 if (percentageExtra >= percentageExtraLimit)
                 {
@@ -113,6 +116,8 @@ namespace Recognition
                 {
                     if (score >= correctRate)
                     {
+                        if (score > 1) score = 1;
+
                         mouseGesture.OnGestureCorrect();
                     }
                     else
@@ -124,7 +129,7 @@ namespace Recognition
                 }
             }
 
-            Clear();
+            //Clear();
         }
 
         #endregion
