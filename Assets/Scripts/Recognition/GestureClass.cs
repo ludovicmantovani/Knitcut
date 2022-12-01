@@ -228,9 +228,13 @@ public class GestureClass
             if (pixelsTPattern[i] == Color.white && pixelsTDrawing[i] == Color.black) numExtraPixels++;
         }
 
+        float pixelsTolerance = tolerance * numExtraPixels;
+        numExtraPixels -= pixelsTolerance;
+        numSamePixelsTextures += pixelsTolerance;
+
         float percentageExtra = numExtraPixels / numBlackPixelsTDrawing;
 
-        numBlackPixelsTDrawing *= tolerance;
+        //numBlackPixelsTDrawing *= tolerance;
 
         /*Debug.Log($"drawing black={numBlackPixelsTDrawing} - total={percentagePixelsDrawing}%\n" +
             $"same {numSamePixelsTextures} => {percentageSame}\n" +
