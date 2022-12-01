@@ -19,6 +19,8 @@ public class Cooking : MonoBehaviour
     [SerializeField] private List<Consumable> consumablesPossessed = new List<Consumable>();
     [SerializeField] private List<GameObject> finalProducts = new List<GameObject>();
 
+    private bool recipeInPreparation;
+
     public List<Consumable> ConsumablesPossessed
     {
         get { return consumablesPossessed; }
@@ -31,6 +33,8 @@ public class Cooking : MonoBehaviour
         consumable3DSpawner = FindObjectOfType<Consumable3DSpawner>();
 
         popup.SetActive(false);
+
+        recipeInPreparation = false;
 
         AddRecipesAtStart();
         AddConsumablesAtStart();
@@ -49,6 +53,8 @@ public class Cooking : MonoBehaviour
 
     public void HandleFinalProduct()
     {
+        recipeInPreparation = false;
+
         float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
 
         GameObject finalProduct = Instantiate(currentRecipe.finalProduct, transform);
@@ -156,11 +162,16 @@ public class Cooking : MonoBehaviour
 
     public void CookingRecipe(string recipeName)
     {
+        if (recipeInPreparation) return;
+
+        recipeInPreparation = true;
+
         Recipe recipe = GetRecipeItem(recipeName);
 
         if (recipe.canBeCooked)
         {
             // Get total of required consumables (differents consumables with their quantity)
+            totalConsumablesRequired = 0;
             for (int i = 0; i < recipe.consumablesRequired.Count; i++)
             {
                 for (int j = 0; j < recipe.consumablesRequired[i].quantity; j++)
