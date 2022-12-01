@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class Flowers : MonoBehaviour
 {
+
     [Serializable]
     public class Flower
     {
@@ -16,11 +13,11 @@ public class Flowers : MonoBehaviour
 
     [SerializeField] private Flower[] flowers;
 
-    private bool gameFinished;
+    //private bool gameFinished;
 
     private void Start()
     {
-        gameFinished = false;
+        //gameFinished = false;
 
         InitializeFlowers();
 
@@ -36,7 +33,7 @@ public class Flowers : MonoBehaviour
             flowers[i] = new Flower();
             flowers[i].flower = transform.GetChild(i).gameObject;
 
-            flowers[i].flower.GetComponent<Button>().onClick.AddListener(FlowerClicked);
+            //flowers[i].flower.GetComponent<Button>().onClick.AddListener(FlowerClicked);
         }
     }
 
@@ -47,7 +44,7 @@ public class Flowers : MonoBehaviour
         randomFlower.isGoodFlower = true;
     }
 
-    public void FlowerClicked()
+    /*public void FlowerClicked()
     {
         if (gameFinished) return;
 
@@ -91,5 +88,5 @@ public class Flowers : MonoBehaviour
         Debug.Log("Restart...");
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    }*/
 }
