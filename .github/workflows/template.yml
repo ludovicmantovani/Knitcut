@@ -64,7 +64,7 @@ jobs:
   buildWindows:
     needs: checkLicense
     name: Build for Windows
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
