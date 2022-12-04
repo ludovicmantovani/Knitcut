@@ -52,7 +52,7 @@ jobs:
             Library-
 
       - name: Build project
-      - uses: game-ci/unity-builder@v2
+        uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
 
@@ -97,7 +97,7 @@ jobs:
             Library-
 
       - name: Build project
-      - uses: game-ci/unity-builder@v2
+        uses: game-ci/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
 
