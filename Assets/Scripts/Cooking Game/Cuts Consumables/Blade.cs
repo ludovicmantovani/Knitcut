@@ -5,6 +5,7 @@ public class Blade : MonoBehaviour
     public GameObject bladeTrailPrefab;
     public float minCuttingVelocity = 0.001f;
 
+    private bool canCut = false;
     private bool isCutting = false;
 
     private Vector2 previousPosition;
@@ -22,11 +23,30 @@ public class Blade : MonoBehaviour
 
     private void Update()
     {
+        CutInArea();
+    }
+
+    private void CutInArea()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            // If is in Area
+            if (hit.collider.CompareTag("Area"))
+            {
+                HandleCut();
+            }
+        }
+    }
+
+    private void HandleCut()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             StartCutting();
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && isCutting)
         {
             StopCutting();
         }

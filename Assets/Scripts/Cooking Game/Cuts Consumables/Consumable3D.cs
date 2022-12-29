@@ -4,6 +4,7 @@ public class Consumable3D : MonoBehaviour
 {
     public GameObject consumableSlicedPrefab;
     public float startForce = 15f;
+    public float slicedForce = 10f;
 
     Rigidbody2D _rigidbody;
 
@@ -28,6 +29,13 @@ public class Consumable3D : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(direction);
 
         GameObject slicedConsumable = Instantiate(consumableSlicedPrefab, transform.position, rotation);
+
+        for (int i = 0; i < slicedConsumable.transform.childCount; i++)
+        {
+            GameObject slicedPart = slicedConsumable.transform.GetChild(i).gameObject;
+
+            slicedPart.GetComponent<Rigidbody>().AddForce(direction * slicedForce, ForceMode.Impulse);
+        }
 
         FindObjectOfType<Cooking>().AddSlicedConsumablesToCount();
 
