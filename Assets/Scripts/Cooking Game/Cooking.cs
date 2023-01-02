@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
@@ -11,11 +12,14 @@ public class Cooking : MonoBehaviour
     [SerializeField] private GameObject consumableUI;
     [SerializeField] private GameObject popup;
     [SerializeField] private TextMeshProUGUI result;
+    [SerializeField] private Text timer;
     [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
     [SerializeField] private Transform contentConsumables;
     [SerializeField] private float consumables3Dsliced = 0;
     [SerializeField] private float totalConsumablesRequired = 0;
+    [SerializeField] private float timeBeforeCutting = 5f;
+    [SerializeField] private float timeToCreateFinalProduct = 3f;
 
     [Header("Lists")]
     [SerializeField] private List<Recipe> recipes = new List<Recipe>();
@@ -36,6 +40,7 @@ public class Cooking : MonoBehaviour
         consumable3DSpawner = FindObjectOfType<Consumable3DSpawner>();
 
         popup.SetActive(false);
+        timer.gameObject.SetActive(false);
 
         recipeInPreparation = false;
 
@@ -54,7 +59,16 @@ public class Cooking : MonoBehaviour
         consumables3Dsliced++;
     }
 
-    public void HandleFinalProduct()
+    public IEnumerator HandleFinalProduct()
+    {
+        result.text = "Waiting final product...";
+
+        yield return new WaitForSeconds(timeToCreateFinalProduct);
+
+        CreateFinalProduct();
+    }
+
+    public void CreateFinalProduct()
     {
         recipeInPreparation = false;
 
@@ -175,6 +189,8 @@ public class Cooking : MonoBehaviour
     {
         if (recipeInPreparation) return;
 
+        result.text = "";
+
         recipeInPreparation = true;
 
         Recipe recipe = GetRecipeItem(recipeName);
@@ -213,8 +229,28 @@ public class Cooking : MonoBehaviour
             consumables3Dsliced = 0;
 
             // Transfer temporary array to Consumable3DSpawner
-            consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);
+            StartCoroutine(TransferConsumablesToSpawn(consumablesRequired));
         }
+    }
+
+    IEnumerator TransferConsumablesToSpawn(GameObject[] consumablesRequired)
+    {
+        timer.gameObject.SetActive(true);
+
+        float timeToWait = timeBeforeCutting;
+
+        while (timeToWait > -1)
+        {
+            timer.text = timeToWait.ToString();
+
+            yield return new WaitForSeconds(1f);
+
+            timeToWait--;
+        }
+
+        timer.gameObject.SetActive(false);
+
+        consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);
     }
 
     #region Getters

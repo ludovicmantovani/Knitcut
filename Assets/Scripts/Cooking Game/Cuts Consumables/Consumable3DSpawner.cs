@@ -10,8 +10,8 @@ public class Consumable3DSpawner : MonoBehaviour
     public float minDelay = 0.1f;
     public float maxDelay = 1f;
 
-    public float delayBeforeStartSpawning = 2f;
     public float delayBeforeDestroyingConsumableObject = 5f;
+    public float delayBeforeHandlingFinalProduct = 2f;
 
     public bool canSpawnConsumables;
 
@@ -26,20 +26,8 @@ public class Consumable3DSpawner : MonoBehaviour
         spawning = false;
     }
 
-    void Update()
-    {
-        if (!spawning && canSpawnConsumables)
-        {
-            spawning = true;
-
-            StartCoroutine(SpawnConsumables());
-        }
-    }
-
     IEnumerator SpawnConsumables()
     {
-        yield return new WaitForSeconds(delayBeforeStartSpawning);
-
         while (consumablesToSpawn.Length > 0)
         {
             // Random delay between limits
@@ -70,9 +58,9 @@ public class Consumable3DSpawner : MonoBehaviour
 
         spawning = false;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(delayBeforeHandlingFinalProduct);
 
-        cooking.HandleFinalProduct();
+        StartCoroutine(cooking.HandleFinalProduct());
     }
 
     public void AddConsumablesToSpawn(GameObject[] consumables3D)
