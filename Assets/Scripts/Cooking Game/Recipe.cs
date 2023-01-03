@@ -14,6 +14,7 @@ public class Recipe : ScriptableObject
     }
 
     public string recipeName;
+    public string recipeDescription;
     public List<ConsumablesRequired> consumablesRequired;
     public GameObject finalProduct;
     public float basePrice;
@@ -24,8 +25,6 @@ public class Recipe : ScriptableObject
     public string GetInfosConsumablesRequired()
     {
         StringBuilder builder = new StringBuilder();
-
-        builder.Append("<size=40>").Append($"Recipe <color=orange>'{recipeName}'</color> :").Append("</size>").AppendLine().AppendLine();
 
         for (int i = 0; i < consumablesRequired.Count; i++)
         {
@@ -44,7 +43,7 @@ public class Recipe : ScriptableObject
     {
         bool canUse = false;
 
-        List<Consumable> consumablesPossessed = FindObjectOfType<Cooking>().GetComponent<Cooking>().ConsumablesPossessed;
+        List<Consumable> consumablesPossessed = FindObjectOfType<Cooking>().ConsumablesPossessed;
 
         for (int i = 0; i < consumablesPossessed.Count; i++)
         {

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef1c9be13ecd0240881a3c487a6db78, type: 3}
   m_Name: Recipe 1
   m_EditorClassIdentifier: 
-  recipeName: Recipe 1
+  recipeName: "Recette n\xB01"
+  recipeDescription: "Tr\xE8s bonne recette, facile \xE0 pr\xE9parer."
   consumablesRequired:
   - consumable: {fileID: 11400000, guid: 3aa6bd84dc18ca545aed8fc04094c8ae, type: 2}
     quantity: 7
@@ -22,5 +23,4 @@ MonoBehaviour:
   basePrice: 12
   finalPrice: 0
   canBeCooked: 1
-  cooked: 0
   recipeSprite: {fileID: 21300000, guid: 02009b0e64dcece49833f5abb0176ef2, type: 3}

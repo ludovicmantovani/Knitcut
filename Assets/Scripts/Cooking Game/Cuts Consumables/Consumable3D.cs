@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class Consumable3D : MonoBehaviour
 {
-    public GameObject consumableSlicedPrefab;
-    public float startForce = 15f;
-    public float slicedForce = 10f;
+    [SerializeField] private GameObject consumableSlicedPrefab;
+    [SerializeField] private float propulsionForce = 15f;
+    [SerializeField] private float slicedForce = 10f;
 
     Rigidbody2D _rigidbody;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _rigidbody.AddForce(transform.up * startForce, ForceMode2D.Impulse);
+        _rigidbody.AddForce(transform.up * propulsionForce, ForceMode2D.Impulse);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -22,9 +22,9 @@ public class Consumable3D : MonoBehaviour
         }
     }
 
-    private void SliceConsumable(Vector3 consumable)
+    private void SliceConsumable(Vector3 bladePosition)
     {
-        Vector3 direction = (consumable - transform.position).normalized;
+        Vector3 direction = (bladePosition - transform.position).normalized;
 
         Quaternion rotation = Quaternion.LookRotation(direction);
 

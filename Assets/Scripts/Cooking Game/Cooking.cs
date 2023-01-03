@@ -7,17 +7,18 @@ using UnityEngine.UI;
 
 public class Cooking : MonoBehaviour
 {
+    [Header("UI Panels")]
+    [SerializeField] private GameObject cookingUI;
+    [SerializeField] private GameObject resultUI;
+
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
-    [SerializeField] private GameObject consumableUI;
-    [SerializeField] private GameObject popup;
-    [SerializeField] private TextMeshProUGUI result;
-    [SerializeField] private Text timer;
-    [SerializeField] private Text instruction;
-    [SerializeField] private Text waiting;
+    [SerializeField] private GameObject recipeInfos;
+    [SerializeField] private GameObject instruction;
+    [SerializeField] private GameObject timer;
+    [SerializeField] private TextMeshProUGUI consumablesList;
     [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
-    [SerializeField] private Transform contentConsumables;
 
     [Header("Parameters")]
     [SerializeField] private float consumables3Dsliced = 0;
@@ -43,23 +44,39 @@ public class Cooking : MonoBehaviour
     {
         consumable3DSpawner = FindObjectOfType<Consumable3DSpawner>();
 
-        popup.SetActive(false);
-        timer.gameObject.SetActive(false);
-        waiting.gameObject.SetActive(false);
+        HandleGameStart();
 
-        instruction.gameObject.SetActive(true);
-        instruction.text = "Sélectionner une recette";
+        AddRecipesAtStart();
+    }
+
+    private void HandleGameStart()
+    {
+        cookingUI.gameObject.SetActive(true);
+        resultUI.gameObject.SetActive(false);
+
+        timer.SetActive(false);
+
+        recipeInfos.SetActive(false);
+
+        instruction.SetActive(true);
+        instruction.transform.GetComponentInChildren<Text>().text = "Sélectionner une recette";
 
         recipeInPreparation = false;
 
-        AddRecipesAtStart();
-        AddConsumablesAtStart();
+        InitializeConsumablesPossessed();
+
+        // Reset UIs
+        recipeInfos.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "";
+        recipeInfos.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "";
+
+        consumablesList.text = "";
+
+        resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "";
     }
 
     private void Update()
     {
         HandleRecipesPossessed();
-        HandleConsumablesPossessed();
     }
 
     public void AddSlicedConsumablesToCount()
@@ -67,13 +84,16 @@ public class Cooking : MonoBehaviour
         consumables3Dsliced++;
     }
 
+    #region Final Product
+
     public IEnumerator HandleFinalProduct()
     {
-        waiting.gameObject.SetActive(true);
+        instruction.SetActive(true);
+        instruction.GetComponentInChildren<Text>().text = "En attente du résultat...";
 
         yield return new WaitForSeconds(timeToCreateFinalProduct);
 
-        waiting.gameObject.SetActive(false);
+        instruction.SetActive(false);
 
         CreateFinalProduct();
     }
@@ -87,21 +107,33 @@ public class Cooking : MonoBehaviour
         GameObject finalProduct = Instantiate(currentRecipe.finalProduct, transform);
 
         finalProduct.name = currentRecipe.recipeName;
-        finalProduct.GetComponent<RecipeInfos>().recipeName = currentRecipe.recipeName;
-        finalProduct.GetComponent<RecipeInfos>().price = finalPrice;
+        finalProduct.GetComponent<DishInfos>().dishName = currentRecipe.recipeName;
+        finalProduct.GetComponent<DishInfos>().dishPrice = finalPrice;
 
         finalProducts.Add(finalProduct);
 
         // Rich Text
         StringBuilder builder = new StringBuilder();
 
-        builder.Append($"Dish <color=orange>'{finalProduct.name}'</color> cooked successfully :").AppendLine().AppendLine();
-        builder.Append($"price = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
+        builder.Append($"Plat <color=orange>'{finalProduct.name}'</color> préparé  avec succès !").AppendLine().AppendLine();
+        builder.Append($"Prix du plat = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
 
-        result.text = builder.ToString();
+        resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
 
-        Debug.Log(result.text);
+        resultUI.gameObject.SetActive(true);
     }
+
+    public void Restart()
+    {
+        HandleGameStart();
+    }
+
+    public void Quit()
+    {
+        Debug.Log($"Quitting... return to game");
+    }
+
+    #endregion
 
     #region Recipes
 
@@ -152,7 +184,7 @@ public class Cooking : MonoBehaviour
 
             recipe.canBeCooked = recipeCanBeCooked;
 
-            GetRecipeUI(recipe.recipeName).GetComponent<Button>().interactable = recipeCanBeCooked;
+            recipeInfos.transform.GetChild(1).GetComponent<Button>().interactable = recipeCanBeCooked;
         }
     }
 
@@ -179,12 +211,12 @@ public class Cooking : MonoBehaviour
 
         recipe.name = recipeToAdd.recipeName;
 
-        recipe.GetComponent<Button>().onClick.AddListener(delegate { CookingRecipe(recipeToAdd.recipeName); });
+        recipe.GetComponent<Button>().onClick.AddListener(delegate { SelectRecipe(recipeToAdd.recipeName); });
 
         recipe.GetComponent<Image>().sprite = recipeToAdd.recipeSprite;
 
-        recipe.GetComponent<RecipePopup>().recipe = recipeToAdd;
-        recipe.GetComponent<RecipePopup>().popup = popup;
+        recipe.GetComponent<KeepRecipe>().recipe = recipeToAdd;
+        //recipe.GetComponent<RecipePopup>().popup = popup;
     }
 
     public void RemoveRecipeFromList(Recipe recipeToRemove)
@@ -194,24 +226,45 @@ public class Cooking : MonoBehaviour
 
     #endregion
 
-    public void CookingRecipe(string recipeName)
+    public void SelectRecipe(string recipeName)
     {
-        if (recipeInPreparation) return;
+        Recipe recipe = GetRecipeItem(recipeName);
 
-        instruction.text = "Couper les différents ingrédients";
-        result.text = "";
+        ShowRecipeInfos(recipe);
+    }
+
+    private void ShowRecipeInfos(Recipe recipe)
+    {
+        consumablesList.text = recipe.GetInfosConsumablesRequired();
+
+        recipeInfos.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = recipe.recipeName;
+        recipeInfos.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = recipe.recipeDescription;
+
+        recipeInfos.SetActive(true);
+
+        // Save current recipe
+        currentRecipe = recipe;
+    }
+
+    public void CookingRecipe()
+    {
+        if (recipeInPreparation || currentRecipe == null) return;
+
+        cookingUI.gameObject.SetActive(false);
+
+        FindObjectOfType<Blade>().CanCut = true;
+
+        instruction.transform.GetComponentInChildren<Text>().text = "Couper les différents ingrédients";
 
         recipeInPreparation = true;
 
-        Recipe recipe = GetRecipeItem(recipeName);
-
-        if (recipe.canBeCooked)
+        if (currentRecipe.canBeCooked)
         {
             // Get total of required consumables (differents consumables with their quantity)
             totalConsumablesRequired = 0;
-            for (int i = 0; i < recipe.consumablesRequired.Count; i++)
+            for (int i = 0; i < currentRecipe.consumablesRequired.Count; i++)
             {
-                for (int j = 0; j < recipe.consumablesRequired[i].quantity; j++)
+                for (int j = 0; j < currentRecipe.consumablesRequired[i].quantity; j++)
                 {
                     totalConsumablesRequired++;
                 }
@@ -222,19 +275,16 @@ public class Cooking : MonoBehaviour
 
             // Get consumables objects of each required consumables with quantity
             int index = 0;
-            for (int i = 0; i < recipe.consumablesRequired.Count; i++)
+            for (int i = 0; i < currentRecipe.consumablesRequired.Count; i++)
             {
-                UpdateConsumable(recipe.consumablesRequired[i].consumable, recipe.consumablesRequired[i].consumable.quantity - recipe.consumablesRequired[i].quantity);
+                UpdateConsumable(currentRecipe.consumablesRequired[i].consumable, currentRecipe.consumablesRequired[i].consumable.quantity - currentRecipe.consumablesRequired[i].quantity);
 
-                for (int j = 0; j < recipe.consumablesRequired[i].quantity; j++)
+                for (int j = 0; j < currentRecipe.consumablesRequired[i].quantity; j++)
                 {
-                    consumablesRequired[index] = recipe.consumablesRequired[i].consumable.consumableObject;
+                    consumablesRequired[index] = currentRecipe.consumablesRequired[i].consumable.consumableObject;
                     index++;
                 }
             }
-
-            // Save current recipe
-            currentRecipe = recipe;
 
             consumables3Dsliced = 0;
 
@@ -247,21 +297,21 @@ public class Cooking : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        instruction.gameObject.SetActive(false);
-        timer.gameObject.SetActive(true);
+        instruction.SetActive(false);
+        timer.SetActive(true);
 
         float timeToWait = timeBeforeCutting;
 
         while (timeToWait > -1)
         {
-            timer.text = timeToWait.ToString();
+            timer.GetComponentInChildren<Text>().text = timeToWait.ToString();
 
             yield return new WaitForSeconds(1f);
 
             timeToWait--;
         }
 
-        timer.gameObject.SetActive(false);
+        timer.SetActive(false);
 
         consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);
     }
@@ -300,62 +350,13 @@ public class Cooking : MonoBehaviour
 
     #region Consumables
 
-    private void HandleConsumablesPossessed()
-    {
-        for (int i = 0; i < contentConsumables.childCount; i++)
-        {
-            // If consumable in ui but not in list -> Destroy
-            if (!consumablesPossessed.Contains(GetConsumableItem(contentConsumables.GetChild(i).name)))
-            {
-                Destroy(contentConsumables.GetChild(i).gameObject);
-            }
-        }
-
-        for (int i = 0; i < consumablesPossessed.Count; i++)
-        {
-            // If consumable in list but not in ui -> Add
-            if (GetConsumableUI(consumablesPossessed[i].consumableName) == null)
-            {
-                AddConsumableFromListToUI(consumablesPossessed[i]);
-            }
-        }
-    }
-
-    #region Options
-
-    private void AddConsumablesAtStart()
+    private void InitializeConsumablesPossessed()
     {
         for (int i = 0; i < consumablesPossessed.Count; i++)
         {
-            AddConsumableFromListToUI(consumablesPossessed[i]);
+            consumablesPossessed[i].InitializeQuantity();
         }
     }
-
-    public void AddConsumableToList(Consumable consumableToAdd)
-    {
-        consumablesPossessed.Add(consumableToAdd);
-
-        AddConsumableFromListToUI(consumableToAdd);
-    }
-
-    private void AddConsumableFromListToUI(Consumable consumableToAdd)
-    {
-        consumableToAdd.InitializeQuantity();
-
-        GameObject consumable = Instantiate(consumableUI, contentConsumables);
-
-        consumable.name = consumableToAdd.consumableName;
-        consumable.transform.GetComponentInChildren<Text>().text = consumableToAdd.quantity.ToString();
-
-        consumable.GetComponent<Image>().sprite = consumableToAdd.consumableSprite;
-    }
-
-    public void RemoveConsumableFromList(Consumable consumableToRemove)
-    {
-        consumablesPossessed.Remove(consumableToRemove);
-    }
-
-    #endregion
 
     private void UpdateConsumable(Consumable consumableToUpdateQuantity, int newQuantity)
     {
@@ -363,39 +364,7 @@ public class Cooking : MonoBehaviour
             newQuantity = 0;
 
         consumableToUpdateQuantity.quantity = newQuantity;
-
-        GetConsumableUI(consumableToUpdateQuantity.consumableName).transform.GetComponentInChildren<Text>().text = newQuantity.ToString();
     }
-
-    #region Getters
-
-    private Consumable GetConsumableItem(string consumableName)
-    {
-        for (int i = 0; i < consumablesPossessed.Count; i++)
-        {
-            if (consumablesPossessed[i].consumableName.Equals(consumableName))
-            {
-                return consumablesPossessed[i];
-            }
-        }
-
-        return null;
-    }
-
-    private GameObject GetConsumableUI(string consumableName)
-    {
-        for (int i = 0; i < contentConsumables.childCount; i++)
-        {
-            if (contentConsumables.GetChild(i).name.Equals(consumableName))
-            {
-                return contentConsumables.GetChild(i).gameObject;
-            }
-        }
-
-        return null;
-    }
-
-    #endregion
 
     #endregion
 }
