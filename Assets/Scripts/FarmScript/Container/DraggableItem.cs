@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [HideInInspector] public Transform parentAfterDrag;
+    /*[HideInInspector]*/ public Transform parentAfterDrag;
 
     [SerializeField] private int quantityStacked = 1;
     [SerializeField] private Item item;
@@ -25,6 +25,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void Start()
     {
         image = GetComponent<Image>();
+
+        parentAfterDrag = transform.parent;
     }
 
     private void Update()
@@ -58,7 +60,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         image.raycastTarget = false;
@@ -77,16 +78,25 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     #endregion
 
-    public void DropItem(Transform parent, bool stacked = false)
+    public void DropItemToSlot(Transform slot, bool stacked = false)
     {
-        if (parent != null)
+        if (slot != null)
         {
-            parentAfterDrag = parent;
+            parentAfterDrag = slot;
         }
 
         if (stacked)
         {
             Destroy(gameObject);
         }
+    }
+
+    public void ExchangeItems(DraggableItem secondItem)
+    {
+        Transform secondItemSlot = secondItem.parentAfterDrag;
+
+        secondItem.parentAfterDrag = parentAfterDrag;
+        secondItem.transform.SetParent(parentAfterDrag);
+        parentAfterDrag = secondItemSlot;
     }
 }

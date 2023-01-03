@@ -5,98 +5,64 @@ public class Slot : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        GameObject dropped = eventData.pointerDrag;
-        DraggableItem droppedDItem = dropped.GetComponent<DraggableItem>();
-
-        if (transform.childCount == 1)
-        {
-            DraggableItem dItemInParent = transform.GetChild(0).GetComponent<DraggableItem>();
-            Item itemInParent = dItemInParent.Item;
-            if (itemInParent.isStackable)
-            {
-                if (itemInParent.Equals(droppedDItem.Item) && dItemInParent.QuantityStacked < itemInParent.maxStackSize)
-                {
-
-                    if (itemInParent.Equals(droppedDItem.Item) && dItemInParent.QuantityStacked < itemInParent.maxStackSize)
-                    {
-                        int quantityInDropped = droppedDItem.QuantityStacked;
-                        int quantityInDraggable = dItemInParent.QuantityStacked;
-
-                        int totalQuantity = quantityInDropped + quantityInDraggable;
-
-                        if (totalQuantity <= itemInParent.maxStackSize)
-                        {
-                            dItemInParent.QuantityStacked = totalQuantity;
-                            dropped.GetComponent<DraggableItem>().DropItem(null, true);
-                        }
-
-                        if (totalQuantity > itemInParent.maxStackSize)
-                        {
-                            dItemInParent.QuantityStacked = itemInParent.maxStackSize;
-                            droppedDItem.QuantityStacked = totalQuantity - itemInParent.maxStackSize;
-                            dropped.GetComponent<DraggableItem>().DropItem(null);
-                        }
-                    }
-                }
-                else
-                {
-                    dropped.GetComponent<DraggableItem>().DropItem(null);
-                }
-            }
-            else if (transform.childCount == 0)
-            {
-                dropped.GetComponent<DraggableItem>().DropItem(transform);
-            }
-        }
-
-        if (transform.childCount == 0)
-        {
-            dropped.GetComponent<DraggableItem>().DropItem(transform);
-        }
-    }
-    public void OnDrop2(PointerEventData eventData)
-    {
-        GameObject dropped = eventData.pointerDrag;
-        DraggableItem droppedDItem = dropped.GetComponent<DraggableItem>();
+        GameObject objectToDrop = eventData.pointerDrag;
+        DraggableItem draggableItemToDrop = objectToDrop.GetComponent<DraggableItem>();
 
         // If there is already an item
+        #region 1 item already in slot
+
         if (transform.childCount > 0)
         {
-            DraggableItem dItemInParent = transform.GetChild(0).GetComponent<DraggableItem>();
-            Item itemInParent = dItemInParent.Item;
+            DraggableItem draggableItemInSlot = transform.GetChild(0).GetComponent<DraggableItem>();
+            Item itemInSlot = draggableItemInSlot.Item;
 
-            // If 2 items are same && item is stackable && stack size limit is not reached
-            if (itemInParent.Equals(droppedDItem.Item) && itemInParent.isStackable && dItemInParent.QuantityStacked < itemInParent.maxStackSize)
+            // If 2 items are same
+            #region 2 items are same
+
+            if (itemInSlot.Equals(draggableItemToDrop.Item))
             {
-                int quantityInDropped = droppedDItem.QuantityStacked;
-                int quantityInDraggable = dItemInParent.QuantityStacked;
+                // If item is stackable && stack size limit is not reached
+                #region item in slot is stackable & quantity stacked is less than stack limit
 
-                int totalQuantity = quantityInDropped + quantityInDraggable;
-
-                // If total quantity is less or equal than stack size limit
-                if (totalQuantity <= itemInParent.maxStackSize)
+                if (itemInSlot.isStackable && draggableItemInSlot.QuantityStacked < itemInSlot.maxStackSize)
                 {
-                    dItemInParent.QuantityStacked = totalQuantity;
-                    dropped.GetComponent<DraggableItem>().DropItem(null, true);
+                    int quantityInDropped = draggableItemToDrop.QuantityStacked;
+                    int quantityInDraggable = draggableItemInSlot.QuantityStacked;
+
+                    int totalQuantity = quantityInDropped + quantityInDraggable;
+
+                    // If total quantity is less or equal than stack size limit
+                    if (totalQuantity <= itemInSlot.maxStackSize)
+                    {
+                        draggableItemInSlot.QuantityStacked = totalQuantity;
+                        draggableItemToDrop.DropItemToSlot(null, true);
+                    }
+
+                    // If total quantity is more than stack size limit
+                    if (totalQuantity > itemInSlot.maxStackSize)
+                    {
+                        draggableItemInSlot.QuantityStacked = itemInSlot.maxStackSize;
+                        draggableItemToDrop.QuantityStacked = totalQuantity - itemInSlot.maxStackSize;
+                        draggableItemToDrop.DropItemToSlot(null);
+                    }
                 }
 
-                // If total quantity is more than stack size limit
-                if (totalQuantity > itemInParent.maxStackSize)
-                {
-                    dItemInParent.QuantityStacked = itemInParent.maxStackSize;
-                    droppedDItem.QuantityStacked = totalQuantity - itemInParent.maxStackSize;
-                    dropped.GetComponent<DraggableItem>().DropItem(null);
-                }
+                #endregion
             }
+
+            #endregion
+            // Else they are differents
             else
             {
-                dropped.GetComponent<DraggableItem>().DropItem(null);
+                draggableItemToDrop.ExchangeItems(draggableItemInSlot);
             }
         }
+        #endregion
+
         // Else it's free
         else
         {
-            dropped.GetComponent<DraggableItem>().DropItem(transform);
+            draggableItemToDrop.DropItemToSlot(transform);
         }
     }
 }
