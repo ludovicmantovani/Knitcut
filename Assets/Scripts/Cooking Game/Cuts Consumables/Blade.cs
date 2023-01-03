@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class Blade : MonoBehaviour
 {
-    public GameObject bladeTrailPrefab;
-    public float minCuttingVelocity = 0.001f;
-
-    private bool canCut = false;
-    private bool isCutting = false;
+    [SerializeField] private GameObject bladeTrailPrefab;
+    [SerializeField] private float minCuttingVelocity = 0.001f;
+    [SerializeField] private float delayBeforeDestroyingBladeTrail = 2f;
+    [SerializeField] private bool isCutting = false;
 
     private Vector2 previousPosition;
-
     private GameObject currentBladeTrail;
 
     Rigidbody2D _rigidbody;
@@ -82,8 +80,6 @@ public class Blade : MonoBehaviour
         isCutting = true;
         currentBladeTrail = Instantiate(bladeTrailPrefab, transform);
         previousPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        _circleCollider.enabled = true;
     }
 
     private void StopCutting()
@@ -91,8 +87,6 @@ public class Blade : MonoBehaviour
         isCutting = false;
         currentBladeTrail.transform.SetParent(null);
 
-        Destroy(currentBladeTrail, 2f);
-
-        _circleCollider.enabled = false;
+        Destroy(currentBladeTrail, delayBeforeDestroyingBladeTrail);
     }
 }

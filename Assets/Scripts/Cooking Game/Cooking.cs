@@ -13,9 +13,13 @@ public class Cooking : MonoBehaviour
     [SerializeField] private GameObject popup;
     [SerializeField] private TextMeshProUGUI result;
     [SerializeField] private Text timer;
+    [SerializeField] private Text instruction;
+    [SerializeField] private Text waiting;
     [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
     [SerializeField] private Transform contentConsumables;
+
+    [Header("Parameters")]
     [SerializeField] private float consumables3Dsliced = 0;
     [SerializeField] private float totalConsumablesRequired = 0;
     [SerializeField] private float timeBeforeCutting = 5f;
@@ -41,6 +45,10 @@ public class Cooking : MonoBehaviour
 
         popup.SetActive(false);
         timer.gameObject.SetActive(false);
+        waiting.gameObject.SetActive(false);
+
+        instruction.gameObject.SetActive(true);
+        instruction.text = "Sélectionner une recette";
 
         recipeInPreparation = false;
 
@@ -61,9 +69,11 @@ public class Cooking : MonoBehaviour
 
     public IEnumerator HandleFinalProduct()
     {
-        result.text = "Waiting final product...";
+        waiting.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(timeToCreateFinalProduct);
+
+        waiting.gameObject.SetActive(false);
 
         CreateFinalProduct();
     }
@@ -168,7 +178,6 @@ public class Cooking : MonoBehaviour
         GameObject recipe = Instantiate(recipeUI, contentRecipes);
 
         recipe.name = recipeToAdd.recipeName;
-        recipe.transform.GetChild(0).GetComponent<Text>().text = recipeToAdd.recipeName;
 
         recipe.GetComponent<Button>().onClick.AddListener(delegate { CookingRecipe(recipeToAdd.recipeName); });
 
@@ -189,6 +198,7 @@ public class Cooking : MonoBehaviour
     {
         if (recipeInPreparation) return;
 
+        instruction.text = "Couper les différents ingrédients";
         result.text = "";
 
         recipeInPreparation = true;
@@ -235,6 +245,9 @@ public class Cooking : MonoBehaviour
 
     IEnumerator TransferConsumablesToSpawn(GameObject[] consumablesRequired)
     {
+        yield return new WaitForSeconds(1f);
+
+        instruction.gameObject.SetActive(false);
         timer.gameObject.SetActive(true);
 
         float timeToWait = timeBeforeCutting;
@@ -332,8 +345,7 @@ public class Cooking : MonoBehaviour
         GameObject consumable = Instantiate(consumableUI, contentConsumables);
 
         consumable.name = consumableToAdd.consumableName;
-        //consumable.transform.GetChild(0).GetComponent<Text>().text = consumableToAdd.consumableName;
-        consumable.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = consumableToAdd.quantity.ToString();
+        consumable.transform.GetComponentInChildren<Text>().text = consumableToAdd.quantity.ToString();
 
         consumable.GetComponent<Image>().sprite = consumableToAdd.consumableSprite;
     }
@@ -352,7 +364,7 @@ public class Cooking : MonoBehaviour
 
         consumableToUpdateQuantity.quantity = newQuantity;
 
-        GetConsumableUI(consumableToUpdateQuantity.consumableName).transform.GetChild(1).GetChild(0).GetComponent<Text>().text = newQuantity.ToString();
+        GetConsumableUI(consumableToUpdateQuantity.consumableName).transform.GetComponentInChildren<Text>().text = newQuantity.ToString();
     }
 
     #region Getters
