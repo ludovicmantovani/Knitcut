@@ -6,11 +6,15 @@ using UnityEngine.SceneManagement;
 public class Voiture_Interaction : MonoBehaviour
 {
     [SerializeField] private GameObject InteractionUI;
+    private playerController PC;
     private bool RetourFerme = false;
+    private Shop_Enclos se;
     // Start is called before the first frame update
     private void Awake()
     {
         RetourFerme = false;
+        se = FindObjectOfType<Shop_Enclos>();
+        PC = FindObjectOfType<playerController>();
     }
 
     // Update is called once per frame
@@ -32,6 +36,8 @@ public class Voiture_Interaction : MonoBehaviour
         {
             Debug.Log("Retour a la ferme");
             RetourFerme = true;
+            se.SaveEncloslevel();
+            PC.farm = false;
             SceneManager.LoadScene(1);
         }
     }

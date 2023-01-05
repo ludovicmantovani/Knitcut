@@ -9,11 +9,13 @@ public class Shop_Vendeur : MonoBehaviour
     float SafeTimer = 0;
     public bool talking = false;
     public PlayerInventory playerInventory;
+    public playerController PC;
 
     // Start is called before the first frame update
     void Awake()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
+        PC = FindObjectOfType<playerController>();
     }
 
     // Update is called once per frame
@@ -57,12 +59,14 @@ public class Shop_Vendeur : MonoBehaviour
             ShopVendeurUI.SetActive(true);
             InteractionUI.SetActive(false);
             talking = true;
+            PC.TalkingShop = true;
         }
         if (other.tag == "Player" && Input.GetKey(KeyCode.E) && talking == true && SafeTimer == 1.5)
         {
             ShopVendeurUI.SetActive(false);
             InteractionUI.SetActive(true);
             talking = false;
+            PC.TalkingShop = false;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -71,6 +75,7 @@ public class Shop_Vendeur : MonoBehaviour
         {
             InteractionUI.SetActive(false);
             talking = false;
+            PC.TalkingShop = false;
         }
     }
     public void SellFruit1()

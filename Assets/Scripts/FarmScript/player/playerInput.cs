@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerInput : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class playerInput : MonoBehaviour
         _movement.Set(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
         mouseX=Input.GetAxis("Mouse X");
         mouseY=Input.GetAxis("Mouse Y");
+
+        
+        
     }
+    
     #endregion
 }   
