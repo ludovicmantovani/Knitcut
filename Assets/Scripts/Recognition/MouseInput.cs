@@ -31,6 +31,11 @@ namespace Recognition
         [Tooltip("The width of the line that is created when you do the gesture, We recommend one unit more than the brush used in the creation of the texture")]
         [SerializeField] private int widthTextLine = 3;
 
+        [Header("Display Properties")]
+        [SerializeField] private Canvas gameCanvas;
+        [SerializeField] private Canvas resultCanvas;
+        [SerializeField] private GameObject panel;
+
         private int index;
         private LineRenderer lineToDraw = null;
         private bool canCreateLine;
@@ -130,6 +135,22 @@ namespace Recognition
             }
 
             //Clear();
+
+            ShowResult();
+        }
+
+        #endregion
+
+        #region Display result
+
+        private void ShowResult()
+        {
+            if (gameCanvas && panel && resultCanvas)
+            {
+                gameCanvas.gameObject.SetActive(false);
+                panel.SetActive(false);
+                resultCanvas.gameObject.SetActive(true);
+            }
         }
 
         #endregion
