@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 namespace Recognition
 {
@@ -101,11 +103,12 @@ namespace Recognition
             gesture.SetIsGesturing(b: false);
 
             Texture2D texture2D = gesture.ConvertToTexture2D(resolution);
+            float score = 0f ;
 
             if ((bool)texture2D)
             {
                 float[] results = gesture.CompareDrawingWithPattern(texture2D, mouseGesture.CurrentPattern, tolerance);
-                float score = results[0];
+                score = results[0];
                 float percentageExtra = results[1];
 
                 Debug.Log($"score={score} - extra={percentageExtra}");
@@ -136,19 +139,30 @@ namespace Recognition
 
             //Clear();
 
-            ShowResult();
+            ShowResult(texture2D, $"{score * 100:0}%");
         }
 
         #endregion
 
         #region Display result
 
-        private void ShowResult()
+        private void ShowResult(Texture2D texture2D, string score)
         {
             if (gameCanvas && panel && resultCanvas)
             {
                 gameCanvas.gameObject.SetActive(false);
                 panel.SetActive(false);
+                
+                Transform textSimilarityPercentTransform = resultCanvas.transform.Find("TextSimilarityPercent (TMP)");
+                if (textSimilarityPercentTransform) textSimilarityPercentTransform.gameObject.GetComponent<TMP_Text>().text = score;
+                
+                Transform rawImageDrawingTransform = resultCanvas.gameObject.transform.Find("RawImageDrawing");
+                if (rawImageDrawingTransform && texture2D) rawImageDrawingTransform.GetComponent<RawImage>().texture = texture2D;
+                
+                //TODO : Set money
+                
+                //TODO : Set commentary
+                
                 resultCanvas.gameObject.SetActive(true);
             }
         }
