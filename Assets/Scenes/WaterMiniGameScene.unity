@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 164252106672505405, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 2299823613626912508, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -137,6 +141,10 @@ PrefabInstance:
     - target: {fileID: 7456703424190726149, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_Name
       value: Plane Piece 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935537567790973453, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8962963589566080137, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_RootOrder
@@ -312,6 +320,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
       value: Plane Piece 1 (1)
@@ -518,6 +534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NMA: {fileID: 175887811}
   EndOfGameW: {fileID: 712432283}
+  tempsBeforeStoping: 2
   StopMoving: 0
   Lost: {fileID: 723297215}
   Pieces:
@@ -619,6 +636,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
       value: Plane Piece 1 (3)
@@ -733,9 +758,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 164252106672505405, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_Name
       value: Plane Piece 2 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935537567790973453, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8962963589566080137, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_RootOrder
@@ -795,6 +828,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
       value: Plane Piece 1 (2)
@@ -940,9 +981,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 164252106672505405, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_Name
       value: Plane Piece 2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935537567790973453, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8962963589566080137, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_RootOrder
@@ -1500,9 +1549,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 164252106672505405, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_Name
       value: Plane Piece 2 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935537567790973453, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8962963589566080137, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_RootOrder
@@ -1567,9 +1624,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 164252106672505405, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_Name
       value: Plane Piece 2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935537567790973453, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_VoxelSize
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935537567790973453, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8962963589566080137, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_RootOrder
@@ -1884,12 +1953,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
     - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_VoxelSize
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_NavMeshData
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6393164921422066056, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
       objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
@@ -1969,6 +2046,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
       value: Plane Piece 1 (7)
@@ -2142,8 +2227,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1249138832}
-  - component: {fileID: 1249138833}
-  - component: {fileID: 1249138835}
+  - component: {fileID: 1249138856}
+  - component: {fileID: 1249138855}
+  - component: {fileID: 1249138854}
   - component: {fileID: 1249138853}
   - component: {fileID: 1249138852}
   - component: {fileID: 1249138851}
@@ -2162,7 +2248,11 @@ GameObject:
   - component: {fileID: 1249138838}
   - component: {fileID: 1249138837}
   - component: {fileID: 1249138836}
+  - component: {fileID: 1249138835}
   - component: {fileID: 1249138834}
+  - component: {fileID: 1249138833}
+  - component: {fileID: 1249138831}
+  - component: {fileID: 1249138857}
   m_Layer: 0
   m_Name: NavMeshParent
   m_TagString: Untagged
@@ -2170,6 +2260,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1249138831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249138830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 8, y: 0, z: -15}
+  m_EndPoint: {x: 12, y: 0, z: -15}
+  m_Width: 2
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 1
+  m_Area: 0
 --- !u!4 &1249138832
 Transform:
   m_ObjectHideFlags: 0
@@ -2178,7 +2288,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249138830}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.70710677}
-  m_LocalPosition: {x: 19.94, y: 0.1, z: -14.970001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2197,9 +2307,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -3, y: 0, z: -5}
-  m_EndPoint: {x: -6.66, y: 0, z: -5}
-  m_Width: 1
+  m_StartPoint: {x: 8, y: 0, z: -5}
+  m_EndPoint: {x: 12, y: 0, z: -5}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2217,9 +2327,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: 0, y: 0, z: -1.5}
-  m_EndPoint: {x: 0, y: 0, z: 1.29}
-  m_Width: 0
+  m_StartPoint: {x: 8, y: 0, z: 5}
+  m_EndPoint: {x: 12, y: 0, z: 5}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2237,9 +2347,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: 0, y: 0, z: -8}
-  m_EndPoint: {x: 0, y: 0, z: -11.5}
-  m_Width: 1
+  m_StartPoint: {x: 8, y: 0, z: 15}
+  m_EndPoint: {x: 12, y: 0, z: 15}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2253,24 +2363,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1249138830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30f9b162c00414d41894c294d3c58080, type: 3}
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NMS:
-  - {fileID: 1852254556}
-  - {fileID: 728419863}
-  - {fileID: 868330346}
-  - {fileID: 1527089279}
-  - {fileID: 333863540}
-  - {fileID: 1552540059}
-  - {fileID: 691289470}
-  - {fileID: 837611137}
-  - {fileID: 769750869}
-  - {fileID: 1228936996}
-  - {fileID: 596812403}
-  - {fileID: 1833532689}
-  - {fileID: 1881919590}
-  - {fileID: 1957184054}
+  m_AgentTypeID: 0
+  m_StartPoint: {x: -2, y: 0, z: -15}
+  m_EndPoint: {x: 2, y: 0, z: -15}
+  m_Width: 2
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 1
+  m_Area: 0
 --- !u!114 &1249138837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2284,9 +2387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -33, y: 0, z: -15}
-  m_EndPoint: {x: -36.7, y: 0, z: -15}
-  m_Width: 1
+  m_StartPoint: {x: -2, y: 0, z: -5}
+  m_EndPoint: {x: 2, y: 0, z: -5}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2304,9 +2407,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -22, y: 0, z: -15}
-  m_EndPoint: {x: -27, y: 0, z: -15}
-  m_Width: 1
+  m_StartPoint: {x: -2, y: 0, z: 5}
+  m_EndPoint: {x: 2, y: 0, z: 5}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2324,9 +2427,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -24, y: 0, z: -5}
-  m_EndPoint: {x: -26, y: 0, z: -5}
-  m_Width: 1
+  m_StartPoint: {x: -2, y: 0, z: 15}
+  m_EndPoint: {x: 2, y: 0, z: 15}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2344,9 +2447,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -24, y: 0, z: -25}
-  m_EndPoint: {x: -26, y: 0, z: -25}
-  m_Width: 1
+  m_StartPoint: {x: -8, y: 0, z: -15}
+  m_EndPoint: {x: -12, y: 0, z: -15}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2364,9 +2467,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -14, y: 0, z: -35}
-  m_EndPoint: {x: -16, y: 0, z: -35}
-  m_Width: 1
+  m_StartPoint: {x: -8, y: 0, z: -5}
+  m_EndPoint: {x: -12, y: 0, z: -5}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2384,9 +2487,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -14, y: 0, z: -25}
-  m_EndPoint: {x: -16, y: 0, z: -25}
-  m_Width: 1
+  m_StartPoint: {x: -8, y: 0, z: 5}
+  m_EndPoint: {x: -12, y: 0, z: 5}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2404,9 +2507,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -14, y: 0, z: -5}
-  m_EndPoint: {x: -16, y: 0, z: -5}
-  m_Width: 1
+  m_StartPoint: {x: -8, y: 0, z: 15}
+  m_EndPoint: {x: -12, y: 0, z: 15}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2424,9 +2527,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -4, y: 0, z: -35}
-  m_EndPoint: {x: -6, y: 0, z: -35}
-  m_Width: 1
+  m_StartPoint: {x: -15, y: 0, z: -8}
+  m_EndPoint: {x: -15, y: 0, z: -12}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2444,9 +2547,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -4, y: 0, z: -25}
-  m_EndPoint: {x: -6, y: 0, z: -25}
-  m_Width: 1
+  m_StartPoint: {x: -15, y: 0, z: 12}
+  m_EndPoint: {x: -15, y: 0, z: 8}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2464,9 +2567,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -30, y: 0, z: -18.5}
-  m_EndPoint: {x: -30, y: 0, z: -21}
-  m_Width: 1
+  m_StartPoint: {x: -15, y: 0, z: 2}
+  m_EndPoint: {x: -15, y: 0, z: -2}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2484,9 +2587,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -30, y: 0, z: -8.5}
-  m_EndPoint: {x: -30, y: 0, z: -11}
-  m_Width: 1
+  m_StartPoint: {x: -5, y: 0, z: 12}
+  m_EndPoint: {x: -5, y: 0, z: 8}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2504,9 +2607,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -20, y: 0, z: -8.5}
-  m_EndPoint: {x: -20, y: 0, z: -11}
-  m_Width: 1
+  m_StartPoint: {x: -5, y: 0, z: -8}
+  m_EndPoint: {x: -5, y: 0, z: -12}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2524,9 +2627,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -20, y: 0, z: -18}
-  m_EndPoint: {x: -20, y: 0, z: -21}
-  m_Width: 1
+  m_StartPoint: {x: -5, y: 0, z: 2}
+  m_EndPoint: {x: -5, y: 0, z: -2}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2544,9 +2647,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -20, y: 0, z: -28}
-  m_EndPoint: {x: -20, y: 0, z: -31.5}
-  m_Width: 1
+  m_StartPoint: {x: 5, y: 0, z: 12}
+  m_EndPoint: {x: 5, y: 0, z: 8}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2564,9 +2667,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -10, y: 0, z: -28}
-  m_EndPoint: {x: -10, y: 0, z: -31}
-  m_Width: 1
+  m_StartPoint: {x: 5, y: 0, z: -8}
+  m_EndPoint: {x: 5, y: 0, z: -12}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2584,9 +2687,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: 0, y: 0, z: -28}
-  m_EndPoint: {x: 0, y: 0, z: -31}
-  m_Width: 1
+  m_StartPoint: {x: 5, y: 0, z: 2}
+  m_EndPoint: {x: 5, y: 0, z: -2}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
@@ -2604,12 +2707,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: 0, y: 0, z: -18.5}
-  m_EndPoint: {x: 0, y: 0, z: -21.5}
-  m_Width: 0
+  m_StartPoint: {x: 15, y: 0, z: -8}
+  m_EndPoint: {x: 15, y: 0, z: -12}
+  m_Width: 2
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
+  m_Area: 0
+--- !u!114 &1249138854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249138830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 15, y: 0, z: 2}
+  m_EndPoint: {x: 15, y: 0, z: -2}
+  m_Width: 2
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 1
+  m_Area: 0
+--- !u!114 &1249138855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249138830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 15, y: 0, z: 12}
+  m_EndPoint: {x: 15, y: 0, z: 8}
+  m_Width: 2
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 1
+  m_Area: 0
+--- !u!114 &1249138856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249138830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 15, y: 0, z: 22}
+  m_EndPoint: {x: 15, y: 0, z: 18}
+  m_Width: 2
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 1
+  m_Area: 0
+--- !u!114 &1249138857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249138830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: -18, y: 0, z: 5}
+  m_EndPoint: {x: -22, y: 0, z: 5}
+  m_Width: 2
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
   m_Area: 0
 --- !u!1 &1250067970 stripped
 GameObject:
@@ -2708,6 +2891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1327753469}
   - component: {fileID: 1327753470}
+  - component: {fileID: 1327753471}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2744,6 +2928,34 @@ MonoBehaviour:
   switchOn: 0
   firstPieceToReplace: {fileID: 0}
   secondPieceToReplace: {fileID: 0}
+--- !u!114 &1327753471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327753468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d561940f9d97e04499b05110ce6b8474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path:
+  - {fileID: 837611137}
+  - {fileID: 769750869}
+  - {fileID: 1228936996}
+  - {fileID: 596812403}
+  - {fileID: 1833532689}
+  - {fileID: 1881919590}
+  - {fileID: 691289470}
+  - {fileID: 1957184054}
+  - {fileID: 333863540}
+  - {fileID: 1527089279}
+  - {fileID: 868330346}
+  - {fileID: 728419863}
+  - {fileID: 1852254556}
+  - {fileID: 1552540059}
+  boutonStart: {fileID: 1517210654}
 --- !u!1 &1344006596
 GameObject:
   m_ObjectHideFlags: 0
@@ -2929,6 +3141,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
       value: Plane Piece 1 (4)
@@ -3070,6 +3290,18 @@ MonoBehaviour:
       - m_Target: {fileID: 175887817}
         m_TargetAssemblyTypeName: ProgressionLevelWaterGame, Assembly-CSharp
         m_MethodName: MovingWater
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1327753471}
+        m_TargetAssemblyTypeName: StartBacking, Assembly-CSharp
+        m_MethodName: BackingPath
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3434,6 +3666,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
       value: Plane Piece 1 (6)
@@ -3857,22 +4097,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_CollectObjects: 1
-  m_Size: {x: 8, y: 10, z: 8}
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_UseGeometry: 0
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
+  m_VoxelSize: 0.33333334
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: b254864d51bda2449a50de9c1bdc8c51, type: 2}
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 9837b3d2089fafa469a12b06ad74efd4, type: 2}
 --- !u!1001 &1997567292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3880,6 +4121,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 1024194082288124772, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393280198986870747, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 0a6f4853338afd044aba8f39cc05e66b, type: 3}
       propertyPath: m_Name
       value: Plane Piece 1 (5)
@@ -4004,9 +4253,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 458827308}
     m_Modifications:
+    - target: {fileID: 164252106672505405, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7456703424190726149, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_Name
       value: Plane Piece 2 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935537567790973453, guid: 87933c98b82fb8547b39563572445a32, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8962963589566080137, guid: 87933c98b82fb8547b39563572445a32, type: 3}
       propertyPath: m_RootOrder
@@ -4412,6 +4669,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
-  m_BuildHeightMesh: 0
+  m_VoxelSize: 0.33333334
+  m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: cf53e994db1847c4fa5315c7eb123a69, type: 2}
+  m_BuildHeightMesh: 0

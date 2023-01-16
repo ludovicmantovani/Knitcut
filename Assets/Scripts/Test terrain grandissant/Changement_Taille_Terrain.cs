@@ -8,11 +8,11 @@ public class Changement_Taille_Terrain : MonoBehaviour
     public GameObject enclo1;
     public GameObject enclo2;
     private bool Enclos = false;
-    public NavMeshSurface[] NMS;
+    //public NavMeshSurface[] NMS;
     void Start()
     {
 
-        NMS[0].BuildNavMesh();
+        //NMS[0].BuildNavMesh();
 
     }
 
@@ -27,7 +27,7 @@ public class Changement_Taille_Terrain : MonoBehaviour
         {
             enclo1.SetActive(false);
             enclo2.SetActive(true);
-            NMS[1].BuildNavMesh();
+            //NMS[1].BuildNavMesh();
             Enclos = true;
         }
         /*if (Input.GetKeyDown(KeyCode.S) && Enclos == true)

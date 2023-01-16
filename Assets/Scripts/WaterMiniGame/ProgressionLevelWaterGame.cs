@@ -7,7 +7,7 @@ public class ProgressionLevelWaterGame : MonoBehaviour
 {
     public NavMeshAgent NMA;
     public GameObject EndOfGameW;
-    private float tempsBeforeMoving = 0f;
+    [SerializeField]private float tempsBeforeStoping = 0f;
     private bool startMoving = false;
     private bool Moving = false;
     private float tempsSecurity = 0f;
@@ -58,9 +58,15 @@ public class ProgressionLevelWaterGame : MonoBehaviour
                 tempsSecurity = 3f;
                 if (NMA.velocity.x <= 0.1f && NMA.velocity.z <= 0.1f && NMA.velocity.x >= -0.1f && NMA.velocity.z >= -0.1f)
                 {
-                    Debug.Log("Failed");
-                    Lost.SetActive(true);
-                    Failed = true;
+                    
+                    tempsBeforeStoping = tempsBeforeStoping - Time.deltaTime;
+                    if(tempsBeforeStoping <= 0)
+                    {
+                        Debug.Log("Failed");
+                        Lost.SetActive(true);
+                        Failed = true;
+                    }
+                    
                 }
                 
             }
