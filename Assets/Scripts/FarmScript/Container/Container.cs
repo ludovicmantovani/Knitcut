@@ -7,7 +7,10 @@ public class Container : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject interactionPanel;
-    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private GameObject containerInventoryPanel;
+    [SerializeField] private GameObject containerInventoryContent;
+    [SerializeField] private GameObject playerInventoryPanel;
+    [SerializeField] private GameObject itemUI;
 
     [Header("Container states")]
     [SerializeField] private bool canUseContainer;
@@ -17,6 +20,18 @@ public class Container : MonoBehaviour
     {
         get { return canUseContainer; }
         set { canUseContainer = value; }
+    }
+
+    public GameObject ContainerInventory
+    {
+        get { return containerInventoryPanel; }
+        set { containerInventoryPanel = value; }
+    }
+
+    public GameObject PlayerInventory
+    {
+        get { return playerInventoryPanel; }
+        set { playerInventoryPanel = value; }
     }
 
     private void Start()
@@ -54,7 +69,7 @@ public class Container : MonoBehaviour
 
     private void HandleContainerInventory()
     {
-        inventoryPanel.SetActive(containerInUse);
+        containerInventoryPanel.SetActive(containerInUse);
 
         if (!canUseContainer)
         {
@@ -87,6 +102,38 @@ public class Container : MonoBehaviour
         containerInUse = false;
 
         interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Container";
+    }
+
+    #endregion
+
+    #region Items
+
+    public void AddItemToInventory(Item item, GameObject inventory)
+    {
+        Transform slotParent = GetFreeSlot(inventory);
+
+        if (slotParent == null) return;
+
+        GameObject itemObject = Instantiate(itemUI, slotParent);
+
+        itemObject.GetComponent<DraggableItem>().Item = item;
+
+        itemObject.GetComponent<Image>().sprite = item.itemSprite;
+    }
+
+    private Transform GetFreeSlot(GameObject inventory)
+    {
+        for (int i = 0; i < inventory.transform.childCount; i++)
+        {
+            Transform slotObject = inventory.transform.GetChild(i);
+
+            if (slotObject.childCount == 0)
+            {
+                return slotObject;
+            }
+        }
+
+        return null;
     }
 
     #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Cooking : MonoBehaviour
@@ -10,6 +11,10 @@ public class Cooking : MonoBehaviour
     [Header("UI Panels")]
     [SerializeField] private GameObject cookingUI;
     [SerializeField] private GameObject resultUI;
+
+    [Header("Saving References")]
+    [SerializeField] private string sceneToSave;
+    [SerializeField] private GameObject dishes;
 
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
@@ -29,7 +34,6 @@ public class Cooking : MonoBehaviour
     [Header("Lists")]
     [SerializeField] private List<Recipe> recipes = new List<Recipe>();
     [SerializeField] private List<Consumable> consumablesPossessed = new List<Consumable>();
-    [SerializeField] private List<GameObject> finalProducts = new List<GameObject>();
 
     private bool recipeInPreparation;
 
@@ -104,18 +108,22 @@ public class Cooking : MonoBehaviour
 
         float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
 
-        GameObject finalProduct = Instantiate(currentRecipe.finalProduct, transform);
+        // Create "Final Product" Item
+        Item finalProductItem = ScriptableObject.CreateInstance(typeof(Item)) as Item;
 
-        finalProduct.name = currentRecipe.recipeName;
-        finalProduct.GetComponent<DishInfos>().dishName = currentRecipe.recipeName;
-        finalProduct.GetComponent<DishInfos>().dishPrice = finalPrice;
+        finalProductItem.name = finalProductItem.itemName = currentRecipe.finalProduct.GetComponent<DishInfos>().dishName;
+        finalProductItem.itemDescription = currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription;
+        finalProductItem.itemPrice = finalPrice;
+        finalProductItem.itemType = ItemType.Consumable;
+        finalProductItem.itemSprite = currentRecipe.finalProduct.GetComponent<DishInfos>().dishSprite;
 
-        finalProducts.Add(finalProduct);
+        // Add to items to save
+        dishes.GetComponent<DontDestroyOnLoad>().SaveItem(finalProductItem);
 
         // Rich Text
         StringBuilder builder = new StringBuilder();
 
-        builder.Append($"Plat <color=orange>'{finalProduct.name}'</color> préparé  avec succès !").AppendLine().AppendLine();
+        builder.Append($"Plat <color=orange>'{finalProductItem.name}'</color> préparé  avec succès !").AppendLine().AppendLine();
         builder.Append($"Prix du plat = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
 
         resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
@@ -131,6 +139,8 @@ public class Cooking : MonoBehaviour
     public void Quit()
     {
         Debug.Log($"Quitting... return to game");
+
+        SceneManager.LoadScene(sceneToSave);
     }
 
     #endregion

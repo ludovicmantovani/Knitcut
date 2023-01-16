@@ -12,6 +12,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Item Item
     {
         get { return item; }
+        set { item = value; }
     }
 
     public int QuantityStacked
