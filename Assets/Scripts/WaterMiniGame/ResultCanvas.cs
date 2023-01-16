@@ -10,9 +10,9 @@ public class ResultCanvas : MonoBehaviour
 
     [SerializeField] private List<GameObject> desactiveGameObject;
 
-    public void SetData(bool win = false, string animal = "animal")
+    public void SetData(bool win = false, string animal = "lama")
     {
-        string info = win ? "Vous avez attrapé un " + animal + "!": "Un " + animal + " vous a échappé !";
+        string info = win ? "Vous avez attrapé un " + animal + " !": "Un " + animal + " vous a échappé !";
         if (textInfo) textInfo.SetText(info);
     }
 
