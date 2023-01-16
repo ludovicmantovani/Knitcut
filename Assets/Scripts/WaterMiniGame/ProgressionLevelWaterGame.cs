@@ -83,7 +83,7 @@ public class ProgressionLevelWaterGame : MonoBehaviour
             if (canvasResult && canvasResult.transform.gameObject)
             {
                 canvasResult.SetData(victoryWaterGame.win);
-                canvasResult.transform.gameObject.SetActive(true);
+                canvasResult.Display();
             }
             _running = false;
         }
