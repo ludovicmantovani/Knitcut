@@ -14,19 +14,21 @@ public class ProgressionLevelWaterGame : MonoBehaviour
     private VictoryWaterGame victoryWaterGame;
     private bool Failed = false;
     public bool StopMoving = false;
-    [SerializeField] private GameObject Lost;
+    //[SerializeField] private GameObject Lost;
+    [SerializeField] private ResultCanvas canvasResult;
     [SerializeField] private GameObject[] Pieces;
-    // Start is called before the first frame update
+    private bool _running;
+
     void Start()
     {
         victoryWaterGame = FindObjectOfType<VictoryWaterGame>();
+        _running = true;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
 
-        StopMiniGameWater();
+        if (_running) StopMiniGameWater();
 
     }
     void MovingWaterStart()
@@ -63,7 +65,7 @@ public class ProgressionLevelWaterGame : MonoBehaviour
                     if(tempsBeforeStoping <= 0)
                     {
                         Debug.Log("Failed");
-                        Lost.SetActive(true);
+                        //Lost.SetActive(true);
                         Failed = true;
                     }
                     
@@ -78,7 +80,12 @@ public class ProgressionLevelWaterGame : MonoBehaviour
         if (victoryWaterGame.win == true || Failed == true)
         {
             NMA.isStopped = true;
-            return;
+            if (canvasResult && canvasResult.transform.gameObject)
+            {
+                canvasResult.SetData(victoryWaterGame.win);
+                canvasResult.transform.gameObject.SetActive(true);
+            }
+            _running = false;
         }
         else
         {

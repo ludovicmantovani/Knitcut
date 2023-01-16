@@ -5,7 +5,7 @@ using UnityEngine;
 public class VictoryWaterGame : MonoBehaviour
 {
     public bool win = false;
-    [SerializeField] private GameObject WinGame;
+    //[SerializeField] private GameObject WinGame;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -13,7 +13,7 @@ public class VictoryWaterGame : MonoBehaviour
         {
             win = true;
             Debug.Log("You Win");
-            WinGame.SetActive(true);
+            //WinGame.SetActive(true);
         }
     }
 }
