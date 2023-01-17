@@ -42,5 +42,9 @@ public class SceneSwitcher : MonoBehaviour
         {
             SceneManager.LoadScene(7);
         }
+        else if (Input.GetKey(KeyCode.Alpha8) || Input.GetKey(KeyCode.Keypad8))
+        {
+            SceneManager.LoadScene(8);
+        }
     }
 }
