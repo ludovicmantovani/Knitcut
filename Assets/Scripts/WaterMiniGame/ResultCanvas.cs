@@ -13,7 +13,7 @@ public class ResultCanvas : MonoBehaviour
     public void SetData(bool win = false, string animal = "lama")
     {
         string info = win ? "Vous avez attrapé un " + animal + " !": "Un " + animal + " vous a échappé !";
-        if (textInfo) textInfo.SetText(info);
+        if (textInfo) textInfo.text = info;
     }
 
     public void Display(bool hideObjects = true)
