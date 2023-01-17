@@ -7,6 +7,8 @@ using System;
 
 public class SceneSwitcher : MonoBehaviour
 {
+    [SerializeField] private List<int> captureGameIndex;
+
     void Update()
     {
         UpdateInput();
@@ -14,37 +16,28 @@ public class SceneSwitcher : MonoBehaviour
 
     private void UpdateInput()
     {
-        if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Keypad1))
-        {
+        if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetKeyUp(KeyCode.Keypad1)) //Menu
             SceneManager.LoadScene(1);
-        }
-        else if (Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Keypad2))
-        {
+        else if (Input.GetKeyUp(KeyCode.Alpha2) || Input.GetKeyUp(KeyCode.Keypad2)) //Ferme
             SceneManager.LoadScene(2);
-        }
-        else if (Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Keypad3))
-        {
+        else if (Input.GetKeyUp(KeyCode.Alpha3) || Input.GetKeyUp(KeyCode.Keypad3)) //Village
             SceneManager.LoadScene(3);
-        }
-        else if (Input.GetKey(KeyCode.Alpha4) || Input.GetKey(KeyCode.Keypad4))
+        else if (Input.GetKeyUp(KeyCode.Alpha4) || Input.GetKeyUp(KeyCode.Keypad4)) //Capture
         {
-            SceneManager.LoadScene(4);
+            if (captureGameIndex.Count > 0)
+                SceneManager.LoadScene(
+                    captureGameIndex[UnityEngine.Random.Range(0, captureGameIndex.Count)]
+                    );
+            else
+                Debug.LogWarning("Aucun index de scene configure pour le mini jeu de capture");
         }
-        else if (Input.GetKey(KeyCode.Alpha5) || Input.GetKey(KeyCode.Keypad5))
-        {
+        else if (Input.GetKeyUp(KeyCode.Alpha5) || Input.GetKeyUp(KeyCode.Keypad5)) //Couture
             SceneManager.LoadScene(5);
-        }
-        else if (Input.GetKey(KeyCode.Alpha6) || Input.GetKey(KeyCode.Keypad6))
-        {
+        else if (Input.GetKeyUp(KeyCode.Alpha6) || Input.GetKeyUp(KeyCode.Keypad6)) //Cuisine
             SceneManager.LoadScene(6);
-        }
-        else if (Input.GetKey(KeyCode.Alpha7) || Input.GetKey(KeyCode.Keypad7))
-        {
+        else if (Input.GetKeyUp(KeyCode.Alpha7) || Input.GetKeyUp(KeyCode.Keypad7)) //Memoire
             SceneManager.LoadScene(7);
-        }
-        else if (Input.GetKey(KeyCode.Alpha8) || Input.GetKey(KeyCode.Keypad8))
-        {
+        else if (Input.GetKeyUp(KeyCode.Alpha8) || Input.GetKeyUp(KeyCode.Keypad8)) //Blocking
             SceneManager.LoadScene(8);
-        }
     }
 }
