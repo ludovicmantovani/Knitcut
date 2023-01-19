@@ -4,36 +4,44 @@ using UnityEngine.UI;
 
 public class FlowerCreation : MonoBehaviour
 {
+    [SerializeField] private GameObject petalPrefab;
+    [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private int minPetales = 5;
     [SerializeField] private int maxPetales = 10;
-    [SerializeField] private int totalPetales;
-    [SerializeField] private GameObject petalePrefab;
-    [SerializeField] private string pathFlowersResources = "Resources/Flower/petal";
+    [SerializeField] private int colorVersion = 5;
+
+    private string _pathFlowersResources = "Flower/Petal/color";
+    private int _totalPetales;
 
     private void Start()
     {
-        totalPetales = Random.Range(minPetales, maxPetales);
+        _totalPetales = Random.Range(minPetales, maxPetales);
 
-        string colorPath = GetRandomFlowerColorPath();
+        string colorPath = _pathFlowersResources + Random.Range(1, colorVersion + 1);
+        Debug.Log(colorPath);
 
-        for (int i = 0; i < totalPetales; i++)
+        Object[] sameColorPetalSprites = Resources.LoadAll(colorPath, typeof(Sprite));
+
+        for (int i = 0; i < _totalPetales; i++)
         {
-            CreateFlower(totalPetales, i, colorPath);
+            CreatePetal(_totalPetales, i, (Sprite)sameColorPetalSprites[Random.Range(0, sameColorPetalSprites.Length)]);
         }
+        Instantiate(buttonPrefab, transform);
     }
 
-    private void CreateFlower(int totalPetales, int index, string colorPath)
+    private void CreatePetal(int totalPetales, int index, Sprite sprite)
     {
-        Transform petale = Instantiate(petalePrefab, transform).transform;
+        Transform petale = Instantiate(petalPrefab, transform).transform;
+        petale.name = index.ToString();
 
         petale.SetAsFirstSibling();
 
-        petale.GetChild(0).GetComponent<Image>().sprite = GetRandomPetalForm(colorPath);
+        petale.GetComponent<Image>().sprite = sprite;
 
-        PlaceFlower(petale, totalPetales, index);
+        PlacePetal(petale, totalPetales, index);
     }
 
-    private void PlaceFlower(Transform petale, int totalPetales, int index)
+    private void PlacePetal(Transform petale, int totalPetales, int index)
     {
         int zRotation = index * (360 / totalPetales);
 
@@ -41,59 +49,4 @@ public class FlowerCreation : MonoBehaviour
 
         petale.localEulerAngles = localEulerAngle;
     }
-
-    #region Handle Petal PNG/Sprite
-
-    private string GetRandomFlowerColorPath()
-    {
-        // Get path  
-        string path = $"{Application.dataPath}/{pathFlowersResources}";
-
-        // Get total of differents colors
-        int totalColors = 0;
-        for (int i = 0; i < Directory.GetFiles(path, "*.meta").Length; i++)
-        {
-            totalColors++;
-        }
-
-        // Get random color
-        int randomColorIndex = Random.Range(0, totalColors);
-        string pathColor = path += $"/color{randomColorIndex + 1}";
-
-        return pathColor;
-    }
-
-    private Sprite GetRandomPetalForm(string pathColor)
-    {
-        // Get total of differents forms
-        int totalForms = 0;
-        for (int i = 0; i < Directory.GetFiles(pathColor, "*.png").Length; i++)
-        {
-            totalForms++;
-        }
-
-        // Get random form
-        int randomFormIndex = Random.Range(0, totalForms);
-        string randomFormPath = Directory.GetFiles(pathColor, "*.png")[randomFormIndex];
-
-        Sprite randomPetal = LoadSprite(randomFormPath);
-
-        return randomPetal;
-    }
-
-    private Sprite LoadSprite(string path)
-    {
-        if (string.IsNullOrEmpty(path)) return null;
-        if (File.Exists(path))
-        {
-            byte[] bytes = File.ReadAllBytes(path);
-            Texture2D texture = new Texture2D(1, 1);
-            texture.LoadImage(bytes);
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            return sprite;
-        }
-        return null;
-    }
-
-    #endregion
 }
