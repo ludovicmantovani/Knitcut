@@ -7,6 +7,7 @@ using TMPro;
 public class ResultCanvas : MonoBehaviour
 {
     [SerializeField] TMP_Text textInfo;
+    [SerializeField] TMP_Text textButton;
 
     [SerializeField] private List<GameObject> desactiveGameObject;
 
@@ -14,6 +15,9 @@ public class ResultCanvas : MonoBehaviour
     {
         string info = win ? "Vous avez attrapé un " + animal + " !": "Un " + animal + " vous a échappé !";
         if (textInfo) textInfo.text = info;
+
+        info = win ? "Choisir un enclos" : "Retour à la ferme";
+        if (textButton) textButton.text = info;
     }
 
     public void Display(bool hideObjects = true)
