@@ -43,23 +43,27 @@ public class FlowerGameManager : MonoBehaviour
     {
         Debug.Log(name);
         string rightPetalName = _rightPetalIndex.ToString();
-        if (name == rightPetalName)
+        if (gameState == State.PLAY)
         {
-            if (_rightPetalIndex >= _nbPetals)
+            if (name == rightPetalName)
             {
-                Debug.Log("WIN !");
+                if (_rightPetalIndex >= _nbPetals)
+                {
+                    Debug.Log("WIN !");
+                    gameState = State.AFTER_GAME;
+                }
+                else
+                {
+                    _rightPetalIndex++;
+                    gameState = State.SHOW;
+                    flowerCreationScript.ShowSequence(1f, _rightPetalIndex + 1);
+                }
             }
             else
             {
-                _rightPetalIndex++;
-                flowerCreationScript.ShowSequence(1f, _rightPetalIndex);
+                Debug.Log("LOOSE !");
+                gameState = State.AFTER_GAME;
             }
         }
-        else
-        {
-            Debug.Log("LOOSE !");
-            gameState = State.AFTER_GAME;
-        }
     }
-
 }
