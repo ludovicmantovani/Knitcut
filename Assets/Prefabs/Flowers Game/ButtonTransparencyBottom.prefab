@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6133861139506820417}
   - component: {fileID: 6133861139506820416}
   - component: {fileID: 6133861139506820423}
+  - component: {fileID: 1045865264815300621}
   - component: {fileID: 6133861139506820422}
   - component: {fileID: 6133861139506820421}
   m_Layer: 5
@@ -123,10 +124,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6133861139506820427}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1045865264815300621}
+        m_TargetAssemblyTypeName: PetalInput, Assembly-CSharp
+        m_MethodName: Change
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -145,6 +146,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9c988119a8994c479971f305ef637dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1045865264815300621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133861139506820427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701c4dc2bf88c214ca27bdea143e22bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6133861139506820422

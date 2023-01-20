@@ -266,9 +266,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petalPrefab: {fileID: 6133861139506820427, guid: d776006eda8cb6d48892b63130e412a9, type: 3}
   buttonPrefab: {fileID: 2453020761856931651, guid: 8887461256be2c548889561ef070a01e, type: 3}
-  minPetales: 5
-  maxPetales: 10
+  minPetals: 5
+  maxPetals: 10
   colorVersion: 5
+  _randomPetals: []
 --- !u!1 &279438926
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,9 +344,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petalPrefab: {fileID: 0}
   buttonPrefab: {fileID: 0}
-  minPetales: 1
-  maxPetales: 2
+  minPetals: 5
+  maxPetals: 10
   colorVersion: 5
+  _randomPetals: []
 --- !u!1 &674644207
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +637,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &2001814708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2001814710}
+  - component: {fileID: 2001814709}
+  m_Layer: 0
+  m_Name: FlowerGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2001814709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001814708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0b595be971ec24d9e38d8e26614c92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flowerCreationScript: {fileID: 231502444}
+  gameState: 0
+--- !u!4 &2001814710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001814708}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 922.0744, y: 423.01675, z: -181.07646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2106499170
 PrefabInstance:
   m_ObjectHideFlags: 0
