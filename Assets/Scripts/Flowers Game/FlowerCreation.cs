@@ -75,23 +75,28 @@ public class FlowerCreation : MonoBehaviour
         endIndex = endIndex <= 0 || endIndex > TotalPetals ? TotalPetals : endIndex;
         seconds = seconds <= 0 || seconds > 5f ? 5f : seconds;
 
-        if (reset) foreach (Transform item in _randomPetals){ item.gameObject.SetActive(false);}
+        //if (reset) foreach (Transform item in _randomPetals){ item.gameObject.SetActive(false);}
 
         StartCoroutine(DisplayPetals(seconds, endIndex));
     }
 
     IEnumerator DisplayPetals(float seconds, int endIndex)
     {
-        Debug.Log("Start coroutine with " + _randomPetals.Count.ToString());
-        int count = 0;
-        foreach (Transform goT in _randomPetals)
+        Debug.Log("Start coroutine with " + endIndex.ToString());
+        //int count = 0;
+        for (int i = 0; i < endIndex; i++)
+        {
+            _randomPetals[i].gameObject.SetActive(true);
+            yield return new WaitForSeconds(seconds);
+        }
+        /*foreach (Transform goT in _randomPetals)
         {
             goT.gameObject.SetActive(true);
             count++;
             if (count >= endIndex) break;
             yield return new WaitForSeconds(seconds);
-        }
-        _flowerGameManagerScript.gameState = FlowerGameManager.State.PLAY;
+        }*/
+        _flowerGameManagerScript.gameState = FlowerGameManager.State.PLAYER_TURN;
         Debug.Log("Fin coroutine");
     }
 

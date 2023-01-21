@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class FlowerGameManager : MonoBehaviour
 {
-    public enum State { BEFORE_GAME, AFTER_GAME, PLAY, SHOW}
+    public enum State {
+        BEFORE_GAME, WIN_GAME, LOSE_GAME, AFTER_GAME, PLAYER_TURN, IA_TURN
+    }
+    
+    [SerializeField] private GameObject gameCanvas;
+    [SerializeField] private GameObject winCanvas;
+    [SerializeField] private GameObject loseCanvas;
     [SerializeField] private FlowerCreation flowerCreationScript;
 
     public State gameState = State.BEFORE_GAME;
 
-    private int _rightPetalIndex = 0;
     private int _nbPetals = 0;
-
+    private int _turn = 1;
+    private Queue<int> _sequence;
     void Start()
     {
         if (flowerCreationScript)
@@ -23,46 +30,49 @@ public class FlowerGameManager : MonoBehaviour
             {
                 item.gameObject.GetComponent<PetalInput>().OnChange += HandleChange;
             }
-            Debug.Log(_nbPetals);
-            gameState = State.SHOW;
-            //Debug.Log(flowerCreationScript._randomPetals.Count);
-            flowerCreationScript.ShowSequence(1f, 1);
+            _sequence = new Queue<int>();
+            for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
+            gameState = State.IA_TURN;
+            flowerCreationScript.ShowSequence(1f, _turn);
         }
     }
 
     void Update()
     {
-        if (gameState == State.PLAY)
+        if (gameState == State.WIN_GAME || gameState == State.LOSE_GAME)
         {
-            //Debug.Log("PLAY");
-            //gameState = State.AFTER_GAME;
+            if (gameCanvas) gameCanvas.SetActive(false);
+            if (gameState == State.WIN_GAME && winCanvas) winCanvas.SetActive(true);
+            if (gameState == State.LOSE_GAME && loseCanvas) loseCanvas.SetActive(true);
+            gameState = State.AFTER_GAME;
         }
     }
 
     private void HandleChange(string name)
     {
-        Debug.Log(name);
-        string rightPetalName = _rightPetalIndex.ToString();
-        if (gameState == State.PLAY)
+        if (gameState == State.PLAYER_TURN)
         {
+            string rightPetalName = _sequence.Dequeue().ToString();
             if (name == rightPetalName)
             {
-                if (_rightPetalIndex >= _nbPetals)
+                if (_turn == _nbPetals && _sequence.Count == 0)
                 {
                     Debug.Log("WIN !");
-                    gameState = State.AFTER_GAME;
+                    gameState = State.WIN_GAME;
                 }
-                else
+                else if (_sequence.Count == 0)
                 {
-                    _rightPetalIndex++;
-                    gameState = State.SHOW;
-                    flowerCreationScript.ShowSequence(1f, _rightPetalIndex + 1);
+                    _turn++;
+                    _sequence.Clear();
+                    for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
+                    gameState = State.IA_TURN;
+                    flowerCreationScript.ShowSequence(1f, _turn);
                 }
             }
             else
             {
                 Debug.Log("LOOSE !");
-                gameState = State.AFTER_GAME;
+                gameState = State.LOSE_GAME;
             }
         }
     }
