@@ -12,22 +12,19 @@ public class FlowerCreation : MonoBehaviour
     [SerializeField] private int colorVersion = 5;
 
     private string _pathFlowersResources = "Flower/Petal/color";
-    private FlowerGameManager _flowerGameManagerScript;
-    [SerializeField] private List<Transform> _randomPetals;
+    private List<Transform> _randomPetals;
 
-    public int TotalPetals { get => _randomPetals.Count;}
-    public List<Transform> GetRandomPetals() { return _randomPetals;}
+    public int TotalPetals { get => _randomPetals.Count; }
+    public List<Transform> GetRandomPetals() { return _randomPetals; }
 
-    public void SetGameManager(FlowerGameManager flowerGameManager)
-    {
-        if (flowerGameManager) _flowerGameManagerScript = flowerGameManager;
-    }
-
+    #region UNITY_METHOD
     private void Start()
     {
         _randomPetals = new List<Transform>();
     }
+    #endregion
 
+    #region SPECIFIC_METHOD
     private void CreatePetal(int totalPetals, int index, Sprite sprite)
     {
         Transform petal = Instantiate(petalPrefab, transform).transform;
@@ -58,11 +55,13 @@ public class FlowerCreation : MonoBehaviour
         Object[] sameColorPetalSprites = Resources.LoadAll(colorPath, typeof(Sprite));
 
         for (int i = 0; i < totalPetals; i++)
-        {
-            CreatePetal(totalPetals, i, (Sprite)sameColorPetalSprites[Random.Range(0, sameColorPetalSprites.Length)]);
-        }
+            CreatePetal(
+                totalPetals, i,
+                (Sprite)sameColorPetalSprites[Random.Range(0, sameColorPetalSprites.Length)]
+                );
+
         _randomPetals.Shuffle();
-        for (int i = 0; i < totalPetals; i++) { _randomPetals[i].name = i.ToString();}
+        for (int i = 0; i < totalPetals; i++) { _randomPetals[i].name = i.ToString(); }
         Instantiate(buttonPrefab, transform);
 
         return TotalPetals;
@@ -75,34 +74,28 @@ public class FlowerCreation : MonoBehaviour
         endIndex = endIndex <= 0 || endIndex > TotalPetals ? TotalPetals : endIndex;
         seconds = seconds <= 0 || seconds > 5f ? 5f : seconds;
 
-        //if (reset) foreach (Transform item in _randomPetals){ item.gameObject.SetActive(false);}
+        if (reset)
+        {
+            foreach (Transform item in _randomPetals)
+            {
+                item.GetComponent<Button>().interactable = false;
+                item.gameObject.SetActive(false);
+            }
+        }
 
         StartCoroutine(DisplayPetals(seconds, endIndex));
     }
 
     IEnumerator DisplayPetals(float seconds, int endIndex)
     {
-        Debug.Log("Start coroutine with " + endIndex.ToString());
-        //int count = 0;
         for (int i = 0; i < endIndex; i++)
         {
             _randomPetals[i].gameObject.SetActive(true);
             yield return new WaitForSeconds(seconds);
         }
-        /*foreach (Transform goT in _randomPetals)
-        {
-            goT.gameObject.SetActive(true);
-            count++;
-            if (count >= endIndex) break;
-            yield return new WaitForSeconds(seconds);
-        }*/
-        _flowerGameManagerScript.gameState = FlowerGameManager.State.PLAYER_TURN;
-        Debug.Log("Fin coroutine");
-    }
 
-
-    private void Update()
-    {
-            
+        for (int i = 0; i < endIndex; i++)
+            _randomPetals[i].GetComponent<Button>().interactable = true;
     }
+    #endregion
 }
