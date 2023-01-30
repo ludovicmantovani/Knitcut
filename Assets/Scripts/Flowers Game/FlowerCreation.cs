@@ -9,9 +9,12 @@ public class FlowerCreation : MonoBehaviour
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private int minPetals = 5;
     [SerializeField] private int maxPetals = 10;
-    [SerializeField] private int colorVersion = 5;
 
-    private string _pathFlowersResources = "Flower/Petal/color";
+    [SerializeField] private string pathFlowersResources = "Flower/Petal/color6";
+    [SerializeField] private Color baseColor = Color.blue;
+    [SerializeField] private Color blinkColor = Color.red;
+
+
     private List<Transform> _randomPetals;
 
     public int TotalPetals { get => _randomPetals.Count; }
@@ -50,9 +53,7 @@ public class FlowerCreation : MonoBehaviour
     {
         int totalPetals = Random.Range(minPetals, maxPetals);
 
-        string colorPath = _pathFlowersResources + Random.Range(1, colorVersion + 1);
-
-        Object[] sameColorPetalSprites = Resources.LoadAll(colorPath, typeof(Sprite));
+        Object[] sameColorPetalSprites = Resources.LoadAll(pathFlowersResources, typeof(Sprite));
 
         for (int i = 0; i < totalPetals; i++)
             CreatePetal(
@@ -78,21 +79,26 @@ public class FlowerCreation : MonoBehaviour
         {
             foreach (Transform item in _randomPetals)
             {
+                item.gameObject.GetComponent<Image>().color = baseColor;
                 item.GetComponent<Button>().interactable = false;
-                item.gameObject.SetActive(false);
             }
         }
-
         StartCoroutine(DisplayPetals(seconds, endIndex));
     }
 
     IEnumerator DisplayPetals(float seconds, int endIndex)
     {
-        for (int i = 0; i < endIndex; i++)
+        for (int i = 0; i < endIndex - 1; i++)
         {
-            _randomPetals[i].gameObject.SetActive(true);
             yield return new WaitForSeconds(seconds);
+            _randomPetals[i].gameObject.GetComponent<Image>().color = blinkColor;
+            yield return new WaitForSeconds(seconds);
+            _randomPetals[i].gameObject.GetComponent<Image>().color = baseColor;
         }
+        yield return new WaitForSeconds(seconds);
+        _randomPetals[endIndex - 1].gameObject.GetComponent<Image>().color = blinkColor;
+        yield return new WaitForSeconds(seconds);
+        _randomPetals[endIndex - 1].gameObject.GetComponent<Image>().color = baseColor;
 
         for (int i = 0; i < endIndex; i++)
             _randomPetals[i].GetComponent<Button>().interactable = true;
