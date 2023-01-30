@@ -88,17 +88,25 @@ public class FlowerCreation : MonoBehaviour
 
     IEnumerator DisplayPetals(float seconds, int endIndex)
     {
+        GameObject petal = null;
         for (int i = 0; i < endIndex - 1; i++)
         {
+            petal = _randomPetals[i].gameObject;
             yield return new WaitForSeconds(seconds);
-            _randomPetals[i].gameObject.GetComponent<Image>().color = blinkColor;
+            petal.GetComponent<Animator>().SetTrigger("BalanceTrigger");
+            petal.GetComponent<Image>().color = blinkColor;
             yield return new WaitForSeconds(seconds);
-            _randomPetals[i].gameObject.GetComponent<Image>().color = baseColor;
+            petal.GetComponent<Image>().color = baseColor;
         }
-        yield return new WaitForSeconds(seconds);
-        _randomPetals[endIndex - 1].gameObject.GetComponent<Image>().color = blinkColor;
-        yield return new WaitForSeconds(seconds);
-        _randomPetals[endIndex - 1].gameObject.GetComponent<Image>().color = baseColor;
+        if (_randomPetals[endIndex - 1])
+        {
+            yield return new WaitForSeconds(seconds);
+            petal = _randomPetals[endIndex - 1].gameObject;
+            petal.GetComponent<Animator>().SetTrigger("BalanceTrigger");
+            petal.GetComponent<Image>().color = blinkColor;
+            yield return new WaitForSeconds(seconds);
+            petal.GetComponent<Image>().color = baseColor;
+        }
 
         for (int i = 0; i < endIndex; i++)
             _randomPetals[i].GetComponent<Button>().interactable = true;
