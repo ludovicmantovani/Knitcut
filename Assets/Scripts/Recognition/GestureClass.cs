@@ -227,12 +227,16 @@ public class GestureClass
             if (pixelsTPattern[i] == Color.black && pixelsTDrawing[i] == Color.black) numSamePixelsTextures++;
             if (pixelsTPattern[i] == Color.white && pixelsTDrawing[i] == Color.black) numExtraPixels++;
         }
-
+        Debug.Log($"{numExtraPixels} - {numSamePixelsTextures}");
         float pixelsTolerance = tolerance * numExtraPixels;
-        numExtraPixels -= pixelsTolerance;
-        numSamePixelsTextures += pixelsTolerance;
 
-        float percentageExtra = numExtraPixels / numBlackPixelsTDrawing;
+        //numSamePixelsTextures += pixelsTolerance;
+
+        //numExtraPixels -= pixelsTolerance; // -60% des mauvais, on garde 40%
+        //numExtraPixels -= pixelsTolerance;
+        //numSamePixelsTextures += pixelsTolerance;
+
+        //float percentageExtra = numExtraPixels / numBlackPixelsTDrawing;
 
         //numBlackPixelsTDrawing *= tolerance;
 
@@ -242,8 +246,9 @@ public class GestureClass
             $"{othersPattern} others pixels modified to black");*/
 
         float score = numSamePixelsTextures / numBlackPixelsTDrawing;
+        //Debug.Log($"{numExtraPixels} - {numSamePixelsTextures}");
         results[0] = score;
-        results[1] = percentageExtra;
+        results[1] = -1;
         return results;
     }
 

@@ -117,7 +117,20 @@ namespace Recognition
 
                 Debug.Log($"score={score} - extra={percentageExtra}");
 
-                if (percentageExtra >= percentageExtraLimit)
+                if (score >= correctRate)
+                {
+                    if (score > 1) score = 1;
+
+                    mouseGesture.OnGestureCorrect();
+                }
+                else
+                {
+                    mouseGesture.OnGestureWrong();
+                }
+
+                mouseGesture.Score.text = $"{score * 100:0.00}%";
+
+                /*if (percentageExtra >= percentageExtraLimit)
                 {
                     Debug.Log($"Not enough resemblance ({percentageExtra * 100}% not same) : not calculating score");
                     mouseGesture.OnGestureWrong();
@@ -138,7 +151,7 @@ namespace Recognition
                     }
 
                     mouseGesture.Score.text = $"{score * 100:0.00}%";
-                }
+                }*/
             }
 
             //Clear();
