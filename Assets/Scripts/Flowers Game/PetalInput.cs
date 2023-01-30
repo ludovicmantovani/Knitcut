@@ -9,7 +9,6 @@ public class PetalInput : MonoBehaviour
 
     public void Change()
     {
-        gameObject.SetActive(false);
         if (OnChange != null)
         {
             OnChange(gameObject.name);
