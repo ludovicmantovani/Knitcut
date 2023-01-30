@@ -368,8 +368,9 @@ MonoBehaviour:
   buttonPrefab: {fileID: 2453020761856931651, guid: 8887461256be2c548889561ef070a01e, type: 3}
   minPetals: 5
   maxPetals: 10
-  colorVersion: 5
-  _randomPetals: []
+  pathFlowersResources: Flower/Petal/color6
+  baseColor: {r: 0, g: 0, b: 1, a: 1}
+  blinkColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &515504870
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,7 +945,6 @@ MonoBehaviour:
   winCanvas: {fileID: 11472127}
   loseCanvas: {fileID: 515504870}
   flowerCreationScript: {fileID: 231502444}
-  gameState: 0
 --- !u!4 &2001814710
 Transform:
   m_ObjectHideFlags: 0
