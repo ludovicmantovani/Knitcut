@@ -88,9 +88,9 @@ public class FlowerCreation : MonoBehaviour
 
     IEnumerator DisplayPetals(float seconds, int endIndex)
     {
-        GameObject petal = null;
         for (int i = 0; i < endIndex - 1; i++)
         {
+            GameObject petal = null;
             petal = _randomPetals[i].gameObject;
             yield return new WaitForSeconds(seconds);
             petal.GetComponent<Animator>().SetTrigger("BalanceTrigger");
@@ -100,6 +100,7 @@ public class FlowerCreation : MonoBehaviour
         }
         if (_randomPetals[endIndex - 1])
         {
+            GameObject petal = null;
             yield return new WaitForSeconds(seconds);
             petal = _randomPetals[endIndex - 1].gameObject;
             petal.GetComponent<Animator>().SetTrigger("BalanceTrigger");
@@ -108,8 +109,8 @@ public class FlowerCreation : MonoBehaviour
             petal.GetComponent<Image>().color = baseColor;
         }
 
-        for (int i = 0; i < endIndex; i++)
-            _randomPetals[i].GetComponent<Button>().interactable = true;
+        for (int i = 0; i < _randomPetals.Count; i++)
+            _randomPetals[i].gameObject.GetComponent<Button>().interactable = true;
     }
     #endregion
 }
