@@ -19,14 +19,26 @@ public class UI_Menu : MonoBehaviour
     [SerializeField] private GameObject menuInterface;
     [SerializeField] private GameObject menuOptions;
     [SerializeField] private GameObject menuKeybinding;
+    [SerializeField] private GameObject menuCredits;
+    [SerializeField] private GameObject menuAudio;
+    [SerializeField] private Vector3 creditsVector;
+    [SerializeField] private GameObject creditsObj;
+    [SerializeField] private float speedY;
+    private float yStartPos;
+
+    public bool startCredits = false;
     void Start()
     {
-        
+        yStartPos = -520f;
+        speedY = yStartPos;
     }
 
     void Update()
     {
-        
+        if(startCredits == true)
+        {
+            ScrollCredits();
+        }
     }
     public void UpperCaseVerif()
     {
@@ -51,6 +63,28 @@ public class UI_Menu : MonoBehaviour
         menuKeybinding.SetActive(true);
         menuOptions.SetActive(false);
     }
+    public void MenuCredits()
+    {
+        menuOptions.SetActive(false);
+        menuCredits.SetActive(true);
+        startCredits = true;
+    }
+    public void MenuCreditsBack()
+    {
+        menuOptions.SetActive(true);
+        menuCredits.SetActive(false);
+        startCredits = false;
+    }
+    public void MenuAudio()
+    {
+        menuOptions.SetActive(false);
+        menuAudio.SetActive(true);
+    }
+    public void MenuAudioBack()
+    {
+        menuOptions.SetActive(true);
+        menuAudio.SetActive(false);
+    }
     public void MenuSettings()
     {
         menuInterface.SetActive(true);
@@ -64,5 +98,22 @@ public class UI_Menu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+    public void ScrollCredits()
+    {
+        if(creditsObj.transform.position.y >= 360f)
+        {
+            creditsVector = new Vector3(creditsObj.transform.position.x, yStartPos, creditsObj.transform.position.z);
+            creditsObj.transform.position = creditsVector;
+            speedY = yStartPos;
+            startCredits = false;
+        }
+        else
+        {
+            speedY = speedY + Time.deltaTime*15;
+            creditsVector = new Vector3(creditsObj.transform.position.x, speedY, creditsObj.transform.position.z);
+            creditsObj.transform.position = creditsVector;
+        }
+         
     }
 }
