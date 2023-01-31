@@ -9,6 +9,7 @@ public class PetalInput : MonoBehaviour
 
     public void Change()
     {
+        GetComponent<Animator>().SetTrigger("BalanceTrigger");
         if (OnChange != null)
         {
             OnChange(gameObject.name);
