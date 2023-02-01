@@ -8257,7 +8257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1613181317
 Transform:
   m_ObjectHideFlags: 0
@@ -8426,7 +8426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1617135254
 Transform:
   m_ObjectHideFlags: 0
@@ -8496,6 +8496,14 @@ MonoBehaviour:
   hydratePlante: {fileID: 520209475}
   healPlante: {fileID: 1810667060}
   inventory: {fileID: 918555252}
+  moveF: 0
+  moveB: 0
+  moveL: 0
+  moveR: 0
+  inter: 0
+  hydrateP: 0
+  healP: 0
+  invent: 0
   menuInterface: {fileID: 1613181316}
   menuOptions: {fileID: 2146589731}
   menuKeybinding: {fileID: 1617135253}

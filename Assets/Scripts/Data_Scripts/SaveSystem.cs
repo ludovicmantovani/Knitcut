@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem 
 {
+    //player save
     public static void SavePlayerInventory (PlayerInventory playerInventory)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -109,6 +110,35 @@ public static class SaveSystem
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             Player_Data data = formatter.Deserialize(stream) as Player_Data;
+            stream.Close();
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
+    // menu save
+    public static void SaveKeys(UI_Menu ui_menu)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/UI_Menu.save";
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        KeyBinding_Data data = new KeyBinding_Data(ui_menu);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+    public static KeyBinding_Data LoadKeys()
+    {
+        string path = Application.persistentDataPath + "/UI_Menu.save";
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            KeyBinding_Data data = formatter.Deserialize(stream) as KeyBinding_Data;
             stream.Close();
             return data;
         }
