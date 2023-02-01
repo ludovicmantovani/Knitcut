@@ -26,6 +26,7 @@ public class UI_Menu : MonoBehaviour
     public KeyCode invent;
 
     private string lastKey;
+    private float lastVolume;
 
     [SerializeField] private GameObject menuInterface;
     [SerializeField] private GameObject menuOptions;
@@ -37,6 +38,8 @@ public class UI_Menu : MonoBehaviour
     [SerializeField] private float speedY;
     private float yStartPos;
 
+    public Slider volume;
+
     public bool startCredits = false;
     void Start()
     {
@@ -44,6 +47,7 @@ public class UI_Menu : MonoBehaviour
         speedY = yStartPos;
         KeysBinding();
         LoadKeybindingsTouch();
+        LoadVolumeLevel();
 
     }
 
@@ -56,6 +60,7 @@ public class UI_Menu : MonoBehaviour
 
         SavesKeybindingsTouch();
         KeysBinding();
+        SaveVolumeLevel();
     }
     public void UpperCaseVerif()
     {
@@ -170,5 +175,18 @@ public class UI_Menu : MonoBehaviour
         hydratePlante.text = data.hydratePlante;
         healPlante.text = data.healPlante;
         inventory.text = data.inventory;
+    }
+    public void SaveVolumeLevel()
+    {
+        if(lastVolume != volume.value)
+        {
+            lastVolume = volume.value;
+            SaveSystem.SaveVolume(this);
+        }
+    }
+    public void LoadVolumeLevel()
+    {
+        Audio_Data data = SaveSystem.LoadVolume();
+        volume.value = data.volume;
     }
 }

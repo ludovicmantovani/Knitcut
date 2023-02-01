@@ -148,4 +148,34 @@ public static class SaveSystem
             return null;
         }
     }
+
+    // audio save
+    public static void SaveVolume(UI_Menu vol)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/Volume.save";
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        Audio_Data data = new Audio_Data(vol);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+    public static Audio_Data LoadVolume()
+    {
+        string path = Application.persistentDataPath + "/Volume.save";
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            Audio_Data data = formatter.Deserialize(stream) as Audio_Data;
+            stream.Close();
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
 }

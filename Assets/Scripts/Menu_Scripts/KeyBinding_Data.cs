@@ -26,3 +26,12 @@ public class KeyBinding_Data
         inventory = ui_menu.inventory.text;
     }
 }
+[System.Serializable]
+public class Audio_Data
+{
+    public float volume;
+    public Audio_Data(UI_Menu vol)
+    {
+        volume = vol.volume.value;
+    }
+}
