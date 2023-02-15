@@ -1,13 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Feeder : MonoBehaviour
 {
+    [Header("Feeder Timer")]
     [SerializeField] private List<GameObject> animalsToFeed;
     [SerializeField] private float timeBetweenFeeding = 10f;
 
     private bool feedingActive;
+
+    [Header("Feeder Inventory")]
+    [SerializeField] private bool canUseFeeder;
+    [SerializeField] private bool feederInUse;
+    [SerializeField] private GameObject feederInventory;
+    [SerializeField] private GameObject interactionPanel;
+
+    public bool CanUseFeeder
+    {
+        get { return canUseFeeder; }
+        set { canUseFeeder = value; }
+    }
 
     public List<GameObject> AnimalsToFeed
     {
@@ -19,12 +33,24 @@ public class Feeder : MonoBehaviour
     {
         animalsToFeed = new List<GameObject>();
         feedingActive = false;
+
+        canUseFeeder = false;
+        feederInUse = false;
+
+        interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Feeder";
     }
 
     private void Update()
     {
+        // Timer
         CheckAnimalsBeforeFeeding();
+
+        // Inventory
+        HandleFeederUse();
+        HandleFeederInventory();
     }
+
+    #region Handle Feeder Timer
 
     private void CheckAnimalsBeforeFeeding()
     {
@@ -59,4 +85,59 @@ public class Feeder : MonoBehaviour
 
         feedingActive = false;
     }
+
+    #endregion
+
+    #region Feeder Inventory
+
+    private void HandleFeederUse()
+    {
+        if (canUseFeeder)
+        {
+            interactionPanel.SetActive(true);
+        }
+        else
+        {
+            interactionPanel.SetActive(false);
+        }
+    }
+
+    private void HandleFeederInventory()
+    {
+        feederInventory.SetActive(feederInUse);
+
+        if (!canUseFeeder)
+        {
+            CloseFeederInventory();
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && canUseFeeder)
+        {
+            if (!feederInUse)
+            {
+                OpenFeederInventory();
+            }
+            else
+            {
+                CloseFeederInventory();
+            }
+        }
+    }
+
+    private void OpenFeederInventory()
+    {
+        feederInUse = true;
+
+        interactionPanel.GetComponentInChildren<Text>().text = "Use E to close Feeder";
+    }
+
+    private void CloseFeederInventory()
+    {
+        feederInUse = false;
+
+        interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Feeder";
+    }
+
+    #endregion
 }
