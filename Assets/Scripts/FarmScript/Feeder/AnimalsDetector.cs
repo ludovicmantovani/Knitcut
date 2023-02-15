@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DetectAnimals : MonoBehaviour
+public class AnimalsDetector : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
