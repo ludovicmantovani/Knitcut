@@ -44,19 +44,20 @@ public class Feeder : MonoBehaviour
     {
         // Timer
         CheckAnimalsBeforeFeeding();
+        //HandleFeederContent();
 
         // Inventory
         HandleFeederUse();
         HandleFeederInventory();
     }
 
-    #region Handle Feeder Timer
+    #region Handle Feeder Use in Time
 
     private void CheckAnimalsBeforeFeeding()
     {
         CleanAnimals();
 
-        if (animalsToFeed.Count == 0 || feedingActive) return;
+        if (animalsToFeed.Count == 0 || feedingActive || IsFeederEmpty()) return;
 
         StartCoroutine(FeedAnimalsEveryXTime());
     }
@@ -73,15 +74,25 @@ public class Feeder : MonoBehaviour
     {
         feedingActive = true;
 
-        while (animalsToFeed.Count > 0)
+        Debug.Log($"Start feeding...");
+
+        while (animalsToFeed.Count > 0 && !IsFeederEmpty())
         {
+            yield return new WaitForSeconds(timeBetweenFeeding);
+
             for (int i = 0; i < animalsToFeed.Count; i++)
             {
-                Debug.Log($"Feed '{animalsToFeed[i].name}' and wait {timeBetweenFeeding}s...");
-            }
+                GameObject animal = animalsToFeed[i];
+                Item item = GetItem();
 
-            yield return new WaitForSeconds(timeBetweenFeeding);
+                if (item != null)
+                {
+                    Debug.Log($"Feed '{item.itemName}' to '{animal.name}'");
+                }
+            }
         }
+
+        Debug.Log($"Stop feeding...");
 
         feedingActive = false;
     }
@@ -89,6 +100,8 @@ public class Feeder : MonoBehaviour
     #endregion
 
     #region Feeder Inventory
+
+    #region Inventory UI
 
     private void HandleFeederUse()
     {
@@ -138,6 +151,64 @@ public class Feeder : MonoBehaviour
 
         interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Feeder";
     }
+
+    #endregion
+
+    #region Inventory Content
+
+    private Item GetItem()
+    {
+        for (int i = 0; i < feederInventory.transform.childCount; i++)
+        {
+            Transform slot = feederInventory.transform.GetChild(i);
+
+            // If item present in slot
+            if (slot.childCount > 0)
+            {
+                DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+
+                // If item is consumable
+
+                if (draggableItem.Item.itemType == ItemType.Consumable && draggableItem.QuantityStacked > 0)
+                {
+                    RemoveItem(draggableItem);
+
+                    return draggableItem.Item;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private void RemoveItem(DraggableItem item)
+    {
+        item.QuantityStacked -= 1;
+
+        if (item.QuantityStacked <= 0)
+        {
+            Destroy(item.gameObject);
+        }
+    }
+
+    private bool IsFeederEmpty()
+    {
+        bool isEmpty = true;
+
+        for (int i = 0; i < feederInventory.transform.childCount; i++)
+        {
+            Transform slot = feederInventory.transform.GetChild(i);
+
+            if (slot.childCount > 0)
+            {
+                isEmpty = false;
+            }
+        }
+
+        return isEmpty;
+    }
+
+    #endregion
 
     #endregion
 }
