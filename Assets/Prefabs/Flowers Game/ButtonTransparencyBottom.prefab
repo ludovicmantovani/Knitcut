@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6133861139506820423}
   - component: {fileID: 1045865264815300621}
   - component: {fileID: 8231586258214517875}
+  - component: {fileID: 3827229581289917479}
   m_Layer: 5
   m_Name: ButtonTransparencyBottom
   m_TagString: Untagged
@@ -159,6 +160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 701c4dc2bf88c214ca27bdea143e22bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scale: 500
+  wind: 1
 --- !u!95 &8231586258214517875
 Animator:
   serializedVersion: 3
@@ -178,3 +181,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &3827229581289917479
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133861139506820427}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0002
+  m_LinearDrag: 25
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
