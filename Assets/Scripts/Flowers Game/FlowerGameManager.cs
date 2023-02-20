@@ -13,11 +13,13 @@ public class FlowerGameManager : MonoBehaviour
     [SerializeField] private GameObject winCanvas;
     [SerializeField] private GameObject loseCanvas;
     [SerializeField] private FlowerCreation flowerCreationScript;
+    [SerializeField] private float waitingChangeStateTime = 3f;
 
     private int _nbPetals = 0;
     private int _turn = 1;
     private Queue<int> _sequence;
     private State gameState = State.BEFORE_GAME;
+    private float _stateTime = 0f;
 
     #region UNITY_METHOD
     void Start()
@@ -35,7 +37,8 @@ public class FlowerGameManager : MonoBehaviour
 
     void Update()
     {
-        if (gameState == State.WIN_GAME || gameState == State.LOSE_GAME)
+        if ((gameState == State.WIN_GAME || gameState == State.LOSE_GAME)
+            && Time.time >= _stateTime + waitingChangeStateTime)
         {
             if (gameCanvas) gameCanvas.SetActive(false);
             if (gameState == State.WIN_GAME && winCanvas) winCanvas.SetActive(true);
@@ -52,7 +55,11 @@ public class FlowerGameManager : MonoBehaviour
         if (name == rightPetalName)
         {
             if (_turn == _nbPetals && _sequence.Count == 0)
+            {
+                flowerCreationScript.FallPetals();
+                _stateTime = Time.time;
                 gameState = State.WIN_GAME;
+            }
             else if (_sequence.Count == 0)
             {
                 _turn++;
@@ -64,7 +71,8 @@ public class FlowerGameManager : MonoBehaviour
         else
         {
             flowerCreationScript.FallPetals();
-            //gameState = State.LOSE_GAME;
+            _stateTime = Time.time;
+            gameState = State.LOSE_GAME;
         }
     }
     #endregion
