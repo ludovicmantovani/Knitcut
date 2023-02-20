@@ -112,5 +112,10 @@ public class FlowerCreation : MonoBehaviour
         for (int i = 0; i < _randomPetals.Count; i++)
             _randomPetals[i].gameObject.GetComponent<Button>().interactable = true;
     }
+
+    public void FallPetals()
+    {
+        foreach (Transform item in _randomPetals) { item.gameObject.GetComponent<PetalInput>().Fall(); }
+    }
     #endregion
 }

@@ -62,7 +62,10 @@ public class FlowerGameManager : MonoBehaviour
             }
         }
         else
-            gameState = State.LOSE_GAME;
+        {
+            flowerCreationScript.FallPetals();
+            //gameState = State.LOSE_GAME;
+        }
     }
     #endregion
 }
