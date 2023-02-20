@@ -16,7 +16,7 @@ public class AnimalsDetector : MonoBehaviour
     {
         if (animal.CompareTag("Animal"))
         {
-            if (!GetComponentInParent<Feeder>().AnimalsToFeed.Contains(animal))
+            /*if (!GetComponentInParent<Feeder>().AnimalsToFeed.Contains(animal))
             {
                 if (add)
                 {
@@ -26,7 +26,7 @@ public class AnimalsDetector : MonoBehaviour
                 {
                     GetComponentInParent<Feeder>().AnimalsToFeed.Remove(animal);
                 }
-            }
+            }*/
         }
     }
 }

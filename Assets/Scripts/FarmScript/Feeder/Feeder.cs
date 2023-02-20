@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Feeder : MonoBehaviour
 {
-    [Header("Feeder Timer")]
-    [SerializeField] private List<GameObject> animalsToFeed;
-    [SerializeField] private float timeBetweenFeeding = 10f;
+    //[Header("Feeder Timer")]
+    //[SerializeField] private List<GameObject> animalsToFeed;
+    //[SerializeField] private float timeBetweenFeeding = 10f;
 
-    private bool feedingActive;
+    //private bool feedingActive;
 
     [Header("Feeder Inventory")]
     [SerializeField] private bool canUseFeeder;
@@ -23,16 +23,16 @@ public class Feeder : MonoBehaviour
         set { canUseFeeder = value; }
     }
 
-    public List<GameObject> AnimalsToFeed
+    /*public List<GameObject> AnimalsToFeed
     {
         get { return animalsToFeed; }
         set { animalsToFeed = value; }
-    }
+    }*/
 
     private void Start()
     {
-        animalsToFeed = new List<GameObject>();
-        feedingActive = false;
+        //animalsToFeed = new List<GameObject>();
+        //feedingActive = false;
 
         canUseFeeder = false;
         feederInUse = false;
@@ -43,7 +43,7 @@ public class Feeder : MonoBehaviour
     private void Update()
     {
         // Timer
-        CheckAnimalsBeforeFeeding();
+        //CheckAnimalsBeforeFeeding();
         //HandleFeederContent();
 
         // Inventory
@@ -51,53 +51,12 @@ public class Feeder : MonoBehaviour
         HandleFeederInventory();
     }
 
-    #region Handle Feeder Use in Time
-
-    private void CheckAnimalsBeforeFeeding()
+    public Item GetFood()
     {
-        CleanAnimals();
+        if (IsFeederEmpty()) return null;
 
-        if (animalsToFeed.Count == 0 || feedingActive || IsFeederEmpty()) return;
-
-        StartCoroutine(FeedAnimalsEveryXTime());
+        return GetItem();
     }
-
-    private void CleanAnimals()
-    {
-        for (int i = 0; i < animalsToFeed.Count; i++)
-        {
-            if (animalsToFeed[i] == null) animalsToFeed.Remove(animalsToFeed[i]);
-        }
-    }
-
-    private IEnumerator FeedAnimalsEveryXTime()
-    {
-        feedingActive = true;
-
-        Debug.Log($"Start feeding...");
-
-        while (animalsToFeed.Count > 0 && !IsFeederEmpty())
-        {
-            yield return new WaitForSeconds(timeBetweenFeeding);
-
-            for (int i = 0; i < animalsToFeed.Count; i++)
-            {
-                GameObject animal = animalsToFeed[i];
-                Item item = GetItem();
-
-                if (item != null)
-                {
-                    Debug.Log($"Feed '{item.itemName}' to '{animal.name}'");
-                }
-            }
-        }
-
-        Debug.Log($"Stop feeding...");
-
-        feedingActive = false;
-    }
-
-    #endregion
 
     #region Feeder Inventory
 
@@ -168,11 +127,8 @@ public class Feeder : MonoBehaviour
                 DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
 
                 // If item is consumable
-
                 if (draggableItem.Item.itemType == ItemType.Consumable && draggableItem.QuantityStacked > 0)
                 {
-                    RemoveItem(draggableItem);
-
                     return draggableItem.Item;
                 }
             }
@@ -181,13 +137,27 @@ public class Feeder : MonoBehaviour
         return null;
     }
 
-    private void RemoveItem(DraggableItem item)
+    public void RemoveItem(Item item)
     {
-        item.QuantityStacked -= 1;
-
-        if (item.QuantityStacked <= 0)
+        for (int i = 0; i < feederInventory.transform.childCount; i++)
         {
-            Destroy(item.gameObject);
+            Transform slot = feederInventory.transform.GetChild(i);
+
+            // If item present in slot
+            if (slot.childCount > 0)
+            {
+                DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+
+                if (draggableItem.Item == item)
+                {
+                    draggableItem.QuantityStacked -= 1;
+
+                    if (draggableItem.QuantityStacked <= 0)
+                    {
+                        Destroy(draggableItem.gameObject);
+                    }
+                }
+            }
         }
     }
 
