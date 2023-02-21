@@ -6,12 +6,11 @@ public class FlowerGameManager : MonoBehaviour
 {
     public enum State
     {
-        BEFORE_GAME, WIN_GAME, LOSE_GAME, AFTER_GAME
+        BEFORE_GAME, IN_GAME, AFTER_GAME, FINISHED
     }
 
     [SerializeField] private GameObject gameCanvas;
-    [SerializeField] private GameObject winCanvas;
-    [SerializeField] private GameObject loseCanvas;
+    [SerializeField] private GameObject resultCanvas;
     [SerializeField] private FlowerCreation flowerCreationScript;
     [SerializeField] private float waitingChangeStateTime = 3f;
 
@@ -20,6 +19,7 @@ public class FlowerGameManager : MonoBehaviour
     private Queue<int> _sequence;
     private State gameState = State.BEFORE_GAME;
     private float _stateTime = 0f;
+    private bool _win = false;
 
     #region UNITY_METHOD
     void Start()
@@ -32,18 +32,22 @@ public class FlowerGameManager : MonoBehaviour
             _sequence = new Queue<int>();
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
             flowerCreationScript.ShowSequence(1f, _turn);
+            gameState = State.IN_GAME;
         }
     }
 
     void Update()
     {
-        if ((gameState == State.WIN_GAME || gameState == State.LOSE_GAME)
+        if ((gameState == State.AFTER_GAME)
             && Time.time >= _stateTime + waitingChangeStateTime)
         {
             if (gameCanvas) gameCanvas.SetActive(false);
-            if (gameState == State.WIN_GAME && winCanvas) winCanvas.SetActive(true);
-            if (gameState == State.LOSE_GAME && loseCanvas) loseCanvas.SetActive(true);
-            gameState = State.AFTER_GAME;
+            if (resultCanvas)
+            {
+                resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win);
+                resultCanvas.SetActive(true);
+            };
+            gameState = State.FINISHED;
         }
     }
     #endregion
@@ -58,7 +62,8 @@ public class FlowerGameManager : MonoBehaviour
             {
                 flowerCreationScript.FallPetals();
                 _stateTime = Time.time;
-                gameState = State.WIN_GAME;
+                _win = true;
+                gameState = State.AFTER_GAME;
             }
             else if (_sequence.Count == 0)
             {
@@ -72,7 +77,7 @@ public class FlowerGameManager : MonoBehaviour
         {
             flowerCreationScript.FallPetals();
             _stateTime = Time.time;
-            gameState = State.LOSE_GAME;
+            gameState = State.AFTER_GAME;
         }
     }
     #endregion
