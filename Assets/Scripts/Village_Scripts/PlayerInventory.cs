@@ -48,7 +48,7 @@ public class PlayerInventory : MonoBehaviour
             secur = secur - Time.deltaTime;
         }
         AffichageInventaire();
-        if (SceneManager.GetActiveScene().buildIndex != 0)
+        /*if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             if (Input.GetKeyDown(KeyCode.F5))
             {
@@ -58,12 +58,12 @@ public class PlayerInventory : MonoBehaviour
             {
                 LoadPlayerInv();
             }
-        }
+        }*/
         
 
 
     }
-    void SavePlayerInv()
+    /*void SavePlayerInv()
     {
         SaveSystem.SavePlayerInventory(this);
     }
@@ -78,7 +78,7 @@ public class PlayerInventory : MonoBehaviour
         Wool1 = data.Wool1;
         Wool2 = data.Wool2;
         Wool3 = data.Wool3;
-    }
+    }*/
     void AffichageInventaire()
     {
         if (Input.GetKeyDown(KeyCode.I) )

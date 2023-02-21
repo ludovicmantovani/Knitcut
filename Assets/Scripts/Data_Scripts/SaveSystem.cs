@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class SaveSystem 
 {
     //player save
-    public static void SavePlayerInventory (PlayerInventory playerInventory)
+    /*public static void SavePlayerInventory (PlayerInventory playerInventory)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/PlayerInventory.save";
@@ -17,7 +17,7 @@ public static class SaveSystem
 
         formatter.Serialize(stream, data);
         stream.Close();
-    }
+    }*/
     public static void SavePlayerPosition(playerInput playerinput)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -51,7 +51,7 @@ public static class SaveSystem
         formatter.Serialize(stream, data);
         stream.Close();
     }
-    public static Player_Data LoadPlayerInventory()
+    /*public static Player_Data LoadPlayerInventory()
     {
         string path = Application.persistentDataPath + "/PlayerInventory.save";
         if (File.Exists(path))
@@ -67,7 +67,7 @@ public static class SaveSystem
             Debug.LogError("Save file not found in " + path);
             return null;
         }
-    }
+    }*/
     public static Player_Data LoadPlayerInput()
     {
         string path = Application.persistentDataPath + "/playerinput.save";
@@ -169,6 +169,39 @@ public static class SaveSystem
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             Audio_Data data = formatter.Deserialize(stream) as Audio_Data;
+            stream.Close();
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
+
+
+
+    // inventory
+    public static void SavePlayerInventorySlot(List_Slots LS)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/PlayerInventorySlot.save";
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        Inventory_Data data = new Inventory_Data(LS);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public static Inventory_Data LoadPlayerInventorySlot()
+    {
+        string path = Application.persistentDataPath + "/PlayerInventorySlot.save";
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            Inventory_Data data = formatter.Deserialize(stream) as Inventory_Data;
             stream.Close();
             return data;
         }
