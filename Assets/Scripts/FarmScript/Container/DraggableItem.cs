@@ -6,8 +6,9 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     /*[HideInInspector]*/ public Transform parentAfterDrag;
 
-    [SerializeField] private int quantityStacked = 1;
+    public int quantityStacked = 1;
     [SerializeField] private Item item;
+    public List_Slots ls;
 
     public Item Item
     {
@@ -25,6 +26,9 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void Start()
     {
+        ls = FindObjectOfType<List_Slots>();
+        item = (Item)ls.stuffs[1];
+
         image = GetComponent<Image>();
 
         parentAfterDrag = transform.parent;
