@@ -79,7 +79,7 @@ public class List_Slots : MonoBehaviour
                 {
                     containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[2];
                 }
-                containerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked = quantityStackedPlayerInventory[i];
+                containerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked = quantityStackedContainerInventory[i];
             }
 
         }
