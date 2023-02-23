@@ -11,9 +11,10 @@ public class RelationCanvas : MonoBehaviour
 
     public void Next()
     {
+        if (_currentIndex < tMP_Texts.Length)
+            tMP_Texts[_currentIndex].alpha = 0.5f;
         if (_currentIndex + 1 < tMP_Texts.Length)
         {
-            tMP_Texts[_currentIndex].alpha = 0.5f;
             _currentIndex++;
             tMP_Texts[_currentIndex].alpha = 1f;
         }
