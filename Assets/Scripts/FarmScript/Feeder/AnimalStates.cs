@@ -1,22 +1,40 @@
 using System.Collections;
 using UnityEngine;
 
-public class AnimalFeeding : MonoBehaviour
+public class AnimalStates : MonoBehaviour
 {
-    [Header("Feeder References")]
+    [Header("References")]
     [SerializeField] private Feeder feeder;
 
     [Header("Hunger parameters")]
-    [SerializeField] private int hunger = 0;
-    [SerializeField] private int maxHunger = 300;
-    [SerializeField] private int hungerToDecrease = 40;
+    [SerializeField] private float hunger = 0;
+    [SerializeField] private float maxHunger = 300;
+    [SerializeField] private float hungerToDecrease = 40;
     [SerializeField] private float timeDecreaseHunger = 60;
 
     private bool decreasing;
     private bool searchingFood;
     private bool feeding;
 
+    [Header("Happiness parameters")]
+    [SerializeField] private int happiness;
+    [SerializeField] private float requiredHungerForHappiness = 0.6f;
+
     void Start()
+    {
+        InitializeHunger();
+    }
+
+    void Update()
+    {
+        HandleHunger();
+
+        HandleHappiness();
+    }
+
+    #region Hunger
+
+    private void InitializeHunger()
     {
         hunger = maxHunger;
 
@@ -25,7 +43,7 @@ public class AnimalFeeding : MonoBehaviour
         feeding = false;
     }
 
-    void Update()
+    private void HandleHunger()
     {
         if (!decreasing && hunger > 0)
         {
@@ -80,4 +98,40 @@ public class AnimalFeeding : MonoBehaviour
 
         decreasing = false;
     }
+
+    #endregion
+
+    #region Happiness
+
+    private void HandleHappiness()
+    {
+        float percentageHunger = hunger / maxHunger;
+
+        Debug.Log($"{percentageHunger} vs {requiredHungerForHappiness}");
+
+        if (percentageHunger >= requiredHungerForHappiness)
+        {
+            happiness = 1;
+        }
+        else
+        {
+            happiness = 0;
+        }
+
+        //CheckBreeding();
+    }
+
+    private void CheckBreeding()
+    {
+        if (happiness == 1)
+        {
+            Debug.Log($"happiness enough -> can breed");
+        }
+        else
+        {
+            Debug.Log($"happiness not enough -> can not breed");
+        }
+    }
+
+    #endregion
 }
