@@ -1,21 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Feeder : MonoBehaviour
 {
-    //[Header("Feeder Timer")]
-    //[SerializeField] private List<GameObject> animalsToFeed;
-    //[SerializeField] private float timeBetweenFeeding = 10f;
-
-    //private bool feedingActive;
-
     [Header("Feeder Inventory")]
     [SerializeField] private bool canUseFeeder;
     [SerializeField] private bool feederInUse;
     [SerializeField] private GameObject feederInventory;
     [SerializeField] private GameObject interactionPanel;
+    [SerializeField] private GameObject feederModel;
 
     public bool CanUseFeeder
     {
@@ -23,17 +16,8 @@ public class Feeder : MonoBehaviour
         set { canUseFeeder = value; }
     }
 
-    /*public List<GameObject> AnimalsToFeed
-    {
-        get { return animalsToFeed; }
-        set { animalsToFeed = value; }
-    }*/
-
     private void Start()
     {
-        //animalsToFeed = new List<GameObject>();
-        //feedingActive = false;
-
         canUseFeeder = false;
         feederInUse = false;
 
@@ -42,13 +26,28 @@ public class Feeder : MonoBehaviour
 
     private void Update()
     {
-        // Timer
-        //CheckAnimalsBeforeFeeding();
-        //HandleFeederContent();
+        // GameObject Visual
+        HandleVisual();
 
         // Inventory
         HandleFeederUse();
         HandleFeederInventory();
+    }
+
+    private void HandleVisual()
+    {
+        Vector3 positionVisual = feederModel.transform.GetChild(0).localPosition;
+
+        if (IsFeederEmpty())
+        {
+            positionVisual.y = -0.001f;
+        }
+        else
+        {
+            positionVisual.y = 0.6f;
+        }
+
+        feederModel.transform.GetChild(0).localPosition = positionVisual;
     }
 
     public Item GetFood()
