@@ -22,12 +22,12 @@ public class FlowerGameManager : MonoBehaviour
     private float _stateTime = 0f;
     private bool _win = false;
     private int _nbCanvasText = -1;
+    private int _nbToNextStep = -1;
+    private int _nbCurrentStep = 0;
 
     #region UNITY_METHOD
     void Start()
     {
-        if (relationCanvas)
-            _nbCanvasText = relationCanvas.GetTextCount();
         if (flowerCreationScript)
         {
             _nbPetals = flowerCreationScript.MakeFlower();
@@ -37,6 +37,11 @@ public class FlowerGameManager : MonoBehaviour
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
             flowerCreationScript.ShowSequence(1f, _turn);
             gameState = State.IN_GAME;
+            if (relationCanvas)
+            {
+                _nbCanvasText = relationCanvas.GetTextCount();
+                _nbToNextStep = (_nbPetals - (_nbPetals % _nbCanvasText))/ _nbCanvasText;
+            }
         }
     }
 
@@ -74,6 +79,15 @@ public class FlowerGameManager : MonoBehaviour
                 _turn++;
                 _sequence.Clear();
                 for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
+
+                _nbCurrentStep++;
+                if (_nbCurrentStep == _nbToNextStep)
+                {
+                    if (relationCanvas)
+                        relationCanvas.Next();
+                    _nbCurrentStep = 0;
+                }
+
                 flowerCreationScript.ShowSequence(1f, _turn);
             }
         }
