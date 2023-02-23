@@ -13,6 +13,7 @@ public class FlowerGameManager : MonoBehaviour
     [SerializeField] private GameObject resultCanvas;
     [SerializeField] private FlowerCreation flowerCreationScript;
     [SerializeField] private float waitingChangeStateTime = 3f;
+    [SerializeField] private RelationCanvas relationCanvas;
 
     private int _nbPetals = 0;
     private int _turn = 1;
@@ -20,10 +21,13 @@ public class FlowerGameManager : MonoBehaviour
     private State gameState = State.BEFORE_GAME;
     private float _stateTime = 0f;
     private bool _win = false;
+    private int _nbCanvasText = -1;
 
     #region UNITY_METHOD
     void Start()
     {
+        if (relationCanvas)
+            _nbCanvasText = relationCanvas.GetTextCount();
         if (flowerCreationScript)
         {
             _nbPetals = flowerCreationScript.MakeFlower();
