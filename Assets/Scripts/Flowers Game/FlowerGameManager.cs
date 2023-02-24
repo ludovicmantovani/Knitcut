@@ -93,6 +93,7 @@ public class FlowerGameManager : MonoBehaviour
         }
         else
         {
+            relationCanvas.Reset();
             flowerCreationScript.FallPetals();
             _stateTime = Time.time;
             gameState = State.AFTER_GAME;
