@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
-
+[ExecuteAlways]
 public class UI_Menu : MonoBehaviour
 {
     public TMP_InputField moveForward;

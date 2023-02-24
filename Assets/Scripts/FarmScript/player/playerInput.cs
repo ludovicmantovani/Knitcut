@@ -29,7 +29,6 @@ public class playerInput : MonoBehaviour
         _movement.Set(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
         mouseX=Input.GetAxis("Mouse X");
         mouseY=Input.GetAxis("Mouse Y");
-
         
         
     }
