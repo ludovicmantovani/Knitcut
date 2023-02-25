@@ -2,25 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class Scene_verification : MonoBehaviour
 {
+
+    public PlayerInput pI;
     public int sceneIndex;
     public int sceneIndexSave;
     private void Awake()
     {
-        
+
+        pI = GetComponent<PlayerInput>();
     }
     private void Update()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            if (Input.GetKeyDown(KeyCode.F5))
+            if (pI.actions["QuickSave"].triggered)
             {
                 SaveplayerSc();
             }
-            if (Input.GetKeyDown(KeyCode.F9))
+            if (pI.actions["QuickLoad"].triggered)
             {
                 LoadPlayerSc();
             }

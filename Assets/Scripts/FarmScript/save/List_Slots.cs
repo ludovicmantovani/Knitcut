@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
+//rajout
+using UnityEngine.InputSystem;
 
 public class List_Slots : MonoBehaviour
 {
     [Header("References / Parameters")]
     public GameObject itemUI;
     public playerController pC;
-    public playerInput pI;
+    public PlayerInput pI;
     public ScriptableObject[] stuffs;
 
     private bool checkLoad = false;
@@ -34,7 +35,7 @@ public class List_Slots : MonoBehaviour
     private void Start()
     {
         pC = FindObjectOfType<playerController>();
-        pI = FindObjectOfType<playerInput>();
+        pI = GetComponent<PlayerInput>();
 
         canVerif = true;
 

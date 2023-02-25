@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Shop_Fruit : MonoBehaviour
 {
+    public PlayerInput pI;
     [SerializeField] private GameObject InteractionUI;
     [SerializeField] private GameObject ShopFruitUI;
     float SafeTimer = 0;
@@ -14,6 +16,7 @@ public class Shop_Fruit : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        pI = GetComponent<PlayerInput>();
         playerInventory = FindObjectOfType<PlayerInventory>();
         PC = FindObjectOfType<playerController>();
     }
@@ -54,14 +57,14 @@ public class Shop_Fruit : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && Input.GetKey(KeyCode.E) && talking == false && SafeTimer == 0)
+        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == false && SafeTimer == 0)
         {
             ShopFruitUI.SetActive(true);
             InteractionUI.SetActive(false);
             talking = true;
             PC.TalkingShop = true;
         }
-        if(other.tag == "Player" && Input.GetKey(KeyCode.E) && talking == true && SafeTimer == 1.5)
+        if(other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == true && SafeTimer == 1.5)
         {
             ShopFruitUI.SetActive(false);
             InteractionUI.SetActive(true);

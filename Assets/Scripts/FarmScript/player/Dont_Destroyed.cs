@@ -16,7 +16,6 @@ public class Dont_Destroyed : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-            
         }
         DontDestroyOnLoad(gameObject);
     }

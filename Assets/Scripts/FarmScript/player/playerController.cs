@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 //rajout nouveau system input
-//using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
 
 public class playerController : MonoBehaviour
 {
@@ -13,10 +13,9 @@ public class playerController : MonoBehaviour
 
     // money
     public int money = 0;
-
     // rajout pou desactiver dans village
     public GameObject cameraFerme;
-    //public PlayerInput pI;
+    public PlayerInput pI;
     public bool TalkingShop = false;
     public bool farm = false;
     private playerInput PlayerInput;
@@ -34,7 +33,7 @@ public class playerController : MonoBehaviour
     [SerializeField] private float movespeed;
     private float _targetAngle;
     private float _angle;
-    private CharacterController cc;
+    private CharacterController  cc ;
     private bool verifVillage = true;
     private Scene_verification sv;
     private float tpssave = 0.2f;
@@ -47,21 +46,21 @@ public class playerController : MonoBehaviour
     void Awake()
     {
         //rajout component PlayerInput
-        //pI = GetComponent<PlayerInput>();
+        pI = GetComponent<PlayerInput>();
         cc = GetComponent<CharacterController>();
         PlayerInput = GetComponent<playerInput>();
         sv = GetComponent<Scene_verification>();
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == 2)
+        if(shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == 2)
         {
             shop_Enclos = FindObjectOfType<Shop_Enclos>();
         }
-        if (tpssav == true)
+        if(tpssav == true)
         {
 
             tpssave = tpssave - Time.deltaTime;
@@ -72,7 +71,7 @@ public class playerController : MonoBehaviour
                 tpssav = false;
             }
         }
-        if (SceneManager.GetActiveScene().buildIndex == 2)
+        if(SceneManager.GetActiveScene().buildIndex == 2)
         {
             //modif
             if (verifVillage == true)
@@ -110,13 +109,13 @@ public class playerController : MonoBehaviour
 
 
             }
-
+            
             PlayerMovementVillage();
         }
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             //modif change input
-            /*if (pI.actions["QuickSave"].triggered)
+            if (pI.actions["QuickSave"].triggered)
             {
                 SavePlayerPos();
                 Debug.Log("Save");
@@ -129,10 +128,10 @@ public class playerController : MonoBehaviour
                 {
                     sv.LoadPlayerSc();
                 }
-
-
+                
+                
                 Debug.Log("Load");
-            }*/
+            }
         }
 
     }
@@ -140,23 +139,23 @@ public class playerController : MonoBehaviour
     void PlayerMovementFarmV2()
     {
 
-        /*Vector2 input = pI.actions["Move"].ReadValue<Vector2>();
-        Vector3 move = new Vector3(input.x, 0, input.y);
+        Vector2 input = pI.actions["Move"].ReadValue<Vector2>();
+        Vector3 move = new Vector3(input.x, 0,input.y);
         move = move.x * cam.transform.right + move.z * cam.transform.forward;
         move.y = 0f;
         cc.Move(move * Time.deltaTime * movespeed);
 
-        if (input != Vector2.zero)
+        if(input != Vector2.zero)
         {
             _targetAngle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
             _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, turnSmoothTime);
             //Quaternion rotation = Quaternion.Euler(0, _targetAngle, 0);
             transform.rotation = Quaternion.Euler(0, _angle, 0);
             //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turnSmoothTime);
-
+            
             move = Quaternion.Euler(0, _targetAngle, 0) * Vector3.forward;
         }
-        PlayerSpeed = move;*/
+        PlayerSpeed = move;
     }
     //desactive ancie systeme
     void PlayerMovementFarm()
@@ -202,12 +201,12 @@ public class playerController : MonoBehaviour
             
             cc.Move(PlayerSpeed);*/
             //nouveau system
-            /*Vector2 input = pI.actions["Move"].ReadValue<Vector2>();
+            Vector2 input = pI.actions["Move"].ReadValue<Vector2>();
             Vector3 move = new Vector3(input.x, 0, 0);
             move = move.x * cam.transform.right + move.z * cam.transform.forward;
             move.y = 0f;
             cc.Move(move * Time.deltaTime * movespeed);
-            PlayerSpeed = move;*/
+            PlayerSpeed = move;
             //modif rotation corps
             if (PlayerSpeed.x > 0 && Right == false)
             {
@@ -221,27 +220,27 @@ public class playerController : MonoBehaviour
             //modif rotation corps
             if (PlayerSpeed.x < 0 && Left == false)
             {
-
+                
                 cc.enabled = false;
                 playerBody.transform.rotation = Quaternion.Euler(0, -90, 0);
                 cc.enabled = true;
                 Left = true;
                 Right = false;
                 Shop = false;
-
+                
 
             }
             //modif rotation corps
             if (verifVillage == false)
             {
                 cc.enabled = false;
-                playerBody.transform.rotation = Quaternion.Euler(0, 0, 0);
+                playerBody.transform.rotation = Quaternion.Euler(0,0,0) ;
                 verifVillage = true;
             }
-
+            
         }
         else return;
-
+        
 
     }
     /*void SavePlayerPos()
@@ -306,4 +305,4 @@ public class playerController : MonoBehaviour
             LoadPlayerPos();
         }
     }
-}
+}}

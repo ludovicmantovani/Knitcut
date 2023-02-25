@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+
 
 public class Container : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private PlayerInput pI;
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private GameObject containerInventoryPanel;
     [SerializeField] private GameObject containerInventoryContent;
@@ -36,6 +39,8 @@ public class Container : MonoBehaviour
 
     private void Start()
     {
+
+        pI = GetComponent<PlayerInput>();
         canUseContainer = false;
         containerInUse = false;
 
@@ -77,7 +82,7 @@ public class Container : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && canUseContainer)
+        if (pI.actions["Intercation_Environnements"].triggered && canUseContainer)
         {
             if (!containerInUse)
             {

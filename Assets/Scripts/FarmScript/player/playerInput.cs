@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class playerInput : MonoBehaviour
 {
     #region Variable
-    private Vector2 _movement = Vector2.zero;
+    public Vector2 _movement = Vector2.zero;
     private float mouseX;
     private float mouseY;
     #endregion
@@ -26,9 +26,9 @@ public class playerInput : MonoBehaviour
     void Update()
     {
         //defini les axes sur les quel on vas bouger et leur touches
-        _movement.Set(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
-        mouseX=Input.GetAxis("Mouse X");
-        mouseY=Input.GetAxis("Mouse Y");
+        /*_movement.Set(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        mouseX =Input.GetAxis("Mouse X");
+        mouseY=Input.GetAxis("Mouse Y");*/
         
         
     }

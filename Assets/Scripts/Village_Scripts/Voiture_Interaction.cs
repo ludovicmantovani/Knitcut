@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class Voiture_Interaction : MonoBehaviour
 {
+    public PlayerInput pI;
     [SerializeField] private GameObject InteractionUI;
     private playerController PC;
     private bool RetourFerme = false;
@@ -12,6 +14,7 @@ public class Voiture_Interaction : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        pI = GetComponent<PlayerInput>();
         RetourFerme = false;
         se = FindObjectOfType<Shop_Enclos>();
         PC = FindObjectOfType<playerController>();
@@ -32,7 +35,7 @@ public class Voiture_Interaction : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && Input.GetKey(KeyCode.E) && RetourFerme == false)
+        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && RetourFerme == false)
         {
             Debug.Log("Retour a la ferme");
             RetourFerme = true;

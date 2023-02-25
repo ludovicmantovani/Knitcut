@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class Shop_Enclos : MonoBehaviour
 {
+    public PlayerInput pI;
     [SerializeField] private GameObject InteractionUI;
     [SerializeField] private GameObject ShopEnclosUI;
     float SafeTimer = 0;
@@ -22,6 +24,7 @@ public class Shop_Enclos : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        pI = GetComponent<PlayerInput>();
         playerInventory = FindObjectOfType<PlayerInventory>();
         PC = FindObjectOfType<playerController>();
     }
@@ -31,7 +34,7 @@ public class Shop_Enclos : MonoBehaviour
     {
         TimerVerification();
         ActualisationPrix();
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (pI.actions["QuickSave"].triggered)
         {
             SaveEncloslevel();
         }
@@ -67,14 +70,14 @@ public class Shop_Enclos : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && Input.GetKey(KeyCode.E) && talking == false && SafeTimer == 0)
+        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == false && SafeTimer == 0)
         {
             ShopEnclosUI.SetActive(true);
             InteractionUI.SetActive(false);
             talking = true;
             PC.TalkingShop = true;
         }
-        if (other.tag == "Player" && Input.GetKey(KeyCode.E) && talking == true && SafeTimer == 1.5)
+        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == true && SafeTimer == 1.5)
         {
             ShopEnclosUI.SetActive(false);
             InteractionUI.SetActive(true);
