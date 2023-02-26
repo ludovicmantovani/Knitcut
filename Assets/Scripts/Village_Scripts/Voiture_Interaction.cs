@@ -38,7 +38,10 @@ public class Voiture_Interaction : MonoBehaviour
             RetourFerme = true;
             se.SaveEncloslevel();
             PC.farm = false;
-            SceneManager.LoadScene(1);
+
+            FindObjectOfType<List_Slots>().AutoSavePlayerInventory();
+
+            SceneManager.LoadScene(2);
         }
     }
     private void OnTriggerExit(Collider other)

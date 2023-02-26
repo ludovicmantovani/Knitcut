@@ -27,7 +27,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void Start()
     {
         ls = FindObjectOfType<List_Slots>();
-        item = (Item)ls.stuffs[1];
 
         image = GetComponent<Image>();
 

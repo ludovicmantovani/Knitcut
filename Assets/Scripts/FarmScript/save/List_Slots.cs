@@ -1,13 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class List_Slots : MonoBehaviour
 {
+    [Header("References / Parameters")]
     public GameObject itemUI;
-
+    public playerController pC;
+    public playerInput pI;
     public ScriptableObject[] stuffs;
+
     private bool checkLoad = false;
+    public bool canVerif;
+
+    [Header("Money")]
+    public Text moneyUI;
 
     [Header("PlayerInventory")]
     public GameObject[] playerSlots;
@@ -16,6 +23,7 @@ public class List_Slots : MonoBehaviour
     public int[] quantityStackedPlayerInventory;
 
     [Header("ContainerInventory")]
+    public bool handleContainer;
     public GameObject[] containerSlots;
     public int[] containerItemsInSlot;
     public bool[] containerSlotsObjIn;
@@ -25,250 +33,223 @@ public class List_Slots : MonoBehaviour
 
     private void Start()
     {
-        LoadPlayerInventoryItem();
+        pC = FindObjectOfType<playerController>();
+        pI = FindObjectOfType<playerInput>();
+
+        canVerif = true;
+
         //player
-        for (int i = 0; i < playerSlots.Length; i++)
+        LoadPlayerInventory();
+
+        //container
+        if (handleContainer)
+            LoadContainerInventory();
+
+        HandleMoney();
+    }
+
+    #region Money
+
+    public void UpdateMoney(int moneyUpdated)
+    {
+        pC.money = moneyUpdated;
+        moneyUI.text = $"{pC.money}";
+
+        SaveSystem.SavePlayerMoney(pC);
+    }
+
+    private void HandleMoney()
+    {
+        //pC.money = SaveSystem.LoadPlayerController().money;
+
+        if (SaveSystem.LoadPlayerController() != null)
         {
-            if(playerSlotsObjIn[i] == true)
+            pC.money = SaveSystem.LoadPlayerController().money;
+        }
+
+        moneyUI.text = $"{pC.money}";
+    }
+
+    #endregion
+
+    #region Load Inventory
+
+    private void LoadPlayerInventory()
+    {
+        LoadPlayerInventoryItem();
+        LoadInventory(playerSlots, playerSlotsObjIn, itemsInSlot, quantityStackedPlayerInventory);
+    }
+
+    private void LoadContainerInventory()
+    {
+        LoadContainerInventoryItem();
+        LoadInventory(containerSlots, containerSlotsObjIn, containerItemsInSlot, quantityStackedContainerInventory);
+    }
+
+    private void LoadInventory(GameObject[] listSlots, bool[] objectInSlots, int[] itemsInSlot, int[] quantityStackedInventory)
+    {
+        for (int i = 0; i < listSlots.Length; i++)
+        {
+            if (objectInSlots[i] == true)
             {
-                Instantiate(itemUI, playerSlots[i].transform);
+                Instantiate(itemUI, listSlots[i].transform);
             }
         }
+        for (int i = 0; i < listSlots.Length; i++)
+        {
+            if (listSlots[i].transform.childCount > 0)
+            {
+                listSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlot[i]];
+                listSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked = quantityStackedInventory[i];
+            }
+
+        }
+    }
+
+    #endregion
+
+    private void Update()
+    {
+        SaveInventoryItem();
+
+        HandleMoney();
+    }
+
+    private void LateUpdate()
+    {
+        if (canVerif)
+        {
+            if (checkLoad == false)
+            {
+                ApplySave();
+                if (handleContainer)
+                    ApplySaveContainer();
+                checkLoad = true;
+            }
+
+            VerificationChild();
+            if (handleContainer)
+                VerificationChildContainer();
+        }
+    }
+
+    public void AutoSavePlayerInventory()
+    {
+        SaveSystem.SavePlayerInventory(this);
+    }
+
+    public void AutoSaveContainerInventory()
+    {
+        SaveSystem.SaveContainerInventory(this);
+    }
+
+    private void SaveInventoryItem()
+    {
+        if (Input.GetKey(KeyCode.M))
+        {
+            SaveSystem.SavePlayerMoney(pC);
+            SaveSystem.SavePlayerInventory(this);
+            SaveSystem.SaveContainerInventory(this);
+        }
+        /*if (pI.actions["save_Inventory"].triggered)
+        {
+            SaveSystem.SavePlayerInventorySlot(this);
+        }*/
+    }
+
+    private void LoadPlayerInventoryItem()
+    {
+        PlayerInventory_Data data = SaveSystem.LoadPlayerInventory();
+
+        for (int i = 0; i < playerSlotsObjIn.Length; i++)
+        {
+            playerSlotsObjIn[i] = data.playerSlotsObjIn[i];
+
+            itemsInSlot[i] = data.itemsInSlot[i];
+
+            quantityStackedPlayerInventory[i] = data.quantityStackedPlayerInventory[i];
+        }
+    }
+
+    private void LoadContainerInventoryItem()
+    {
+        ContainerInventory_Data data = SaveSystem.LoadContainerInventory();
+
+        for (int i = 0; i < containerSlotsObjIn.Length; i++)
+        {
+            containerSlotsObjIn[i] = data.containerSlotsObjIn[i];
+
+            containerItemsInSlot[i] = data.containerItemsInSlot[i];
+
+            quantityStackedContainerInventory[i] = data.quantityStackedContainerInventory[i];
+        }
+    }
+
+    private void ApplySave()
+    {
         for (int i = 0; i < playerSlots.Length; i++)
         {
             if (playerSlots[i].transform.childCount > 0)
             {
-                if (itemsInSlot[i] == 0)
-                {
-                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[0];
-                }
-                if (itemsInSlot[i] == 1)
-                {
-                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[1];
-                }
-                if (itemsInSlot[i] == 2)
-                {
-                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[2];
-                }
-                playerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked = quantityStackedPlayerInventory[i];
-            }
+                playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlot[i]];
+            }            
+        }
+    }
 
-        }
-        //container
-        LoadContainerInventoryItem();
-        for (int i = 0; i < containerSlots.Length; i++)
-        {
-            if (containerSlotsObjIn[i] == true)
-            {
-                Instantiate(itemUI, containerSlots[i].transform);
-            }
-        }
+    private void ApplySaveContainer()
+    {
         for (int i = 0; i < containerSlots.Length; i++)
         {
             if (containerSlots[i].transform.childCount > 0)
             {
-                if (containerItemsInSlot[i] == 0)
-                {
-                    containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[0];
-                }
-                if (containerItemsInSlot[i] == 1)
-                {
-                    containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[1];
-                }
-                if (containerItemsInSlot[i] == 2)
-                {
-                    containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[2];
-                }
-                containerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked = quantityStackedContainerInventory[i];
+                containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[containerItemsInSlot[i]];
             }
-
         }
+    }
 
-    }
-    private void Update()
-    {
-        SaveInventoryItem();
-        
-    }
-    private void LateUpdate()
-    {
-        if (checkLoad == false)
-        {
-            ApplySave();
-            ApplySaveContainer();
-            checkLoad = true;
-
-        }
-        VerificationChild();
-        VerificationChildContainer();
-    }
-    public void VerificationChild()
+    private void VerificationChild()
     {
         for (int i = 0; i < playerSlots.Length; i++)
         {
             if (playerSlots[i].transform.childCount > 0)
             {
                 playerSlotsObjIn[i] = true;
+
+                quantityStackedPlayerInventory[i] = playerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked;
+
+                itemsInSlot[i] = Array.IndexOf(stuffs, playerSlots[i].GetComponentInChildren<DraggableItem>().Item);
             }
             else
             {
                 playerSlotsObjIn[i] = false;
-            }
-            if (playerSlots[i].transform.childCount > 0)
-            {
-                quantityStackedPlayerInventory[i] = playerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked;
-            }
-            else
-            {
+
                 quantityStackedPlayerInventory[i] = 0;
-            }
-            if (playerSlots[i].transform.childCount > 0)
-            {
-                if (stuffs[0] == playerSlots[i].GetComponentInChildren<DraggableItem>().Item)
-                {
-                    itemsInSlot[i] = 0;
-                }
-                else if (stuffs[1] == playerSlots[i].GetComponentInChildren<DraggableItem>().Item)
-                {
-                    itemsInSlot[i] = 1;
-                }
-                else if (stuffs[2] == playerSlots[i].GetComponentInChildren<DraggableItem>().Item)
-                {
-                    itemsInSlot[i] = 2;
-                }
-                
-            }
-            else
-            {
+
                 itemsInSlot[i] = -1;
             }
         }
     }
-    void SaveInventoryItem()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            SaveSystem.SavePlayerInventorySlot(this);
-        }
-    }
-    void LoadPlayerInventoryItem()
-    {
-        Inventory_Data data = SaveSystem.LoadPlayerInventorySlot();
-        for (int i = 0; i < playerSlotsObjIn.Length; i++)
-        {
-            playerSlotsObjIn[i] = data.playerSlotsObjIn[i];
-        }
-        for (int i = 0; i < itemsInSlot.Length; i++)
-        {
-            itemsInSlot[i] = data.itemsInSlot[i];
-        }
-        for (int i = 0; i < quantityStackedPlayerInventory.Length; i++)
-        {
-            quantityStackedPlayerInventory[i] = data.quantityStackedPlayerInventory[i];
-        }
-    }
-    void ApplySave()
-    {
-        for (int i = 0; i < playerSlots.Length; i++)
-        {
-            if (playerSlots[i].transform.childCount > 0)
-            {
-                if(itemsInSlot[i] == 0)
-                {
-                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[0];
-                }
-                if (itemsInSlot[i] == 1)
-                {
-                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[1];
-                }
-                if (itemsInSlot[i] == 2)
-                {
-                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[2];
-                }
-            }
-            
-        }
-    }
-    void ApplySaveContainer()
-    {
-        for (int i = 0; i < containerSlots.Length; i++)
-        {
-            if (containerSlots[i].transform.childCount > 0)
-            {
-                if (containerItemsInSlot[i] == 0)
-                {
-                    containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[0];
-                }
-                if (containerItemsInSlot[i] == 1)
-                {
-                    containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[1];
-                }
-                if (containerItemsInSlot[i] == 2)
-                {
-                    containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[2];
-                }
-            }
 
-        }
-    }
-
-    public void VerificationChildContainer()
+    private void VerificationChildContainer()
     {
         for (int i = 0; i < containerSlots.Length; i++)
         {
             if (containerSlots[i].transform.childCount > 0)
             {
                 containerSlotsObjIn[i] = true;
+
+                quantityStackedContainerInventory[i] = containerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked;
+
+                containerItemsInSlot[i] = Array.IndexOf(stuffs, containerSlots[i].GetComponentInChildren<DraggableItem>().Item);
             }
             else
             {
                 containerSlotsObjIn[i] = false;
-            }
-            if (containerSlots[i].transform.childCount > 0)
-            {
-                quantityStackedContainerInventory[i] = containerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked;
-            }
-            else
-            {
-                quantityStackedContainerInventory[i] = 0;
-            }
-            if (containerSlots[i].transform.childCount > 0)
-            {
-                if (stuffs[0] == containerSlots[i].GetComponentInChildren<DraggableItem>().Item)
-                {
-                    containerItemsInSlot[i] = 0;
-                }
-                else if (stuffs[1] == containerSlots[i].GetComponentInChildren<DraggableItem>().Item)
-                {
-                    containerItemsInSlot[i] = 1;
-                }
-                else if (stuffs[2] == containerSlots[i].GetComponentInChildren<DraggableItem>().Item)
-                {
-                    containerItemsInSlot[i] = 2;
-                }
 
-            }
-            else
-            {
+                quantityStackedContainerInventory[i] = 0;
+
                 containerItemsInSlot[i] = -1;
             }
-        }
-    }
-
-    public void LoadContainerInventoryItem()
-    {
-        Inventory_Data data = SaveSystem.LoadPlayerInventorySlot();
-        for (int i = 0; i < containerSlotsObjIn.Length; i++)
-        {
-            containerSlotsObjIn[i] = data.containerSlotsObjIn[i];
-        }
-        for (int i = 0; i < containerItemsInSlot.Length; i++)
-        {
-            containerItemsInSlot[i] = data.containerItemsInSlot[i];
-        }
-        for (int i = 0; i < quantityStackedContainerInventory.Length; i++)
-        {
-            quantityStackedContainerInventory[i] = data.quantityStackedContainerInventory[i];
         }
     }
 }

@@ -9,10 +9,11 @@ public class Recipe : ScriptableObject
     [Serializable]
     public class ConsumablesRequired
     {
-        public Consumable consumable;
+        public Item consumable;
         public int quantity;
     }
 
+    public string recipeIndex;
     public string recipeName;
     public string recipeDescription;
     public List<ConsumablesRequired> consumablesRequired;
@@ -33,7 +34,7 @@ public class Recipe : ScriptableObject
             else
                 builder.Append($"<color=red>");
 
-            builder.Append($"x{consumablesRequired[i].quantity} {consumablesRequired[i].consumable.consumableName}</color>").AppendLine();
+            builder.Append($"x{consumablesRequired[i].quantity} {consumablesRequired[i].consumable.itemName}</color>").AppendLine();
         }
 
         return builder.ToString();
@@ -43,11 +44,11 @@ public class Recipe : ScriptableObject
     {
         bool canUse = false;
 
-        List<Consumable> consumablesPossessed = FindObjectOfType<Cooking>().ConsumablesPossessed;
+        List<Item> consumablesPossessed = FindObjectOfType<Cooking>().ConsumsPossessed;
 
         for (int i = 0; i < consumablesPossessed.Count; i++)
         {
-            if (consumablesPossessed[i] == consumableRequired.consumable && consumablesPossessed[i].quantity >= consumableRequired.quantity)
+            if (consumablesPossessed[i] == consumableRequired.consumable && consumablesPossessed[i].itemValue >= consumableRequired.quantity)
             {
                 canUse = true;
             }

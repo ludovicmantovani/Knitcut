@@ -32,7 +32,12 @@ public class VoitureFarm : MonoBehaviour
         {
             Debug.Log("Retour a la ferme");
             RetourVillage = true;
-            SceneManager.LoadScene(2);
+
+            FindObjectOfType<playerController>().SavePlayerPos();
+            FindObjectOfType<List_Slots>().AutoSavePlayerInventory();
+            FindObjectOfType<List_Slots>().AutoSaveContainerInventory();
+
+            SceneManager.LoadScene(3);
         }
     }
     private void OnTriggerExit(Collider other)

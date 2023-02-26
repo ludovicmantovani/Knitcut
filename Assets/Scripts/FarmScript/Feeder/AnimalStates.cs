@@ -62,11 +62,11 @@ public class AnimalStates : MonoBehaviour
     {
         Item food = feeder.GetFood();
 
-        if (!feeding && food != null && maxHunger - hunger >= food.itemPrice)
+        if (!feeding && food != null && maxHunger - hunger >= food.itemValue)
         {
             feeding = true;
 
-            Feed(food.itemPrice);
+            Feed(food.itemValue);
 
             feeder.RemoveItem(food);
         }
@@ -106,8 +106,6 @@ public class AnimalStates : MonoBehaviour
     private void HandleHappiness()
     {
         float percentageHunger = hunger / maxHunger;
-
-        Debug.Log($"{percentageHunger} vs {requiredHungerForHappiness}");
 
         if (percentageHunger >= requiredHungerForHappiness)
         {
