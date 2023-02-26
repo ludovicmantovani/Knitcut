@@ -53,6 +53,12 @@ public class FlowerGameManager : MonoBehaviour
             if (gameCanvas) gameCanvas.SetActive(false);
             if (resultCanvas)
             {
+
+                List<object> data = new List<object>();
+                data.Add(_win);
+                MinigameManager.mgType = MinigameManager.MGType.Breeding;
+                MinigameManager.AddData(data);
+
                 resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win);
                 resultCanvas.SetActive(true);
             };
