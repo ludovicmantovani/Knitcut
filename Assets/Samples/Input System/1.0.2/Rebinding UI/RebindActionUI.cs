@@ -355,7 +355,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             //Check for duplicate composite bindings
             if (allCompositeParts)
             {
-                for(int i = 1; i<bindingIndex; ++i)
+                for(int i = 0; i<bindingIndex; ++i)
                 {
                     if(action.bindings[i].effectivePath == newBinding.effectivePath)
                     {

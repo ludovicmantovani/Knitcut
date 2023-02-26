@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SaveInputs : MonoBehaviour
+public class RebindSaveLoad : MonoBehaviour
 {
     public InputActionAsset actions;
 
@@ -11,17 +9,12 @@ public class SaveInputs : MonoBehaviour
     {
         var rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))
-        {
-            actions.LoadFromJson(rebinds);
-        }
+            actions.LoadBindingOverridesFromJson(rebinds);
     }
+
     public void OnDisable()
     {
-        var rebinds = actions.ToJson();
+        var rebinds = actions.SaveBindingOverridesAsJson();
         PlayerPrefs.SetString("rebinds", rebinds);
     }
 }
-
-
-
-
