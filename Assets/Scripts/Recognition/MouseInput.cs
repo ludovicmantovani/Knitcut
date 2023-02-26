@@ -2,12 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace Recognition
 {
     public class MouseInput : MonoBehaviour
     {
         MouseGesture mouseGesture;
+
+        [Header("Saving References")]
+        [SerializeField] private string sceneToSave;
 
         [Header("Gesture Properties")]
         [Tooltip("The distance of the rayCast to see if a object is Interactive")]
@@ -158,13 +162,28 @@ namespace Recognition
                 
                 Transform rawImageDrawingTransform = resultCanvas.gameObject.transform.Find("RawImageDrawing");
                 if (rawImageDrawingTransform && texture2D) rawImageDrawingTransform.GetComponent<RawImage>().texture = texture2D;
-                
+
                 //TODO : Set money
-                
+
+                // Save datas
+                List<object> data = new List<object>();
+
+                data.Add(25);
+
+                MinigameManager.mgType = MinigameManager.MGType.Recognition;
+                MinigameManager.AddData(data);
+
                 //TODO : Set commentary
-                
+
                 resultCanvas.gameObject.SetActive(true);
             }
+        }
+
+        public void Quit()
+        {
+            Debug.Log($"Quitting... return to game");
+
+            SceneManager.LoadScene(sceneToSave);
         }
 
         #endregion

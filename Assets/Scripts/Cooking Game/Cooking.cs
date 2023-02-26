@@ -14,7 +14,6 @@ public class Cooking : MonoBehaviour
 
     [Header("Saving References")]
     [SerializeField] private string sceneToSave;
-    [SerializeField] private GameObject dishes;
 
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
@@ -33,13 +32,13 @@ public class Cooking : MonoBehaviour
 
     [Header("Lists")]
     [SerializeField] private List<Recipe> recipes = new List<Recipe>();
-    [SerializeField] private List<Consumable> consumablesPossessed = new List<Consumable>();
+    [SerializeField] private List<Item> consumsPossessed = new List<Item>();
 
     private bool recipeInPreparation;
 
-    public List<Consumable> ConsumablesPossessed
+    public List<Item> ConsumsPossessed
     {
-        get { return consumablesPossessed; }
+        get { return consumsPossessed; }
     }
 
     Consumable3DSpawner consumable3DSpawner;
@@ -108,22 +107,21 @@ public class Cooking : MonoBehaviour
 
         float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
 
-        // Create "Final Product" Item
-        Item finalProductItem = ScriptableObject.CreateInstance(typeof(Item)) as Item;
+        // Save datas
+        List<object> data = new List<object>();
 
-        finalProductItem.name = finalProductItem.itemName = currentRecipe.finalProduct.GetComponent<DishInfos>().dishName;
-        finalProductItem.itemDescription = currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription;
-        finalProductItem.itemPrice = finalPrice;
-        finalProductItem.itemType = ItemType.Consumable;
-        finalProductItem.itemSprite = currentRecipe.finalProduct.GetComponent<DishInfos>().dishSprite;
+        data.Add(currentRecipe.finalProduct.GetComponent<DishInfos>().dishName);
+        data.Add(currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription);
+        data.Add(finalPrice);
+        data.Add(currentRecipe.recipeIndex);
 
-        // Add to items to save
-        dishes.GetComponent<DontDestroyOnLoad>().SaveItem(finalProductItem);
+        MinigameManager.mgType = MinigameManager.MGType.Cooking;
+        MinigameManager.AddData(data);
 
         // Rich Text
         StringBuilder builder = new StringBuilder();
 
-        builder.Append($"Plat <color=orange>'{finalProductItem.name}'</color> préparé  avec succès !").AppendLine().AppendLine();
+        builder.Append($"Plat <color=orange>'{currentRecipe.finalProduct.GetComponent<DishInfos>().dishName}'</color> préparé  avec succès !").AppendLine().AppendLine();
         builder.Append($"Prix du plat = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
 
         resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
@@ -180,13 +178,12 @@ public class Cooking : MonoBehaviour
             // For each consumable required for the recipe
             for (int i = 0; i < recipe.consumablesRequired.Count; i++)
             {
-                // If player do not possessed the required consumable, can not cook recipe
-                if (!consumablesPossessed.Contains(recipe.consumablesRequired[i].consumable))
+                if (!consumsPossessed.Contains(recipe.consumablesRequired[i].consumable))
                 {
                     recipeCanBeCooked = false;
                 }
 
-                if (consumablesPossessed.Contains(recipe.consumablesRequired[i].consumable) && consumablesPossessed[i].quantity < recipe.consumablesRequired[i].quantity)
+                if (consumsPossessed.Contains(recipe.consumablesRequired[i].consumable) && consumsPossessed[i].itemValue < recipe.consumablesRequired[i].quantity)
                 {
                     recipeCanBeCooked = false;
                 }
@@ -287,11 +284,11 @@ public class Cooking : MonoBehaviour
             int index = 0;
             for (int i = 0; i < currentRecipe.consumablesRequired.Count; i++)
             {
-                UpdateConsumable(currentRecipe.consumablesRequired[i].consumable, currentRecipe.consumablesRequired[i].consumable.quantity - currentRecipe.consumablesRequired[i].quantity);
+                UpdateConsumable(currentRecipe.consumablesRequired[i].consumable, (int)currentRecipe.consumablesRequired[i].consumable.itemValue - currentRecipe.consumablesRequired[i].quantity);
 
                 for (int j = 0; j < currentRecipe.consumablesRequired[i].quantity; j++)
                 {
-                    consumablesRequired[index] = currentRecipe.consumablesRequired[i].consumable.consumableObject;
+                    consumablesRequired[index] = currentRecipe.consumablesRequired[i].consumable.itemObject;
                     index++;
                 }
             }
@@ -362,18 +359,18 @@ public class Cooking : MonoBehaviour
 
     private void InitializeConsumablesPossessed()
     {
-        for (int i = 0; i < consumablesPossessed.Count; i++)
+        for (int i = 0; i < consumsPossessed.Count; i++)
         {
-            consumablesPossessed[i].InitializeQuantity();
+            consumsPossessed[i].InitializeValue();
         }
     }
 
-    private void UpdateConsumable(Consumable consumableToUpdateQuantity, int newQuantity)
+    private void UpdateConsumable(Item consumableToUpdateQuantity, int newQuantity)
     {
         if (newQuantity < 0)
             newQuantity = 0;
 
-        consumableToUpdateQuantity.quantity = newQuantity;
+        consumableToUpdateQuantity.itemValue = newQuantity;
     }
 
     #endregion

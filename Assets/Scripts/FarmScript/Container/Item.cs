@@ -6,18 +6,25 @@ public class Item : ScriptableObject
 {
     public string itemName;
     public string itemDescription;
-    public float itemPrice;
+    public float itemBaseValue;
+    public float itemValue;
     public ItemType itemType;
     public Sprite itemSprite;
-    public ScriptableObject itemSpecifities;
+    public GameObject itemObject;
     public bool isStackable;
     public int maxStackSize = 1;
+
+    public void InitializeValue()
+    {
+        itemValue = itemBaseValue;
+    }
 }
 
 public enum ItemType
 {
     Consumable,
     Recipe,
+    Dish,
     Tool,
     Other
 }
