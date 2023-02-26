@@ -1,10 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnimalStates : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Feeder feeder;
+    [SerializeField] private GameObject animalCanvas;
+    [SerializeField] private Text animalName;
+    [SerializeField] private Slider animalHungerSlider;
+    [SerializeField] private Image animalHappinessImage;
 
     [Header("Hunger parameters")]
     [SerializeField] private float hunger = 0;
@@ -19,6 +24,8 @@ public class AnimalStates : MonoBehaviour
     [Header("Happiness parameters")]
     [SerializeField] private int happiness;
     [SerializeField] private float requiredHungerForHappiness = 0.6f;
+    [SerializeField] private Color happyColor;
+    [SerializeField] private Color sadColor;
 
     void Start()
     {
@@ -27,6 +34,10 @@ public class AnimalStates : MonoBehaviour
 
     void Update()
     {
+        animalCanvas.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+
+        animalName.text = name;
+
         HandleHunger();
 
         HandleHappiness();
@@ -41,6 +52,9 @@ public class AnimalStates : MonoBehaviour
         decreasing = false;
         searchingFood = false;
         feeding = false;
+
+        animalHungerSlider.maxValue = maxHunger;
+        animalHungerSlider.value = hunger;
     }
 
     private void HandleHunger()
@@ -56,6 +70,8 @@ public class AnimalStates : MonoBehaviour
 
             SearchFood();
         }
+
+        animalHungerSlider.value = hunger;
     }
 
     private void SearchFood()
@@ -110,10 +126,12 @@ public class AnimalStates : MonoBehaviour
         if (percentageHunger >= requiredHungerForHappiness)
         {
             happiness = 1;
+            animalHappinessImage.color = happyColor;
         }
         else
         {
             happiness = 0;
+            animalHappinessImage.color = sadColor;
         }
 
         //CheckBreeding();
