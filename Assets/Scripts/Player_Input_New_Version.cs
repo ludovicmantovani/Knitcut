@@ -262,6 +262,54 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MiniGames"",
+            ""id"": ""d503e4d5-b276-45db-b850-dda48f9d6031"",
+            ""actions"": [
+                {
+                    ""name"": ""Mouse_Position"",
+                    ""type"": ""Value"",
+                    ""id"": ""5fae66e7-28ee-4565-be8b-b31012865537"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Mouse_Bouton_0"",
+                    ""type"": ""Button"",
+                    ""id"": ""b5bf354e-50c6-4d17-a2d3-5698173fb0ed"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3abf732d-99bd-49a1-966c-a921e6a4e556"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse_Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bcbe88c7-37b7-4ce7-bfd0-4c87b4b7cd3e"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse_Bouton_0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -279,6 +327,10 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         // Manual_Save
         m_Manual_Save = asset.FindActionMap("Manual_Save", throwIfNotFound: true);
         m_Manual_Save_save_Inventory = m_Manual_Save.FindAction("save_Inventory", throwIfNotFound: true);
+        // MiniGames
+        m_MiniGames = asset.FindActionMap("MiniGames", throwIfNotFound: true);
+        m_MiniGames_Mouse_Position = m_MiniGames.FindAction("Mouse_Position", throwIfNotFound: true);
+        m_MiniGames_Mouse_Bouton_0 = m_MiniGames.FindAction("Mouse_Bouton_0", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -484,6 +536,60 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         }
     }
     public Manual_SaveActions @Manual_Save => new Manual_SaveActions(this);
+
+    // MiniGames
+    private readonly InputActionMap m_MiniGames;
+    private List<IMiniGamesActions> m_MiniGamesActionsCallbackInterfaces = new List<IMiniGamesActions>();
+    private readonly InputAction m_MiniGames_Mouse_Position;
+    private readonly InputAction m_MiniGames_Mouse_Bouton_0;
+    public struct MiniGamesActions
+    {
+        private @Player_Input_New_Version m_Wrapper;
+        public MiniGamesActions(@Player_Input_New_Version wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Mouse_Position => m_Wrapper.m_MiniGames_Mouse_Position;
+        public InputAction @Mouse_Bouton_0 => m_Wrapper.m_MiniGames_Mouse_Bouton_0;
+        public InputActionMap Get() { return m_Wrapper.m_MiniGames; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MiniGamesActions set) { return set.Get(); }
+        public void AddCallbacks(IMiniGamesActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MiniGamesActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MiniGamesActionsCallbackInterfaces.Add(instance);
+            @Mouse_Position.started += instance.OnMouse_Position;
+            @Mouse_Position.performed += instance.OnMouse_Position;
+            @Mouse_Position.canceled += instance.OnMouse_Position;
+            @Mouse_Bouton_0.started += instance.OnMouse_Bouton_0;
+            @Mouse_Bouton_0.performed += instance.OnMouse_Bouton_0;
+            @Mouse_Bouton_0.canceled += instance.OnMouse_Bouton_0;
+        }
+
+        private void UnregisterCallbacks(IMiniGamesActions instance)
+        {
+            @Mouse_Position.started -= instance.OnMouse_Position;
+            @Mouse_Position.performed -= instance.OnMouse_Position;
+            @Mouse_Position.canceled -= instance.OnMouse_Position;
+            @Mouse_Bouton_0.started -= instance.OnMouse_Bouton_0;
+            @Mouse_Bouton_0.performed -= instance.OnMouse_Bouton_0;
+            @Mouse_Bouton_0.canceled -= instance.OnMouse_Bouton_0;
+        }
+
+        public void RemoveCallbacks(IMiniGamesActions instance)
+        {
+            if (m_Wrapper.m_MiniGamesActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMiniGamesActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MiniGamesActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MiniGamesActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MiniGamesActions @MiniGames => new MiniGamesActions(this);
     public interface IActionsActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -498,5 +604,10 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
     public interface IManual_SaveActions
     {
         void OnSave_Inventory(InputAction.CallbackContext context);
+    }
+    public interface IMiniGamesActions
+    {
+        void OnMouse_Position(InputAction.CallbackContext context);
+        void OnMouse_Bouton_0(InputAction.CallbackContext context);
     }
 }

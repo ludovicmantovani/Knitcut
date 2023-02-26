@@ -11,7 +11,8 @@
                     "id": "7cecbf22-58a6-49ee-947a-800f55e9b56c",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "CameraLook",
@@ -19,7 +20,8 @@
                     "id": "a6670b77-6096-44ac-8ce9-b05c2319fcb9",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "QuickSave",
@@ -27,7 +29,8 @@
                     "id": "95dcea50-8535-4c31-b156-fd5c855b899e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "QuickLoad",
@@ -35,7 +38,8 @@
                     "id": "39ad0cac-e21c-4190-86ca-5fa1e9b97ed7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Intercation_Environnements",
@@ -43,7 +47,8 @@
                     "id": "9d6bc202-ba0e-407e-8035-a86912b6cffc",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Heal_plant",
@@ -51,7 +56,8 @@
                     "id": "3630e42c-d137-46eb-b4e2-c43d7277b72b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Hydrate_plant",
@@ -59,7 +65,8 @@
                     "id": "05251346-08ee-4480-8604-8e2e317cd163",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Inventory",
@@ -67,7 +74,8 @@
                     "id": "4d4a2371-3862-4c72-ac46-6b268d9e2350",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -215,7 +223,8 @@
                     "id": "16f9757d-2620-492d-9815-83cafac40075",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -227,6 +236,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "save_Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MiniGames",
+            "id": "d503e4d5-b276-45db-b850-dda48f9d6031",
+            "actions": [
+                {
+                    "name": "Mouse_Position",
+                    "type": "Value",
+                    "id": "5fae66e7-28ee-4565-be8b-b31012865537",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Mouse_Bouton_0",
+                    "type": "Button",
+                    "id": "b5bf354e-50c6-4d17-a2d3-5698173fb0ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3abf732d-99bd-49a1-966c-a921e6a4e556",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mouse_Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bcbe88c7-37b7-4ce7-bfd0-4c87b4b7cd3e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mouse_Bouton_0",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

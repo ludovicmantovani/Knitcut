@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Feeder : MonoBehaviour
 {
+    public PlayerInput pI;
     [Header("Feeder Inventory")]
     [SerializeField] private bool canUseFeeder;
     [SerializeField] private bool feederInUse;
@@ -18,6 +20,7 @@ public class Feeder : MonoBehaviour
 
     private void Start()
     {
+        pI = GetComponent<PlayerInput>();
         canUseFeeder = false;
         feederInUse = false;
 
@@ -83,7 +86,7 @@ public class Feeder : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && canUseFeeder)
+        if (pI.actions["Intercation_Environnements"].triggered && canUseFeeder)
         {
             if (!feederInUse)
             {
@@ -100,14 +103,14 @@ public class Feeder : MonoBehaviour
     {
         feederInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use E to close Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].triggered + " to close Feeder";
     }
 
     private void CloseFeederInventory()
     {
         feederInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].triggered + " to open Feeder";
     }
 
     #endregion

@@ -39,6 +39,7 @@ public class UI_Menu : MonoBehaviour
     private float yStartPos;
 
     public Slider volume;
+    public VolumeCTRL audioVolume;
 
     public bool startCredits = false;
     void Start()
@@ -106,6 +107,7 @@ public class UI_Menu : MonoBehaviour
     {
         menuOptions.SetActive(true);
         menuAudio.SetActive(false);
+        SaveVolumeSystem();
     }
     public void MenuSettings()
     {
@@ -188,5 +190,9 @@ public class UI_Menu : MonoBehaviour
     {
         Audio_Data data = SaveSystem.LoadVolume();
         volume.value = data.volume;
+    }
+    void SaveVolumeSystem()
+    {
+        SaveSystem.SaveVolume(this);
     }
 }

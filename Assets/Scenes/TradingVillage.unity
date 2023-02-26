@@ -6201,6 +6201,7 @@ GameObject:
   - component: {fileID: 1715062730}
   - component: {fileID: 1715062728}
   - component: {fileID: 1715062729}
+  - component: {fileID: 1715062732}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -6313,6 +6314,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1715062732
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715062727}
+  m_Enabled: 1
 --- !u!1 &1723069896
 GameObject:
   m_ObjectHideFlags: 0
@@ -6478,6 +6487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
@@ -6491,6 +6501,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!114 &1761652321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7352,6 +7363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0383108251a9c419f443d2fc215cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pI: {fileID: 0}
   sceneIndex: 0
   sceneIndexSave: 0
 --- !u!1 &2117940300

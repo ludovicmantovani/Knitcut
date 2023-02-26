@@ -138,7 +138,8 @@ public class Cooking : MonoBehaviour
     {
         Debug.Log($"Quitting... return to game");
 
-        SceneManager.LoadScene(sceneToSave);
+        //SceneManager.LoadScene(sceneToSave);
+        SceneManager.LoadScene("FarmScene");
     }
 
     #endregion
