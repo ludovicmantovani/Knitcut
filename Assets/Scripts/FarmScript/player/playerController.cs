@@ -305,4 +305,4 @@ public class playerController : MonoBehaviour
             LoadPlayerPos();
         }
     }
-}}
+}
