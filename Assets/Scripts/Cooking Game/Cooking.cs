@@ -74,7 +74,8 @@ public class Cooking : MonoBehaviour
 
         consumablesList.text = "";
 
-        resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "";
+        //resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "";
+        // TODO voir si besoin rezet le texte
     }
 
     private void Update()
@@ -119,14 +120,25 @@ public class Cooking : MonoBehaviour
         MinigameManager.AddData(data);
 
         // Rich Text
-        StringBuilder builder = new StringBuilder();
+        /*StringBuilder builder = new StringBuilder();
 
         builder.Append($"Plat <color=orange>'{currentRecipe.finalProduct.GetComponent<DishInfos>().dishName}'</color> préparé  avec succès !").AppendLine().AppendLine();
         builder.Append($"Prix du plat = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
 
-        //resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
+        resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
+        */
 
-        resultUI.gameObject.SetActive(true);
+        CookingResultCanvas cookingResultCanvas = null;
+        if (resultUI &&
+            resultUI.TryGetComponent<CookingResultCanvas>(out cookingResultCanvas))
+        {
+            cookingResultCanvas.SetData(
+                Mathf.FloorToInt(finalPrice).ToString(),
+                Mathf.FloorToInt(consumables3Dsliced).ToString() + "/" + Mathf.FloorToInt(totalConsumablesRequired).ToString(),
+                currentRecipe.finalProduct.GetComponent<DishInfos>().dishName + " préparé  avec succès !"
+                );
+            resultUI.gameObject.SetActive(true);
+        }
     }
 
     public void Restart()
