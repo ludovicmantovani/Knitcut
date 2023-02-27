@@ -25,11 +25,11 @@ public class MinigameManager : MonoBehaviour
 
     private void Start()
     {
-        mgType = MGType.NULL;
+        /*mgType = MGType.NULL;
 
         dataToKeep = new List<object>();
 
-        dataLoaded = false;
+        dataLoaded = false;*/
     }
 
     private void Update()
@@ -51,6 +51,7 @@ public class MinigameManager : MonoBehaviour
 
     public static void AddData(List<object> data)
     {
+        //dataToKeep = new List<object>();
         dataToKeep = data;
     }
 
