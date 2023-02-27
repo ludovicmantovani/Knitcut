@@ -10,7 +10,7 @@ public class Cooking : MonoBehaviour
 {
     [Header("UI Panels")]
     [SerializeField] private GameObject cookingUI;
-    [SerializeField] private GameObject resultUI;
+    [SerializeField] private Canvas resultUI;
 
     [Header("Saving References")]
     [SerializeField] private string sceneToSave;
@@ -124,7 +124,7 @@ public class Cooking : MonoBehaviour
         builder.Append($"Plat <color=orange>'{currentRecipe.finalProduct.GetComponent<DishInfos>().dishName}'</color> préparé  avec succès !").AppendLine().AppendLine();
         builder.Append($"Prix du plat = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
 
-        resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
+        //resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
 
         resultUI.gameObject.SetActive(true);
     }
