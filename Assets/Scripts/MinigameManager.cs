@@ -63,11 +63,11 @@ public class MinigameManager : MonoBehaviour
 
     private void CheckItemsToAdd()
     {
-        /*Debug.Log($"MGTYPE : {mgType}");
+        Debug.Log($"MGTYPE : {mgType}");
         for (int i = 0; i < dataToKeep.Count; i++)
         {
             Debug.Log($"{i}. {dataToKeep[i]}");
-        }*/
+        }
 
         if (listSlots == null) return;
 
