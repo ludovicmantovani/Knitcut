@@ -103,14 +103,14 @@ public class Feeder : MonoBehaviour
     {
         feederInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].triggered + " to close Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to close Feeder";
     }
 
     private void CloseFeederInventory()
     {
         feederInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].triggered + " to open Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Feeder";
     }
 
     #endregion
