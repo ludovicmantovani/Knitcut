@@ -6,7 +6,13 @@ using UnityEngine.SceneManagement;
 public class MinigameManager : MonoBehaviour
 {
     [SerializeField] private static List<object> dataToKeep;
-    [SerializeField] private string sceneToLoad;
+    [SerializeField] private static bool startOK;
+
+    public static bool StartOK
+    {
+        get { return startOK; }
+        set { startOK = value; }
+    }
 
     private List_Slots listSlots;
 
@@ -30,15 +36,12 @@ public class MinigameManager : MonoBehaviour
         dataToKeep = new List<object>();
 
         dataLoaded = false;*/
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
-
         if (dataLoaded)
         {
             dataLoaded = false;
@@ -46,6 +49,31 @@ public class MinigameManager : MonoBehaviour
             listSlots = FindObjectOfType<List_Slots>();
 
             CheckItemsToAdd();
+        }
+
+        HandleCursor();
+    }
+
+    private void HandleCursor()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 2 || SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            playerController player = FindObjectOfType<playerController>();
+
+            if (player.pI.actions["Cursor"].IsPressed())
+            {
+                Cursor.lockState = CursorLockMode.None;
+                player.CameraFC.SetActive(false);
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                player.CameraFC.SetActive(true);
+            }
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -57,21 +85,19 @@ public class MinigameManager : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        if (SceneManager.GetActiveScene().name.Contains("Farm") && mgType != MGType.NULL)
+        if (SceneManager.GetActiveScene().name.Contains("Farm") /*&& mgType != MGType.NULL */&& dataToKeep != null)
             dataLoaded = true;
     }
 
     private void CheckItemsToAdd()
     {
-        Debug.Log($"MGTYPE : {mgType}");
+        /*Debug.Log($"MGTYPE : {mgType}");
         for (int i = 0; i < dataToKeep.Count; i++)
         {
             Debug.Log($"{i}. {dataToKeep[i]}");
-        }
+        }*/
 
         if (listSlots == null) return;
-
-        listSlots.canVerif = false;
 
         switch (mgType)
         {
@@ -94,8 +120,6 @@ public class MinigameManager : MonoBehaviour
                 break;
         }
 
-        listSlots.canVerif = true;
-
         dataLoaded = false;
 
         dataToKeep = new List<object>();
@@ -115,6 +139,10 @@ public class MinigameManager : MonoBehaviour
         itemUI.GetComponent<DraggableItem>().Item.itemName = (string)dataToKeep[0];
         itemUI.GetComponent<DraggableItem>().Item.itemDescription = (string)dataToKeep[1];
         itemUI.GetComponent<DraggableItem>().Item.itemValue = (float)dataToKeep[2];
+
+        /*Debug.Log(itemUI);
+        Debug.Log(itemUI.GetComponent<DraggableItem>().Item);
+        Debug.Log((Item)listSlots.stuffs[3 + Convert.ToInt32(dataToKeep[3])]);*/
     }
 
     private void HandleRecognitionData()

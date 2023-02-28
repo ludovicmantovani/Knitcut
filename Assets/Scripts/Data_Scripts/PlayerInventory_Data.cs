@@ -2,27 +2,22 @@
 public class PlayerInventory_Data
 {
     //player
-    public int[] quantityStackedPlayerInventory;
     public int[] itemsInSlot;
     public bool[] playerSlotsObjIn;
+    public int[] quantityStackedPlayerInventory;
 
-    public PlayerInventory_Data(List_Slots LS)
+    public PlayerInventory_Data(List_Slots LS, int nbSlots)
     {
         //player
-        playerSlotsObjIn = new bool[10];
-        for (int i = 0; i < LS.playerSlots.Length; i++)
-        {
-            playerSlotsObjIn[i] = LS.playerSlotsObjIn[i];
-        }
-        quantityStackedPlayerInventory = new int[10];
-        for (int i = 0; i < LS.quantityStackedPlayerInventory.Length; i++)
-        {
-            quantityStackedPlayerInventory[i] = LS.quantityStackedPlayerInventory[i];
-        }
-        itemsInSlot = new int[10];
-        for (int i = 0; i < LS.itemsInSlot.Length; i++)
+        itemsInSlot = new int[nbSlots];
+        playerSlotsObjIn = new bool[nbSlots];
+        quantityStackedPlayerInventory = new int[nbSlots];
+
+        for (int i = 0; i < nbSlots; i++)
         {
             itemsInSlot[i] = LS.itemsInSlot[i];
+            playerSlotsObjIn[i] = LS.playerSlotsObjIn[i];
+            quantityStackedPlayerInventory[i] = LS.quantityStackedPlayerInventory[i];
         }
     }
 }

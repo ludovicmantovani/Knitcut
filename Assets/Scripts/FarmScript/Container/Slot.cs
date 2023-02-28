@@ -62,6 +62,8 @@ public class Slot : MonoBehaviour, IDropHandler
         // Else it's free
         else
         {
+            if (draggableItemToDrop == null) return;
+
             draggableItemToDrop.DropItemToSlot(transform);
         }
     }
