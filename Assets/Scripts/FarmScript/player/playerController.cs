@@ -42,6 +42,8 @@ public class playerController : MonoBehaviour
     private bool Left = false;
     private bool Shop = false;
 
+    public GameObject CameraFC => cameraFermeCinemachine;
+
 
     void Awake()
     {
@@ -50,13 +52,12 @@ public class playerController : MonoBehaviour
         cc = GetComponent<CharacterController>();
         PlayerInput = GetComponent<playerInput>();
         sv = GetComponent<Scene_verification>();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == 2)
+        if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == 2)
         {
             shop_Enclos = FindObjectOfType<Shop_Enclos>();
         }
@@ -88,8 +89,6 @@ public class playerController : MonoBehaviour
             //modif
             //PlayerMovementFarm();
             PlayerMovementFarmV2();
-
-
         }
         if (SceneManager.GetActiveScene().buildIndex == 3)
         {
@@ -106,8 +105,6 @@ public class playerController : MonoBehaviour
                 cameraFermeCinemachine.SetActive(false);
                 cameraFerme.transform.position = new Vector3(0f, 2f, -7f);
                 cameraFerme.transform.rotation = Quaternion.Euler(0, 0, 0);
-
-
             }
             
             PlayerMovementVillage();
@@ -127,14 +124,13 @@ public class playerController : MonoBehaviour
                 if (SceneManager.GetActiveScene().buildIndex != sv.sceneIndexSave)
                 {
                     sv.LoadPlayerSc();
-                }
-                
+                }                
                 
                 Debug.Log("Load");
             }
         }
-
     }
+
     // nouveau system de deplacement
     void PlayerMovementFarmV2()
     {
@@ -283,14 +279,14 @@ public class playerController : MonoBehaviour
 
             playerPosition = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
 
-            Debug.Log($"Go to farm : {playerPosition}");
+            //Debug.Log($"Go to farm : {playerPosition}");
         }
         else if (SceneManager.GetActiveScene().name.Contains("Village"))
         {
             playerPosition = FindObjectOfType<Voiture_Interaction>().transform.position;
             //playerPosition = new Vector3(data.villagePosition[0], data.villagePosition[1], data.villagePosition[2]);
 
-            Debug.Log($"Go to village : {playerPosition}");
+            //Debug.Log($"Go to village : {playerPosition}");
         }
 
         cc.enabled = false;

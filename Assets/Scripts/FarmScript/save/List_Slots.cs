@@ -13,7 +13,6 @@ public class List_Slots : MonoBehaviour
     public ScriptableObject[] stuffs;
 
     private bool checkLoad = false;
-    public bool canVerif;
 
     [Header("Money")]
     public Text moneyUI;
@@ -31,14 +30,10 @@ public class List_Slots : MonoBehaviour
     public bool[] containerSlotsObjIn;
     public int[] quantityStackedContainerInventory;
 
-
-
     private void Start()
     {
         pC = FindObjectOfType<playerController>();
         pI = GetComponent<PlayerInput>();
-
-        canVerif = true;
 
         //player
         LoadPlayerInventory();
@@ -52,21 +47,28 @@ public class List_Slots : MonoBehaviour
 
     #region Money
 
+    public void AutoSaveMoney()
+    {
+        SaveSystem.SavePlayerMoney(pC);
+    }
+
     public void UpdateMoney(int moneyUpdated)
     {
         pC.money = moneyUpdated;
         moneyUI.text = $"{pC.money}";
 
-        SaveSystem.SavePlayerMoney(pC);
+        AutoSaveMoney();
     }
 
     private void HandleMoney()
     {
         //pC.money = SaveSystem.LoadPlayerController().money;
 
-        if (SaveSystem.LoadPlayerController() != null)
+        Player_Data playerData = SaveSystem.LoadPlayerController(pC);
+
+        if (playerData != null)
         {
-            pC.money = SaveSystem.LoadPlayerController().money;
+            pC.money = playerData.money;
         }
 
         moneyUI.text = $"{pC.money}";
@@ -74,7 +76,39 @@ public class List_Slots : MonoBehaviour
 
     #endregion
 
+    private void Update()
+    {
+        if (pI.actions["save_Inventory"].triggered)
+            SaveData();
+
+        HandleMoney();
+    }
+
+    private void LateUpdate()
+    {
+        HandleVerificationAndApplication();
+    }
+
+    public void SaveData()
+    {
+        Debug.Log($"Force save");
+
+        SaveSystem.SavePlayerMoney(pC);
+        SaveSystem.SavePlayerInventory(this);
+        SaveSystem.SaveContainerInventory(this);
+    }
+
     #region Load Inventory
+
+    public void AutoSavePlayerInventory()
+    {
+        SaveSystem.SavePlayerInventory(this);
+    }
+
+    public void AutoSaveContainerInventory()
+    {
+        SaveSystem.SaveContainerInventory(this);
+    }
 
     private void LoadPlayerInventory()
     {
@@ -108,60 +142,11 @@ public class List_Slots : MonoBehaviour
         }
     }
 
-    #endregion
-
-    private void Update()
-    {
-        SaveInventoryItem();
-
-        HandleMoney();
-    }
-
-    private void LateUpdate()
-    {
-        if (canVerif)
-        {
-            if (checkLoad == false)
-            {
-                ApplySave();
-                if (handleContainer)
-                    ApplySaveContainer();
-                checkLoad = true;
-            }
-
-            VerificationChild();
-            if (handleContainer)
-                VerificationChildContainer();
-        }
-    }
-
-    public void AutoSavePlayerInventory()
-    {
-        SaveSystem.SavePlayerInventory(this);
-    }
-
-    public void AutoSaveContainerInventory()
-    {
-        SaveSystem.SaveContainerInventory(this);
-    }
-
-    private void SaveInventoryItem()
-    {
-        if (Input.GetKey(KeyCode.M))
-        {
-            SaveSystem.SavePlayerMoney(pC);
-            SaveSystem.SavePlayerInventory(this);
-            SaveSystem.SaveContainerInventory(this);
-        }
-        /*if (pI.actions["save_Inventory"].triggered)
-        {
-            SaveSystem.SavePlayerInventorySlot(this);
-        }*/
-    }
-
     private void LoadPlayerInventoryItem()
     {
-        PlayerInventory_Data data = SaveSystem.LoadPlayerInventory();
+        PlayerInventory_Data data = SaveSystem.LoadPlayerInventory(this);
+
+        if (data == null) return;
 
         for (int i = 0; i < playerSlotsObjIn.Length; i++)
         {
@@ -175,7 +160,9 @@ public class List_Slots : MonoBehaviour
 
     private void LoadContainerInventoryItem()
     {
-        ContainerInventory_Data data = SaveSystem.LoadContainerInventory();
+        ContainerInventory_Data data = SaveSystem.LoadContainerInventory(this);
+
+        if (data == null) return;
 
         for (int i = 0; i < containerSlotsObjIn.Length; i++)
         {
@@ -187,13 +174,33 @@ public class List_Slots : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Verification & Application
+
+    public void HandleVerificationAndApplication()
+    {
+        if (!checkLoad)
+        {
+            ApplySave();
+            if (handleContainer)
+                ApplySaveContainer();
+            checkLoad = true;
+        }
+
+        VerificationChild();
+        if (handleContainer)
+            VerificationChildContainer();
+    }
+
     private void ApplySave()
     {
         for (int i = 0; i < playerSlots.Length; i++)
         {
             if (playerSlots[i].transform.childCount > 0)
             {
-                playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlot[i]];
+                if (itemsInSlot[i] != -1)
+                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlot[i]];
             }            
         }
     }
@@ -204,7 +211,8 @@ public class List_Slots : MonoBehaviour
         {
             if (containerSlots[i].transform.childCount > 0)
             {
-                containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[containerItemsInSlot[i]];
+                if (containerItemsInSlot[i] != -1)
+                    containerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[containerItemsInSlot[i]];
             }
         }
     }
@@ -254,4 +262,6 @@ public class List_Slots : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }
