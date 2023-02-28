@@ -29,7 +29,7 @@ public class Voiture_Interaction : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            InteractionUI.SetActive(true);
+            //InteractionUI.SetActive(true);
         }
         
     }
@@ -51,7 +51,7 @@ public class Voiture_Interaction : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            InteractionUI.SetActive(false);
+            //InteractionUI.SetActive(false);
         }
     }
 }

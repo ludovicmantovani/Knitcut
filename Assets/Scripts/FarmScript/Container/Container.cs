@@ -44,7 +44,7 @@ public class Container : MonoBehaviour
         canUseContainer = false;
         containerInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Container";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Container";
     }
 
     private void Update()
@@ -99,14 +99,14 @@ public class Container : MonoBehaviour
     {
         containerInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use E to close Container";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to close Container";
     }
 
     private void CloseContainerInventory()
     {
         containerInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Container";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Container";
     }
 
     #endregion

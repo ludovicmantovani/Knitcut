@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Shop_Vendeur : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class Shop_Vendeur : MonoBehaviour
         pI = GetComponent<PlayerInput>();
         playerInventory = FindObjectOfType<PlayerInventory>();
         PC = FindObjectOfType<playerController>();
+        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to trade";
     }
 
     // Update is called once per frame

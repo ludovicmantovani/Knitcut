@@ -27,6 +27,7 @@ public class Shop_Enclos : MonoBehaviour
         pI = GetComponent<PlayerInput>();
         playerInventory = FindObjectOfType<PlayerInventory>();
         PC = FindObjectOfType<playerController>();
+        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to trade";
     }
 
     // Update is called once per frame
