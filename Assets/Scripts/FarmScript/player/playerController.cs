@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class playerController : MonoBehaviour
 {
+    List_Slots LS;
 
     // rajout pour rotation dans village
     public GameObject playerBody;
@@ -47,6 +48,7 @@ public class playerController : MonoBehaviour
 
     void Awake()
     {
+        LS = FindObjectOfType<List_Slots>();
         //Debug.Log(Application.persistentDataPath);
         //rajout component PlayerInput
         pI = GetComponent<PlayerInput>();
@@ -274,9 +276,9 @@ public class playerController : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name.Contains("Farm"))
         {
-            Player_Data data = SaveSystem.LoadPlayerInput();
+            Player_Data data = SaveSystem.LoadPlayerInput(LS, PlayerInput);
 
-            if (data.playerPosition == null) return;
+            if (data != null || data.playerPosition == null) return;
 
             playerPosition = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
 

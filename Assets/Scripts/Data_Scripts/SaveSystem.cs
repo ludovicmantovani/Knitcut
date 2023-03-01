@@ -82,7 +82,7 @@ public static class SaveSystem
             return null;
         }
     }*/
-    public static Player_Data LoadPlayerInput()
+    public static Player_Data LoadPlayerInput(List_Slots LS, playerInput pI)
     {
         string path = Application.persistentDataPath + "/playerinput.save";
         if (File.Exists(path))
@@ -97,6 +97,11 @@ public static class SaveSystem
         else
         {
             Debug.LogError("Save file not found in " + path);
+
+            LS.HandleVerificationAndApplication();
+
+            SavePlayerPosition(pI);
+
             return null;
         }
     }
