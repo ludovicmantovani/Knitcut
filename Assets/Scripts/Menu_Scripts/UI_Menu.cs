@@ -117,7 +117,7 @@ public class UI_Menu : MonoBehaviour
     }
     public void NewGame()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("FarmScene");
     }
     public void Quit()
     {

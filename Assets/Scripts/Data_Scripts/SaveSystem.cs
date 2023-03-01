@@ -108,6 +108,8 @@ public static class SaveSystem
     public static Player_Data LoadPlayerController(playerController pC)
     {
         string path = Application.persistentDataPath + "/playercontroller.save";
+        Debug.Log(Application.persistentDataPath);
+        Debug.Log(path);
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
