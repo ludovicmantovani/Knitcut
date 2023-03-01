@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class AnimalSpawn : MonoBehaviour
 {
-    public float TimerSpawn = 40;
+    public float TimerSpawn = 25;
     public GameObject[] Animals;
+    public GameObject[] Spawns;
+    private int animalNumber;
+    private int spawnNumber;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +23,18 @@ public class AnimalSpawn : MonoBehaviour
     }
     void Spawn()
     {
-        if(TimerSpawn <= 0)
+        
+
+        if (TimerSpawn <= 0)
         {
-            (Instantiate(Animals[0]) as GameObject).transform.parent = this.transform;
+            AnimalRandomSpawn();
+            Instantiate(Animals[animalNumber], Spawns[spawnNumber].transform);
             TimerSpawn = 25;
         }
+    }
+    void AnimalRandomSpawn()
+    {
+        animalNumber = Random.Range(0, 5);
+        spawnNumber = Random.Range(0, 6);
     }
 }

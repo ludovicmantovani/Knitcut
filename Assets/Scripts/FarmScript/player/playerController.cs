@@ -47,6 +47,7 @@ public class playerController : MonoBehaviour
 
     void Awake()
     {
+        //Debug.Log(Application.persistentDataPath);
         //rajout component PlayerInput
         pI = GetComponent<PlayerInput>();
         cc = GetComponent<CharacterController>();
