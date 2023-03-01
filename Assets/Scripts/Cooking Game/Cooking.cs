@@ -9,17 +9,17 @@ using UnityEngine.UI;
 public class Cooking : MonoBehaviour
 {
     [Header("UI Panels")]
-    [SerializeField] private GameObject cookingUI;
     [SerializeField] private Canvas resultUI;
+    [SerializeField] private Canvas gameUI;
 
     [Header("Saving References")]
     [SerializeField] private string sceneToSave;
 
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
-    [SerializeField] private GameObject recipeInfos;
-    [SerializeField] private GameObject instruction;
-    [SerializeField] private GameObject timer;
+    //[SerializeField] private GameObject recipeInfos;
+    //[SerializeField] private GameObject instruction;
+    //[SerializeField] private GameObject timer;
     [SerializeField] private TextMeshProUGUI consumablesList;
     [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
@@ -35,6 +35,7 @@ public class Cooking : MonoBehaviour
     [SerializeField] private List<Item> consumsPossessed = new List<Item>();
 
     private bool recipeInPreparation;
+    private CookingGameCanvas _cookingGameCanvas = null;
 
     public List<Item> ConsumsPossessed
     {
@@ -54,25 +55,22 @@ public class Cooking : MonoBehaviour
 
     private void HandleGameStart()
     {
-        cookingUI.gameObject.SetActive(true);
-        resultUI.gameObject.SetActive(false);
+        //resultUI.gameObject.SetActive(false);
 
-        timer.SetActive(false);
 
-        recipeInfos.SetActive(false);
-
-        instruction.SetActive(true);
-        instruction.transform.GetComponentInChildren<Text>().text = "Sélectionner une recette";
+        //instruction.SetActive(true);
+        //instruction.transform.GetComponentInChildren<Text>().text = "Sélectionner une recette";
 
         recipeInPreparation = false;
 
         InitializeConsumablesPossessed();
 
         // Reset UIs
-        recipeInfos.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "";
-        recipeInfos.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "";
+        
+        if (gameUI && gameUI.TryGetComponent<CookingGameCanvas>(out _cookingGameCanvas))
+            _cookingGameCanvas.SetRecipeData();
 
-        consumablesList.text = "";
+        //consumablesList.text = "";
 
         //resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "";
         // TODO voir si besoin rezet le texte
@@ -92,12 +90,7 @@ public class Cooking : MonoBehaviour
 
     public IEnumerator HandleFinalProduct()
     {
-        instruction.SetActive(true);
-        instruction.GetComponentInChildren<Text>().text = "En attente du résultat...";
-
         yield return new WaitForSeconds(timeToCreateFinalProduct);
-
-        instruction.SetActive(false);
 
         CreateFinalProduct();
     }
@@ -204,7 +197,8 @@ public class Cooking : MonoBehaviour
 
             recipe.canBeCooked = recipeCanBeCooked;
 
-            recipeInfos.transform.GetChild(1).GetComponent<Button>().interactable = recipeCanBeCooked;
+            if (_cookingGameCanvas)
+                _cookingGameCanvas.CanInteract(recipeCanBeCooked);
         }
     }
 
@@ -255,12 +249,13 @@ public class Cooking : MonoBehaviour
 
     private void ShowRecipeInfos(Recipe recipe)
     {
-        consumablesList.text = recipe.GetInfosConsumablesRequired();
-
-        recipeInfos.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = recipe.recipeName;
-        recipeInfos.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = recipe.recipeDescription;
-
-        recipeInfos.SetActive(true);
+        if (_cookingGameCanvas)
+            _cookingGameCanvas.SetRecipeData(
+                recipe.recipeName,
+                recipe.recipeDescription,
+                recipe.GetInfosConsumablesRequired(),
+                true
+                );
 
         // Save current recipe
         currentRecipe = recipe;
@@ -270,12 +265,13 @@ public class Cooking : MonoBehaviour
     {
         if (recipeInPreparation || currentRecipe == null) return;
 
-        cookingUI.gameObject.SetActive(false);
+        if (_cookingGameCanvas)
+        {
+            _cookingGameCanvas.HideRecipeSelector();
+            _cookingGameCanvas.SetRecipeData("Coupez les différents ingrédients");
+        }
 
         FindObjectOfType<Blade>().CanCut = true;
-
-        instruction.transform.GetComponentInChildren<Text>().text = "Couper les différents ingrédients";
-
         recipeInPreparation = true;
 
         if (currentRecipe.canBeCooked)
@@ -317,22 +313,20 @@ public class Cooking : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        instruction.SetActive(false);
-        timer.SetActive(true);
-
         float timeToWait = timeBeforeCutting;
 
-        while (timeToWait > -1)
-        {
-            timer.GetComponentInChildren<Text>().text = timeToWait.ToString();
-
-            yield return new WaitForSeconds(1f);
-
-            timeToWait--;
+        if (_cookingGameCanvas)
+        { 
+            while (timeToWait > -1)
+            {
+                _cookingGameCanvas.SetRecipeData(
+                    "Coupez les différents ingrédients",
+                    timeToWait.ToString());
+                yield return new WaitForSeconds(1f);
+                timeToWait--;
+            }
+            _cookingGameCanvas.HideRecipeInfo();
         }
-
-        timer.SetActive(false);
-
         consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);
     }
 
