@@ -35,6 +35,10 @@ public class List_Slots : MonoBehaviour
         pC = FindObjectOfType<playerController>();
         pI = GetComponent<PlayerInput>();
 
+
+        CreateTempItem();
+
+
         //player
         LoadPlayerInventory();
 
@@ -43,6 +47,23 @@ public class List_Slots : MonoBehaviour
             LoadContainerInventory();
 
         HandleMoney();
+    }
+
+    private void CreateTempItem()
+    {
+        HandleVerificationAndApplication();
+
+        PlayerInventoryUI inventory = FindObjectOfType<PlayerInventoryUI>();
+
+        if (inventory == null) return;
+
+        GameObject itemUI = inventory.CreateItemUI();
+
+        itemUI.GetComponent<DraggableItem>().quantityStacked = 3;
+
+        itemUI.GetComponent<DraggableItem>().Item = (Item)stuffs[0];
+
+        AutoSavePlayerInventory();
     }
 
     #region Money
@@ -133,12 +154,11 @@ public class List_Slots : MonoBehaviour
         }
         for (int i = 0; i < listSlots.Length; i++)
         {
-            if (listSlots[i].transform.childCount > 0)
+            if (listSlots[i].transform.childCount > 0 && itemsInSlot[i] != -1)
             {
                 listSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlot[i]];
                 listSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked = quantityStackedInventory[i];
             }
-
         }
     }
 
