@@ -14,6 +14,11 @@ public class CookingGameCanvas : MonoBehaviour
     [SerializeField] private RawImage rawImageRecipes = null;
     [SerializeField] private RawImage rawImageRecipesInfo = null;
 
+    public void ReSizeDescriptionText(float coef)
+    {
+        if (infoDescription) infoDescription.fontSize *= coef;
+    }
+
     public void SetRecipeData(
         string title = "",
         string description = "",

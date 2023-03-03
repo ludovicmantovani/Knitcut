@@ -316,7 +316,8 @@ public class Cooking : MonoBehaviour
         float timeToWait = timeBeforeCutting;
 
         if (_cookingGameCanvas)
-        { 
+        {
+            _cookingGameCanvas.ReSizeDescriptionText(4f);
             while (timeToWait > -1)
             {
                 _cookingGameCanvas.SetRecipeData(
