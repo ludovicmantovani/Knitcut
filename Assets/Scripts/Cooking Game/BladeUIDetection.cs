@@ -6,12 +6,12 @@ public class BladeUIDetection : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (FindObjectOfType<Blade>())
-            FindObjectOfType<Blade>().CanCut = false;
+            FindObjectOfType<Blade>().CanCut = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (FindObjectOfType<Blade>())
-            FindObjectOfType<Blade>().CanCut = true;
+            FindObjectOfType<Blade>().CanCut = false;
     }
 }
