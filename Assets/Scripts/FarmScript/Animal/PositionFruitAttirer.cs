@@ -12,6 +12,13 @@ public class PositionFruitAttirer : MonoBehaviour
     private Attirer_Animal attirer_Animal;
     private bool verif = false;
     // Start is called before the first frame update
+
+    [SerializeField] private string[] captureGameSceneName = {
+        "WaterMiniGameScene1",
+        "WaterMiniGameScene2",
+        "WaterMiniGameScene3"
+    };
+
     void Start()
     {
         pI = GetComponent<PlayerInput>();
@@ -47,7 +54,12 @@ public class PositionFruitAttirer : MonoBehaviour
             Debug.Log("Contact");
             if (pI.actions["Intercation_Environnements"].triggered && verif ==true)
             {
-                SceneManager.LoadScene("WaterMiniGameScene3");
+                if (captureGameSceneName.Length > 0)
+                    SceneManager.LoadScene(
+                        captureGameSceneName[UnityEngine.Random.Range(0, captureGameSceneName.Length)]
+                        );
+                else
+                    Debug.LogWarning("Aucun nom de scene configure pour le mini jeu de capture");
             }
 
         }
