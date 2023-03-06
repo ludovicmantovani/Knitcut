@@ -8,6 +8,11 @@ public class MinigameManager : MonoBehaviour
     [SerializeField] private static List<object> dataToKeep;
     [SerializeField] private static bool startOK;
 
+    public static List<object> DataToKeep
+    {
+        get { return dataToKeep; }
+    }
+
     public static bool StartOK
     {
         get { return startOK; }
@@ -48,6 +53,8 @@ public class MinigameManager : MonoBehaviour
 
             listSlots = FindObjectOfType<List_Slots>();
 
+            if (listSlots == null) return;
+
             CheckItemsToAdd();
         }
 
@@ -83,7 +90,7 @@ public class MinigameManager : MonoBehaviour
         dataToKeep = data;
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnLevelWasLoaded()
     {
         if (SceneManager.GetActiveScene().name.Contains("Farm") /*&& mgType != MGType.NULL */&& dataToKeep != null)
             dataLoaded = true;
@@ -97,7 +104,6 @@ public class MinigameManager : MonoBehaviour
             Debug.Log($"{i}. {dataToKeep[i]}");
         }*/
 
-        if (listSlots == null) return;
 
         switch (mgType)
         {
