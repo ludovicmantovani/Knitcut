@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-//rajout
 using UnityEngine.InputSystem;
 
 public class List_Slots : MonoBehaviour
@@ -18,59 +17,72 @@ public class List_Slots : MonoBehaviour
     public Text moneyUI;
 
     [Header("PlayerInventory")]
-    public GameObject[] playerSlots;
-    public int[] itemsInSlot;
-    public bool[] playerSlotsObjIn;
-    public int[] quantityStackedPlayerInventory;
+    [SerializeField] private Transform playerSlotsParent;
+
+    private GameObject[] playerSlots;
+    private int[] itemsInSlots;
+    private bool[] playerSlotsObjIn;
+    private int[] quantityStackedPlayerInventory;
 
     [Header("ContainerInventory")]
-    public bool handleContainer;
-    public GameObject[] containerSlots;
-    public int[] containerItemsInSlot;
-    public bool[] containerSlotsObjIn;
-    public int[] quantityStackedContainerInventory;
+    [SerializeField] private bool handleContainer;
+    [SerializeField] private Transform containerSlotsParent;
+
+    private GameObject[] containerSlots;
+    private int[] containerItemsInSlot;
+    private bool[] containerSlotsObjIn;
+    private int[] quantityStackedContainerInventory;
+
+    #region Getters / Setters
+
+    public int[] ItemsInSlots
+    {
+        get { return itemsInSlots; }
+    }
+
+    public bool[] PlayerSlotsObjIn
+    {
+        get { return playerSlotsObjIn; }
+    }
+
+    public int[] QuantityStackedPlayerInventory
+    {
+        get { return quantityStackedPlayerInventory; }
+    }
+
+    public int[] ContainerItemsInSlot
+    {
+        get { return containerItemsInSlot; }
+    }
+
+    public bool[] ContainerSlotsObjIn
+    {
+        get { return containerSlotsObjIn; }
+    }
+
+    public int[] QuantityStackedContainerInventory
+    {
+        get { return quantityStackedContainerInventory; }
+    }
+
+    #endregion
 
     private void Start()
     {
         pC = FindObjectOfType<playerController>();
         pI = GetComponent<PlayerInput>();
 
-
-        CreateTempItem();
-
-
-        //player
-        LoadPlayerInventory();
-
-        //container
-        if (handleContainer)
-            LoadContainerInventory();
+        HandleInventories();
 
         HandleMoney();
-    }
-
-    private void CreateTempItem()
-    {
-        HandleVerificationAndApplication();
-
-        PlayerInventoryUI inventory = FindObjectOfType<PlayerInventoryUI>();
-
-        if (inventory == null) return;
-
-        GameObject itemUI = inventory.CreateItemUI();
-
-        itemUI.GetComponent<DraggableItem>().quantityStacked = 3;
-
-        itemUI.GetComponent<DraggableItem>().Item = (Item)stuffs[0];
-
-        AutoSavePlayerInventory();
     }
 
     #region Money
 
     public void AutoSaveMoney()
     {
-        SaveSystem.SavePlayerMoney(pC);
+        //SaveSystem.SavePlayerMoney(pC);
+        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, pC);
     }
 
     public void UpdateMoney(int moneyUpdated)
@@ -85,7 +97,8 @@ public class List_Slots : MonoBehaviour
     {
         //pC.money = SaveSystem.LoadPlayerController().money;
 
-        Player_Data playerData = SaveSystem.LoadPlayerController(pC);
+        //Player_Data playerData = SaveSystem.LoadPlayerController(pC);
+        Player_Data playerData = (Player_Data)SaveSystem.Load(SaveSystem.SaveType.Save_PlayerController, pC);
 
         if (playerData != null)
         {
@@ -114,27 +127,68 @@ public class List_Slots : MonoBehaviour
     {
         Debug.Log($"Force save");
 
-        SaveSystem.SavePlayerMoney(pC);
+        /*SaveSystem.SavePlayerMoney(pC);
         SaveSystem.SavePlayerInventory(this);
-        SaveSystem.SaveContainerInventory(this);
+        SaveSystem.SaveContainerInventory(this);*/
+        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, pC);
+        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerInventory, this);
+        if (handleContainer)
+            SaveSystem.Save(SaveSystem.SaveType.Save_ContainerInventory, this);
     }
 
     #region Load Inventory
 
+    private void HandleInventories()
+    {
+        SetupInventory();
+
+        //player
+        LoadPlayerInventory();
+
+        //container
+        if (handleContainer)
+            LoadContainerInventory();
+
+        CreateTempItem();
+    }
+    private void CreateTempItem()
+    {
+        if (!MinigameManager.StartOK)
+        {
+            MinigameManager.StartOK = true;
+
+            HandleVerificationAndApplication();
+
+            PlayerInventoryUI inventory = FindObjectOfType<PlayerInventoryUI>();
+
+            if (inventory == null) return;
+
+            GameObject itemUI = inventory.CreateItemUI();
+
+            itemUI.GetComponent<DraggableItem>().quantityStacked = 3;
+
+            itemUI.GetComponent<DraggableItem>().Item = (Item)stuffs[0];
+
+            AutoSavePlayerInventory();
+        }
+    }
+
     public void AutoSavePlayerInventory()
     {
-        SaveSystem.SavePlayerInventory(this);
+        //SaveSystem.SavePlayerInventory(this);
+        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerInventory, this);
     }
 
     public void AutoSaveContainerInventory()
     {
-        SaveSystem.SaveContainerInventory(this);
+        //SaveSystem.SaveContainerInventory(this);
+        SaveSystem.Save(SaveSystem.SaveType.Save_ContainerInventory, this);
     }
 
     private void LoadPlayerInventory()
     {
         LoadPlayerInventoryItem();
-        LoadInventory(playerSlots, playerSlotsObjIn, itemsInSlot, quantityStackedPlayerInventory);
+        LoadInventory(playerSlots, playerSlotsObjIn, itemsInSlots, quantityStackedPlayerInventory);
     }
 
     private void LoadContainerInventory()
@@ -143,8 +197,44 @@ public class List_Slots : MonoBehaviour
         LoadInventory(containerSlots, containerSlotsObjIn, containerItemsInSlot, quantityStackedContainerInventory);
     }
 
+    private void SetupInventory()
+    {
+        // player
+        if (playerSlots == null)
+        {
+            // Setup up list
+            playerSlots = new GameObject[playerSlotsParent.childCount];
+
+            itemsInSlots = new int[playerSlotsParent.childCount];
+            playerSlotsObjIn = new bool[playerSlotsParent.childCount];
+            quantityStackedPlayerInventory = new int[playerSlotsParent.childCount];
+
+            for (int i = 0; i < playerSlotsParent.childCount; i++)
+            {
+                playerSlots[i] = playerSlotsParent.GetChild(i).gameObject;
+            }
+        }
+
+        // container
+        if (containerSlots == null && handleContainer)
+        {
+            // Setup up list
+            containerSlots = new GameObject[containerSlotsParent.childCount];
+
+            containerItemsInSlot = new int[containerSlotsParent.childCount];
+            containerSlotsObjIn = new bool[containerSlotsParent.childCount];
+            quantityStackedContainerInventory = new int[containerSlotsParent.childCount];
+
+            for (int i = 0; i < containerSlotsParent.childCount; i++)
+            {
+                containerSlots[i] = containerSlotsParent.GetChild(i).gameObject;
+            }
+        }
+    }
+
     private void LoadInventory(GameObject[] listSlots, bool[] objectInSlots, int[] itemsInSlot, int[] quantityStackedInventory)
     {
+        // Handle Inventory items
         for (int i = 0; i < listSlots.Length; i++)
         {
             if (objectInSlots[i] == true)
@@ -164,7 +254,8 @@ public class List_Slots : MonoBehaviour
 
     private void LoadPlayerInventoryItem()
     {
-        PlayerInventory_Data data = SaveSystem.LoadPlayerInventory(this);
+        //PlayerInventory_Data data = SaveSystem.LoadPlayerInventory(this);
+        PlayerInventory_Data data = (PlayerInventory_Data)SaveSystem.Load(SaveSystem.SaveType.Save_PlayerInventory, this);
 
         if (data == null) return;
 
@@ -172,7 +263,7 @@ public class List_Slots : MonoBehaviour
         {
             playerSlotsObjIn[i] = data.playerSlotsObjIn[i];
 
-            itemsInSlot[i] = data.itemsInSlot[i];
+            itemsInSlots[i] = data.itemsInSlot[i];
 
             quantityStackedPlayerInventory[i] = data.quantityStackedPlayerInventory[i];
         }
@@ -180,7 +271,8 @@ public class List_Slots : MonoBehaviour
 
     private void LoadContainerInventoryItem()
     {
-        ContainerInventory_Data data = SaveSystem.LoadContainerInventory(this);
+        //ContainerInventory_Data data = SaveSystem.LoadContainerInventory(this);
+        ContainerInventory_Data data = (ContainerInventory_Data)SaveSystem.Load(SaveSystem.SaveType.Save_ContainerInventory, this);
 
         if (data == null) return;
 
@@ -219,8 +311,8 @@ public class List_Slots : MonoBehaviour
         {
             if (playerSlots[i].transform.childCount > 0)
             {
-                if (itemsInSlot[i] != -1)
-                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlot[i]];
+                if (itemsInSlots[i] != -1)
+                    playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlots[i]];
             }            
         }
     }
@@ -247,7 +339,7 @@ public class List_Slots : MonoBehaviour
 
                 quantityStackedPlayerInventory[i] = playerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked;
 
-                itemsInSlot[i] = Array.IndexOf(stuffs, playerSlots[i].GetComponentInChildren<DraggableItem>().Item);
+                itemsInSlots[i] = Array.IndexOf(stuffs, playerSlots[i].GetComponentInChildren<DraggableItem>().Item);
             }
             else
             {
@@ -255,7 +347,7 @@ public class List_Slots : MonoBehaviour
 
                 quantityStackedPlayerInventory[i] = 0;
 
-                itemsInSlot[i] = -1;
+                itemsInSlots[i] = -1;
             }
         }
     }

@@ -2,27 +2,22 @@
 public class ContainerInventory_Data
 {
     //container
-    public int[] quantityStackedContainerInventory;
     public int[] containerItemsInSlot;
     public bool[] containerSlotsObjIn;
+    public int[] quantityStackedContainerInventory;
 
-    public ContainerInventory_Data(List_Slots LS)
+    public ContainerInventory_Data(List_Slots LS, int nbSlots)
     {
         //container
-        containerSlotsObjIn = new bool[100];
-        for (int i = 0; i < LS.containerSlots.Length; i++)
+        containerItemsInSlot = new int[nbSlots];
+        containerSlotsObjIn = new bool[nbSlots];
+        quantityStackedContainerInventory = new int[nbSlots];
+
+        for (int i = 0; i < nbSlots; i++)
         {
-            containerSlotsObjIn[i] = LS.containerSlotsObjIn[i];
-        }
-        quantityStackedContainerInventory = new int[100];
-        for (int i = 0; i < LS.quantityStackedContainerInventory.Length; i++)
-        {
-            quantityStackedContainerInventory[i] = LS.quantityStackedContainerInventory[i];
-        }
-        containerItemsInSlot = new int[100];
-        for (int i = 0; i < LS.containerItemsInSlot.Length; i++)
-        {
-            containerItemsInSlot[i] = LS.containerItemsInSlot[i];
+            containerItemsInSlot[i] = LS.ContainerItemsInSlot[i];
+            containerSlotsObjIn[i] = LS.ContainerSlotsObjIn[i];
+            quantityStackedContainerInventory[i] = LS.QuantityStackedContainerInventory[i];
         }
     }
 }

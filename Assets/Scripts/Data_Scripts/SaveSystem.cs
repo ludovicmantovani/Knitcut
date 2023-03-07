@@ -1,11 +1,145 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
+    public enum SaveType
+    {
+        Save_PlayerController,
+        Save_PlayerInput,
+        Save_UIMenu,
+        Save_Volume,
+        Save_PlayerInventory,
+        Save_ContainerInventory
+    }
+
+    public static SaveType saveType;
+
+    private static string Path(string save)
+    {
+        return $"{Application.persistentDataPath}/{save}.save";
+    }
+
+    public static void Save(SaveType save, object data)
+    {
+        saveType = save;
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream stream = new FileStream(Path(save.ToString()), FileMode.Create);
+
+        switch (saveType)
+        {
+            case SaveType.Save_PlayerController:
+                Player_Data data_PlayerController = new Player_Data((playerController)data);
+                formatter.Serialize(stream, data_PlayerController);
+                break;
+            case SaveType.Save_PlayerInput:
+                Player_Data data_PlayerInput = new Player_Data((playerInput)data);
+                formatter.Serialize(stream, data_PlayerInput);
+                break;
+            case SaveType.Save_UIMenu:
+                KeyBinding_Data data_KeyBinding_Data = new KeyBinding_Data((UI_Menu)data);
+                formatter.Serialize(stream, data_KeyBinding_Data);
+                break;
+            case SaveType.Save_Volume:
+                Audio_Data data_Audio_Data = new Audio_Data((UI_Menu)data);
+                formatter.Serialize(stream, data_Audio_Data);
+                break;
+            case SaveType.Save_PlayerInventory:
+                List_Slots LS_PlayerInventory = (List_Slots)data;
+                PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(LS_PlayerInventory, 10);
+                formatter.Serialize(stream, data_PlayerInventory_Data);
+                break;
+            case SaveType.Save_ContainerInventory:
+                List_Slots LS_ContainerInventory = (List_Slots)data;
+                ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(LS_ContainerInventory, 100);
+                formatter.Serialize(stream, data_ContainerInventory_Data);
+                break;
+            default:
+                break;
+        }
+
+        stream.Close();
+    }
+
+    public static object Load(SaveType save, object data)
+    {
+        saveType = save;
+
+        if (File.Exists(Path(save.ToString())))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(Path(save.ToString()), FileMode.Open);
+
+            object dataGet = null;
+
+            if (stream.Length == 0) return null;
+
+            switch (saveType)
+            {
+                case SaveType.Save_PlayerController:
+                    dataGet = formatter.Deserialize(stream) as Player_Data;
+                    break;
+                case SaveType.Save_PlayerInput:
+                    dataGet = formatter.Deserialize(stream) as Player_Data;
+                    break;
+                case SaveType.Save_UIMenu:
+                    dataGet = formatter.Deserialize(stream) as KeyBinding_Data;
+                    break;
+                case SaveType.Save_Volume:
+                    dataGet = formatter.Deserialize(stream) as Audio_Data;
+                    break;
+                case SaveType.Save_PlayerInventory:
+                    dataGet = formatter.Deserialize(stream) as PlayerInventory_Data;
+                    break;
+                case SaveType.Save_ContainerInventory:
+                    dataGet = formatter.Deserialize(stream) as ContainerInventory_Data;
+                    break;
+                default:
+                    break;
+            }
+
+            stream.Close();
+
+            return dataGet;
+        }
+        else
+        {
+            Debug.LogError($"Save file not found in {Path(save.ToString())}");
+
+            switch (saveType)
+            {
+                case SaveType.Save_PlayerController:
+                    break;
+                case SaveType.Save_PlayerInput:
+                    List_Slots LS_PlayerInput = (List_Slots)data;
+                    LS_PlayerInput.HandleVerificationAndApplication();
+                    break;
+                case SaveType.Save_UIMenu:
+                    break;
+                case SaveType.Save_Volume:
+                    break;
+                case SaveType.Save_PlayerInventory:
+                    List_Slots LS_PlayerInventory = (List_Slots)data;
+                    LS_PlayerInventory.HandleVerificationAndApplication();
+                    break;
+                case SaveType.Save_ContainerInventory:
+                    List_Slots LS_ContainerInventory = (List_Slots)data;
+                    LS_ContainerInventory.HandleVerificationAndApplication();
+                    break;
+                default:
+                    break;
+            }
+
+            Save(save, data);
+
+            return null;
+        }
+    }
+
+    #region OLD
+
     //player save
     /*public static void SavePlayerInventory (PlayerInventory playerInventory)
     {
@@ -226,25 +360,6 @@ public static class SaveSystem
 
     // inventory
 
-
-    /*public static void CreateSavePlayerInventory(List_Slots LS)
-    {
-        string path = Application.persistentDataPath + "/PlayerInventory.save";
-
-        if (!File.Exists(path))
-        {
-            LS.HandleVerificationAndApplication();
-
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Create);
-
-            PlayerInventory_Data data = new PlayerInventory_Data(LS, 10);
-
-            formatter.Serialize(stream, data);
-            stream.Close();
-        }
-    }*/
-
     #region Player
     public static void SavePlayerInventory(List_Slots LS)
     {
@@ -292,7 +407,7 @@ public static class SaveSystem
         string path = Application.persistentDataPath + "/ContainerInventory.save";
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        ContainerInventory_Data data = new ContainerInventory_Data(LS);
+        ContainerInventory_Data data = new ContainerInventory_Data(LS, 100);
 
         formatter.Serialize(stream, data);
         stream.Close();
@@ -323,5 +438,7 @@ public static class SaveSystem
             return null;
         }
     }
+    #endregion
+
     #endregion
 }

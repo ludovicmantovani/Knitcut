@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MinigameManager : MonoBehaviour
 {
     [SerializeField] private static List<object> dataToKeep;
-    [SerializeField] private static bool startOK;
+    [SerializeField] private static bool startOK = false;
 
     public static List<object> DataToKeep
     {
@@ -28,20 +28,13 @@ public class MinigameManager : MonoBehaviour
         Cooking,
         Recognition,
         Breeding,
-        Capture,
-        NULL
+        Capture
     }
 
     public static MGType mgType;
 
     private void Start()
     {
-        /*mgType = MGType.NULL;
-
-        dataToKeep = new List<object>();
-
-        dataLoaded = false;*/
-
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -86,25 +79,17 @@ public class MinigameManager : MonoBehaviour
 
     public static void AddData(List<object> data)
     {
-        //dataToKeep = new List<object>();
         dataToKeep = data;
     }
 
     private void OnLevelWasLoaded()
     {
-        if (SceneManager.GetActiveScene().name.Contains("Farm") /*&& mgType != MGType.NULL */&& dataToKeep != null)
+        if (SceneManager.GetActiveScene().name.Contains("Farm") && dataToKeep != null)
             dataLoaded = true;
     }
 
     private void CheckItemsToAdd()
     {
-        /*Debug.Log($"MGTYPE : {mgType}");
-        for (int i = 0; i < dataToKeep.Count; i++)
-        {
-            Debug.Log($"{i}. {dataToKeep[i]}");
-        }*/
-
-
         switch (mgType)
         {
             case MGType.Cooking:
@@ -119,10 +104,8 @@ public class MinigameManager : MonoBehaviour
             case MGType.Capture:
                 HandleCaptureData();
                 break;
-            case MGType.NULL:
-                Debug.Log($"Error, data mgType NULL");
-                break;
             default:
+                Debug.Log($"Error, data mgType");
                 break;
         }
 
@@ -145,10 +128,6 @@ public class MinigameManager : MonoBehaviour
         itemUI.GetComponent<DraggableItem>().Item.itemName = (string)dataToKeep[0];
         itemUI.GetComponent<DraggableItem>().Item.itemDescription = (string)dataToKeep[1];
         itemUI.GetComponent<DraggableItem>().Item.itemValue = (float)dataToKeep[2];
-
-        /*Debug.Log(itemUI);
-        Debug.Log(itemUI.GetComponent<DraggableItem>().Item);
-        Debug.Log((Item)listSlots.stuffs[3 + Convert.ToInt32(dataToKeep[3])]);*/
     }
 
     private void HandleRecognitionData()

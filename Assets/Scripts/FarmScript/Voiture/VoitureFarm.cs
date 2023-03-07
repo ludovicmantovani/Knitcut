@@ -37,8 +37,8 @@ public class VoitureFarm : MonoBehaviour
             RetourVillage = true;
 
             FindObjectOfType<playerController>().SavePlayerPos();
-            FindObjectOfType<List_Slots>().AutoSavePlayerInventory();
-            FindObjectOfType<List_Slots>().AutoSaveContainerInventory();
+
+            FindObjectOfType<List_Slots>().SaveData();
 
             SceneManager.LoadScene(3);
         }

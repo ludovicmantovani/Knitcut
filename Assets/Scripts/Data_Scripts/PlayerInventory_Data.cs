@@ -15,9 +15,9 @@ public class PlayerInventory_Data
 
         for (int i = 0; i < nbSlots; i++)
         {
-            itemsInSlot[i] = LS.itemsInSlot[i];
-            playerSlotsObjIn[i] = LS.playerSlotsObjIn[i];
-            quantityStackedPlayerInventory[i] = LS.quantityStackedPlayerInventory[i];
+            itemsInSlot[i] = LS.ItemsInSlots[i];
+            playerSlotsObjIn[i] = LS.PlayerSlotsObjIn[i];
+            quantityStackedPlayerInventory[i] = LS.QuantityStackedPlayerInventory[i];
         }
     }
 }

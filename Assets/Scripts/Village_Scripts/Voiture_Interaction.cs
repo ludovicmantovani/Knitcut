@@ -42,7 +42,7 @@ public class Voiture_Interaction : MonoBehaviour
             se.SaveEncloslevel();
             PC.farm = false;
 
-            FindObjectOfType<List_Slots>().AutoSavePlayerInventory();
+            FindObjectOfType<List_Slots>().SaveData();
 
             SceneManager.LoadScene(2);
         }
