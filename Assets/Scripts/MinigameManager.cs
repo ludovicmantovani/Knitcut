@@ -23,6 +23,12 @@ public class MinigameManager : MonoBehaviour
         set { startOK = value; }
     }
 
+    public static List_Slots CurrentInventory
+    {
+        get { return currentInventory; }
+        set { currentInventory = value; }
+    }
+
     public static List<GameObject> OpenInventories
     {
         get { return openInventories; }
@@ -68,10 +74,8 @@ public class MinigameManager : MonoBehaviour
             dataLoaded = true;
     }
 
-    public static void KeepPlayerInventory(List_Slots LS)
+    public static void CheckInventory()
     {
-        currentInventory = LS;
-
         for (int i = 0; i < currentInventory.ItemsInSlots.Length; i++)
         {
             if (currentInventory.ItemsInSlots[i] != -1)

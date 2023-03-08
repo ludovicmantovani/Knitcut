@@ -7,6 +7,7 @@ public class ChangeScene : MonoBehaviour
 {
     [SerializeField] private string sceneToLoad = "";
     [SerializeField] private GameObject interactionPanel;
+    [SerializeField] private bool isMinigame;
 
     private PlayerInput pI;
     private Shop_Enclos se;
@@ -14,6 +15,7 @@ public class ChangeScene : MonoBehaviour
     private List_Slots LS;
 
     bool canChangeScene = false;
+    bool showInstruction = false;
 
     void Awake()
     {
@@ -26,7 +28,7 @@ public class ChangeScene : MonoBehaviour
     void Update()
     {
         ShowInteraction();
-        HandleChangeScene();
+        HandleChangeScene();        
     }
 
     private void HandleChangeScene()
@@ -48,7 +50,7 @@ public class ChangeScene : MonoBehaviour
 
             LS.SaveData();
 
-            MinigameManager.KeepPlayerInventory(LS);
+            MinigameManager.CurrentInventory = LS;
 
             SceneManager.LoadScene(sceneToLoad);
         }
@@ -56,17 +58,39 @@ public class ChangeScene : MonoBehaviour
 
     private void ShowInteraction()
     {
-        if (canChangeScene && sceneToLoad != "")
+        if (showInstruction && sceneToLoad != "")
         {
-            if (SceneManager.GetActiveScene().name.Contains("Farm"))
+            showInstruction = false;
+
+            string instruction = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString();
+
+            if (sceneToLoad.Contains("Village"))
             {
-                interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to go to Village";
+                instruction += " to go to Village";
             }
 
-            if (SceneManager.GetActiveScene().name.Contains("Village"))
+            if (sceneToLoad.Contains("Farm"))
             {
-                interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to return to Farm";
+                instruction += " to return to Farm";
             }
+
+            if (isMinigame)
+            {
+                if (sceneToLoad.Contains("Cooking"))
+                {
+                    instruction += " to enter the kitchen";
+                }
+                else if (sceneToLoad.Contains("Recognition"))
+                {
+                    instruction += " to use the sewing workshop";
+                }
+                else if (sceneToLoad.Contains("Flower"))
+                {
+                    instruction += " to try to breed the animals";
+                }
+            }
+
+            interactionPanel.GetComponentInChildren<Text>().text = instruction;
         }
     }
 
@@ -75,6 +99,7 @@ public class ChangeScene : MonoBehaviour
         if (other.CompareTag("Player")) canChangeScene = true;
 
         interactionPanel.SetActive(true);
+        showInstruction = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -82,5 +107,6 @@ public class ChangeScene : MonoBehaviour
         if (other.CompareTag("Player")) canChangeScene = false;
 
         interactionPanel.SetActive(false);
+        showInstruction = false;
     }
 }
