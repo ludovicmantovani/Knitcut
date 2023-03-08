@@ -44,7 +44,14 @@ public class playerController : MonoBehaviour
     private bool Left = false;
     private bool Shop = false;
 
+    private bool canMove = true;
+
     public GameObject CameraFC => cameraFermeCinemachine;
+    public bool CanMove
+    { 
+        get { return canMove; }
+        set { canMove = value; }
+    }
 
 
     void Awake()
@@ -144,6 +151,7 @@ public class playerController : MonoBehaviour
     // nouveau system de deplacement
     void PlayerMovementFarmV2()
     {
+        if (!canMove) return;
 
         Vector2 input = pI.actions["Move"].ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0,input.y);
@@ -184,6 +192,8 @@ public class playerController : MonoBehaviour
     // synchro avec nouveau input system
     void PlayerMovementVillage()
     {
+        if (!canMove) return;
+
         if (TalkingShop == true && Shop == false)
         {
 

@@ -232,7 +232,37 @@ public class Cooking : MonoBehaviour
         recipe.GetComponent<Image>().sprite = recipeToAdd.recipeSprite;
 
         recipe.GetComponent<KeepRecipe>().recipe = recipeToAdd;
-        //recipe.GetComponent<RecipePopup>().popup = popup;
+
+        recipe.GetComponent<Button>().interactable = CheckRecipeConsumables();
+    }
+
+    private bool CheckRecipeConsumables()
+    {
+        bool canBeCooked = true;
+
+        List<Item> consumables = new List<Item>();
+
+        /*for (int i = 0; i < MinigameManager.CurrentInventory.ItemsInSlots.Length; i++)
+        {
+            if (MinigameManager.CurrentInventory.ItemsInSlots[i] != -1)
+            {
+                Debug.Log($"{MinigameManager.CurrentInventory.ItemsInSlots[i]}");
+                Debug.Log($"{MinigameManager.CurrentInventory.PlayerSlots[i]}");
+                Debug.Log($"{MinigameManager.CurrentInventory.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item}");
+
+                Item item = MinigameManager.CurrentInventory.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
+
+                if (item.itemType == ItemType.Consumable)
+                    consumables.Add(item);
+            }
+        }*/
+
+        for (int i = 0; i < consumables.Count; i++)
+        {
+            Debug.Log($"{i}. {consumables[i].itemName}");
+        }
+
+        return canBeCooked;
     }
 
     public void RemoveRecipeFromList(Recipe recipeToRemove)

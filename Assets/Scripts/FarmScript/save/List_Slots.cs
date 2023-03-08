@@ -35,6 +35,12 @@ public class List_Slots : MonoBehaviour
 
     #region Getters / Setters
 
+    public GameObject[] PlayerSlots
+    {
+        get { return playerSlots; }
+        set { playerSlots = value; }
+    }
+
     public int[] ItemsInSlots
     {
         get { return itemsInSlots; }
@@ -149,7 +155,7 @@ public class List_Slots : MonoBehaviour
         if (handleContainer)
             LoadContainerInventory();
 
-        CreateTempItem();
+        //CreateTempItem();
     }
     private void CreateTempItem()
     {

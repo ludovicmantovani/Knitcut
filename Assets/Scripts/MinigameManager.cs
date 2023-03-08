@@ -8,9 +8,16 @@ public class MinigameManager : MonoBehaviour
     private static List<object> dataToKeep;
     private static bool startOK = false;
     private static string sceneToLoad = "FarmScene";
-    private static List_Slots currentInventory;
     private static playerController playerController;
     private static List<GameObject> openInventories = new List<GameObject>();
+
+    public class PlayerItem
+    {
+        public Item item;
+        public int quantity;
+    }
+
+    private static List<PlayerItem> playerItems = new List<PlayerItem>();
 
     public static List<object> DataToKeep
     {
@@ -21,12 +28,6 @@ public class MinigameManager : MonoBehaviour
     {
         get { return startOK; }
         set { startOK = value; }
-    }
-
-    public static List_Slots CurrentInventory
-    {
-        get { return currentInventory; }
-        set { currentInventory = value; }
     }
 
     public static List<GameObject> OpenInventories
@@ -70,20 +71,29 @@ public class MinigameManager : MonoBehaviour
 
     private void OnLevelWasLoaded()
     {
-        if (SceneManager.GetActiveScene().name.Contains("Farm") && dataToKeep != null)
-            dataLoaded = true;
+        if (SceneManager.GetActiveScene().name.Contains("Farm") && dataToKeep != null) dataLoaded = true;
+
+        if (SceneManager.GetActiveScene().name.Contains("Cooking")) HandleItemsInInventory();
     }
 
-    public static void CheckInventory()
+    private void HandleItemsInInventory()
     {
-        for (int i = 0; i < currentInventory.ItemsInSlots.Length; i++)
+        for (int i = 0; i < playerItems.Count; i++)
         {
-            if (currentInventory.ItemsInSlots[i] != -1)
-            {
-                Debug.Log($"{i}. {currentInventory.ItemsInSlots[i]}");
-            }
+            Debug.Log($"{i}. {playerItems[i].item} x{playerItems[i].quantity}");
         }
     }
+
+    public static void AddPlayerItem(Item item, int quantity)
+    {
+        PlayerItem playerItem = new PlayerItem();
+        playerItem.item = item;
+        playerItem.quantity = quantity;
+
+        playerItems.Add(playerItem);
+    }
+
+    #region Open Inventories
 
     public static void AddOpenInventory(GameObject inventory)
     {
@@ -104,12 +114,16 @@ public class MinigameManager : MonoBehaviour
         if (openInventories.Count > 0)
         {
             playerController.CameraFC.SetActive(false);
+            playerController.CanMove = false;
         }
         else
         {
             playerController.CameraFC.SetActive(true);
+            playerController.CanMove = true;
         }
     }
+
+#endregion
 
     #region Handle Mini Games Datas
 

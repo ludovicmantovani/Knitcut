@@ -50,9 +50,25 @@ public class ChangeScene : MonoBehaviour
 
             LS.SaveData();
 
-            MinigameManager.CurrentInventory = LS;
+            CheckPlayerInventory();
 
             SceneManager.LoadScene(sceneToLoad);
+        }
+    }
+
+    private void CheckPlayerInventory()
+    {
+        for (int i = 0; i < LS.PlayerSlots.Length; i++)
+        {
+            if (LS.ItemsInSlots[i] != -1)
+            {
+                Item item = LS.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
+
+                if (item.itemType == ItemType.Consumable)
+                {
+                    MinigameManager.AddPlayerItem(item, LS.QuantityStackedPlayerInventory[i]);
+                }
+            }
         }
     }
 
