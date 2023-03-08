@@ -104,6 +104,8 @@ public class Feeder : MonoBehaviour
         feederInUse = true;
 
         interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to close Feeder";
+
+        MinigameManager.AddOpenInventory(feederInventory);
     }
 
     private void CloseFeederInventory()
@@ -111,6 +113,8 @@ public class Feeder : MonoBehaviour
         feederInUse = false;
 
         interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Feeder";
+
+        MinigameManager.RemoveOpenInventory(feederInventory);
     }
 
     #endregion

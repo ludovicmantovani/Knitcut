@@ -5,6 +5,42 @@ public class PlayerInventoryUI : MonoBehaviour
 {
     [SerializeField] private GameObject itemUI;
 
+    private bool inventoryOpen = true;
+    private playerController player;
+
+    private void Start()
+    {
+        player = FindObjectOfType<playerController>();
+
+        gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        HandleInventoryUI();
+    }
+
+    #region Inventory
+
+    public void HandleInventoryUI()
+    {
+        if (player.pI.actions["Inventory"].triggered && inventoryOpen)
+        {
+            inventoryOpen = false;
+            gameObject.SetActive(true);
+            MinigameManager.AddOpenInventory(gameObject);
+        }
+        else if (player.pI.actions["Inventory"].triggered && !inventoryOpen)
+        {
+            inventoryOpen = true;
+            gameObject.SetActive(false);
+            MinigameManager.RemoveOpenInventory(gameObject);
+        }
+
+    }
+
+    #endregion
+
     #region Items
 
     public GameObject CreateItemUI()

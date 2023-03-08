@@ -48,6 +48,8 @@ public class ChangeScene : MonoBehaviour
 
             LS.SaveData();
 
+            MinigameManager.KeepPlayerInventory(LS);
+
             SceneManager.LoadScene(sceneToLoad);
         }
     }

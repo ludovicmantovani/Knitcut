@@ -8,6 +8,9 @@ public class MinigameManager : MonoBehaviour
     private static List<object> dataToKeep;
     private static bool startOK = false;
     private static string sceneToLoad = "FarmScene";
+    private static List_Slots currentInventory;
+    private static playerController playerController;
+    private static List<GameObject> openInventories = new List<GameObject>();
 
     public static List<object> DataToKeep
     {
@@ -18,6 +21,12 @@ public class MinigameManager : MonoBehaviour
     {
         get { return startOK; }
         set { startOK = value; }
+    }
+
+    public static List<GameObject> OpenInventories
+    {
+        get { return openInventories; }
+        set { openInventories = value; }
     }
 
     private List_Slots listSlots;
@@ -34,13 +43,13 @@ public class MinigameManager : MonoBehaviour
 
     private static MGType mgType;
 
-    private void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
     private void Update()
     {
+        HandlePanels();
+
+        if (playerController == null && FindObjectOfType<playerController>())
+            playerController = FindObjectOfType<playerController>();
+
         if (dataLoaded)
         {
             dataLoaded = false;
@@ -51,32 +60,54 @@ public class MinigameManager : MonoBehaviour
 
             CheckItemsToAdd();
         }
-
-        HandleCursor();
     }
 
-    private void HandleCursor()
+    private void OnLevelWasLoaded()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 2 || SceneManager.GetActiveScene().buildIndex == 3)
-        {
-            playerController player = FindObjectOfType<playerController>();
+        if (SceneManager.GetActiveScene().name.Contains("Farm") && dataToKeep != null)
+            dataLoaded = true;
+    }
 
-            if (player.pI.actions["Cursor"].IsPressed())
+    public static void KeepPlayerInventory(List_Slots LS)
+    {
+        currentInventory = LS;
+
+        for (int i = 0; i < currentInventory.ItemsInSlots.Length; i++)
+        {
+            if (currentInventory.ItemsInSlots[i] != -1)
             {
-                Cursor.lockState = CursorLockMode.None;
-                player.CameraFC.SetActive(false);
+                Debug.Log($"{i}. {currentInventory.ItemsInSlots[i]}");
             }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                player.CameraFC.SetActive(true);
-            }
+        }
+    }
+
+    public static void AddOpenInventory(GameObject inventory)
+    {
+        if (!openInventories.Contains(inventory))
+            openInventories.Add(inventory);
+    }
+
+    public static void RemoveOpenInventory(GameObject inventory)
+    {
+        if (openInventories.Contains(inventory))
+            openInventories.Remove(inventory);
+    }
+
+    private void HandlePanels()
+    {
+        if (playerController == null) return;
+
+        if (openInventories.Count > 0)
+        {
+            playerController.CameraFC.SetActive(false);
         }
         else
         {
-            Cursor.lockState = CursorLockMode.None;
+            playerController.CameraFC.SetActive(true);
         }
     }
+
+    #region Handle Mini Games Datas
 
     public static void FinalizeMG(MGType _mgType, params object[] data)
     {
@@ -88,12 +119,6 @@ public class MinigameManager : MonoBehaviour
         {
             dataToKeep.Add(data[i]);
         }
-    }
-
-    private void OnLevelWasLoaded()
-    {
-        if (SceneManager.GetActiveScene().name.Contains("Farm") && dataToKeep != null)
-            dataLoaded = true;
     }
 
     private void CheckItemsToAdd()
@@ -155,9 +180,11 @@ public class MinigameManager : MonoBehaviour
 
     }
 
+    #endregion
+
     public static void SwitchScene()
     {
-        Debug.Log($"Switch to scene '{sceneToLoad}'");
+        Debug.Log($"Switch scene '{SceneManager.GetActiveScene().name}' to scene '{sceneToLoad}'");
         SceneManager.LoadScene(sceneToLoad);
     }
 }

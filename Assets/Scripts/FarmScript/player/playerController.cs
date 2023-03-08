@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class playerController : MonoBehaviour
 {
     List_Slots LS;
+    PlayerInventoryUI playerInventoryUI;
 
     // rajout pour rotation dans village
     public GameObject playerBody;
@@ -49,6 +50,7 @@ public class playerController : MonoBehaviour
     void Awake()
     {
         LS = FindObjectOfType<List_Slots>();
+        playerInventoryUI = FindObjectOfType<PlayerInventoryUI>();
         //Debug.Log(Application.persistentDataPath);
         //rajout component PlayerInput
         pI = GetComponent<PlayerInput>();
@@ -60,6 +62,11 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Village"))
+        {
+            playerInventoryUI.HandleInventoryUI();
+        }
+
         if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == 2)
         {
             shop_Enclos = FindObjectOfType<Shop_Enclos>();

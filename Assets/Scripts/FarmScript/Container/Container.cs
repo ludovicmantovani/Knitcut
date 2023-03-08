@@ -100,6 +100,8 @@ public class Container : MonoBehaviour
         containerInUse = true;
 
         interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to close Container";
+
+        MinigameManager.AddOpenInventory(containerInventoryContent);
     }
 
     private void CloseContainerInventory()
@@ -107,6 +109,8 @@ public class Container : MonoBehaviour
         containerInUse = false;
 
         interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Container";
+
+        MinigameManager.RemoveOpenInventory(containerInventoryContent);
     }
 
     #endregion

@@ -98,15 +98,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cursor"",
-                    ""type"": ""Button"",
-                    ""id"": ""42794098-7772-4901-99df-a6101bbab381"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -241,17 +232,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c6ab34f3-d70f-4a34-ab0e-fe91c9a95027"",
-                    ""path"": ""<Keyboard>/leftAlt"",
-                    ""interactions"": ""Hold"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cursor"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -344,7 +324,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         m_Actions_Heal_plant = m_Actions.FindAction("Heal_plant", throwIfNotFound: true);
         m_Actions_Hydrate_plant = m_Actions.FindAction("Hydrate_plant", throwIfNotFound: true);
         m_Actions_Inventory = m_Actions.FindAction("Inventory", throwIfNotFound: true);
-        m_Actions_Cursor = m_Actions.FindAction("Cursor", throwIfNotFound: true);
         // Manual_Save
         m_Manual_Save = asset.FindActionMap("Manual_Save", throwIfNotFound: true);
         m_Manual_Save_save_Inventory = m_Manual_Save.FindAction("save_Inventory", throwIfNotFound: true);
@@ -421,7 +400,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
     private readonly InputAction m_Actions_Heal_plant;
     private readonly InputAction m_Actions_Hydrate_plant;
     private readonly InputAction m_Actions_Inventory;
-    private readonly InputAction m_Actions_Cursor;
     public struct ActionsActions
     {
         private @Player_Input_New_Version m_Wrapper;
@@ -434,7 +412,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         public InputAction @Heal_plant => m_Wrapper.m_Actions_Heal_plant;
         public InputAction @Hydrate_plant => m_Wrapper.m_Actions_Hydrate_plant;
         public InputAction @Inventory => m_Wrapper.m_Actions_Inventory;
-        public InputAction @Cursor => m_Wrapper.m_Actions_Cursor;
         public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,9 +445,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
-            @Cursor.started += instance.OnCursor;
-            @Cursor.performed += instance.OnCursor;
-            @Cursor.canceled += instance.OnCursor;
         }
 
         private void UnregisterCallbacks(IActionsActions instance)
@@ -499,9 +473,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
-            @Cursor.started -= instance.OnCursor;
-            @Cursor.performed -= instance.OnCursor;
-            @Cursor.canceled -= instance.OnCursor;
         }
 
         public void RemoveCallbacks(IActionsActions instance)
@@ -629,7 +600,6 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         void OnHeal_plant(InputAction.CallbackContext context);
         void OnHydrate_plant(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
-        void OnCursor(InputAction.CallbackContext context);
     }
     public interface IManual_SaveActions
     {
