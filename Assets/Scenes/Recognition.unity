@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4396451, g: 0.4880423, b: 0.5682674, a: 1}
+  m_IndirectSpecularColor: {r: 0.43964556, g: 0.48804265, b: 0.56826764, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -202,24 +202,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 101985250}
   m_CullTransparentMesh: 1
---- !u!1 &122981819 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8090213721226564745, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
-  m_PrefabInstance: {fileID: 8090213721653715332}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &122981821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122981819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7324912d0d8fa64b9ee19e72e1b9ba7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: 
 --- !u!1 &160329566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1990,6 +1972,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8090213721226564745, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8090213721226564747, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -2001,18 +1987,18 @@ PrefabInstance:
     - target: {fileID: 8090213721226564747, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 122981821}
+      objectReference: {fileID: 167517864}
     - target: {fileID: 8090213721226564747, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8090213721226564747, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SwitchScene
+      value: Restart
       objectReference: {fileID: 0}
     - target: {fileID: 8090213721226564747, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GoToScene, Assembly-CSharp
+      value: Recognition.MouseInput, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8090213721226564747, guid: b9cac1b11f1ab184e9cc914f4cd3fe11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

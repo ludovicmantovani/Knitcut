@@ -838,6 +838,7 @@ MonoBehaviour:
   resultUI: {fileID: 8090213721562151446}
   gameUI: {fileID: 1400292847}
   sceneToSave: FarmScene
+  returnButton: {fileID: 0}
   recipeUI: {fileID: 900972290318332382, guid: a09e0ce682817054a9b26021919b2387, type: 3}
   consumablesList: {fileID: 0}
   currentRecipe: {fileID: 0}
@@ -2670,9 +2671,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8090213721992732311}
-        m_TargetAssemblyTypeName: GoToScene, Assembly-CSharp
-        m_MethodName: SwitchScene
+      - m_Target: {fileID: 620051608}
+        m_TargetAssemblyTypeName: Cooking, Assembly-CSharp
+        m_MethodName: Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2714,7 +2715,6 @@ GameObject:
   - component: {fileID: 8090213721992732298}
   - component: {fileID: 8090213721992732299}
   - component: {fileID: 8090213721992732308}
-  - component: {fileID: 8090213721992732311}
   m_Layer: 5
   m_Name: ButtonRestart
   m_TagString: Untagged
@@ -2722,19 +2722,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8090213721992732311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8090213721992732310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7324912d0d8fa64b9ee19e72e1b9ba7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: 
 --- !u!222 &8090213722090991569
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3641,9 +3628,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8090213722829311646}
-        m_TargetAssemblyTypeName: GoToScene, Assembly-CSharp
-        m_MethodName: SwitchScene
+      - m_Target: {fileID: 620051608}
+        m_TargetAssemblyTypeName: Cooking, Assembly-CSharp
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3685,7 +3672,6 @@ GameObject:
   - component: {fileID: 8090213722829311633}
   - component: {fileID: 8090213722829311634}
   - component: {fileID: 8090213722829311635}
-  - component: {fileID: 8090213722829311646}
   m_Layer: 5
   m_Name: ButtonQuit
   m_TagString: Untagged
@@ -3693,19 +3679,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8090213722829311646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8090213722829311645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7324912d0d8fa64b9ee19e72e1b9ba7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: FarmScene
 --- !u!222 &8090213722858647753
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -166,12 +166,7 @@ namespace Recognition
                 //TODO : Set money
 
                 // Save datas
-                List<object> data = new List<object>();
-
-                data.Add(25);
-
-                MinigameManager.mgType = MinigameManager.MGType.Recognition;
-                MinigameManager.AddData(data);
+                MinigameManager.FinalizeMG(MinigameManager.MGType.Recognition, 25);
 
                 //TODO : Set commentary
 
@@ -179,11 +174,25 @@ namespace Recognition
             }
         }
 
+        public void Restart()
+        {
+            if (gameCanvas && panel && resultCanvas)
+            {
+                Clear();
+
+                resultCanvas.gameObject.SetActive(false);
+
+                gameCanvas.gameObject.SetActive(true);
+                panel.SetActive(true);
+
+                mouseGesture.SelectRandomPattern();
+                mouseGesture.DisplayPattern();
+            }                
+        }
+
         public void Quit()
         {
-            Debug.Log($"Quitting... return to game");
-
-            SceneManager.LoadScene(sceneToSave);
+            MinigameManager.SwitchScene();
         }
 
         #endregion

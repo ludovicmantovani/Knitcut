@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class FlowerGameManager : MonoBehaviour
 {
     public enum State
@@ -53,11 +52,7 @@ public class FlowerGameManager : MonoBehaviour
             if (gameCanvas) gameCanvas.SetActive(false);
             if (resultCanvas)
             {
-
-                List<object> data = new List<object>();
-                data.Add(_win);
-                MinigameManager.mgType = MinigameManager.MGType.Breeding;
-                MinigameManager.AddData(data);
+                MinigameManager.FinalizeMG(MinigameManager.MGType.Breeding, _win);
 
                 resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win);
                 resultCanvas.SetActive(true);
@@ -104,6 +99,11 @@ public class FlowerGameManager : MonoBehaviour
             _stateTime = Time.time;
             gameState = State.AFTER_GAME;
         }
+    }
+    
+    public void Quit()
+    {
+        MinigameManager.SwitchScene();
     }
     #endregion
 }

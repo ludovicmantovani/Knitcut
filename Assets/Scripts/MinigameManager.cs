@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MinigameManager : MonoBehaviour
 {
-    [SerializeField] private static List<object> dataToKeep;
-    [SerializeField] private static bool startOK = false;
+    private static List<object> dataToKeep;
+    private static bool startOK = false;
+    private static string sceneToLoad = "FarmScene";
 
     public static List<object> DataToKeep
     {
@@ -31,7 +32,7 @@ public class MinigameManager : MonoBehaviour
         Capture
     }
 
-    public static MGType mgType;
+    private static MGType mgType;
 
     private void Start()
     {
@@ -77,9 +78,16 @@ public class MinigameManager : MonoBehaviour
         }
     }
 
-    public static void AddData(List<object> data)
+    public static void FinalizeMG(MGType _mgType, params object[] data)
     {
-        dataToKeep = data;
+        mgType = _mgType;
+
+        dataToKeep = new List<object>();
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            dataToKeep.Add(data[i]);
+        }
     }
 
     private void OnLevelWasLoaded()
@@ -145,5 +153,11 @@ public class MinigameManager : MonoBehaviour
     private void HandleCaptureData()
     {
 
+    }
+
+    public static void SwitchScene()
+    {
+        Debug.Log($"Switch to scene '{sceneToLoad}'");
+        SceneManager.LoadScene(sceneToLoad);
     }
 }

@@ -1310,7 +1310,6 @@ GameObject:
   - component: {fileID: 1182532794}
   - component: {fileID: 1182532793}
   - component: {fileID: 1182532792}
-  - component: {fileID: 1182532795}
   m_Layer: 5
   m_Name: ButtonReturn
   m_TagString: Untagged
@@ -1382,9 +1381,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1182532795}
-        m_TargetAssemblyTypeName: GoToScene, Assembly-CSharp
-        m_MethodName: SwitchScene
+      - m_Target: {fileID: 2001814709}
+        m_TargetAssemblyTypeName: FlowerGameManager, Assembly-CSharp
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1432,19 +1431,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182532790}
   m_CullTransparentMesh: 1
---- !u!114 &1182532795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182532790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7324912d0d8fa64b9ee19e72e1b9ba7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: FarmScene
 --- !u!1 &1245344013
 GameObject:
   m_ObjectHideFlags: 0

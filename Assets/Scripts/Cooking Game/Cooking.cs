@@ -102,15 +102,20 @@ public class Cooking : MonoBehaviour
         float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
 
         // Save datas
-        List<object> data = new List<object>();
+        /*List<object> data = new List<object>();
 
         data.Add(currentRecipe.finalProduct.GetComponent<DishInfos>().dishName);
         data.Add(currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription);
         data.Add(finalPrice);
         data.Add(currentRecipe.recipeIndex);
 
-        MinigameManager.mgType = MinigameManager.MGType.Cooking;
-        MinigameManager.AddData(data);
+        MinigameManager.FinalizeMG(data, MinigameManager.MGType.Cooking);*/
+
+        MinigameManager.FinalizeMG(MinigameManager.MGType.Cooking,
+            currentRecipe.finalProduct.GetComponent<DishInfos>().dishName,
+            currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription,
+            finalPrice,
+            currentRecipe.recipeIndex);
 
         // Rich Text
         /*StringBuilder builder = new StringBuilder();
@@ -141,10 +146,7 @@ public class Cooking : MonoBehaviour
 
     public void Quit()
     {
-        Debug.Log($"Quitting... return to game");
-
-        //SceneManager.LoadScene(sceneToSave);
-        SceneManager.LoadScene("FarmScene");
+        MinigameManager.SwitchScene();
     }
 
     #endregion
