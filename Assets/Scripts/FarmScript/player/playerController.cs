@@ -286,7 +286,7 @@ public class playerController : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name.Contains("Village"))
         {
-            playerPosition = FindObjectOfType<Voiture_Interaction>().transform.position;
+            playerPosition = FindObjectOfType<ChangeScene>().transform.position;
             //playerPosition = new Vector3(data.villagePosition[0], data.villagePosition[1], data.villagePosition[2]);
 
             //Debug.Log($"Go to village : {playerPosition}");
