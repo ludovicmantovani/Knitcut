@@ -11,6 +11,7 @@ public class Recipe : ScriptableObject
     {
         public Item consumable;
         public int quantity;
+        public bool ok;
     }
 
     public string recipeIndex;
@@ -25,11 +26,13 @@ public class Recipe : ScriptableObject
 
     public string GetInfosConsumablesRequired()
     {
+        CheckConsumables();
+
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < consumablesRequired.Count; i++)
         {
-            if (CanUseConsumable(consumablesRequired[i]))
+            if (consumablesRequired[i].ok)
                 builder.Append($"<color=green>");
             else
                 builder.Append($"<color=red>");
@@ -40,20 +43,69 @@ public class Recipe : ScriptableObject
         return builder.ToString();
     }
 
-    private bool CanUseConsumable(ConsumablesRequired consumableRequired)
+    #region Handle Check Consumables
+
+    private void CheckConsumables()
     {
-        bool canUse = false;
+        List<MinigameManager.PlayerItem> consumablesInInventory = new List<MinigameManager.PlayerItem>();
 
-        List<Item> consumablesPossessed = FindObjectOfType<Cooking>().ConsumsPossessed;
-
-        for (int i = 0; i < consumablesPossessed.Count; i++)
+        for (int i = 0; i < MinigameManager.PlayerItems.Count; i++)
         {
-            if (consumablesPossessed[i] == consumableRequired.consumable && consumablesPossessed[i].itemValue >= consumableRequired.quantity)
+            if (MinigameManager.PlayerItems[i].item.itemType == ItemType.Consumable)
             {
-                canUse = true;
+                consumablesInInventory.Add(MinigameManager.PlayerItems[i]);
             }
         }
 
-        return canUse;
+        CheckIfRecipeCanBeCooked(consumablesInInventory);
+
+        canBeCooked = true;
+
+        for (int i = 0; i < consumablesRequired.Count; i++)
+        {
+            if (!consumablesRequired[i].ok) canBeCooked = false;
+        }
     }
+
+    private void CheckIfRecipeCanBeCooked(List<MinigameManager.PlayerItem> consumablesInInventory)
+    {
+        // For Each required consumable of recipe
+        for (int i = 0; i < consumablesRequired.Count; i++)
+        {
+            List<MinigameManager.PlayerItem> playerItems = new List<MinigameManager.PlayerItem>();
+
+            // Check each consumable in inventory
+            for (int j = 0; j < consumablesInInventory.Count; j++)
+            {
+                // If consumable possessed
+                if (consumablesRequired[i].consumable == consumablesInInventory[j].item) playerItems.Add(consumablesInInventory[j]);
+            }
+
+            if (playerItems.Count > 0)
+            {
+                int totalQuantity = 0;
+
+                // Check consumable quantity
+                for (int k = 0; k < playerItems.Count; k++)
+                {
+                    totalQuantity += playerItems[k].quantity;
+                }
+
+                if (totalQuantity >= consumablesRequired[i].quantity)
+                {
+                    consumablesRequired[i].ok = true;
+                }
+                else
+                {
+                    consumablesRequired[i].ok = false;
+                }
+            }
+            else
+            {
+                consumablesRequired[i].ok = false;
+            }
+        }
+    }
+
+    #endregion
 }

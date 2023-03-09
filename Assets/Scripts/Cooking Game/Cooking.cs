@@ -17,9 +17,6 @@ public class Cooking : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
-    //[SerializeField] private GameObject recipeInfos;
-    //[SerializeField] private GameObject instruction;
-    //[SerializeField] private GameObject timer;
     [SerializeField] private TextMeshProUGUI consumablesList;
     [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
@@ -32,15 +29,9 @@ public class Cooking : MonoBehaviour
 
     [Header("Lists")]
     [SerializeField] private List<Recipe> recipes = new List<Recipe>();
-    [SerializeField] private List<Item> consumsPossessed = new List<Item>();
 
     private bool recipeInPreparation;
     private CookingGameCanvas _cookingGameCanvas = null;
-
-    public List<Item> ConsumsPossessed
-    {
-        get { return consumsPossessed; }
-    }
 
     Consumable3DSpawner consumable3DSpawner;
 
@@ -55,25 +46,12 @@ public class Cooking : MonoBehaviour
 
     private void HandleGameStart()
     {
-        //resultUI.gameObject.SetActive(false);
-
-
-        //instruction.SetActive(true);
-        //instruction.transform.GetComponentInChildren<Text>().text = "Sélectionner une recette";
-
         recipeInPreparation = false;
-
-        InitializeConsumablesPossessed();
 
         // Reset UIs
         
         if (gameUI && gameUI.TryGetComponent<CookingGameCanvas>(out _cookingGameCanvas))
             _cookingGameCanvas.SetRecipeData();
-
-        //consumablesList.text = "";
-
-        //resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "";
-        // TODO voir si besoin rezet le texte
     }
 
     private void Update()
@@ -102,29 +80,11 @@ public class Cooking : MonoBehaviour
         float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
 
         // Save datas
-        /*List<object> data = new List<object>();
-
-        data.Add(currentRecipe.finalProduct.GetComponent<DishInfos>().dishName);
-        data.Add(currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription);
-        data.Add(finalPrice);
-        data.Add(currentRecipe.recipeIndex);
-
-        MinigameManager.FinalizeMG(data, MinigameManager.MGType.Cooking);*/
-
         MinigameManager.FinalizeMG(MinigameManager.MGType.Cooking,
             currentRecipe.finalProduct.GetComponent<DishInfos>().dishName,
             currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription,
             finalPrice,
             currentRecipe.recipeIndex);
-
-        // Rich Text
-        /*StringBuilder builder = new StringBuilder();
-
-        builder.Append($"Plat <color=orange>'{currentRecipe.finalProduct.GetComponent<DishInfos>().dishName}'</color> préparé  avec succès !").AppendLine().AppendLine();
-        builder.Append($"Prix du plat = <color=green>{finalPrice}</color> ({consumables3Dsliced}/{totalConsumablesRequired})");
-
-        resultUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = builder.ToString();
-        */
 
         CookingResultCanvas cookingResultCanvas = null;
         if (resultUI &&
@@ -173,35 +133,12 @@ public class Cooking : MonoBehaviour
             }
         }
 
-        HandleRecipesState();
-    }
-
-    private void HandleRecipesState()
-    {
         // For each recipe
-        foreach (Recipe recipe in recipes)
+        /*foreach (Recipe recipe in recipes)
         {
-            bool recipeCanBeCooked = true;
-
-            // For each consumable required for the recipe
-            for (int i = 0; i < recipe.consumablesRequired.Count; i++)
-            {
-                if (!consumsPossessed.Contains(recipe.consumablesRequired[i].consumable))
-                {
-                    recipeCanBeCooked = false;
-                }
-
-                if (consumsPossessed.Contains(recipe.consumablesRequired[i].consumable) && consumsPossessed[i].itemValue < recipe.consumablesRequired[i].quantity)
-                {
-                    recipeCanBeCooked = false;
-                }
-            }
-
-            recipe.canBeCooked = recipeCanBeCooked;
-
             if (_cookingGameCanvas)
-                _cookingGameCanvas.CanInteract(recipeCanBeCooked);
-        }
+                _cookingGameCanvas.CanInteract(recipe.canBeCooked);
+        }*/
     }
 
     #region Options
@@ -232,37 +169,6 @@ public class Cooking : MonoBehaviour
         recipe.GetComponent<Image>().sprite = recipeToAdd.recipeSprite;
 
         recipe.GetComponent<KeepRecipe>().recipe = recipeToAdd;
-
-        recipe.GetComponent<Button>().interactable = CheckRecipeConsumables();
-    }
-
-    private bool CheckRecipeConsumables()
-    {
-        bool canBeCooked = true;
-
-        List<Item> consumables = new List<Item>();
-
-        /*for (int i = 0; i < MinigameManager.CurrentInventory.ItemsInSlots.Length; i++)
-        {
-            if (MinigameManager.CurrentInventory.ItemsInSlots[i] != -1)
-            {
-                Debug.Log($"{MinigameManager.CurrentInventory.ItemsInSlots[i]}");
-                Debug.Log($"{MinigameManager.CurrentInventory.PlayerSlots[i]}");
-                Debug.Log($"{MinigameManager.CurrentInventory.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item}");
-
-                Item item = MinigameManager.CurrentInventory.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
-
-                if (item.itemType == ItemType.Consumable)
-                    consumables.Add(item);
-            }
-        }*/
-
-        for (int i = 0; i < consumables.Count; i++)
-        {
-            Debug.Log($"{i}. {consumables[i].itemName}");
-        }
-
-        return canBeCooked;
     }
 
     public void RemoveRecipeFromList(Recipe recipeToRemove)
@@ -277,6 +183,9 @@ public class Cooking : MonoBehaviour
         Recipe recipe = GetRecipeItem(recipeName);
 
         ShowRecipeInfos(recipe);
+
+        if (_cookingGameCanvas)
+            _cookingGameCanvas.CanInteract(recipe.canBeCooked);
     }
 
     private void ShowRecipeInfos(Recipe recipe)
@@ -296,6 +205,8 @@ public class Cooking : MonoBehaviour
     public void CookingRecipe()
     {
         if (recipeInPreparation || currentRecipe == null) return;
+
+        if (!currentRecipe.canBeCooked) return;
 
         if (_cookingGameCanvas)
         {
@@ -325,7 +236,7 @@ public class Cooking : MonoBehaviour
             int index = 0;
             for (int i = 0; i < currentRecipe.consumablesRequired.Count; i++)
             {
-                UpdateConsumable(currentRecipe.consumablesRequired[i].consumable, (int)currentRecipe.consumablesRequired[i].consumable.itemValue - currentRecipe.consumablesRequired[i].quantity);
+                MinigameManager.RemovePlayerItem(currentRecipe.consumablesRequired[i].consumable, currentRecipe.consumablesRequired[i].quantity);
 
                 for (int j = 0; j < currentRecipe.consumablesRequired[i].quantity; j++)
                 {
@@ -392,26 +303,6 @@ public class Cooking : MonoBehaviour
     }
 
     #endregion
-
-    #endregion
-
-    #region Consumables
-
-    private void InitializeConsumablesPossessed()
-    {
-        for (int i = 0; i < consumsPossessed.Count; i++)
-        {
-            consumsPossessed[i].InitializeValue();
-        }
-    }
-
-    private void UpdateConsumable(Item consumableToUpdateQuantity, int newQuantity)
-    {
-        if (newQuantity < 0)
-            newQuantity = 0;
-
-        consumableToUpdateQuantity.itemValue = newQuantity;
-    }
 
     #endregion
 }

@@ -35,6 +35,12 @@ public class List_Slots : MonoBehaviour
 
     #region Getters / Setters
 
+    public Transform PlayerSlotsParent
+    {
+        get { return playerSlotsParent; }
+        set { playerSlotsParent = value; }
+    }
+
     public GameObject[] PlayerSlots
     {
         get { return playerSlots; }

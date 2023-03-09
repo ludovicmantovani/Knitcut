@@ -63,11 +63,8 @@ public class ChangeScene : MonoBehaviour
             if (LS.ItemsInSlots[i] != -1)
             {
                 Item item = LS.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
-
-                if (item.itemType == ItemType.Consumable)
-                {
-                    MinigameManager.AddPlayerItem(item, LS.QuantityStackedPlayerInventory[i]);
-                }
+                
+                MinigameManager.AddPlayerItem(item, LS.QuantityStackedPlayerInventory[i]);
             }
         }
     }

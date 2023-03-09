@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,6 +62,52 @@ public class PlayerInventoryUI : MonoBehaviour
         itemObject.GetComponent<DraggableItem>().Item = item;
 
         itemObject.GetComponent<Image>().sprite = item.itemSprite;
+    }
+
+    public void RemoveQuantityItem(Item item, int quantity)
+    {
+        List<DraggableItem> dragItemSlot = GetItemSlot(item);
+
+        if (dragItemSlot == null || dragItemSlot.Count == 0) return;
+
+        for (int i = 0; i < dragItemSlot.Count; i++)
+        {
+            if (dragItemSlot[i].quantityStacked > quantity)
+            {
+                dragItemSlot[i].quantityStacked -= quantity;
+            }
+            else
+            {
+                Destroy(dragItemSlot[i].gameObject);
+
+                quantity -= dragItemSlot[i].quantityStacked;
+            }
+        }
+    }
+
+    private List<DraggableItem> GetItemSlot(Item item)
+    {
+        List<DraggableItem> dragItems = new List<DraggableItem>();
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.childCount > 0)
+            {
+                if (transform.GetChild(i).GetComponentInChildren<DraggableItem>())
+                {
+                    DraggableItem dragItemInSlot = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
+
+                    if (dragItemInSlot == null) return null;
+
+                    if (dragItemInSlot.Item == item)
+                    {
+                        dragItems.Add(dragItemInSlot);
+                    }
+                }                
+            }
+        }
+
+        return dragItems;
     }
 
     private Transform GetFreeSlot()

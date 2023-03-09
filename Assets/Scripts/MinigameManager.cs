@@ -10,6 +10,7 @@ public class MinigameManager : MonoBehaviour
     private static string sceneToLoad = "FarmScene";
     private static playerController playerController;
     private static List<GameObject> openInventories = new List<GameObject>();
+    private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
 
     public class PlayerItem
     {
@@ -34,6 +35,12 @@ public class MinigameManager : MonoBehaviour
     {
         get { return openInventories; }
         set { openInventories = value; }
+    }
+
+    public static List<PlayerItem> PlayerItems
+    {
+        get { return playerItems; }
+        set { playerItems = value; }
     }
 
     private List_Slots listSlots;
@@ -72,16 +79,6 @@ public class MinigameManager : MonoBehaviour
     private void OnLevelWasLoaded()
     {
         if (SceneManager.GetActiveScene().name.Contains("Farm") && dataToKeep != null) dataLoaded = true;
-
-        if (SceneManager.GetActiveScene().name.Contains("Cooking")) HandleItemsInInventory();
-    }
-
-    private void HandleItemsInInventory()
-    {
-        for (int i = 0; i < playerItems.Count; i++)
-        {
-            Debug.Log($"{i}. {playerItems[i].item} x{playerItems[i].quantity}");
-        }
     }
 
     public static void AddPlayerItem(Item item, int quantity)
@@ -91,6 +88,11 @@ public class MinigameManager : MonoBehaviour
         playerItem.quantity = quantity;
 
         playerItems.Add(playerItem);
+    }
+
+    public static void RemovePlayerItem(Item item, int quantity)
+    {
+        itemsToRemoveQuantity.Add(item, quantity);
     }
 
     #region Open Inventories
@@ -167,18 +169,44 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleCookingData()
     {
-        PlayerInventoryUI inventory = FindObjectOfType<PlayerInventoryUI>();
+        PlayerInventoryUI inventory = listSlots.PlayerSlotsParent.GetComponent<PlayerInventoryUI>();
 
-        if (inventory == null) return;
+        if (inventory == null || FindFirstGenericDishSO() == -1) return;
 
         GameObject itemUI = inventory.CreateItemUI();
         itemUI.GetComponent<DraggableItem>().quantityStacked = 1;
 
-        itemUI.GetComponent<DraggableItem>().Item = (Item)listSlots.stuffs[3 + Convert.ToInt32(dataToKeep[3])];
+        itemUI.GetComponent<DraggableItem>().Item = (Item)listSlots.stuffs[FindFirstGenericDishSO() + Convert.ToInt32(dataToKeep[3])];
 
         itemUI.GetComponent<DraggableItem>().Item.itemName = (string)dataToKeep[0];
         itemUI.GetComponent<DraggableItem>().Item.itemDescription = (string)dataToKeep[1];
         itemUI.GetComponent<DraggableItem>().Item.itemValue = (float)dataToKeep[2];
+
+        HandleItemsInInventory(inventory);
+    }
+
+    private int FindFirstGenericDishSO()
+    {
+        for (int i = 0; i < listSlots.stuffs.Length; i++)
+        {
+            Item item = (Item)listSlots.stuffs[i];
+
+            if (item.name.Contains("Dish"))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private void HandleItemsInInventory(PlayerInventoryUI inventory)
+    {
+        foreach (Item item in itemsToRemoveQuantity.Keys)
+        {
+            if (itemsToRemoveQuantity.TryGetValue(item, out int quantity))
+                inventory.RemoveQuantityItem(item, quantity);
+        }
     }
 
     private void HandleRecognitionData()
