@@ -11,13 +11,27 @@ public class ResultCanvas : MonoBehaviour
 
     [SerializeField] private List<GameObject> desactiveGameObject;
 
-    public void SetData(bool win = false, string animal = "lama")
+    private string _animalName = "";
+    private bool _isMale = true;
+
+    public void SetAnimal(string name, bool male = true)
     {
-        string info = win ? "Vous avez attrapé un " + animal + " !": "Un " + animal + " vous a échappé !";
+        if (name.Length > 0) _animalName = name;
+        _isMale = male;
+    }
+
+    public void SetData(bool win = false)
+    {
+        string sexWord = _isMale ? "un" : "une";
+        string winString = "Vous avez attrapé " + sexWord + " " + _animalName + " !";
+        string loseString = char.ToUpper(sexWord[0]) + sexWord.Substring(1) + " " + _animalName + " vous a échappé !";
+        string info = win ? winString : loseString;
         if (textInfo) textInfo.text = info;
 
-        info = win ? "Choisir un enclos" : "Retour à la ferme";
+        info = "Retour à la ferme";
         if (textButton) textButton.text = info;
+
+        MinigameManager.AnimalToKeep = win ? _animalName : "";
     }
 
     public void Display(bool hideObjects = true)

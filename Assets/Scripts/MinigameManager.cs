@@ -25,12 +25,18 @@ public class MinigameManager : MonoBehaviour
     public static string AnimalToKeep
     {
         get { return animalToKeep; }
+        set { animalToKeep = value; }
     }
 
     public static bool StartOK
     {
         get { return startOK; }
         set { startOK = value; }
+    }
+
+    public static List<object> DataToKeep
+    {
+        get { return dataToKeep; }
     }
 
     public static List<GameObject> OpenInventories
@@ -230,8 +236,6 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleCaptureData()
     {
-        if (animalToKeep == "")
-            animalToKeep = (string)dataToKeep[0];
     }
 
     #endregion

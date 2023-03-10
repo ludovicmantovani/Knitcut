@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6684046742517623801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6684046742517623807}
+  - component: {fileID: 6684046742517623800}
+  m_Layer: 0
+  m_Name: CustomAnimal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6684046742517623807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6684046742517623801}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 292.6369, y: 200.0797, z: 1.5980859}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6684046742517623800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6684046742517623801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5822a3481351e84a8f84a1723d16ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  rawImage: {fileID: 0}
+  resultCanvas: {fileID: 0}
+  spriteStringPairs:
+  - findingName: Renard
+    sprite: {fileID: 21300000, guid: 307f9c51d56639a42baf1ecc39e64a3c, type: 3}
+    displayName: renard
+    male: 1
+  - findingName: Lama
+    sprite: {fileID: 21300000, guid: c159e7bd5bc506546a44920b8918accf, type: 3}
+    displayName: lama
+    male: 1
+  - findingName: Licorne
+    sprite: {fileID: 21300000, guid: d1017f6e1b1d8f846a9f84f772abbfe6, type: 3}
+    displayName: licorne
+    male: 0
+  - findingName: Lion
+    sprite: {fileID: 21300000, guid: ae754a46de6d01a44b9c9037e58bcd03, type: 3}
+    displayName: lion
+    male: 1
+  - findingName: Racoon
+    sprite: {fileID: 21300000, guid: 5430efaaf6a400d4f9154b005ee17439, type: 3}
+    displayName: raton
+    male: 1
+  - findingName: Vers
+    sprite: {fileID: 21300000, guid: 98fccb094970aef478572e45e05f2a1d, type: 3}
+    displayName: chenille
+    male: 0

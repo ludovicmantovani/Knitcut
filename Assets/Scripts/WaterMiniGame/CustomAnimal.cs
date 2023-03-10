@@ -14,75 +14,68 @@ public class CustomAnimal : MonoBehaviour
     //[SerializeField] private List<Texture> texturesList = new List<Texture>();
 
     [System.Serializable]
-    public class TextureStringPair
+    public class SpriteStringPair
     {
-        public string name;
-        public Texture texture;
+        public string findingName;
+        public Sprite sprite;
+        public string displayName;
+        public bool male;
     }
 
-    [SerializeField]
-    private List<TextureStringPair> textureStringPairs = new List<TextureStringPair>();
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField] private RawImage rawImage = null;
+    [SerializeField] private ResultCanvas resultCanvas = null;
+    [SerializeField] private List<SpriteStringPair> spriteStringPairs = new List<SpriteStringPair>();
 
     private string _currentAnimalName = null;
-    private Texture _currentAnimalTexture = null;
+    private Sprite _currentAnimalSprite = null;
+    private bool _isMale = true;
 
-    private SpriteRenderer spriteRenderer = null;
-    private RawImage rawImage = null;
     void Start()
     {
-        TryGetComponent<SpriteRenderer>(out spriteRenderer);
-        TryGetComponent<RawImage>(out rawImage);
+        findCurrentAnimal();
+        if (spriteStringPairs.Count > 0)
+        {
+            if (spriteRenderer && _currentAnimalSprite != null)
+                spriteRenderer.sprite = _currentAnimalSprite;
+            if (rawImage && _currentAnimalSprite != null)
+                rawImage.texture = _currentAnimalSprite.texture;
+            if (resultCanvas && _currentAnimalName != null && _currentAnimalName.Length > 0)
+                resultCanvas.SetAnimal(_currentAnimalName, _isMale);
+        }
     }
 
-    //private Texture GetAnimalTexture(string mane)
-    //{
-    //    if (textureTable.Count <= 0) return null;
-    //    return textureTable[0].Item2;
-    //}
-
-    public string GetCurrentAnimalName()
+    private void findCurrentAnimal()
     {
-        if (_currentAnimalName != null || findCurrentAnimal()) return _currentAnimalName;
-        return null;
-    }
-
-    public Texture GetCurrentAnimalTexture()
-    {
-        if (_currentAnimalTexture != null || findCurrentAnimal()) return _currentAnimalTexture;
-        return null;
-    }
-
-    private bool findCurrentAnimal()
-    {
-        bool find = false;
-        string animalNameFromFarm = MinigameManager.AnimalToKeep;
+        List<object> dataToKeep = MinigameManager.DataToKeep;
+        string animalNameFromFarm = dataToKeep.Count > 0 ? (string)dataToKeep[0]: "";
 
         if (animalNameFromFarm.Length > 0)
         {
-            TextureStringPair tempTextureStringPair = null;
-            for (int i = 0; i < textureStringPairs.Count; i++)
+            SpriteStringPair tempSpriteStringPair = null;
+            for (int i = 0; i < spriteStringPairs.Count; i++)
             {
-                tempTextureStringPair = textureStringPairs[i];
-                if (tempTextureStringPair.name.Length > 0 && animalNameFromFarm.Contains(tempTextureStringPair.name))
+                tempSpriteStringPair = spriteStringPairs[i];
+                if (tempSpriteStringPair.findingName.Length > 0 && animalNameFromFarm.Contains(tempSpriteStringPair.findingName))
                 {
-                    _currentAnimalName = tempTextureStringPair.name;
-                    if (tempTextureStringPair.texture != null) _currentAnimalTexture = tempTextureStringPair.texture;
+                    if (tempSpriteStringPair.displayName.Length > 0) _currentAnimalName = tempSpriteStringPair.displayName;
+                    _isMale = tempSpriteStringPair.male;
+                    if (tempSpriteStringPair.sprite != null) _currentAnimalSprite = tempSpriteStringPair.sprite;
                     break;
                 }
             }
         }
-        return find;
     }
-    void OnGUI()
-    {
-        SerializedObject serializedObject = new SerializedObject(this);
+    //void OnGUI()
+    //{
+    //    SerializedObject serializedObject = new SerializedObject(this);
 
-        SerializedProperty textureStringPairsProperty = serializedObject.FindProperty("textureStringPairs");
+    //    SerializedProperty textureStringPairsProperty = serializedObject.FindProperty("spriteStringPairs");
 
-        serializedObject.Update();
+    //    serializedObject.Update();
 
-        EditorGUILayout.PropertyField(textureStringPairsProperty, true);
+    //    EditorGUILayout.PropertyField(textureStringPairsProperty, true);
 
-        serializedObject.ApplyModifiedProperties();
-    }
+    //    serializedObject.ApplyModifiedProperties();
+    //}
 }
