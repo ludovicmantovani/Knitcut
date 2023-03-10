@@ -20,9 +20,11 @@ public class MinigameManager : MonoBehaviour
 
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
 
-    public static List<object> DataToKeep
+    private static string animalToKeep = "";
+
+    public static string AnimalToKeep
     {
-        get { return dataToKeep; }
+        get { return animalToKeep; }
     }
 
     public static bool StartOK
@@ -68,9 +70,10 @@ public class MinigameManager : MonoBehaviour
         {
             dataLoaded = false;
 
-            listSlots = FindObjectOfType<List_Slots>();
-
-            if (listSlots == null) return;
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<List_Slots>())
+            {
+                return;
+            }
 
             CheckItemsToAdd();
         }
@@ -78,7 +81,8 @@ public class MinigameManager : MonoBehaviour
 
     private void OnLevelWasLoaded()
     {
-        if (SceneManager.GetActiveScene().name.Contains("Farm") && dataToKeep != null) dataLoaded = true;
+        if ((SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))
+            && dataToKeep != null) dataLoaded = true;
     }
 
     public static void AddPlayerItem(Item item, int quantity)
@@ -143,6 +147,9 @@ public class MinigameManager : MonoBehaviour
 
     private void CheckItemsToAdd()
     {
+        if (SceneManager.GetActiveScene().name.Contains("Farm"))
+            listSlots = FindObjectOfType<List_Slots>();
+
         switch (mgType)
         {
             case MGType.Cooking:
@@ -223,7 +230,8 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleCaptureData()
     {
-
+        if (animalToKeep == "")
+            animalToKeep = (string)dataToKeep[0];
     }
 
     #endregion

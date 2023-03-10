@@ -50,14 +50,17 @@ public class PositionFruitAttirer : MonoBehaviour
     {
         if (other.tag == "Animal")
         {
-
-            Debug.Log("Contact");
+            Debug.Log("Contact " + other.gameObject.name);
             if (pI.actions["Intercation_Environnements"].triggered && verif ==true)
             {
                 if (captureGameSceneName.Length > 0)
+                {
+                    MinigameManager.FinalizeMG(MinigameManager.MGType.Capture, other.gameObject.name);
+
                     SceneManager.LoadScene(
                         captureGameSceneName[UnityEngine.Random.Range(0, captureGameSceneName.Length)]
                         );
+                }
                 else
                     Debug.LogWarning("Aucun nom de scene configure pour le mini jeu de capture");
             }
