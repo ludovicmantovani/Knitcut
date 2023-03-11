@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 2360994967946422220}
   - component: {fileID: 2360994967946422219}
   - component: {fileID: 2360994967946422218}
+  - component: {fileID: 2360994968887492026}
   m_Layer: 5
   m_Name: CanvasResultWaterGame
   m_TagString: Untagged
@@ -256,6 +257,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &2360994968887492026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2360994967946422217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b32cdcefb3479647bc7cfda02791968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2360994967955077912
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +389,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2360994967955077915}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2360994968887492026}
+        m_TargetAssemblyTypeName: ReturnToFarm, Assembly-CSharp
+        m_MethodName: LoadBackToFarm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2360994968162359016
 GameObject:
   m_ObjectHideFlags: 0
