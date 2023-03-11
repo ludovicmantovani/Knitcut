@@ -34,7 +34,7 @@ public class AnimalSpawn : MonoBehaviour
     }
     void AnimalRandomSpawn()
     {
-        animalNumber = Random.Range(0, 5);
-        spawnNumber = Random.Range(0, 6);
+        animalNumber = Random.Range(0, Animals.Length);
+        spawnNumber = Random.Range(0, Spawns.Length);
     }
 }
