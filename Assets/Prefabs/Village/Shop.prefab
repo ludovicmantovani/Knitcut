@@ -1,5 +1,62 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2071924569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2071924570}
+  - component: {fileID: 2071924572}
+  - component: {fileID: 2071924571}
+  m_Layer: 0
+  m_Name: Shop Detection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2071924570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071924569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5250619007297615246}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2071924572
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071924569}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.5, y: 3.5, z: 3.5}
+  m_Center: {x: 0, y: 1.6, z: -4}
+--- !u!114 &2071924571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071924569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738e135a311f49a4a90f0e297e1f08eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4438133292105142774
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,9 +163,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5250619007297615246}
+  - component: {fileID: 1500982517}
+  - component: {fileID: 1500982518}
+  - component: {fileID: 251740395819389506}
   m_Layer: 0
   m_Name: Shop
-  m_TagString: Untagged
+  m_TagString: Shop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,9 +186,88 @@ Transform:
   m_Children:
   - {fileID: 2281939640987738413}
   - {fileID: 2497518462712199441}
+  - {fileID: 2071924570}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1500982517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213266862210746595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Actions
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &1500982518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213266862210746595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec927c987f67ca44a4c21a44c1fcc91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionUI: {fileID: 0}
+  shopsUI:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  shopSetup: 0
+  canUseShop: 0
+  shopInUse: 0
+  shopRole: 1
+  itemsToSell:
+  - item: {fileID: 11400000, guid: eb524ad6bf4d0b14aa76f8ce57d42a8f, type: 2}
+    price: 5
+  - item: {fileID: 11400000, guid: 77e00ab4b8f25d4429fd38d46d8cda12, type: 2}
+    price: 7
+  - item: {fileID: 11400000, guid: ec944ed32ca814c498dc73399fd3c2a3, type: 2}
+    price: 3
+  recipesToSell:
+  - item: {fileID: 11400000, guid: 13f0791220dd3b241996f3b73c0ebe24, type: 2}
+    price: 5
+  - item: {fileID: 11400000, guid: 465e83f5345f57643a43f72cf46bf061, type: 2}
+    price: 10
+  itemsParent: {fileID: 0}
+  itemToSellUI: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
+  scrollRect: {fileID: 0}
+--- !u!114 &251740395819389506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213266862210746595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54f5a5b80eeb17419072f13871ef13d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2086264936196145307
 PrefabInstance:
   m_ObjectHideFlags: 0

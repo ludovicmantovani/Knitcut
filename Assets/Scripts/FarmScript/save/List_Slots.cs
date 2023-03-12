@@ -146,6 +146,7 @@ public class List_Slots : MonoBehaviour
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerInventory, this);
         if (handleContainer)
             SaveSystem.Save(SaveSystem.SaveType.Save_ContainerInventory, this);
+        SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPenLevel, this);
     }
 
     #region Load Inventory

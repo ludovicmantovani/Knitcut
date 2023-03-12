@@ -19,6 +19,8 @@ public class Container : MonoBehaviour
     [SerializeField] private bool canUseContainer;
     [SerializeField] private bool containerInUse;
 
+    private string interaction;
+
     public bool CanUseContainer
     {
         get { return canUseContainer; }
@@ -39,12 +41,11 @@ public class Container : MonoBehaviour
 
     private void Start()
     {
-
         pI = GetComponent<PlayerInput>();
         canUseContainer = false;
         containerInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Container";
+        interaction = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString();
     }
 
     private void Update()
@@ -99,7 +100,7 @@ public class Container : MonoBehaviour
     {
         containerInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to close Container";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} to close Container";
 
         MinigameManager.AddOpenInventory(containerInventoryContent);
     }
@@ -108,7 +109,7 @@ public class Container : MonoBehaviour
     {
         containerInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Container";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} to open Container";
 
         MinigameManager.RemoveOpenInventory(containerInventoryContent);
     }
