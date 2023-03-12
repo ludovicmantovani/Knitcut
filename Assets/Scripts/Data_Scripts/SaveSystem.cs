@@ -8,10 +8,11 @@ public static class SaveSystem
     {
         Save_PlayerController,
         Save_PlayerInput,
-        Save_UIMenu,
-        Save_Volume,
         Save_PlayerInventory,
-        Save_ContainerInventory
+        Save_ContainerInventory,
+        Save_AnimalPenLevel,
+        Save_UIMenu,
+        Save_Volume
     }
 
     public static SaveType saveType;
@@ -38,14 +39,6 @@ public static class SaveSystem
                 Player_Data data_PlayerInput = new Player_Data((playerInput)data);
                 formatter.Serialize(stream, data_PlayerInput);
                 break;
-            case SaveType.Save_UIMenu:
-                KeyBinding_Data data_KeyBinding_Data = new KeyBinding_Data((UI_Menu)data);
-                formatter.Serialize(stream, data_KeyBinding_Data);
-                break;
-            case SaveType.Save_Volume:
-                Audio_Data data_Audio_Data = new Audio_Data((UI_Menu)data);
-                formatter.Serialize(stream, data_Audio_Data);
-                break;
             case SaveType.Save_PlayerInventory:
                 List_Slots LS_PlayerInventory = (List_Slots)data;
                 PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(LS_PlayerInventory, 10);
@@ -55,6 +48,19 @@ public static class SaveSystem
                 List_Slots LS_ContainerInventory = (List_Slots)data;
                 ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(LS_ContainerInventory, 100);
                 formatter.Serialize(stream, data_ContainerInventory_Data);
+                break;
+            case SaveType.Save_AnimalPenLevel:
+                Debug.Log($"Save Animal Pen Level");
+                /*Player_Data data_AnimalPenLevel = new Player_Data((Shop_Enclos)data);
+                formatter.Serialize(stream, data_AnimalPenLevel);*/
+                break;
+            case SaveType.Save_UIMenu:
+                KeyBinding_Data data_KeyBinding_Data = new KeyBinding_Data((UI_Menu)data);
+                formatter.Serialize(stream, data_KeyBinding_Data);
+                break;
+            case SaveType.Save_Volume:
+                Audio_Data data_Audio_Data = new Audio_Data((UI_Menu)data);
+                formatter.Serialize(stream, data_Audio_Data);
                 break;
             default:
                 break;
@@ -84,17 +90,21 @@ public static class SaveSystem
                 case SaveType.Save_PlayerInput:
                     dataGet = formatter.Deserialize(stream) as Player_Data;
                     break;
-                case SaveType.Save_UIMenu:
-                    dataGet = formatter.Deserialize(stream) as KeyBinding_Data;
-                    break;
-                case SaveType.Save_Volume:
-                    dataGet = formatter.Deserialize(stream) as Audio_Data;
-                    break;
                 case SaveType.Save_PlayerInventory:
                     dataGet = formatter.Deserialize(stream) as PlayerInventory_Data;
                     break;
                 case SaveType.Save_ContainerInventory:
                     dataGet = formatter.Deserialize(stream) as ContainerInventory_Data;
+                    break;
+                case SaveType.Save_AnimalPenLevel:
+                    Debug.Log($"Load Animal Pen Level");
+                    //dataGet = formatter.Deserialize(stream) as Player_Data;
+                    break;
+                case SaveType.Save_UIMenu:
+                    dataGet = formatter.Deserialize(stream) as KeyBinding_Data;
+                    break;
+                case SaveType.Save_Volume:
+                    dataGet = formatter.Deserialize(stream) as Audio_Data;
                     break;
                 default:
                     break;
@@ -116,10 +126,6 @@ public static class SaveSystem
                     List_Slots LS_PlayerInput = (List_Slots)data;
                     LS_PlayerInput.HandleVerificationAndApplication();
                     break;
-                case SaveType.Save_UIMenu:
-                    break;
-                case SaveType.Save_Volume:
-                    break;
                 case SaveType.Save_PlayerInventory:
                     List_Slots LS_PlayerInventory = (List_Slots)data;
                     LS_PlayerInventory.HandleVerificationAndApplication();
@@ -127,6 +133,12 @@ public static class SaveSystem
                 case SaveType.Save_ContainerInventory:
                     List_Slots LS_ContainerInventory = (List_Slots)data;
                     LS_ContainerInventory.HandleVerificationAndApplication();
+                    break;
+                case SaveType.Save_AnimalPenLevel:
+                    break;
+                case SaveType.Save_UIMenu:
+                    break;
+                case SaveType.Save_Volume:
                     break;
                 default:
                     break;
