@@ -18,7 +18,6 @@ public class ShopManager : MonoBehaviour
     private string interaction;
 
     [Header("Shop states")]
-    [SerializeField] private bool shopSetup = false;
     [SerializeField] private bool canUseShop = false;
     [SerializeField] private bool shopInUse = false;
     [SerializeField] private ShopRole shopRole;
@@ -62,14 +61,19 @@ public class ShopManager : MonoBehaviour
     void Start()
     {
         playerController = FindObjectOfType<playerController>();
-        listSlots = FindObjectOfType<List_Slots>();
         playerInput = GetComponent<PlayerInput>();
+        listSlots = FindObjectOfType<List_Slots>();
 
         interaction = "Use " + playerInput.actions["Intercation_Environnements"].GetBindingDisplayString();
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            listSlots.UpdateMoney(100);
+        }
+
         HandleShopUse();
 
         HandleShopUI();
@@ -178,8 +182,6 @@ public class ShopManager : MonoBehaviour
         itemsPanel.SetActive(true);
         recipesPanel.SetActive(false);
 
-        Debug.Log($"Show Items");
-
         itemsParent.GetComponent<Swipe>().ScrollPos = 1;
 
         for (int i = 0; i < itemsToBuy.Count; i++)
@@ -207,8 +209,6 @@ public class ShopManager : MonoBehaviour
         itemsPanel.SetActive(false);
         recipesPanel.SetActive(true);
 
-        Debug.Log($"Show Recipes");
-
         recipesParent.GetComponent<Swipe>().ScrollPos = 1;
 
         for (int i = 0; i < recipesToBuy.Count; i++)
@@ -233,22 +233,18 @@ public class ShopManager : MonoBehaviour
 
         if (amount == 0) return;
 
-        Debug.Log($"Player want to buy {itemToBuy.item.itemName} x{amount} for {amount} * {itemToBuy.price}");
-
         if (playerController.money >= (amount * itemToBuy.price))
         {
-            Debug.Log($"Player can buy item(s) : {playerController.money} >= {amount * itemToBuy.price}");
-            GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventoryUI>().CreateItemUI();
+            for (int i = 0; i < amount; i++)
+            {
+                GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventoryUI>().CreateItemUI();
 
-            itemUI.GetComponent<DraggableItem>().quantityStacked = amount;
+                itemUI.GetComponent<DraggableItem>().quantityStacked = 1;
 
-            itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
+                itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
 
-            listSlots.UpdateMoney(playerController.money - (amount * itemToBuy.price));
-        }
-        else
-        {
-            Debug.Log($"Player can NOT buy item(s)");
+                listSlots.UpdateMoney(playerController.money - itemToBuy.price);
+            }
         }
     }
 
@@ -258,17 +254,14 @@ public class ShopManager : MonoBehaviour
 
         if (amount == 0) return;
 
-        Debug.Log($"Player want to buy {recipeToBuy.item.recipeName} x{inputField.text} for {inputField.text} * {recipeToBuy.price}");
-
         if (playerController.money >= (amount * recipeToBuy.price))
         {
-            Debug.Log($"Player can buy recipe(s) : {playerController.money} >= {amount * recipeToBuy.price}");
+            for (int i = 0; i < amount; i++)
+            {
+                listSlots.PRInventory.AddRecipeToInventory(recipeToBuy.item);
 
-            listSlots.UpdateMoney(playerController.money - (amount * recipeToBuy.price));
-        }
-        else
-        {
-            Debug.Log($"Player can NOT buy recipe(s)");
+                listSlots.UpdateMoney(playerController.money - recipeToBuy.price);
+            }
         }
     }
 

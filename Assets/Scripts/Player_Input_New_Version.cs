@@ -98,6 +98,15 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Recipes_Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""10a9ac59-73fc-4ebf-bc91-597476884d94"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""240badb5-96a1-4f65-bf66-05700261e0b6"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Recipes_Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -324,6 +344,7 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         m_Actions_Heal_plant = m_Actions.FindAction("Heal_plant", throwIfNotFound: true);
         m_Actions_Hydrate_plant = m_Actions.FindAction("Hydrate_plant", throwIfNotFound: true);
         m_Actions_Inventory = m_Actions.FindAction("Inventory", throwIfNotFound: true);
+        m_Actions_Recipes_Inventory = m_Actions.FindAction("Recipes_Inventory", throwIfNotFound: true);
         // Manual_Save
         m_Manual_Save = asset.FindActionMap("Manual_Save", throwIfNotFound: true);
         m_Manual_Save_save_Inventory = m_Manual_Save.FindAction("save_Inventory", throwIfNotFound: true);
@@ -400,6 +421,7 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
     private readonly InputAction m_Actions_Heal_plant;
     private readonly InputAction m_Actions_Hydrate_plant;
     private readonly InputAction m_Actions_Inventory;
+    private readonly InputAction m_Actions_Recipes_Inventory;
     public struct ActionsActions
     {
         private @Player_Input_New_Version m_Wrapper;
@@ -412,6 +434,7 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         public InputAction @Heal_plant => m_Wrapper.m_Actions_Heal_plant;
         public InputAction @Hydrate_plant => m_Wrapper.m_Actions_Hydrate_plant;
         public InputAction @Inventory => m_Wrapper.m_Actions_Inventory;
+        public InputAction @Recipes_Inventory => m_Wrapper.m_Actions_Recipes_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -445,6 +468,9 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @Recipes_Inventory.started += instance.OnRecipes_Inventory;
+            @Recipes_Inventory.performed += instance.OnRecipes_Inventory;
+            @Recipes_Inventory.canceled += instance.OnRecipes_Inventory;
         }
 
         private void UnregisterCallbacks(IActionsActions instance)
@@ -473,6 +499,9 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @Recipes_Inventory.started -= instance.OnRecipes_Inventory;
+            @Recipes_Inventory.performed -= instance.OnRecipes_Inventory;
+            @Recipes_Inventory.canceled -= instance.OnRecipes_Inventory;
         }
 
         public void RemoveCallbacks(IActionsActions instance)
@@ -600,6 +629,7 @@ public partial class @Player_Input_New_Version: IInputActionCollection2, IDispos
         void OnHeal_plant(InputAction.CallbackContext context);
         void OnHydrate_plant(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnRecipes_Inventory(InputAction.CallbackContext context);
     }
     public interface IManual_SaveActions
     {

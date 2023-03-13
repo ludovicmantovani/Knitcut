@@ -9,6 +9,7 @@ public class playerController : MonoBehaviour
 {
     List_Slots LS;
     PlayerInventoryUI playerInventoryUI;
+    PlayerRecipesInventory pRInventory;
 
     // rajout pour rotation dans village
     public GameObject playerBody;
@@ -58,6 +59,7 @@ public class playerController : MonoBehaviour
     {
         LS = FindObjectOfType<List_Slots>();
         playerInventoryUI = FindObjectOfType<PlayerInventoryUI>();
+        pRInventory = FindObjectOfType<PlayerRecipesInventory>();
         //Debug.Log(Application.persistentDataPath);
         //rajout component PlayerInput
         pI = GetComponent<PlayerInput>();
@@ -72,6 +74,7 @@ public class playerController : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Village"))
         {
             playerInventoryUI.HandleInventoryUI();
+            pRInventory.HandleInventoryUI();
         }
 
         if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == 2)

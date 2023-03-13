@@ -18,6 +18,7 @@ public class List_Slots : MonoBehaviour
 
     [Header("PlayerInventory")]
     [SerializeField] private Transform playerSlotsParent;
+    [SerializeField] private PlayerRecipesInventory pRInventory;
 
     private GameObject[] playerSlots;
     private int[] itemsInSlots;
@@ -39,6 +40,12 @@ public class List_Slots : MonoBehaviour
     {
         get { return playerSlotsParent; }
         set { playerSlotsParent = value; }
+    }
+
+    public PlayerRecipesInventory PRInventory
+    {
+        get { return pRInventory; }
+        set { pRInventory = value; }
     }
 
     public GameObject[] PlayerSlots
