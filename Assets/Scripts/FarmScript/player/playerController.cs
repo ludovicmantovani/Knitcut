@@ -11,6 +11,9 @@ public class playerController : MonoBehaviour
     PlayerInventoryUI playerInventoryUI;
     PlayerRecipesInventory pRInventory;
 
+    public int farmSceneIndex = 1;
+    public int villageSceneIndex = 2;
+
     // rajout pour rotation dans village
     public GameObject playerBody;
 
@@ -77,7 +80,7 @@ public class playerController : MonoBehaviour
             pRInventory.HandleInventoryUI();
         }
 
-        if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == 2)
+        if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == farmSceneIndex)
         {
             shop_Enclos = FindObjectOfType<Shop_Enclos>();
         }
@@ -92,7 +95,7 @@ public class playerController : MonoBehaviour
                 tpssav = false;
             }
         }
-        if(SceneManager.GetActiveScene().buildIndex == 2)
+        if(SceneManager.GetActiveScene().buildIndex == farmSceneIndex)
         {
             //modif
             if (verifVillage == true)
@@ -110,7 +113,7 @@ public class playerController : MonoBehaviour
             //PlayerMovementFarm();
             PlayerMovementFarmV2();
         }
-        if (SceneManager.GetActiveScene().buildIndex == 3)
+        if (SceneManager.GetActiveScene().buildIndex == villageSceneIndex)
         {
             //modif
             if (verifVillage == false)
