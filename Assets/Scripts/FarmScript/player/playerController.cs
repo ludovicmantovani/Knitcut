@@ -95,7 +95,10 @@ public class playerController : MonoBehaviour
                 tpssav = false;
             }
         }
-        if(SceneManager.GetActiveScene().buildIndex == farmSceneIndex)
+        //if(SceneManager.GetActiveScene().buildIndex == farmSceneIndex)
+
+        //Add name scene
+        if (SceneManager.GetActiveScene().name == "FarmScene")
         {
             //modif
             if (verifVillage == true)
@@ -113,7 +116,11 @@ public class playerController : MonoBehaviour
             //PlayerMovementFarm();
             PlayerMovementFarmV2();
         }
-        if (SceneManager.GetActiveScene().buildIndex == villageSceneIndex)
+        //if (SceneManager.GetActiveScene().buildIndex == villageSceneIndex)
+
+
+        //Add name scene
+        if (SceneManager.GetActiveScene().name == "TradingVillage")
         {
             //modif
             if (verifVillage == false)
