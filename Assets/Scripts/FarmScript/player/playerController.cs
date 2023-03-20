@@ -57,7 +57,8 @@ public class playerController : MonoBehaviour
         set { canMove = value; }
     }
 
-
+    // spawn pos
+    [SerializeField] private Transform spawnpos;
     void Awake()
     {
         LS = FindObjectOfType<List_Slots>();
@@ -108,7 +109,7 @@ public class playerController : MonoBehaviour
             if (verifVillage == true)
             {
                 cc.enabled = false;
-                cc.transform.position = new Vector3(4.85f, 5.09f, -87.45f);
+                cc.transform.position = spawnpos.position;
                 // reinitialise position et rotation du corps
                 playerBody.transform.position = cc.transform.position;
                 playerBody.transform.rotation = cc.transform.rotation;
@@ -130,15 +131,15 @@ public class playerController : MonoBehaviour
             if (verifVillage == false)
             {
                 cc.enabled = false;
-                cc.transform.position = new Vector3(-19.07f, 1.8f, 0);
+                cc.transform.position = spawnpos.position;
                 //modifie position du player
                 cc.transform.rotation = Quaternion.Euler(0, 0, 0);
                 cc.enabled = true;
                 verifVillage = true;
                 //descative camera cinemachine et change position camera
                 cameraFermeCinemachine.SetActive(false);
-                cameraFerme.transform.position = new Vector3(0f, 2f, -7f);
-                cameraFerme.transform.rotation = Quaternion.Euler(0, 0, 0);
+                //cameraFerme.transform.position = new Vector3(0f, 2f, -7f);
+                //cameraFerme.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
             
             PlayerMovementVillage();
