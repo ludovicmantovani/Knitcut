@@ -80,7 +80,11 @@ public class playerController : MonoBehaviour
             pRInventory.HandleInventoryUI();
         }
 
-        if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == farmSceneIndex)
+        //if (shop_Enclos == null && SceneManager.GetActiveScene().buildIndex == farmSceneIndex)
+
+
+        //Add name scene
+        if (shop_Enclos == null && SceneManager.GetActiveScene().name == "FarmScene")
         {
             shop_Enclos = FindObjectOfType<Shop_Enclos>();
         }
