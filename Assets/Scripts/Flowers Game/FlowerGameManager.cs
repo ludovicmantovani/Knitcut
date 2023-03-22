@@ -30,18 +30,18 @@ public class FlowerGameManager : MonoBehaviour
     {
         if (flowerCreationScript)
         {
-            _nbPetals = flowerCreationScript.MakeFlower();
+            if (relationCanvas)
+            {
+                _nbCanvasText = relationCanvas.GetTextCount();
+                _nbToNextStep = 1;
+            }
+            _nbPetals = flowerCreationScript.MakeFlower(_nbCanvasText);
             foreach (Transform item in flowerCreationScript.GetRandomPetals())
                 item.gameObject.GetComponent<PetalInput>().OnChange += HandleChange;
             _sequence = new Queue<int>();
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
             flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
             gameState = State.IN_GAME;
-            if (relationCanvas)
-            {
-                _nbCanvasText = relationCanvas.GetTextCount();
-                _nbToNextStep = (_nbPetals - (_nbPetals % _nbCanvasText))/ _nbCanvasText;
-            }
         }
     }
 
@@ -69,7 +69,7 @@ public class FlowerGameManager : MonoBehaviour
         string rightPetalName = _sequence.Dequeue().ToString();
         if (name == rightPetalName)
         {
-            if (_turn == _nbPetals && _sequence.Count == 0)
+            if (_turn == relationCanvas.GetTextCount() && _sequence.Count == 0)
             {
                 flowerCreationScript.FallPetals();
                 _stateTime = Time.time;

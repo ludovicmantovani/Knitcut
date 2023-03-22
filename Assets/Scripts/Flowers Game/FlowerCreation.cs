@@ -49,9 +49,11 @@ public class FlowerCreation : MonoBehaviour
         petale.localEulerAngles = localEulerAngle;
     }
 
-    public int MakeFlower()
+    public int MakeFlower(int nbPetalMin = 1)
     {
-        int totalPetals = Random.Range(minPetals, maxPetals);
+        int totalPetals = Random.Range(
+            Mathf.Max(nbPetalMin, minPetals),
+            Mathf.Max(nbPetalMin + 1, maxPetals));
 
         Object[] sameColorPetalSprites = Resources.LoadAll(pathFlowersResources, typeof(Sprite));
 
