@@ -14,6 +14,7 @@ public class FlowerGameManager : MonoBehaviour
     [SerializeField] private float displaySequenceSpeed = 0.5f;
     [SerializeField] private float waitingChangeStateTime = 3f;
     [SerializeField] private RelationCanvas relationCanvas;
+    [SerializeField] private int nbrErrorAllowed = 1;
 
     private int _nbPetals = 0;
     private int _turn = 1;
@@ -24,6 +25,7 @@ public class FlowerGameManager : MonoBehaviour
     private int _nbCanvasText = -1;
     private int _nbToNextStep = -1;
     private int _nbCurrentStep = 0;
+    private int _coutnError = 0;
 
     #region UNITY_METHOD
     void Start()
@@ -95,10 +97,19 @@ public class FlowerGameManager : MonoBehaviour
         }
         else
         {
-            relationCanvas.Reset();
-            flowerCreationScript.FallPetals();
-            _stateTime = Time.time;
-            gameState = State.AFTER_GAME;
+            if (_coutnError >= nbrErrorAllowed)
+            {
+                relationCanvas.Reset();
+                flowerCreationScript.FallPetals();
+                _stateTime = Time.time;
+                gameState = State.AFTER_GAME;
+            }
+            else
+            {
+                _coutnError++;
+                _sequence.Enqueue(int.Parse(rightPetalName));
+                flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
+            }
         }
     }
     

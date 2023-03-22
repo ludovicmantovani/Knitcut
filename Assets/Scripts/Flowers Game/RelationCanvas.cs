@@ -21,6 +21,16 @@ public class RelationCanvas : MonoBehaviour
         }
     }
 
+    public void Previous()
+    {
+        if (_currentIndex - 1 >=0)
+        {
+            tMP_Texts[_currentIndex].alpha = hideTextAlpha;
+            _currentIndex--;
+            tMP_Texts[_currentIndex].alpha = visibleTextAlpha;
+        }
+    }
+
     public int GetTextCount()
     {
         return tMP_Texts.Length;
