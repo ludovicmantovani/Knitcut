@@ -11,6 +11,7 @@ public class FlowerGameManager : MonoBehaviour
     [SerializeField] private GameObject gameCanvas;
     [SerializeField] private GameObject resultCanvas;
     [SerializeField] private FlowerCreation flowerCreationScript;
+    [SerializeField] private float displaySequenceSpeed = 0.5f;
     [SerializeField] private float waitingChangeStateTime = 3f;
     [SerializeField] private RelationCanvas relationCanvas;
 
@@ -34,7 +35,7 @@ public class FlowerGameManager : MonoBehaviour
                 item.gameObject.GetComponent<PetalInput>().OnChange += HandleChange;
             _sequence = new Queue<int>();
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
-            flowerCreationScript.ShowSequence(1f, _turn);
+            flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
             gameState = State.IN_GAME;
             if (relationCanvas)
             {
@@ -89,7 +90,7 @@ public class FlowerGameManager : MonoBehaviour
                     _nbCurrentStep = 0;
                 }
 
-                flowerCreationScript.ShowSequence(1f, _turn);
+                flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
             }
         }
         else
