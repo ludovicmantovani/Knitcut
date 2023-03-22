@@ -13,7 +13,7 @@ public class Leave_Interface : MonoBehaviour
     {
 
         pI = GetComponent<PlayerInput>();
-        interactionPanel.GetComponentInChildren<TMP_Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to travel back to the Farm";
+        interactionPanel.GetComponentInChildren<TMP_Text>().text = "Use " + pI.InteractionAction.GetBindingDisplayString() + " to travel back to the Farm";
     }
 
     private void OnTriggerStay(Collider other)

@@ -10,14 +10,14 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private List<GameObject> shopsUI;
 
-    private playerController playerController;
+    private PlayerController playerController;
     private PlayerInput playerInput;
     private List_Slots listSlots;
 
     private GameObject currentShopUI = null;
     private string interaction;
 
-    [Header("Shop states")]
+    [Header("shop states")]
     [SerializeField] private bool canUseShop = false;
     [SerializeField] private bool shopInUse = false;
     [SerializeField] private ShopRole shopRole;
@@ -28,7 +28,7 @@ public class ShopManager : MonoBehaviour
         set { canUseShop = value; }
     }
 
-    [Header("Shop Items Dealer")]
+    [Header("shop Items Dealer")]
     [SerializeField] private List<ItemToBuy> itemsToBuy;
     [SerializeField] private List<RecipeToBuy> recipesToBuy;
     [SerializeField] private GameObject itemsPanel;
@@ -60,11 +60,11 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        playerController = FindObjectOfType<playerController>();
-        playerInput = GetComponent<PlayerInput>();
+        playerController = FindObjectOfType<PlayerController>();
+        playerInput = FindObjectOfType<PlayerInput>();
         listSlots = FindObjectOfType<List_Slots>();
 
-        interaction = "Use " + playerInput.actions["Intercation_Environnements"].GetBindingDisplayString();
+        interaction = "Use " + playerInput.InteractionAction.GetBindingDisplayString();
     }
 
     void Update()
@@ -108,7 +108,7 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
-        if (playerInput.actions["Intercation_Environnements"].triggered && canUseShop)
+        if (playerInput.InteractionAction.triggered && canUseShop)
         {
             if (!shopInUse)
             {
@@ -142,7 +142,7 @@ public class ShopManager : MonoBehaviour
 
         shopInUse = true;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to close Shop";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to close shop";
 
         MinigameManager.AddOpenInventory(currentShopUI);
     }
@@ -151,7 +151,7 @@ public class ShopManager : MonoBehaviour
     {
         shopInUse = false;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to open Shop";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to open shop";
 
         MinigameManager.RemoveOpenInventory(currentShopUI);
 
@@ -233,17 +233,17 @@ public class ShopManager : MonoBehaviour
 
         if (amount == 0) return;
 
-        if (playerController.money >= (amount * itemToBuy.price))
+        if (playerController.Money >= (amount * itemToBuy.price))
         {
             for (int i = 0; i < amount; i++)
             {
-                GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventoryUI>().CreateItemUI();
+                GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
 
                 itemUI.GetComponent<DraggableItem>().quantityStacked = 1;
 
                 itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
 
-                listSlots.UpdateMoney(playerController.money - itemToBuy.price);
+                listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
             }
         }
     }
@@ -254,13 +254,13 @@ public class ShopManager : MonoBehaviour
 
         if (amount == 0) return;
 
-        if (playerController.money >= (amount * recipeToBuy.price))
+        if (playerController.Money >= (amount * recipeToBuy.price))
         {
             for (int i = 0; i < amount; i++)
             {
                 listSlots.PRInventory.AddRecipeToInventory(recipeToBuy.item);
 
-                listSlots.UpdateMoney(playerController.money - recipeToBuy.price);
+                listSlots.UpdateMoney(playerController.Money - recipeToBuy.price);
             }
         }
     }

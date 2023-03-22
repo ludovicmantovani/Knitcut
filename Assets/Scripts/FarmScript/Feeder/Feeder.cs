@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Feeder : MonoBehaviour
 {
-    public PlayerInput pI;
+    public PlayerInput playerInput;
     [Header("Feeder Inventory")]
     [SerializeField] private bool canUseFeeder;
     [SerializeField] private bool feederInUse;
@@ -20,7 +20,7 @@ public class Feeder : MonoBehaviour
 
     private void Start()
     {
-        pI = GetComponent<PlayerInput>();
+        playerInput = FindObjectOfType<PlayerInput>();
         canUseFeeder = false;
         feederInUse = false;
 
@@ -86,7 +86,7 @@ public class Feeder : MonoBehaviour
             return;
         }
 
-        if (pI.actions["Intercation_Environnements"].triggered && canUseFeeder)
+        if (playerInput.InteractionAction.triggered && canUseFeeder)
         {
             if (!feederInUse)
             {
@@ -103,7 +103,7 @@ public class Feeder : MonoBehaviour
     {
         feederInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to close Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + playerInput.InteractionAction.GetBindingDisplayString() + " to close Feeder";
 
         MinigameManager.AddOpenInventory(feederInventory);
     }
@@ -112,7 +112,7 @@ public class Feeder : MonoBehaviour
     {
         feederInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to open Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = "Use " + playerInput.InteractionAction.GetBindingDisplayString() + " to open Feeder";
 
         MinigameManager.RemoveOpenInventory(feederInventory);
     }

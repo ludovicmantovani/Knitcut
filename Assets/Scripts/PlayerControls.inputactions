@@ -1,8 +1,8 @@
 {
-    "name": "Player_Input_New_Version",
+    "name": "PlayerControls",
     "maps": [
         {
-            "name": "Actions",
+            "name": "Player",
             "id": "29ca77e7-5a8f-486d-af97-037da8a13e34",
             "actions": [
                 {
@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Intercation_Environnements",
+                    "name": "Intercation",
                     "type": "Button",
                     "id": "9d6bc202-ba0e-407e-8035-a86912b6cffc",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Heal_plant",
+                    "name": "Heal",
                     "type": "Button",
                     "id": "3630e42c-d137-46eb-b4e2-c43d7277b72b",
                     "expectedControlType": "Button",
@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Hydrate_plant",
+                    "name": "Hydrate",
                     "type": "Button",
                     "id": "05251346-08ee-4480-8604-8e2e317cd163",
                     "expectedControlType": "Button",
@@ -78,7 +78,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Recipes_Inventory",
+                    "name": "RecipesInventory",
                     "type": "Button",
                     "id": "10a9ac59-73fc-4ebf-bc91-597476884d94",
                     "expectedControlType": "Button",
@@ -183,7 +183,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Intercation_Environnements",
+                    "action": "Intercation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -194,7 +194,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Heal_plant",
+                    "action": "Heal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -205,7 +205,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Hydrate_plant",
+                    "action": "Hydrate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -227,7 +227,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Recipes_Inventory",
+                    "action": "RecipesInventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

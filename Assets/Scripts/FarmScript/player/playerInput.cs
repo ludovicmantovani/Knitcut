@@ -1,37 +1,90 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
-public class playerInput : MonoBehaviour
+public class PlayerInput : MonoBehaviour
 {
-    #region Variable
-    public Vector2 _movement = Vector2.zero;
-    private float mouseX;
-    private float mouseY;
-    #endregion
-    #region propriétés
-    public Vector2 Movement => _movement;
-    public float MouseX => mouseX;
-    public float MouseY => mouseY;
-    // Start is called before the first frame update
-    #endregion
-    #region builtin method
-    void Start()
+    private PlayerControls controls;
+
+    private InputAction moveAction;
+
+    private InputAction quickSaveAction;
+    private InputAction quickLoadAction;
+
+    private InputAction interactionAction;
+    private InputAction healAction;
+    private InputAction hydrateAction;
+
+    private InputAction inventoryAction;
+    private InputAction recipesInventoryAction;
+
+    #region Getters
+
+    public InputAction MoveAction
     {
-        
+        get { return moveAction; }
     }
 
-    // Update is called once per frame
-    void Update()
+    public InputAction QuickSaveAction
     {
-        //defini les axes sur les quel on vas bouger et leur touches
-        /*_movement.Set(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        mouseX =Input.GetAxis("Mouse X");
-        mouseY=Input.GetAxis("Mouse Y");*/
-        
-        
+        get { return quickSaveAction; }
     }
-    
+
+    public InputAction QuickLoadAction
+    {
+        get { return quickLoadAction; }
+    }
+
+    public InputAction InteractionAction
+    {
+        get { return interactionAction; }
+    }
+
+    public InputAction HealAction
+    {
+        get { return healAction; }
+    }
+
+    public InputAction HydrateAction
+    {
+        get { return hydrateAction; }
+    }
+
+    public InputAction InventoryAction
+    {
+        get { return inventoryAction; }
+    }
+
+    public InputAction RecipesInventoryAction
+    {
+        get { return recipesInventoryAction; }
+    }
+
     #endregion
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        moveAction = controls.FindAction("Move");
+
+        quickSaveAction = controls.FindAction("QuickSave");
+        quickLoadAction = controls.FindAction("QuickLoad");
+
+        interactionAction = controls.FindAction("Intercation");
+        healAction = controls.FindAction("Heal");
+        hydrateAction = controls.FindAction("Hydrate");
+
+        inventoryAction = controls.FindAction("Inventory");
+        recipesInventoryAction = controls.FindAction("RecipesInventory");
+    }
+
+    private void OnEnable()
+    {
+        controls.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Player.Disable();
+    }
 }   

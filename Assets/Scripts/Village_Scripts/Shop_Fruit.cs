@@ -12,15 +12,15 @@ public class Shop_Fruit : MonoBehaviour
     float SafeTimer = 0;
     public bool talking = false;
     public PlayerInventory playerInventory;
-    public playerController PC;
+    public PlayerController PC;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        pI = GetComponent<PlayerInput>();
+        pI = FindObjectOfType<PlayerInput>();
         playerInventory = FindObjectOfType<PlayerInventory>();
-        PC = FindObjectOfType<playerController>();
-        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to trade";
+        PC = FindObjectOfType<PlayerController>();
+        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.InteractionAction.GetBindingDisplayString() + " to trade";
     }
 
     // Update is called once per frame
@@ -59,14 +59,14 @@ public class Shop_Fruit : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == false && SafeTimer == 0)
+        if (other.tag == "Player" && pI.InteractionAction.triggered && talking == false && SafeTimer == 0)
         {
             ShopFruitUI.SetActive(true);
             InteractionUI.SetActive(false);
             talking = true;
             PC.TalkingShop = true;
         }
-        if(other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == true && SafeTimer == 1.5)
+        if(other.tag == "Player" && pI.InteractionAction.triggered && talking == true && SafeTimer == 1.5)
         {
             ShopFruitUI.SetActive(false);
             InteractionUI.SetActive(true);
@@ -85,38 +85,38 @@ public class Shop_Fruit : MonoBehaviour
     }
     public void BuyFruit1()
     {
-        if(playerInventory.Money < 2)
+        if(PC.Money < 2)
         {
             Debug.Log("Not enough money");
         }
         else
         {
-            playerInventory.Graine1++;
-            playerInventory.Money = playerInventory.Money - 2;
+            //playerInventory.Graine1++;
+            PC.Money = PC.Money - 2;
         }
     }
     public void BuyFruit2()
     {
-        if (playerInventory.Money < 3)
+        if (PC.Money < 3)
         {
             Debug.Log("Not enough money");
         }
         else
         {
-            playerInventory.Graine2++;
-            playerInventory.Money = playerInventory.Money - 3;
+            //playerInventory.Graine2++;
+            PC.Money = PC.Money - 3;
         }
     }
     public void BuyFruit3()
     {
-        if (playerInventory.Money < 5)
+        if (PC.Money < 5)
         {
             Debug.Log("Not enough money");
         }
         else
         {
-            playerInventory.Graine3++;
-            playerInventory.Money = playerInventory.Money - 5;
+            //playerInventory.Graine3++;
+            PC.Money = PC.Money - 5;
         }
     }
 }

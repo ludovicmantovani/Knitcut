@@ -21,7 +21,7 @@ public class PositionFruitAttirer : MonoBehaviour
 
     void Start()
     {
-        pI = GetComponent<PlayerInput>();
+        pI = FindObjectOfType<PlayerInput>();
         attirer_Animal = GetComponentInParent<Attirer_Animal>();
         this.transform.localPosition = new Vector3(0, 0.75f, 0);
     }
@@ -41,7 +41,7 @@ public class PositionFruitAttirer : MonoBehaviour
         if(other.tag == "Player")
         {
 
-            attirer_Animal.interactionFruit.GetComponentInChildren<Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to capture the animal";
+            attirer_Animal.interactionFruit.GetComponentInChildren<Text>().text = "Use " + pI.InteractionAction.GetBindingDisplayString() + " to capture the animal";
             attirer_Animal.interactionFruit.SetActive(true);
             verif = true;
         }
@@ -51,7 +51,7 @@ public class PositionFruitAttirer : MonoBehaviour
         if (other.tag == "Animal")
         {
             Debug.Log("Contact " + other.gameObject.name);
-            if (pI.actions["Intercation_Environnements"].triggered && verif ==true)
+            if (pI.InteractionAction.triggered && verif ==true)
             {
                 if (captureGameSceneName.Length > 0)
                 {

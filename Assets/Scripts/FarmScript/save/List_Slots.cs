@@ -7,8 +7,8 @@ public class List_Slots : MonoBehaviour
 {
     [Header("References / Parameters")]
     public GameObject itemUI;
-    public playerController pC;
-    public PlayerInput pI;
+    public PlayerController playerController;
+    public PlayerInput playerInput;
     public ScriptableObject[] stuffs;
 
     private bool checkLoad = false;
@@ -88,8 +88,8 @@ public class List_Slots : MonoBehaviour
 
     private void Start()
     {
-        pC = FindObjectOfType<playerController>();
-        pI = GetComponent<PlayerInput>();
+        playerController = FindObjectOfType<PlayerController>();
+        playerInput = FindObjectOfType<PlayerInput>();
 
         HandleInventories();
 
@@ -100,38 +100,38 @@ public class List_Slots : MonoBehaviour
 
     public void AutoSaveMoney()
     {
-        //SaveSystem.SavePlayerMoney(pC);
-        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, pC);
+        //SaveSystem.SavePlayerMoney(playerController);
+        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, playerController);
     }
 
     public void UpdateMoney(int moneyUpdated)
     {
-        pC.money = moneyUpdated;
-        moneyUI.text = $"{pC.money}";
+        playerController.Money = moneyUpdated;
+        moneyUI.text = $"{playerController.Money}";
 
         AutoSaveMoney();
     }
 
     private void HandleMoney()
     {
-        //pC.money = SaveSystem.LoadPlayerController().money;
+        //playerController.money = SaveSystem.LoadPlayerController().money;
 
-        //Player_Data playerData = SaveSystem.LoadPlayerController(pC);
-        Player_Data playerData = (Player_Data)SaveSystem.Load(SaveSystem.SaveType.Save_PlayerController, pC);
+        //Player_Data playerData = SaveSystem.LoadPlayerController(playerController);
+        Player_Data playerData = (Player_Data)SaveSystem.Load(SaveSystem.SaveType.Save_PlayerController, playerController);
 
         if (playerData != null)
         {
-            pC.money = playerData.money;
+            playerController.Money = playerData.money;
         }
 
-        moneyUI.text = $"{pC.money}";
+        moneyUI.text = $"{playerController.Money}";
     }
 
     #endregion
 
     private void Update()
     {
-        if (pI.actions["save_Inventory"].triggered)
+        if (playerInput.QuickSaveAction.triggered)
             SaveData();
 
         HandleMoney();
@@ -146,10 +146,10 @@ public class List_Slots : MonoBehaviour
     {
         Debug.Log($"Force save");
 
-        /*SaveSystem.SavePlayerMoney(pC);
+        /*SaveSystem.SavePlayerMoney(playerController);
         SaveSystem.SavePlayerInventory(this);
         SaveSystem.SaveContainerInventory(this);*/
-        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, pC);
+        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, playerController);
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerInventory, this);
         if (handleContainer)
             SaveSystem.Save(SaveSystem.SaveType.Save_ContainerInventory, this);
@@ -179,7 +179,7 @@ public class List_Slots : MonoBehaviour
 
             HandleVerificationAndApplication();
 
-            PlayerInventoryUI inventory = FindObjectOfType<PlayerInventoryUI>();
+            PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
 
             if (inventory == null) return;
 

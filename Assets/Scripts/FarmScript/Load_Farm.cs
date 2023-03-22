@@ -12,10 +12,10 @@ public class Load_Farm : MonoBehaviour
     public GameObject EncloCasseRenard;
     public GameObject EncloRenard;
     public GameObject EncloVer;
-    private playerController PC;
+    private PlayerController PC;
     void Start()
     {
-        PC = FindObjectOfType<playerController>();
+        PC = FindObjectOfType<PlayerController>();
     }
     
 
@@ -27,11 +27,11 @@ public class Load_Farm : MonoBehaviour
     
     public void Synchro()
     {
-       if(PC.farm == false)
+       if(PC.InFarm == false)
         {
             LoadEncloslevel();
             LoadEnclos();
-            PC.farm = true;
+            PC.InFarm = true;
         }
 
     }

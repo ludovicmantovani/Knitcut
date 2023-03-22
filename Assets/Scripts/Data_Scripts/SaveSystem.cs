@@ -32,11 +32,11 @@ public static class SaveSystem
         switch (saveType)
         {
             case SaveType.Save_PlayerController:
-                Player_Data data_PlayerController = new Player_Data((playerController)data);
+                Player_Data data_PlayerController = new Player_Data((PlayerController)data);
                 formatter.Serialize(stream, data_PlayerController);
                 break;
             case SaveType.Save_PlayerInput:
-                Player_Data data_PlayerInput = new Player_Data((playerInput)data);
+                Player_Data data_PlayerInput = new Player_Data((PlayerInput)data);
                 formatter.Serialize(stream, data_PlayerInput);
                 break;
             case SaveType.Save_PlayerInventory:
@@ -165,7 +165,7 @@ public static class SaveSystem
         stream.Close();
     }*/
 
-    public static void SavePlayerMoney(playerController playerController)
+    public static void SavePlayerMoney(PlayerController playerController)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/playercontroller.save";
@@ -177,7 +177,7 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static void SavePlayerPosition(playerInput playerInput)
+    public static void SavePlayerPosition(PlayerInput playerInput)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/playerinput.save";
@@ -228,7 +228,7 @@ public static class SaveSystem
             return null;
         }
     }*/
-    public static Player_Data LoadPlayerInput(List_Slots LS, playerInput pI)
+    public static Player_Data LoadPlayerInput(List_Slots LS, PlayerInput pI)
     {
         string path = Application.persistentDataPath + "/playerinput.save";
         if (File.Exists(path))
@@ -251,7 +251,7 @@ public static class SaveSystem
             return null;
         }
     }
-    public static Player_Data LoadPlayerController(playerController pC)
+    public static Player_Data LoadPlayerController(PlayerController pC)
     {
         string path = Application.persistentDataPath + "/playercontroller.save";
         Debug.Log(Application.persistentDataPath);

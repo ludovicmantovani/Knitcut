@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3353604578039909053}
   - component: {fileID: 155162969178769742}
   - component: {fileID: 3349070716432805743}
-  - component: {fileID: 7863646266368592711}
   m_Layer: 0
   m_Name: Prefab1
   m_TagString: Untagged
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c747cfd87ac93c64abc7592c3f58fbed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pI: {fileID: 7863646266368592711}
+  playerInput: {fileID: 0}
   tempsPousse: 10
   croissance: 1
   planteAdulte: {fileID: 1122067550199116834}
@@ -75,36 +74,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0.25, z: 0}
---- !u!114 &7863646266368592711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3399285580761816755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Actions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1001 &2491826373172203542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -213,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec564944f754124e92f37e5e809c5b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pI: {fileID: 7863646266368592711}
+  pI: {fileID: 0}
 --- !u!1001 &3486355108111503675
 PrefabInstance:
   m_ObjectHideFlags: 0

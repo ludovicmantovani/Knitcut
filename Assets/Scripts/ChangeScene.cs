@@ -11,7 +11,7 @@ public class ChangeScene : MonoBehaviour
 
     private PlayerInput pI;
     private Shop_Enclos se;
-    private playerController PC;
+    private PlayerController PC;
     private List_Slots LS;
 
     bool canChangeScene = false;
@@ -19,9 +19,9 @@ public class ChangeScene : MonoBehaviour
 
     void Awake()
     {
-        pI = GetComponent<PlayerInput>();
+        pI = FindObjectOfType<PlayerInput>();
         se = FindObjectOfType<Shop_Enclos>();
-        PC = FindObjectOfType<playerController>();
+        PC = FindObjectOfType<PlayerController>();
         LS = FindObjectOfType<List_Slots>();
     }
 
@@ -33,19 +33,19 @@ public class ChangeScene : MonoBehaviour
 
     private void HandleChangeScene()
     {
-        if (canChangeScene && sceneToLoad != "" && pI.actions["Intercation_Environnements"].triggered)
+        if (canChangeScene && sceneToLoad != "" && pI.InteractionAction.triggered)
         {
             canChangeScene = false;
 
             if (SceneManager.GetActiveScene().name.Contains("Farm"))
             {
-                FindObjectOfType<playerController>().SavePlayerPos();
+                FindObjectOfType<PlayerController>().SavePlayerPos();
             }
 
             if (SceneManager.GetActiveScene().name.Contains("Village"))
             {
                 se.SaveEncloslevel();
-                PC.farm = false;
+                PC.InFarm = false;
             }
 
             LS.SaveData();
@@ -75,7 +75,7 @@ public class ChangeScene : MonoBehaviour
         {
             showInstruction = false;
 
-            string instruction = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString();
+            string instruction = "Use " + pI.InteractionAction.GetBindingDisplayString();
 
             if (sceneToLoad.Contains("Village"))
             {

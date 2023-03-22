@@ -11,7 +11,7 @@ public class Player_Data
     public int LevelEnclo2;
     public int LevelEnclo3;
    
-    public Player_Data (playerInput playerInput)
+    public Player_Data (PlayerInput playerInput)
     {
         playerPosition = new float[] { playerInput.transform.position.x, playerInput.transform.position.y, playerInput.transform.position.z };
     }
@@ -27,8 +27,8 @@ public class Player_Data
         LevelEnclo3 = shop_Enclos.levelEnclo3;
     }
 
-    public Player_Data (playerController playerController)
+    public Player_Data (PlayerController playerController)
     {
-        money = playerController.money;
+        money = playerController.Money;
     }
 }

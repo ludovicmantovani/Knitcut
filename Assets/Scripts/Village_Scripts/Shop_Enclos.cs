@@ -12,7 +12,7 @@ public class Shop_Enclos : MonoBehaviour
     float SafeTimer = 0;
     public bool talking = false;
     public PlayerInventory playerInventory;
-    public playerController PC;
+    public PlayerController PC;
     public int levelEnclo1 = 0;
     public int levelEnclo2 = 0;
     public int levelEnclo3 = 0;
@@ -22,12 +22,12 @@ public class Shop_Enclos : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        pI = GetComponent<PlayerInput>();
+        pI = FindObjectOfType<PlayerInput>();
         playerInventory = FindObjectOfType<PlayerInventory>();
-        PC = FindObjectOfType<playerController>();
-        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to trade";
+        PC = FindObjectOfType<PlayerController>();
+        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.InteractionAction.GetBindingDisplayString() + " to trade";
     }
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class Shop_Enclos : MonoBehaviour
     {
         TimerVerification();
         ActualisationPrix();
-        if (pI.actions["QuickSave"].triggered)
+        if (pI.QuickSaveAction.triggered)
         {
             SaveEncloslevel();
         }
@@ -71,14 +71,14 @@ public class Shop_Enclos : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == false && SafeTimer == 0)
+        if (other.tag == "Player" && pI.InteractionAction.triggered && talking == false && SafeTimer == 0)
         {
             ShopEnclosUI.SetActive(true);
             InteractionUI.SetActive(false);
             talking = true;
             PC.TalkingShop = true;
         }
-        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == true && SafeTimer == 1.5)
+        if (other.tag == "Player" && pI.InteractionAction.triggered && talking == true && SafeTimer == 1.5)
         {
             ShopEnclosUI.SetActive(false);
             InteractionUI.SetActive(true);
@@ -98,34 +98,34 @@ public class Shop_Enclos : MonoBehaviour
     public void BuyEnclos1()
     {
         
-        if (playerInventory.Money < 10 && levelEnclo1 == 0)
+        if (PC.Money < 10 && levelEnclo1 == 0)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money < 20 && levelEnclo1 == 1)
+        if (PC.Money < 20 && levelEnclo1 == 1)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money < 50 && levelEnclo1 == 2)
+        if (PC.Money < 50 && levelEnclo1 == 2)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money >= 10 && levelEnclo1 == 0)
+        if (PC.Money >= 10 && levelEnclo1 == 0)
         {
             levelEnclo1 = 1;
-            playerInventory.Money = playerInventory.Money - 10;
+            PC.Money = PC.Money - 10;
             return;
         }
-        if (playerInventory.Money >= 20 && levelEnclo1 == 1)
+        if (PC.Money >= 20 && levelEnclo1 == 1)
         {
             levelEnclo1 = 2;
-            playerInventory.Money = playerInventory.Money - 20;
+            PC.Money = PC.Money - 20;
             return;
         }
-        if (playerInventory.Money >= 50 && levelEnclo1 == 2)
+        if (PC.Money >= 50 && levelEnclo1 == 2)
         {
             levelEnclo1 = 3;
-            playerInventory.Money = playerInventory.Money - 50;
+            PC.Money = PC.Money - 50;
             return;
         }
         if(levelEnclo1 == 3)
@@ -135,34 +135,34 @@ public class Shop_Enclos : MonoBehaviour
     }
     public void BuyEnclos2()
     {
-        if (playerInventory.Money < 25 && levelEnclo2 == 0)
+        if (PC.Money < 25 && levelEnclo2 == 0)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money < 40 && levelEnclo2 == 1)
+        if (PC.Money < 40 && levelEnclo2 == 1)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money < 75 && levelEnclo2 == 2)
+        if (PC.Money < 75 && levelEnclo2 == 2)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money >= 25 && levelEnclo2 == 0)
+        if (PC.Money >= 25 && levelEnclo2 == 0)
         {
             levelEnclo2 = 1;
-            playerInventory.Money = playerInventory.Money - 25;
+            PC.Money = PC.Money - 25;
             return;
         }
-        if (playerInventory.Money >= 40 && levelEnclo2 == 1)
+        if (PC.Money >= 40 && levelEnclo2 == 1)
         {
             levelEnclo2 = 2;
-            playerInventory.Money = playerInventory.Money - 40;
+            PC.Money = PC.Money - 40;
             return;
         }
-        if (playerInventory.Money >= 75 && levelEnclo2 == 2)
+        if (PC.Money >= 75 && levelEnclo2 == 2)
         {
             levelEnclo2 = 3;
-            playerInventory.Money = playerInventory.Money - 75;
+            PC.Money = PC.Money - 75;
             return;
         }
         if (levelEnclo2 == 3)
@@ -173,34 +173,34 @@ public class Shop_Enclos : MonoBehaviour
     }
     public void BuyEnclos3()
     {
-        if (playerInventory.Money < 40 && levelEnclo3 == 0)
+        if (PC.Money < 40 && levelEnclo3 == 0)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money < 70 && levelEnclo3 == 1)
+        if (PC.Money < 70 && levelEnclo3 == 1)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money < 90 && levelEnclo3 == 2)
+        if (PC.Money < 90 && levelEnclo3 == 2)
         {
             Debug.Log("Not enough money");
         }
-        if (playerInventory.Money >= 40 && levelEnclo3 == 0)
+        if (PC.Money >= 40 && levelEnclo3 == 0)
         {
             levelEnclo3 = 1;
-            playerInventory.Money = playerInventory.Money - 40;
+            PC.Money = PC.Money - 40;
             return;
         }
-        if (playerInventory.Money >= 70 && levelEnclo3 == 1)
+        if (PC.Money >= 70 && levelEnclo3 == 1)
         {
             levelEnclo3 = 2;
-            playerInventory.Money = playerInventory.Money - 70;
+            PC.Money = PC.Money - 70;
             return;
         }
-        if (playerInventory.Money >= 90 && levelEnclo3 == 2)
+        if (PC.Money >= 90 && levelEnclo3 == 2)
         {
             levelEnclo3 = 3;
-            playerInventory.Money = playerInventory.Money - 90;
+            PC.Money = PC.Money - 90;
             return;
         }
         if (levelEnclo3 == 3)

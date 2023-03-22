@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInventoryUI : MonoBehaviour
+public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private GameObject itemUI;
 
     private bool inventoryOpen = true;
-    private playerController player;
+    private PlayerController player;
 
     private void Start()
     {
-        player = FindObjectOfType<playerController>();
+        player = FindObjectOfType<PlayerController>();
 
         gameObject.SetActive(false);
     }
@@ -25,13 +25,13 @@ public class PlayerInventoryUI : MonoBehaviour
 
     public void HandleInventoryUI()
     {
-        if (player.pI.actions["Inventory"].triggered && inventoryOpen)
+        if (player.PlayerInput.InventoryAction.triggered && inventoryOpen)
         {
             inventoryOpen = false;
             gameObject.SetActive(true);
             MinigameManager.AddOpenInventory(gameObject);
         }
-        else if (player.pI.actions["Inventory"].triggered && !inventoryOpen)
+        else if (player.PlayerInput.InventoryAction.triggered && !inventoryOpen)
         {
             inventoryOpen = true;
             gameObject.SetActive(false);

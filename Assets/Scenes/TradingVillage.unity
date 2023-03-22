@@ -403,7 +403,6 @@ GameObject:
   - component: {fileID: 34543879}
   - component: {fileID: 34543878}
   - component: {fileID: 34543885}
-  - component: {fileID: 34543883}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -501,36 +500,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34543876}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &34543883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 34543876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Actions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &34543885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,7 +982,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 87426645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f5c03947cd97a842a63d58999fc8c5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 267cf9e390afd8744b1cd425a4b418c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemUI: {fileID: 6927560123145162241, guid: 49bfabd6e8c30944e983ccc2b038b83b, type: 3}
@@ -6521,7 +6490,6 @@ GameObject:
   - component: {fileID: 1065464821}
   - component: {fileID: 1065464820}
   - component: {fileID: 1065464824}
-  - component: {fileID: 1065464825}
   m_Layer: 0
   m_Name: Shop Enclos
   m_TagString: Shop
@@ -6643,36 +6611,6 @@ MonoBehaviour:
   prix1: {fileID: 1096650321}
   prix2: {fileID: 822723066}
   prix3: {fileID: 1334978813}
---- !u!114 &1065464825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1065464818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Actions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &1082471272
 GameObject:
   m_ObjectHideFlags: 0
@@ -7608,7 +7546,6 @@ GameObject:
   - component: {fileID: 1244656226}
   - component: {fileID: 1244656225}
   - component: {fileID: 1244656229}
-  - component: {fileID: 1244656230}
   m_Layer: 0
   m_Name: Shop Fruit
   m_TagString: Shop
@@ -7724,36 +7661,6 @@ MonoBehaviour:
   talking: 0
   playerInventory: {fileID: 0}
   PC: {fileID: 0}
---- !u!114 &1244656230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244656223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Actions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &1253871509
 GameObject:
   m_ObjectHideFlags: 0
@@ -7966,7 +7873,6 @@ GameObject:
   - component: {fileID: 1280097091}
   - component: {fileID: 1280097090}
   - component: {fileID: 1280097089}
-  - component: {fileID: 1280097088}
   - component: {fileID: 1280097087}
   m_Layer: 0
   m_Name: Player
@@ -8008,36 +7914,6 @@ MonoBehaviour:
   pI: {fileID: 0}
   sceneIndex: 0
   sceneIndexSave: 0
---- !u!114 &1280097088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1280097085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Actions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!143 &1280097089
 CharacterController:
   m_ObjectHideFlags: 0
@@ -8068,7 +7944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b121730c265b0f4d9e8c5bd3ee9aa6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movement: {x: 0, y: 0}
 --- !u!114 &1280097091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8081,19 +7956,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af72c865999a7db48bb7f66b4899734b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farmSceneIndex: 1
-  villageSceneIndex: 2
+  spawnPosition: {fileID: 0}
+  farmSceneName: FarmScene
+  villageSceneName: TradingVillage
   playerBody: {fileID: 175111959}
   money: 0
-  cameraFerme: {fileID: 1661860623}
-  pI: {fileID: 1280097088}
-  TalkingShop: 0
-  farm: 0
   cam: {fileID: 1661860628}
+  cameraFerme: {fileID: 1661860623}
   cameraFermeCinemachine: {fileID: 1661860623}
+  turnSmoothVelocity: 0
   turnSmoothTime: 0.1
   movespeed: 10
-  spawnpos: {fileID: 829263931}
+  talkingShop: 0
+  inFarm: 0
 --- !u!136 &1280097092
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11052,7 +10927,6 @@ GameObject:
   - component: {fileID: 1597196552}
   - component: {fileID: 1597196551}
   - component: {fileID: 1597196555}
-  - component: {fileID: 1597196556}
   m_Layer: 0
   m_Name: Shop Vendeur
   m_TagString: Shop
@@ -11168,36 +11042,6 @@ MonoBehaviour:
   talking: 0
   playerInventory: {fileID: 0}
   PC: {fileID: 0}
---- !u!114 &1597196556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597196549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Actions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &1617149155
 GameObject:
   m_ObjectHideFlags: 0
@@ -12045,7 +11889,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1678587990}
   - component: {fileID: 1678587989}
-  - component: {fileID: 1678587988}
   m_Layer: 0
   m_Name: Save Manager
   m_TagString: Untagged
@@ -12053,36 +11896,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1678587988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1678587987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Manual_Save
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &1678587989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12096,8 +11909,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemUI: {fileID: 6927560123145162241, guid: 49bfabd6e8c30944e983ccc2b038b83b, type: 3}
-  pC: {fileID: 0}
-  pI: {fileID: 0}
+  playerController: {fileID: 0}
+  playerInput: {fileID: 0}
   stuffs:
   - {fileID: 11400000, guid: eb524ad6bf4d0b14aa76f8ce57d42a8f, type: 2}
   - {fileID: 11400000, guid: 77e00ab4b8f25d4429fd38d46d8cda12, type: 2}
@@ -13790,7 +13603,6 @@ GameObject:
   - component: {fileID: 1863715718}
   - component: {fileID: 1863715717}
   - component: {fileID: 1863715724}
-  - component: {fileID: 1863715722}
   m_Layer: 0
   m_Name: Sphere (1)
   m_TagString: Untagged
@@ -13888,36 +13700,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1863715715}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1863715722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1863715715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9261706befb80a94d8bfea18fd834ef4, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Actions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &1863715724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14897,7 +14679,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: NEW Shop
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1500982517, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
 --- !u!4 &120101593524212344 stripped
 Transform:

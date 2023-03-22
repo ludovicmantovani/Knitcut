@@ -7,11 +7,11 @@ public class PlayerRecipesInventory : MonoBehaviour
     [SerializeField] private Transform recipesParent;
 
     private bool isOpen = true;
-    private playerController player;
+    private PlayerController player;
 
     private void Start()
     {
-        player = FindObjectOfType<playerController>();
+        player = FindObjectOfType<PlayerController>();
 
         gameObject.SetActive(false);
     }
@@ -25,13 +25,13 @@ public class PlayerRecipesInventory : MonoBehaviour
 
     public void HandleInventoryUI()
     {
-        if (player.pI.actions["Recipes_Inventory"].triggered && isOpen)
+        if (player.PlayerInput.RecipesInventoryAction.triggered && isOpen)
         {
             isOpen = false;
             gameObject.SetActive(true);
             MinigameManager.AddOpenInventory(gameObject);
         }
-        else if (player.pI.actions["Recipes_Inventory"].triggered && !isOpen)
+        else if (player.PlayerInput.RecipesInventoryAction.triggered && !isOpen)
         {
             isOpen = true;
             gameObject.SetActive(false);

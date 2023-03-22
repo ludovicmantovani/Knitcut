@@ -22,7 +22,7 @@ public class Recolter : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player_Farm" && pI.actions["Intercation_Environnements"].triggered)
+        if (other.tag == "Player_Farm" && pI.InteractionAction.triggered)
         {
             planter.Vide = false;
             Destroy(pousse.GraineX);

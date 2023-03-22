@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Planter : MonoBehaviour
 {
-    public PlayerInput pI;
+    public PlayerInput playerInput;
     public GameObject infoZone;
     public GameObject graines;
     public GameObject[] PrefabsGraine;
@@ -14,8 +14,7 @@ public class Planter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        pI = GetComponent<PlayerInput>();
+        playerInput = FindObjectOfType<PlayerInput>();
     }
 
     // Update is called once per frame
@@ -33,7 +32,7 @@ public class Planter : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag == "Player_Farm" && pI.actions["Intercation_Environnements"].triggered && Vide == false)
+        if(other.tag == "Player_Farm" && playerInput.InteractionAction.triggered && Vide == false)
         {
             graines.SetActive(true);
 

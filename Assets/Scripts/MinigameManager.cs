@@ -8,7 +8,7 @@ public class MinigameManager : MonoBehaviour
     private static List<object> dataToKeep;
     private static bool startOK = false;
     private static string sceneToLoad = "FarmScene";
-    private static playerController playerController;
+    private static PlayerController playerController;
     private static List<GameObject> openInventories = new List<GameObject>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
 
@@ -69,8 +69,8 @@ public class MinigameManager : MonoBehaviour
     {
         HandlePanels();
 
-        if (playerController == null && FindObjectOfType<playerController>())
-            playerController = FindObjectOfType<playerController>();
+        if (playerController == null && FindObjectOfType<PlayerController>())
+            playerController = FindObjectOfType<PlayerController>();
 
         if (dataLoaded)
         {
@@ -182,7 +182,7 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleCookingData()
     {
-        PlayerInventoryUI inventory = listSlots.PlayerSlotsParent.GetComponent<PlayerInventoryUI>();
+        PlayerInventory inventory = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>();
 
         if (inventory == null || FindFirstGenericDishSO() == -1) return;
 
@@ -213,7 +213,7 @@ public class MinigameManager : MonoBehaviour
         return -1;
     }
 
-    private void HandleItemsInInventory(PlayerInventoryUI inventory)
+    private void HandleItemsInInventory(PlayerInventory inventory)
     {
         foreach (Item item in itemsToRemoveQuantity.Keys)
         {
@@ -224,7 +224,7 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleRecognitionData()
     {
-        listSlots.UpdateMoney(listSlots.pC.money + Convert.ToInt32(dataToKeep[0]));
+        listSlots.UpdateMoney(listSlots.playerController.Money + Convert.ToInt32(dataToKeep[0]));
     }
 
     private void HandleBreedingData()

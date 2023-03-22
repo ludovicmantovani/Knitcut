@@ -13,7 +13,7 @@ public class Shop_Interaction : MonoBehaviour
     void Start()
     {
         pI = GetComponent<PlayerInput>();
-        interactionPanel.GetComponentInChildren<TMP_Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to trade";
+        interactionPanel.GetComponentInChildren<TMP_Text>().text = "Use " + pI.InteractionAction.GetBindingDisplayString() + " to trade";
     }
 
     // Update is called once per frame

@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class Container : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private PlayerInput pI;
+    [SerializeField] private PlayerInput playerInput;
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private GameObject containerInventoryPanel;
     [SerializeField] private GameObject containerInventoryContent;
@@ -41,11 +41,11 @@ public class Container : MonoBehaviour
 
     private void Start()
     {
-        pI = GetComponent<PlayerInput>();
+        playerInput = FindObjectOfType<PlayerInput>();
         canUseContainer = false;
         containerInUse = false;
 
-        interaction = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString();
+        interaction = "Use " + playerInput.InteractionAction.GetBindingDisplayString();
     }
 
     private void Update()
@@ -83,7 +83,7 @@ public class Container : MonoBehaviour
             return;
         }
 
-        if (pI.actions["Intercation_Environnements"].triggered && canUseContainer)
+        if (playerInput.InteractionAction.triggered && canUseContainer)
         {
             if (!containerInUse)
             {

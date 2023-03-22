@@ -13,18 +13,18 @@ public class Scene_verification : MonoBehaviour
     private void Awake()
     {
 
-        pI = GetComponent<PlayerInput>();
+        pI = FindObjectOfType<PlayerInput>();
     }
     private void Update()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            if (pI.actions["QuickSave"].triggered)
+            if (pI.QuickSaveAction.triggered)
             {
                 SaveplayerSc();
             }
-            if (pI.actions["QuickLoad"].triggered)
+            if (pI.QuickLoadAction.triggered)
             {
                 LoadPlayerSc();
             }

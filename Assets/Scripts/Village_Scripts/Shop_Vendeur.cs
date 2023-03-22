@@ -12,15 +12,15 @@ public class Shop_Vendeur : MonoBehaviour
     float SafeTimer = 0;
     public bool talking = false;
     public PlayerInventory playerInventory;
-    public playerController PC;
+    public PlayerController PC;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        pI = GetComponent<PlayerInput>();
+        pI = FindObjectOfType<PlayerInput>();
         playerInventory = FindObjectOfType<PlayerInventory>();
-        PC = FindObjectOfType<playerController>();
-        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.actions["Intercation_Environnements"].GetBindingDisplayString() + " to trade";
+        PC = FindObjectOfType<PlayerController>();
+        InteractionUI.GetComponentInChildren<TMP_Text>().text = "Use " + pI.InteractionAction.GetBindingDisplayString() + " to trade";
     }
 
     // Update is called once per frame
@@ -59,14 +59,14 @@ public class Shop_Vendeur : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == false && SafeTimer == 0)
+        if (other.tag == "Player" && pI.InteractionAction.triggered && talking == false && SafeTimer == 0)
         {
             ShopVendeurUI.SetActive(true);
             InteractionUI.SetActive(false);
             talking = true;
             PC.TalkingShop = true;
         }
-        if (other.tag == "Player" && pI.actions["Intercation_Environnements"].triggered && talking == true && SafeTimer == 1.5)
+        if (other.tag == "Player" && pI.InteractionAction.triggered && talking == true && SafeTimer == 1.5)
         {
             ShopVendeurUI.SetActive(false);
             InteractionUI.SetActive(true);
@@ -85,7 +85,7 @@ public class Shop_Vendeur : MonoBehaviour
     }
     public void SellFruit1()
     {
-        if (playerInventory.Fruit1 < 1)
+        /*if (playerInventory.Fruit1 < 1)
         {
             Debug.Log("Not enough Fruit1");
         }
@@ -93,11 +93,11 @@ public class Shop_Vendeur : MonoBehaviour
         {
             playerInventory.Fruit1--;
             playerInventory.Money = playerInventory.Money + 2;
-        }
+        }*/
     }
     public void SellFruit2()
     {
-        if (playerInventory.Fruit2 < 1)
+        /*if (playerInventory.Fruit2 < 1)
         {
             Debug.Log("Not enough Fruit2");
         }
@@ -105,11 +105,11 @@ public class Shop_Vendeur : MonoBehaviour
         {
             playerInventory.Fruit2--;
             playerInventory.Money = playerInventory.Money + 3;
-        }
+        }*/
     }
     public void SellFruit3()
     {
-        if (playerInventory.Fruit3 < 1)
+        /*if (playerInventory.Fruit3 < 1)
         {
             Debug.Log("Not enough Fruit3");
         }
@@ -117,11 +117,11 @@ public class Shop_Vendeur : MonoBehaviour
         {
             playerInventory.Fruit3--;
             playerInventory.Money = playerInventory.Money + 5;
-        }
+        }*/
     }
     public void SellWool1()
     {
-        if (playerInventory.Wool1 < 1)
+        /*if (playerInventory.Wool1 < 1)
         {
             Debug.Log("Not enough Wool1");
         }
@@ -129,11 +129,11 @@ public class Shop_Vendeur : MonoBehaviour
         {
             playerInventory.Wool1--;
             playerInventory.Money = playerInventory.Money + 2;
-        }
+        }*/
     }
     public void SellWool2()
     {
-        if (playerInventory.Wool2 < 1)
+        /*if (playerInventory.Wool2 < 1)
         {
             Debug.Log("Not enough Wool2");
         }
@@ -141,11 +141,11 @@ public class Shop_Vendeur : MonoBehaviour
         {
             playerInventory.Wool2--;
             playerInventory.Money = playerInventory.Money + 4;
-        }
+        }*/
     }
     public void SellWool3()
     {
-        if (playerInventory.Wool3 < 1)
+        /*if (playerInventory.Wool3 < 1)
         {
             Debug.Log("Not enough Wool3");
         }
@@ -153,6 +153,6 @@ public class Shop_Vendeur : MonoBehaviour
         {
             playerInventory.Wool3--;
             playerInventory.Money = playerInventory.Money + 7;
-        }
+        }*/
     }
 }

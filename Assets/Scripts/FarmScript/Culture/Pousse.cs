@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Pousse : MonoBehaviour
 {
-    public PlayerInput pI;
+    public PlayerInput playerInput;
     public float tempsPousse = 10f;
     public bool croissance = true;
     public GameObject planteAdulte;
@@ -20,6 +20,8 @@ public class Pousse : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerInput = FindObjectOfType<PlayerInput>();
+
         planter = GetComponentInParent<Planter>();
         GraineX = this.gameObject;
         transform.localPosition = new Vector3(0, 0, 0);
@@ -82,13 +84,13 @@ public class Pousse : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player_Farm" && nbrandom == 1 && pI.actions["Hydrate_plant"].triggered)
+        if (other.tag == "Player_Farm" && nbrandom == 1 && playerInput.HydrateAction.triggered)
         {
             poussePlante.SetActive(true);
             planteSoif.SetActive(false);
             croissance = true;
         }
-        if (other.tag == "Player_Farm" && nbrandom == 2 && pI.actions["Heal_plant"].triggered)
+        if (other.tag == "Player_Farm" && nbrandom == 2 && playerInput.HealAction.triggered)
         {
             poussePlante.SetActive(true);
             planteMalade.SetActive(false);
