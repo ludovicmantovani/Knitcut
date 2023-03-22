@@ -26,6 +26,8 @@ public class FlowerGameManager : MonoBehaviour
     private int _nbToNextStep = -1;
     private int _nbCurrentStep = 0;
     private int _coutnError = 0;
+    private string _rightPetalName = "";
+    private bool _lastIsError = false;
 
     #region UNITY_METHOD
     void Start()
@@ -68,8 +70,9 @@ public class FlowerGameManager : MonoBehaviour
     #region SPECIFIC_METHOD
     private void HandleChange(string name)
     {
-        string rightPetalName = _sequence.Dequeue().ToString();
-        if (name == rightPetalName)
+        _rightPetalName = _lastIsError ? _rightPetalName : _sequence.Dequeue().ToString();
+        _lastIsError = false;
+        if (name == _rightPetalName)
         {
             if (_turn == relationCanvas.GetTextCount() && _sequence.Count == 0)
             {
@@ -99,7 +102,7 @@ public class FlowerGameManager : MonoBehaviour
         {
             if (_coutnError >= nbrErrorAllowed)
             {
-                relationCanvas.Reset();
+                if (relationCanvas) relationCanvas.Reset();
                 flowerCreationScript.FallPetals();
                 _stateTime = Time.time;
                 gameState = State.AFTER_GAME;
@@ -107,7 +110,8 @@ public class FlowerGameManager : MonoBehaviour
             else
             {
                 _coutnError++;
-                _sequence.Enqueue(int.Parse(rightPetalName));
+                _lastIsError = true;
+                if (relationCanvas) relationCanvas.Previous();
                 flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
             }
         }
