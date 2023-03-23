@@ -12,7 +12,8 @@ public static class SaveSystem
         Save_ContainerInventory,
         Save_AnimalPenLevel,
         Save_UIMenu,
-        Save_Volume
+        Save_Volume,
+        Save_SceneVerification
     }
 
     public static SaveType saveType;
@@ -62,6 +63,10 @@ public static class SaveSystem
                 Audio_Data data_Audio_Data = new Audio_Data((UI_Menu)data);
                 formatter.Serialize(stream, data_Audio_Data);
                 break;
+            case SaveType.Save_SceneVerification:
+                Player_Data data_SceneVerification = new Player_Data((SceneVerification)data);
+                formatter.Serialize(stream, data_SceneVerification);
+                break;
             default:
                 break;
         }
@@ -69,7 +74,7 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static object Load(SaveType save, object data)
+    public static object Load(SaveType save, object data = null)
     {
         saveType = save;
 
@@ -78,33 +83,36 @@ public static class SaveSystem
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(Path(save.ToString()), FileMode.Open);
 
-            object dataGet = null;
+            object dataLoaded = null;
 
             if (stream.Length == 0) return null;
 
             switch (saveType)
             {
                 case SaveType.Save_PlayerController:
-                    dataGet = formatter.Deserialize(stream) as Player_Data;
+                    dataLoaded = formatter.Deserialize(stream) as Player_Data;
                     break;
                 case SaveType.Save_PlayerInput:
-                    dataGet = formatter.Deserialize(stream) as Player_Data;
+                    dataLoaded = formatter.Deserialize(stream) as Player_Data;
                     break;
                 case SaveType.Save_PlayerInventory:
-                    dataGet = formatter.Deserialize(stream) as PlayerInventory_Data;
+                    dataLoaded = formatter.Deserialize(stream) as PlayerInventory_Data;
                     break;
                 case SaveType.Save_ContainerInventory:
-                    dataGet = formatter.Deserialize(stream) as ContainerInventory_Data;
+                    dataLoaded = formatter.Deserialize(stream) as ContainerInventory_Data;
                     break;
                 case SaveType.Save_AnimalPenLevel:
                     Debug.Log($"Load Animal Pen Level");
-                    //dataGet = formatter.Deserialize(stream) as Player_Data;
+                    //dataLoaded = formatter.Deserialize(stream) as Player_Data;
                     break;
                 case SaveType.Save_UIMenu:
-                    dataGet = formatter.Deserialize(stream) as KeyBinding_Data;
+                    dataLoaded = formatter.Deserialize(stream) as KeyBinding_Data;
                     break;
                 case SaveType.Save_Volume:
-                    dataGet = formatter.Deserialize(stream) as Audio_Data;
+                    dataLoaded = formatter.Deserialize(stream) as Audio_Data;
+                    break;
+                case SaveType.Save_SceneVerification:
+                    dataLoaded = formatter.Deserialize(stream) as Player_Data;
                     break;
                 default:
                     break;
@@ -112,19 +120,21 @@ public static class SaveSystem
 
             stream.Close();
 
-            return dataGet;
+            return dataLoaded;
         }
         else
         {
-            Debug.LogError($"Save file not found in {Path(save.ToString())}");
+            //Debug.LogError($"Save file not found in {Path(save.ToString())}");
+
+            if (data == null) return null;
 
             switch (saveType)
             {
                 case SaveType.Save_PlayerController:
                     break;
                 case SaveType.Save_PlayerInput:
-                    List_Slots LS_PlayerInput = (List_Slots)data;
-                    LS_PlayerInput.HandleVerificationAndApplication();
+                    /*List_Slots LS_PlayerInput = (List_Slots)data;
+                    LS_PlayerInput.HandleVerificationAndApplication();*/
                     break;
                 case SaveType.Save_PlayerInventory:
                     List_Slots LS_PlayerInventory = (List_Slots)data;
@@ -139,6 +149,8 @@ public static class SaveSystem
                 case SaveType.Save_UIMenu:
                     break;
                 case SaveType.Save_Volume:
+                    break;
+                case SaveType.Save_SceneVerification:
                     break;
                 default:
                     break;
@@ -163,7 +175,7 @@ public static class SaveSystem
 
         formatter.Serialize(stream, data);
         stream.Close();
-    }*/
+    }
 
     public static void SavePlayerMoney(PlayerController playerController)
     {
@@ -189,7 +201,7 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static void SaveScene(Scene_verification scene_Verification)
+    public static void SaveScene(SceneVerification scene_Verification)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/scene_Verification.save";
@@ -227,8 +239,8 @@ public static class SaveSystem
             Debug.LogError("Save file not found in " + path);
             return null;
         }
-    }*/
-    public static Player_Data LoadPlayerInput(List_Slots LS, PlayerInput pI)
+    }
+    public static Player_Data LoadPlayerInput(List_Slots LS, PlayerInput playerInput)
     {
         string path = Application.persistentDataPath + "/playerinput.save";
         if (File.Exists(path))
@@ -246,7 +258,7 @@ public static class SaveSystem
 
             LS.HandleVerificationAndApplication();
 
-            SavePlayerPosition(pI);
+            SavePlayerPosition(playerInput);
 
             return null;
         }
@@ -450,7 +462,7 @@ public static class SaveSystem
             return null;
         }
     }
-    #endregion
+    #endregion*/
 
     #endregion
 }

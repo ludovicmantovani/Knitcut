@@ -16,9 +16,9 @@ public class Player_Data
         playerPosition = new float[] { playerInput.transform.position.x, playerInput.transform.position.y, playerInput.transform.position.z };
     }
     
-    public Player_Data (Scene_verification scene_Verification)
+    public Player_Data (SceneVerification scene_Verification)
     {
-        scene = scene_Verification.sceneIndex;
+        scene = scene_Verification.SceneIndex;
     }
     public Player_Data (Shop_Enclos shop_Enclos)
     {

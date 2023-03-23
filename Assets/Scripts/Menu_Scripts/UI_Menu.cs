@@ -163,12 +163,15 @@ public class UI_Menu : MonoBehaviour
             lastKey != healPlante.text || 
             lastKey != inventory.text)
         {
-            SaveSystem.SaveKeys(this);
+            //SaveSystem.SaveKeys(this);
+            SaveSystem.Save(SaveSystem.SaveType.Save_UIMenu, this);
         }
     }
     public void LoadKeybindingsTouch()
     {
-        KeyBinding_Data data = SaveSystem.LoadKeys();
+        //KeyBinding_Data data = SaveSystem.LoadKeys();
+        KeyBinding_Data data = (KeyBinding_Data)SaveSystem.Load(SaveSystem.SaveType.Save_UIMenu, this);
+
         moveForward.text = data.moveForward;
         moveBackward.text = data.moveBackward;
         moveLeft.text = data.moveLeft;
@@ -183,16 +186,19 @@ public class UI_Menu : MonoBehaviour
         if(lastVolume != volume.value)
         {
             lastVolume = volume.value;
-            SaveSystem.SaveVolume(this);
+            //SaveSystem.SaveVolume(this);
+            SaveSystem.Save(SaveSystem.SaveType.Save_Volume, this);
         }
     }
     public void LoadVolumeLevel()
     {
-        Audio_Data data = SaveSystem.LoadVolume();
+        //Audio_Data data = SaveSystem.LoadVolume();
+        Audio_Data data = (Audio_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Volume, this);
         volume.value = data.volume;
     }
     void SaveVolumeSystem()
     {
-        SaveSystem.SaveVolume(this);
+        //SaveSystem.SaveVolume(this);
+        SaveSystem.Save(SaveSystem.SaveType.Save_Volume, this);
     }
 }

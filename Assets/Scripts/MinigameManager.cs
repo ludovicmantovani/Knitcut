@@ -125,12 +125,12 @@ public class MinigameManager : MonoBehaviour
 
         if (openInventories.Count > 0)
         {
-            playerController.CameraFC.SetActive(false);
+            playerController.CameraCineBrain.enabled = false;
             playerController.CanMove = false;
         }
         else
         {
-            playerController.CameraFC.SetActive(true);
+            playerController.CameraCineBrain.enabled = true;
             playerController.CanMove = true;
         }
     }

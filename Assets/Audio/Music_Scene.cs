@@ -61,7 +61,8 @@ public class Music_Scene : MonoBehaviour
     }
     void LoadVolumeSystem()
     {
-        Audio_Data data = SaveSystem.LoadVolume();
+        //Audio_Data data = SaveSystem.LoadVolume();
+        Audio_Data data = (Audio_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Volume);
         volume = data.volume;
     }
 }

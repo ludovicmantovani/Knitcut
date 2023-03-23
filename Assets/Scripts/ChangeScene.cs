@@ -9,9 +9,9 @@ public class ChangeScene : MonoBehaviour
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private bool isMinigame;
 
-    private PlayerInput pI;
-    private Shop_Enclos se;
-    private PlayerController PC;
+    private PlayerInput playerInput;
+    private Shop_Enclos shopEnclos;
+    private PlayerController playerController;
     private List_Slots LS;
 
     bool canChangeScene = false;
@@ -19,9 +19,9 @@ public class ChangeScene : MonoBehaviour
 
     void Awake()
     {
-        pI = FindObjectOfType<PlayerInput>();
-        se = FindObjectOfType<Shop_Enclos>();
-        PC = FindObjectOfType<PlayerController>();
+        playerInput = FindObjectOfType<PlayerInput>();
+        shopEnclos = FindObjectOfType<Shop_Enclos>();
+        playerController = FindObjectOfType<PlayerController>();
         LS = FindObjectOfType<List_Slots>();
     }
 
@@ -33,19 +33,16 @@ public class ChangeScene : MonoBehaviour
 
     private void HandleChangeScene()
     {
-        if (canChangeScene && sceneToLoad != "" && pI.InteractionAction.triggered)
+        if (canChangeScene && sceneToLoad != "" && playerInput.InteractionAction.triggered)
         {
             canChangeScene = false;
 
-            if (SceneManager.GetActiveScene().name.Contains("Farm"))
-            {
-                FindObjectOfType<PlayerController>().SavePlayerPos();
-            }
+            playerController.SavePlayerPositionInScene();
 
             if (SceneManager.GetActiveScene().name.Contains("Village"))
             {
-                se.SaveEncloslevel();
-                PC.InFarm = false;
+                shopEnclos.SaveEncloslevel();
+                playerController.InFarm = false;
             }
 
             LS.SaveData();
@@ -75,7 +72,7 @@ public class ChangeScene : MonoBehaviour
         {
             showInstruction = false;
 
-            string instruction = "Use " + pI.InteractionAction.GetBindingDisplayString();
+            string instruction = "Use " + playerInput.InteractionAction.GetBindingDisplayString();
 
             if (sceneToLoad.Contains("Village"))
             {

@@ -37,15 +37,14 @@ public class Load_Farm : MonoBehaviour
     }
     public void LoadEncloslevel()
     {
+        //Player_Data data = SaveSystem.LoadEnclosLevel();
+        Player_Data data = (Player_Data)SaveSystem.Load(SaveSystem.SaveType.Save_AnimalPenLevel, this);
 
-
-        Player_Data data = SaveSystem.LoadEnclosLevel();
         levelEnclo1 = data.LevelEnclo1;
         levelEnclo2 = data.LevelEnclo2;
         levelEnclo3 = data.LevelEnclo3;
-
-
     }
+
     void LoadEnclos()
     {
         if(levelEnclo1 == 0)

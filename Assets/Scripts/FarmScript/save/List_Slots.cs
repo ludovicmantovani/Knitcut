@@ -146,13 +146,12 @@ public class List_Slots : MonoBehaviour
     {
         Debug.Log($"Force save");
 
-        /*SaveSystem.SavePlayerMoney(playerController);
-        SaveSystem.SavePlayerInventory(this);
-        SaveSystem.SaveContainerInventory(this);*/
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, playerController);
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerInventory, this);
+
         if (handleContainer)
             SaveSystem.Save(SaveSystem.SaveType.Save_ContainerInventory, this);
+
         SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPenLevel, this);
     }
 

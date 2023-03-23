@@ -6,8 +6,8 @@ using TMPro;
 public class FlowerResultCanvas : MonoBehaviour
 {
     [SerializeField] private TMP_Text textInfo = null;
-    [SerializeField] private string textWin = "Vos animaux s'aiment assez pour se reproduire.";
-    [SerializeField] private string textLose = "Vos animaux ne s'aiment pas assez pour se reproduire.";
+    [SerializeField] private string textWin = "Vos animaux s'aiment assez pour shopEnclos reproduire.";
+    [SerializeField] private string textLose = "Vos animaux ne s'aiment pas assez pour shopEnclos reproduire.";
     public void SetVictory(bool win)
     {
         if (textInfo)

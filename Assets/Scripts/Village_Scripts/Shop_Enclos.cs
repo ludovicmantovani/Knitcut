@@ -250,10 +250,7 @@ public class Shop_Enclos : MonoBehaviour
 
     public void SaveEncloslevel()
     {
-        
-        SaveSystem.SaveEnclosLevel(this);
-        
-
-    }
-    
+        //SaveSystem.SaveEnclosLevel(this);
+        SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPenLevel, this);
+    }    
 }

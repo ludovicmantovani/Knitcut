@@ -12,7 +12,7 @@ public class Shop_Interaction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pI = GetComponent<PlayerInput>();
+        pI = FindObjectOfType<PlayerInput>();
         interactionPanel.GetComponentInChildren<TMP_Text>().text = "Use " + pI.InteractionAction.GetBindingDisplayString() + " to trade";
     }
 

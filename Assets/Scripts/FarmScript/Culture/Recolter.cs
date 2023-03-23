@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Recolter : MonoBehaviour
 {
-    public PlayerInput pI;
+    public PlayerInput playerInput;
     Planter planter;
     Pousse pousse;
     // Start is called before the first frame update
     void Start()
     {
+        playerInput = FindObjectOfType<PlayerInput>();
+
         planter = GetComponentInParent<Planter>();
         pousse = GetComponentInParent<Pousse>();
     }
@@ -22,7 +21,7 @@ public class Recolter : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player_Farm" && pI.InteractionAction.triggered)
+        if (other.tag == "Player_Farm" && playerInput.InteractionAction.triggered)
         {
             planter.Vide = false;
             Destroy(pousse.GraineX);
