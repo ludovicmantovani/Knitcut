@@ -194,6 +194,9 @@ public class UI_Menu : MonoBehaviour
     {
         //Audio_Data data = SaveSystem.LoadVolume();
         Audio_Data data = (Audio_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Volume, this);
+
+        if (data == null) return;
+
         volume.value = data.volume;
     }
     void SaveVolumeSystem()

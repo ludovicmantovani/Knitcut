@@ -60,6 +60,8 @@ public class SceneVerification : MonoBehaviour
 
         Player_Data data = (Player_Data)SaveSystem.Load(SaveSystem.SaveType.Save_SceneVerification, this);
 
+        if (data == null) yield break;
+
         sceneIndexSaved = data.scene;
 
         if (sceneIndexSaved != sceneIndex) SceneManager.LoadScene(sceneIndexSaved);

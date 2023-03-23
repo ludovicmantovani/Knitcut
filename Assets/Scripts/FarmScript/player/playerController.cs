@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour
     [Header("Datas")]
     [SerializeField] private float turnSmoothTime;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float villageSpeedModifier = 4f;
     [SerializeField] private bool talkingShop = false;
     [SerializeField] private bool inFarm = false;
 
@@ -306,11 +305,10 @@ public class PlayerController : MonoBehaviour
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0, 0);
 
-        move = move.x * -cameraFerme.transform.right;
         move.y = 0f;
         move.z = 0f;
 
-        characterController.Move((move * villageSpeedModifier) * Time.deltaTime * moveSpeed);
+        characterController.Move(move * Time.deltaTime * moveSpeed);
 
         if (input.x == -1) playerBody.transform.rotation = Quaternion.LookRotation(-transform.right);
         if (input.x == 1) playerBody.transform.rotation = Quaternion.LookRotation(transform.right);        
