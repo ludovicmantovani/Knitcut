@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,7 +10,20 @@ public class ShopManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject itemToBuyUI;
     [SerializeField] private GameObject interactionUI;
-    [SerializeField] private List<GameObject> shopsUI;
+
+    [Serializable]
+    public class ShopRole
+    {
+        public GameObject objectsPanel;
+        public Transform objectsParent;
+        public ShopType shopRole;
+        public bool isRecipe;
+        public List<ItemToBuy> items;
+        public List<RecipeToBuy> recipes;
+    }
+
+    [SerializeField] private GameObject shopUI;
+    [SerializeField] private List<ShopRole> shop;
 
     public GameObject InteractionUI
     {
@@ -23,32 +35,17 @@ public class ShopManager : MonoBehaviour
     private PlayerInput playerInput;
     private List_Slots listSlots;
 
-    private GameObject currentShopUI = null;
     private string interaction;
 
     [Header("Shop States")]
     [SerializeField] private bool canUseShop = false;
     [SerializeField] private bool shopInUse = false;
-    [SerializeField] private ShopRole shopRole;
 
     public bool CanUseShop
     {
         get { return canUseShop; }
         set { canUseShop = value; }
     }
-
-    [Header("Shop Fruit Seeds Seller")]
-    [SerializeField] private List<ItemToBuy> fruitSeedsToBuy;
-    [SerializeField] private GameObject fruitSeedsPanel;
-    [SerializeField] private Transform fruitSeedsParent;
-
-    [Header("Shop Items Dealer")]
-    [SerializeField] private List<ItemToBuy> itemsToBuy;
-    [SerializeField] private List<RecipeToBuy> recipesToBuy;
-    [SerializeField] private GameObject itemsPanel;
-    [SerializeField] private Transform itemsParent;
-    [SerializeField] private GameObject recipesPanel;
-    [SerializeField] private Transform recipesParent;
 
     [Serializable]
     public class ItemToBuy
@@ -64,7 +61,7 @@ public class ShopManager : MonoBehaviour
         public int price;
     }
 
-    public enum ShopRole
+    public enum ShopType
     { 
         FruitSeedsSeller,
         ItemDealer,
@@ -94,8 +91,8 @@ public class ShopManager : MonoBehaviour
 
     private void HandleShopUI()
     {
-        if (currentShopUI != null)
-            currentShopUI.SetActive(shopInUse);
+        if (shopUI != null)
+            shopUI.SetActive(shopInUse);
 
         if (!canUseShop)
         {
@@ -116,30 +113,13 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private GameObject GetCurrentShopUI()
-    {
-        GameObject shopUI = null;
-
-        for (int i = 0; i < shopsUI.Count; i++)
-        {
-            if (shopsUI[i].name.Contains(shopRole.ToString()))
-            {
-                shopUI = shopsUI[i];
-            }
-        }
-
-        return shopUI;
-    }
-
     private void OpenShopUI()
     {
-        currentShopUI = GetCurrentShopUI();
-
         shopInUse = true;
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to close shop";
 
-        MinigameManager.AddOpenInventory(currentShopUI);
+        MinigameManager.AddOpenInventory(shopUI);
     }
 
     private void CloseShopUI()
@@ -148,34 +128,34 @@ public class ShopManager : MonoBehaviour
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to open shop";
 
-        MinigameManager.RemoveOpenInventory(currentShopUI);
+        MinigameManager.RemoveOpenInventory(shopUI);
 
         Clear();
     }
 
-    #endregion
-
-    #region Shop Content
-
     #region Shop "Fruit Seeds Seller"
 
-    public void ShowSeeds()
+    public void ShowFruitSeedsUI()
     {
-        Show(fruitSeedsToBuy, fruitSeedsPanel, fruitSeedsParent);
+        int index = 0;
+        Show(index);
     }
 
     #endregion
+
 
     #region Shop "Item Dealer"
 
-    public void ShowItems()
+    public void ShowItemsUI()
     {
-        Show(itemsToBuy, itemsPanel, itemsParent);
+        int index = 0;
+        Show(index);
     }
 
-    public void ShowRecipes()
+    public void ShowRecipesUI()
     {
-        Show(recipesToBuy, recipesPanel, recipesParent, true);
+        int index = 1;
+        Show(index);
     }
 
     private void BuyItem(ItemToBuy itemToBuy, InputField inputField)
@@ -193,10 +173,6 @@ public class ShopManager : MonoBehaviour
             else
             {
                 int nbItemsToCreate = amount / itemToBuy.item.maxStackSize;
-
-                Debug.Log($"{amount / itemToBuy.item.maxStackSize}");
-                Debug.Log($"{amount % itemToBuy.item.maxStackSize}");
-                Debug.Log($"{amount - (nbItemsToCreate * itemToBuy.item.maxStackSize)}");
 
                 for (int i = 0; i < nbItemsToCreate; i++)
                 {
@@ -240,21 +216,26 @@ public class ShopManager : MonoBehaviour
 
     #endregion
 
-    private void Show(object objectsToBuy, GameObject panel, Transform parent, bool isRecipe = false)
+    private void Show(int index)
     {
-        IList listObjectsToBuy = (IList)objectsToBuy;
+        IList shopList;
 
-        if (listObjectsToBuy == null) return;
+        if (!shop[index].isRecipe) shopList = shop[index].items;
+        else shopList = shop[index].recipes;
+
+        Debug.Log($"{shopList}");
+        if (shopList == null) return;
+
 
         Clear();
 
-        panel.SetActive(true);
+        shop[index].objectsPanel.SetActive(true);
 
-        parent.GetComponent<Swipe>().ScrollPos = 1;
+        shop[index].objectsParent.GetComponent<Swipe>().ScrollPos = 1;
 
-        for (int i = 0; i < listObjectsToBuy.Count; i++)
+        for (int i = 0; i < shopList.Count; i++)
         {
-            ShowObjectUI(parent, listObjectsToBuy[i], isRecipe);
+            ShowObjectUI(shop[index].objectsParent, shopList[i], shop[index].isRecipe);
         }
     }
 
@@ -302,33 +283,16 @@ public class ShopManager : MonoBehaviour
 
     private void Clear()
     {
-        if (itemsPanel != null)
+        for (int i = 0; i < shop.Count; i++)
         {
-            itemsPanel.SetActive(false);
-
-            for (int i = 0; i < itemsParent.childCount; i++)
+            if (shop[i].objectsPanel != null)
             {
-                Destroy(itemsParent.GetChild(i).gameObject);
-            }
-        }
+                shop[i].objectsPanel.SetActive(false);
 
-        if (recipesPanel != null)
-        {
-            recipesPanel.SetActive(false);
-
-            for (int i = 0; i < recipesParent.childCount; i++)
-            {
-                Destroy(recipesParent.GetChild(i).gameObject);
-            }
-        }
-
-        if (fruitSeedsPanel != null)
-        {
-            fruitSeedsPanel.SetActive(false);
-
-            for (int i = 0; i < fruitSeedsParent.childCount; i++)
-            {
-                Destroy(fruitSeedsParent.GetChild(i).gameObject);
+                for (int j = 0; j < shop[i].objectsParent.childCount; j++)
+                {
+                    Destroy(shop[i].objectsParent.GetChild(j).gameObject);
+                }
             }
         }
     }

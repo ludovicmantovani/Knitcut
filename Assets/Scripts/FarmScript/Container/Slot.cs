@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerEnterHandler
+public class Slot : MonoBehaviour, IDropHandler//, IPointerClickHandler, IPointerEnterHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
@@ -67,15 +67,5 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
 
             draggableItemToDrop.DropItemToSlot(transform);
         }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log($"OnPointerClick : {name} - {eventData} - {eventData.pointerClick}");
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log($"OnPointerEnter : {name} - {eventData} - {eventData.pointerClick}");
     }
 }
