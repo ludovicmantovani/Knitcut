@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static ShopManager;
 
 public class ShopManager : MonoBehaviour
 {
@@ -71,7 +72,7 @@ public class ShopManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            listSlots.UpdateMoney(100);
+            listSlots.UpdateMoney(1000);
         }
 
         HandleShopUse();
@@ -235,7 +236,30 @@ public class ShopManager : MonoBehaviour
 
         if (playerController.Money >= (amount * itemToBuy.price))
         {
-            for (int i = 0; i < amount; i++)
+            if (amount <= itemToBuy.item.maxStackSize)
+            {
+                CreateItemUI(itemToBuy, amount);
+            }
+            else
+            {
+                int nbItemsToCreate = amount / itemToBuy.item.maxStackSize;
+                Debug.Log($"{amount / itemToBuy.item.maxStackSize}");
+                Debug.Log($"{amount % itemToBuy.item.maxStackSize}");
+                Debug.Log($"{nbItemsToCreate}");
+
+                for (int i = 0; i < nbItemsToCreate; i++)
+                {
+                    CreateItemUI(itemToBuy, itemToBuy.item.maxStackSize);
+                }
+
+                int lastQuantity = amount - (nbItemsToCreate * itemToBuy.item.maxStackSize);
+
+                CreateItemUI(itemToBuy, lastQuantity);
+
+                // 6 > 5
+            }
+
+            /*for (int i = 0; i < amount; i++)
             {
                 GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
 
@@ -244,8 +268,19 @@ public class ShopManager : MonoBehaviour
                 itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
 
                 listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
-            }
+            }*/
         }
+    }
+
+    private void CreateItemUI(ItemToBuy itemToBuy, int quantity)
+    {
+        GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
+
+        itemUI.GetComponent<DraggableItem>().quantityStacked = quantity;
+
+        itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
+
+        listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
     }
 
     private void BuyRecipe(RecipeToBuy recipeToBuy, InputField inputField)
