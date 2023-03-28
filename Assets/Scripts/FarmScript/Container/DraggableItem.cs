@@ -72,6 +72,11 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = Input.mousePosition;
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("Clic droit : drop 1 item");
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)

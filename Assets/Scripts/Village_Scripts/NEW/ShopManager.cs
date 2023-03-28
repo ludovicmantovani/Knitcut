@@ -1,15 +1,23 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static ShopManager;
 
 public class ShopManager : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private GameObject itemToBuyUI;
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private List<GameObject> shopsUI;
+
+    public GameObject InteractionUI
+    {
+        get { return interactionUI; }
+        set { interactionUI = value; }
+    }
 
     private PlayerController playerController;
     private PlayerInput playerInput;
@@ -18,7 +26,7 @@ public class ShopManager : MonoBehaviour
     private GameObject currentShopUI = null;
     private string interaction;
 
-    [Header("shop states")]
+    [Header("Shop States")]
     [SerializeField] private bool canUseShop = false;
     [SerializeField] private bool shopInUse = false;
     [SerializeField] private ShopRole shopRole;
@@ -29,14 +37,18 @@ public class ShopManager : MonoBehaviour
         set { canUseShop = value; }
     }
 
-    [Header("shop Items Dealer")]
+    [Header("Shop Fruit Seeds Seller")]
+    [SerializeField] private List<ItemToBuy> fruitSeedsToBuy;
+    [SerializeField] private GameObject fruitSeedsPanel;
+    [SerializeField] private Transform fruitSeedsParent;
+
+    [Header("Shop Items Dealer")]
     [SerializeField] private List<ItemToBuy> itemsToBuy;
     [SerializeField] private List<RecipeToBuy> recipesToBuy;
     [SerializeField] private GameObject itemsPanel;
     [SerializeField] private Transform itemsParent;
     [SerializeField] private GameObject recipesPanel;
     [SerializeField] private Transform recipesParent;
-    [SerializeField] private GameObject itemToBuyUI;
 
     [Serializable]
     public class ItemToBuy
@@ -54,7 +66,7 @@ public class ShopManager : MonoBehaviour
 
     public enum ShopRole
     { 
-        FruitSeller,
+        FruitSeedsSeller,
         ItemDealer,
         AnimalPenManager
     }
@@ -75,26 +87,8 @@ public class ShopManager : MonoBehaviour
             listSlots.UpdateMoney(1000);
         }
 
-        HandleShopUse();
-
         HandleShopUI();
     }
-
-    #region Shop Use
-
-    private void HandleShopUse()
-    {
-        if (canUseShop)
-        {
-            interactionUI.SetActive(true);
-        }
-        else
-        {
-            interactionUI.SetActive(false);
-        }
-    }
-
-    #endregion
 
     #region Shop UI
 
@@ -163,11 +157,11 @@ public class ShopManager : MonoBehaviour
 
     #region Shop Content
 
-    #region Shop "Fruit Seller"
+    #region Shop "Fruit Seeds Seller"
 
-    private void HandleFruitSeller()
+    public void ShowSeeds()
     {
-        Debug.Log($"Fruit Seller");
+        Show(fruitSeedsToBuy, fruitSeedsPanel, fruitSeedsParent);
     }
 
     #endregion
@@ -176,56 +170,12 @@ public class ShopManager : MonoBehaviour
 
     public void ShowItems()
     {
-        if (itemsToBuy == null) return;
-
-        Clear();
-
-        itemsPanel.SetActive(true);
-        recipesPanel.SetActive(false);
-
-        itemsParent.GetComponent<Swipe>().ScrollPos = 1;
-
-        for (int i = 0; i < itemsToBuy.Count; i++)
-        {
-            Transform item = Instantiate(itemToBuyUI, itemsParent).transform;
-
-            ItemToBuy itemToBuy = itemsToBuy[i];
-
-            item.GetChild(0).GetComponent<Image>().sprite = itemToBuy.item.itemSprite;
-            item.GetChild(1).GetComponent<Text>().text = itemToBuy.item.itemName;
-            item.GetChild(2).GetComponent<Text>().text = $"{itemToBuy.price} P";
-
-            InputField inputField = item.GetChild(3).GetComponent<InputField>();
-            inputField.text = $"{0}";
-            item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyItem(itemToBuy, inputField); });
-        }
+        Show(itemsToBuy, itemsPanel, itemsParent);
     }
 
     public void ShowRecipes()
     {
-        if (recipesToBuy == null) return;
-
-        Clear();
-
-        itemsPanel.SetActive(false);
-        recipesPanel.SetActive(true);
-
-        recipesParent.GetComponent<Swipe>().ScrollPos = 1;
-
-        for (int i = 0; i < recipesToBuy.Count; i++)
-        {
-            Transform item = Instantiate(itemToBuyUI, recipesParent).transform;
-
-            RecipeToBuy recipeToBuy = recipesToBuy[i];
-
-            item.GetChild(0).GetComponent<Image>().sprite = recipeToBuy.item.recipeSprite;
-            item.GetChild(1).GetComponent<Text>().text = recipeToBuy.item.recipeName;
-            item.GetChild(2).GetComponent<Text>().text = $"{recipeToBuy.price} P";
-
-            InputField inputField = item.GetChild(3).GetComponent<InputField>();
-            inputField.text = $"{0}";
-            item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyRecipe(recipeToBuy, inputField); });
-        }
+        Show(recipesToBuy, recipesPanel, recipesParent, true);
     }
 
     private void BuyItem(ItemToBuy itemToBuy, InputField inputField)
@@ -243,9 +193,10 @@ public class ShopManager : MonoBehaviour
             else
             {
                 int nbItemsToCreate = amount / itemToBuy.item.maxStackSize;
+
                 Debug.Log($"{amount / itemToBuy.item.maxStackSize}");
                 Debug.Log($"{amount % itemToBuy.item.maxStackSize}");
-                Debug.Log($"{nbItemsToCreate}");
+                Debug.Log($"{amount - (nbItemsToCreate * itemToBuy.item.maxStackSize)}");
 
                 for (int i = 0; i < nbItemsToCreate; i++)
                 {
@@ -254,33 +205,11 @@ public class ShopManager : MonoBehaviour
 
                 int lastQuantity = amount - (nbItemsToCreate * itemToBuy.item.maxStackSize);
 
+                if (lastQuantity == 0) return;
+
                 CreateItemUI(itemToBuy, lastQuantity);
-
-                // 6 > 5
             }
-
-            /*for (int i = 0; i < amount; i++)
-            {
-                GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
-
-                itemUI.GetComponent<DraggableItem>().quantityStacked = 1;
-
-                itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
-
-                listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
-            }*/
         }
-    }
-
-    private void CreateItemUI(ItemToBuy itemToBuy, int quantity)
-    {
-        GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
-
-        itemUI.GetComponent<DraggableItem>().quantityStacked = quantity;
-
-        itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
-
-        listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
     }
 
     private void BuyRecipe(RecipeToBuy recipeToBuy, InputField inputField)
@@ -300,22 +229,6 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void Clear()
-    {
-        itemsPanel.SetActive(false);
-        recipesPanel.SetActive(false);
-
-        for (int i = 0; i < itemsParent.childCount; i++)
-        {
-            Destroy(itemsParent.GetChild(i).gameObject);
-        }
-
-        for (int i = 0; i < recipesParent.childCount; i++)
-        {
-            Destroy(recipesParent.GetChild(i).gameObject);
-        }
-    }
-
     #endregion
 
     #region Shop "Animal Pen Manager"
@@ -326,6 +239,110 @@ public class ShopManager : MonoBehaviour
     }
 
     #endregion
+
+    private void Show(object objectsToBuy, GameObject panel, Transform parent, bool isRecipe = false)
+    {
+        IList listObjectsToBuy = (IList)objectsToBuy;
+
+        if (listObjectsToBuy == null) return;
+
+        Clear();
+
+        panel.SetActive(true);
+
+        parent.GetComponent<Swipe>().ScrollPos = 1;
+
+        for (int i = 0; i < listObjectsToBuy.Count; i++)
+        {
+            ShowObjectUI(parent, listObjectsToBuy[i], isRecipe);
+        }
+    }
+
+    private void ShowObjectUI(Transform parent, object objectToBuy, bool isRecipe)
+    {
+        Transform item = Instantiate(itemToBuyUI, parent).transform;
+
+        Sprite objectSprite;
+        string objectName;
+        float objectPrice;
+
+        if (!isRecipe)
+        {
+            ItemToBuy itemToBuy = (ItemToBuy)objectToBuy;
+
+            objectSprite = itemToBuy.item.itemSprite;
+            objectName = itemToBuy.item.itemName;
+            objectPrice = itemToBuy.price;
+        }
+        else
+        {
+            RecipeToBuy recipeToBuy = (RecipeToBuy)objectToBuy;
+
+            objectSprite = recipeToBuy.item.recipeSprite;
+            objectName = recipeToBuy.item.recipeName;
+            objectPrice = recipeToBuy.price;
+        }
+
+        item.GetChild(0).GetComponent<Image>().sprite = objectSprite;
+        item.GetChild(1).GetComponent<Text>().text = objectName;
+        item.GetChild(2).GetComponent<Text>().text = $"{objectPrice} P";
+
+        InputField inputField = item.GetChild(3).GetComponent<InputField>();
+        inputField.text = $"{0}";
+
+        if (!isRecipe)
+        {
+            item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyItem((ItemToBuy)objectToBuy, inputField); });
+        }
+        else
+        {
+            item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyRecipe((RecipeToBuy)objectToBuy, inputField); });
+        }
+    }
+
+    private void Clear()
+    {
+        if (itemsPanel != null)
+        {
+            itemsPanel.SetActive(false);
+
+            for (int i = 0; i < itemsParent.childCount; i++)
+            {
+                Destroy(itemsParent.GetChild(i).gameObject);
+            }
+        }
+
+        if (recipesPanel != null)
+        {
+            recipesPanel.SetActive(false);
+
+            for (int i = 0; i < recipesParent.childCount; i++)
+            {
+                Destroy(recipesParent.GetChild(i).gameObject);
+            }
+        }
+
+        if (fruitSeedsPanel != null)
+        {
+            fruitSeedsPanel.SetActive(false);
+
+            for (int i = 0; i < fruitSeedsParent.childCount; i++)
+            {
+                Destroy(fruitSeedsParent.GetChild(i).gameObject);
+            }
+        }
+    }
+
+    private void CreateItemUI(ItemToBuy itemToBuy, int quantity)
+    {
+        GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
+
+        itemUI.GetComponent<DraggableItem>().quantityStacked = quantity;
+
+        itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
+
+        listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
+    }
 
     #endregion
 }
