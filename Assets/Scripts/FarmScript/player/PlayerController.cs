@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
     private float _targetAngle;
     private float _angle;
 
-    private bool gameStarted = false;
     private bool canMove = true;
 
     public bool CanMove

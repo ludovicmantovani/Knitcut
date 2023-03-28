@@ -164,7 +164,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5250619007297615246}
   - component: {fileID: 1500982518}
-  - component: {fileID: 251740395819389506}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Shop
@@ -201,43 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec927c987f67ca44a4c21a44c1fcc91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemToBuyUI: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
   interactionUI: {fileID: 0}
-  shopsUI:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  shopUI: {fileID: 0}
+  shop: []
   canUseShop: 0
   shopInUse: 0
-  shopRole: 1
-  itemsToBuy:
-  - item: {fileID: 11400000, guid: eb524ad6bf4d0b14aa76f8ce57d42a8f, type: 2}
-    price: 5
-  - item: {fileID: 11400000, guid: 77e00ab4b8f25d4429fd38d46d8cda12, type: 2}
-    price: 3
-  - item: {fileID: 11400000, guid: ec944ed32ca814c498dc73399fd3c2a3, type: 2}
-    price: 7
-  recipesToBuy:
-  - item: {fileID: 11400000, guid: 13f0791220dd3b241996f3b73c0ebe24, type: 2}
-    price: 5
-  - item: {fileID: 11400000, guid: 465e83f5345f57643a43f72cf46bf061, type: 2}
-    price: 10
-  itemsPanel: {fileID: 0}
-  itemsParent: {fileID: 0}
-  recipesPanel: {fileID: 0}
-  recipesParent: {fileID: 0}
-  itemToBuyUI: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
---- !u!114 &251740395819389506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7213266862210746595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54f5a5b80eeb17419072f13871ef13d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2086264936196145307
 PrefabInstance:
   m_ObjectHideFlags: 0

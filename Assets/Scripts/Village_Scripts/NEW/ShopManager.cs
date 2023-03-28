@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject itemToBuyUI;
     [SerializeField] private GameObject interactionUI;
 
     [Serializable]
     public class ShopRole
     {
         public GameObject objectsPanel;
+        public GameObject objectsInfosUI;
         public Transform objectsParent;
         public ShopType shopRole;
         public bool isRecipe;
@@ -188,20 +188,13 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void BuyRecipe(RecipeToBuy recipeToBuy, InputField inputField)
+    private void BuyRecipe(RecipeToBuy recipeToBuy)
     {
-        int amount = int.Parse(inputField.text);
-
-        if (amount == 0) return;
-
-        if (playerController.Money >= (amount * recipeToBuy.price))
+        if (playerController.Money >= recipeToBuy.price)
         {
-            for (int i = 0; i < amount; i++)
-            {
-                listSlots.PRInventory.AddRecipeToInventory(recipeToBuy.item);
+            listSlots.PRInventory.AddRecipeToInventory(recipeToBuy.item);
 
-                listSlots.UpdateMoney(playerController.Money - recipeToBuy.price);
-            }
+            listSlots.UpdateMoney(playerController.Money - recipeToBuy.price);
         }
     }
 
@@ -223,9 +216,7 @@ public class ShopManager : MonoBehaviour
         if (!shop[index].isRecipe) shopList = shop[index].items;
         else shopList = shop[index].recipes;
 
-        Debug.Log($"{shopList}");
         if (shopList == null) return;
-
 
         Clear();
 
@@ -235,13 +226,13 @@ public class ShopManager : MonoBehaviour
 
         for (int i = 0; i < shopList.Count; i++)
         {
-            ShowObjectUI(shop[index].objectsParent, shopList[i], shop[index].isRecipe);
+            ShowObjectUI(shop[index].objectsParent, shop[index].objectsInfosUI , shopList[i], shop[index].isRecipe);
         }
     }
 
-    private void ShowObjectUI(Transform parent, object objectToBuy, bool isRecipe)
+    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToBuy, bool isRecipe)
     {
-        Transform item = Instantiate(itemToBuyUI, parent).transform;
+        Transform item = Instantiate(objectInfoUI, parent).transform;
 
         Sprite objectSprite;
         string objectName;
@@ -268,16 +259,16 @@ public class ShopManager : MonoBehaviour
         item.GetChild(1).GetComponent<Text>().text = objectName;
         item.GetChild(2).GetComponent<Text>().text = $"{objectPrice} P";
 
-        InputField inputField = item.GetChild(3).GetComponent<InputField>();
-        inputField.text = $"{0}";
-
         if (!isRecipe)
         {
+            InputField inputField = item.GetChild(3).GetComponent<InputField>();
+            inputField.text = $"{0}";
+
             item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyItem((ItemToBuy)objectToBuy, inputField); });
         }
         else
         {
-            item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyRecipe((RecipeToBuy)objectToBuy, inputField); });
+            item.GetChild(3).GetComponent<Button>().onClick.AddListener(delegate { BuyRecipe((RecipeToBuy)objectToBuy); });
         }
     }
 

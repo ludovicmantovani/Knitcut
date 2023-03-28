@@ -10608,7 +10608,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1573285433}
-  - component: {fileID: 1573285434}
   m_Layer: 0
   m_Name: Shops
   m_TagString: Untagged
@@ -10634,24 +10633,6 @@ Transform:
   m_Father: {fileID: 722219207}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1573285434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573285432}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec927c987f67ca44a4c21a44c1fcc91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemToBuyUI: {fileID: 0}
-  interactionUI: {fileID: 0}
-  shopUI: {fileID: 0}
-  shop: []
-  canUseShop: 0
-  shopInUse: 0
 --- !u!1 &1581504195
 GameObject:
   m_ObjectHideFlags: 0
@@ -14076,6 +14057,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2104481768}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shop.Array.data[0].objectsInfosUI
+      value: 
+      objectReference: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: fruitSeedsToBuy.Array.data[0].item
       value: 
       objectReference: {fileID: 11400000, guid: 311e7d058247aa14e99c13a2c56dc950, type: 2}
@@ -14423,6 +14408,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1959871837}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shop.Array.data[0].objectsInfosUI
+      value: 
+      objectReference: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shop.Array.data[1].objectsInfosUI
+      value: 
+      objectReference: {fileID: 1510686324823150494, guid: f4dda2dc1ed4ed24dbd553150018852a, type: 3}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[0].items.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -14518,5 +14511,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NEW Shop Item Dealer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 251740395819389506, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
