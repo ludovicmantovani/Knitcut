@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
         {
             MinigameManager.StartOK = true;
 
-            Debug.Log($"Initialization");
+            Debug.Log($"Initialization OK");
             LoadPlayerPositionInScene();
         }
     }
