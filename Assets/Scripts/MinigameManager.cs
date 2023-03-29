@@ -219,7 +219,7 @@ public class MinigameManager : MonoBehaviour
         foreach (Item item in itemsToRemoveQuantity.Keys)
         {
             if (itemsToRemoveQuantity.TryGetValue(item, out int quantity))
-                inventory.RemoveQuantityItem(item, quantity);
+                inventory.RemoveQuantityMultipleItem(item, quantity);
         }
     }
 

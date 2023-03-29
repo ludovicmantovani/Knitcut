@@ -64,15 +64,16 @@ public class PlayerInventory : MonoBehaviour
         itemObject.GetComponent<Image>().sprite = item.itemSprite;
     }
 
-    public void RemoveQuantityItem(Item item, int quantity)
+    public void RemoveQuantityMultipleItem(Item item, int quantity)
     {
-        List<DraggableItem> dragItemSlot = GetItemSlot(item);
+        List<DraggableItem> dragItemSlot = GetMultipleItemInInventory(item);
 
         if (dragItemSlot == null || dragItemSlot.Count == 0) return;
 
         for (int i = 0; i < dragItemSlot.Count; i++)
         {
-            if (dragItemSlot[i].QuantityStacked > quantity)
+            RemoveSpecificQuantity(dragItemSlot[i], quantity);
+            /*if (dragItemSlot[i].QuantityStacked > quantity)
             {
                 dragItemSlot[i].QuantityStacked -= quantity;
             }
@@ -81,11 +82,41 @@ public class PlayerInventory : MonoBehaviour
                 Destroy(dragItemSlot[i].gameObject);
 
                 quantity -= dragItemSlot[i].QuantityStacked;
+            }*/
+        }
+    }
+
+    private void RemoveSpecificQuantity(DraggableItem draggableItem, int quantity)
+    {
+        if (draggableItem.QuantityStacked > quantity)
+        {
+            draggableItem.QuantityStacked -= quantity;
+        }
+        else
+        {
+            Destroy(draggableItem.gameObject);
+
+            quantity -= draggableItem.QuantityStacked;
+        }
+    }
+
+    public void RemoveQuantitySomeItem(Item item, int quantity)
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponentInChildren<DraggableItem>())
+            {
+                DraggableItem dragItemInSlot = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
+
+                if (dragItemInSlot.Item == item)
+                {
+                    RemoveSpecificQuantity(dragItemInSlot, quantity);
+                }
             }
         }
     }
 
-    private List<DraggableItem> GetItemSlot(Item item)
+    private List<DraggableItem> GetMultipleItemInInventory(Item item)
     {
         List<DraggableItem> dragItems = new List<DraggableItem>();
 
@@ -103,7 +134,7 @@ public class PlayerInventory : MonoBehaviour
                     {
                         dragItems.Add(dragItemInSlot);
                     }
-                }                
+                }
             //}
         }
 

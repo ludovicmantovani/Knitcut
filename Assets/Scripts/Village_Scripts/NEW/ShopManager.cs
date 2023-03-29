@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static ShopManager;
 
 public class ShopManager : MonoBehaviour
 {
@@ -144,7 +145,6 @@ public class ShopManager : MonoBehaviour
 
     #endregion
 
-
     #region Shop "Item Dealer"
 
     public void ShowItemsUI()
@@ -189,7 +189,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void SellItem(ItemToHandle itemToSell, InputField inputField)
+    private void SellItem(ItemToHandle itemToSell, InputField inputField, Transform currentItemUI, ShopRole shopRole)
     {
         int amount = int.Parse(inputField.text);
 
@@ -199,17 +199,21 @@ public class ShopManager : MonoBehaviour
         {
             if (playerController.Money >= (amount * itemToSell.price))
             {
-                listSlots.UpdateMoney(playerController.Money + (amount * itemToSell.price));
+                int totalPrice = amount * itemToSell.price;
+                int quantityLeft = playerController.PlayerInventory.GetItemQuantity(itemToSell.item) - amount;
 
-                playerController.PlayerInventory.RemoveQuantityItem(itemToSell.item, amount);
+                listSlots.UpdateMoney(playerController.Money + totalPrice);
 
-                int index = 0;
+                //playerController.PlayerInventory.RemoveQuantityMultipleItem(itemToSell.item, amount);
+                playerController.PlayerInventory.RemoveQuantitySomeItem(itemToSell.item, amount);
 
-                UpdateItemUIText(itemToSell, $"{itemToSell.item.itemName} x{playerController.PlayerInventory.GetItemQuantity(itemToSell.item)}", index);
+                currentItemUI.GetChild(1).GetComponent<Text>().text = $"{itemToSell.item.itemName} x{playerController.PlayerInventory.GetItemQuantity(itemToSell.item)}";
 
-                if (playerController.PlayerInventory.GetItemQuantity(itemToSell.item) - amount <= 0)
+                if (quantityLeft <= 0)
                 {
-                    // Remove Items From Inventory
+                    shopRole.items.Remove(itemToSell);
+
+                    Destroy(currentItemUI.gameObject);
                 }
             }
         }
@@ -268,7 +272,7 @@ public class ShopManager : MonoBehaviour
 
         for (int i = 0; i < shopList.Count; i++)
         {
-            ShowObjectUI(shop[index].objectsParent, shop[index].objectsInfosUI, shopList[i], shop[index].isRecipe, shop[index].isForSelling);
+            ShowObjectUI(shop[index].objectsParent, shop[index].objectsInfosUI, shopList[i], shop[index].isRecipe, shop[index].isForSelling, shop[index]);
         }
     }
 
@@ -299,7 +303,7 @@ public class ShopManager : MonoBehaviour
         return itemToHandle;
     }
 
-    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToHandle, bool isRecipe, bool isForSelling)
+    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToHandle, bool isRecipe, bool isForSelling, ShopRole shopRole)
     {
         Transform item = Instantiate(objectInfoUI, parent).transform;
 
@@ -342,7 +346,7 @@ public class ShopManager : MonoBehaviour
             }
             else
             {
-                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, inputField); });
+                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, inputField, item, shopRole); });
             }
         }
         else
@@ -376,17 +380,6 @@ public class ShopManager : MonoBehaviour
         itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
 
         listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
-    }
-
-    private void UpdateItemUIText(ItemToHandle itemToHandle, string newText, int index)
-    {
-        for (int i = 0; i < shop[index].items.Count; i++)
-        {
-            if (shop[index].items[i] == itemToHandle)
-            {
-                shop[index].objectsParent.GetChild(i).GetChild(1).GetComponent<Text>().text = newText;
-            }
-        }
     }
 
     #endregion
