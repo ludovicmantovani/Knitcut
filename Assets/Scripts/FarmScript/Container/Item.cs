@@ -25,6 +25,6 @@ public enum ItemType
     Consumable,
     Recipe,
     Dish,
-    Tool,
+    Product,
     Other
 }

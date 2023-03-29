@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!canMove) return;
 
-        if (talkingShop == true && shopsRole == false)
+        if (talkingShop == true && shopsConfiguration == false)
         {
 
             characterController.enabled = false;
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
             characterController.enabled = true;
             left = false;
             right = false;
-            shopsRole = true;
+            shopsConfiguration = true;
         }
 
         //modif
@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
                 characterController.enabled = true;
                 right = true;
                 left = false;
-                shopsRole = false;
+                shopsConfiguration = false;
             }
             //modif rotation corps
             if (playerSpeed.x < 0 && left == false)
@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
                 characterController.enabled = true;
                 left = true;
                 right = false;
-                shopsRole = false;
+                shopsConfiguration = false;
 
 
             }

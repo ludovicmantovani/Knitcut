@@ -6,26 +6,32 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class ShopManager : MonoBehaviour
+public class ShopsManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject interactionUI;
 
     [Serializable]
-    public class ShopRole
+    public class ShopConfiguration
     {
+        [Header("References")]
         public GameObject objectsPanel;
         public GameObject objectsInfosUI;
         public Transform objectsParent;
-        public ShopType shopRole;
+
+        [Header("Shop Properties")]
+        public ShopType shopConfiguration;
         public bool isRecipe;
         public bool isForSelling;
+        public List<ItemType> itemsRestriction;
+
+        [Header("Shop Objects Lists")]
         public List<ItemToHandle> items;
         public List<RecipeToHandle> recipes;
     }
 
     [SerializeField] private GameObject shopUI;
-    [SerializeField] private List<ShopRole> shopsRole;
+    [SerializeField] private List<ShopConfiguration> shopsConfiguration;
 
     public GameObject InteractionUI
     {
@@ -122,7 +128,7 @@ public class ShopManager : MonoBehaviour
     {
         shopInUse = true;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to close shopsRole";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to close shopsConfiguration";
 
         MinigameManager.AddOpenInventory(shopUI);
     }
@@ -131,7 +137,7 @@ public class ShopManager : MonoBehaviour
     {
         shopInUse = false;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to open shopsRole";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to open shopsConfiguration";
 
         MinigameManager.RemoveOpenInventory(shopUI);
 
@@ -175,18 +181,20 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void SellItem(ItemToHandle itemToSell, InputField inputField, Transform currentItemUI, ShopRole shopRole)
+    private void SellItem(ItemToHandle itemToSell, InputField inputField, Transform currentItemUI, ShopConfiguration shopConfiguration)
     {
         int amount = int.Parse(inputField.text);
 
         if (amount == 0) return;
 
-        if (amount <= playerController.PlayerInventory.GetItemQuantity(itemToSell.item))
+        int quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item);
+
+        if (amount <= quantityInInventory)
         {
             if (playerController.Money >= (amount * itemToSell.price))
             {
                 int totalPrice = amount * itemToSell.price;
-                int quantityLeft = playerController.PlayerInventory.GetItemQuantity(itemToSell.item) - amount;
+                int quantityLeft = quantityInInventory - amount;
 
                 listSlots.UpdateMoney(playerController.Money + totalPrice);
 
@@ -196,7 +204,7 @@ public class ShopManager : MonoBehaviour
 
                 if (quantityLeft <= 0)
                 {
-                    shopRole.items.Remove(itemToSell);
+                    shopConfiguration.items.Remove(itemToSell);
 
                     Destroy(currentItemUI.gameObject);
                 }
@@ -214,7 +222,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void Show(ShopRole currentShop)
+    private void Show(ShopConfiguration currentShop)
     {
         IList shopList;
         
@@ -229,7 +237,12 @@ public class ShopManager : MonoBehaviour
 
             for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
             {
-                CreateItemToHandle(playerController.PlayerInventory.SearchItemsPossessed()[i].Item, (int)playerController.PlayerInventory.SearchItemsPossessed()[i].Item.itemValue, currentShop);
+                DraggableItem itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
+
+                if (currentShop.itemsRestriction.Contains(itemPossessed.Item.itemType))
+                {
+                    CreateItemToHandle(playerController.PlayerInventory.SearchItemsPossessed()[i].Item, (int)playerController.PlayerInventory.SearchItemsPossessed()[i].Item.itemValue, currentShop);
+                }
             }
 
             shopList = currentShop.items;
@@ -249,34 +262,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private ItemToHandle CreateItemToHandle(Item item, int price, ShopRole currentShop)
-    {
-        ItemToHandle itemToHandle = null;
-
-        bool alreadyAdded = false;
-
-        for (int i = 0; i < currentShop.items.Count; i++)
-        {
-            if (currentShop.items[i].item == item)
-            {
-                alreadyAdded = true;
-            }
-        }
-
-        if (!alreadyAdded)
-        {
-            itemToHandle = new ItemToHandle();
-
-            itemToHandle.item = item;
-            itemToHandle.price = price;
-
-            currentShop.items.Add(itemToHandle);
-        }
-
-        return itemToHandle;
-    }
-
-    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToHandle, bool isRecipe, bool isForSelling, ShopRole shopRole)
+    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToHandle, bool isRecipe, bool isForSelling, ShopConfiguration shopConfiguration)
     {
         Transform item = Instantiate(objectInfoUI, parent).transform;
 
@@ -319,7 +305,7 @@ public class ShopManager : MonoBehaviour
             }
             else
             {
-                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, inputField, item, shopRole); });
+                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, inputField, item, shopConfiguration); });
             }
         }
         else
@@ -330,15 +316,15 @@ public class ShopManager : MonoBehaviour
 
     private void Clear()
     {
-        for (int i = 0; i < shopsRole.Count; i++)
+        for (int i = 0; i < shopsConfiguration.Count; i++)
         {
-            if (shopsRole[i].objectsPanel != null)
+            if (shopsConfiguration[i].objectsPanel != null)
             {
-                shopsRole[i].objectsPanel.SetActive(false);
+                shopsConfiguration[i].objectsPanel.SetActive(false);
 
-                for (int j = 0; j < shopsRole[i].objectsParent.childCount; j++)
+                for (int j = 0; j < shopsConfiguration[i].objectsParent.childCount; j++)
                 {
-                    Destroy(shopsRole[i].objectsParent.GetChild(j).gameObject);
+                    Destroy(shopsConfiguration[i].objectsParent.GetChild(j).gameObject);
                 }
             }
         }
@@ -355,15 +341,42 @@ public class ShopManager : MonoBehaviour
         listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
     }
 
-    private ShopRole GetCurrentShop()
+    private ItemToHandle CreateItemToHandle(Item item, int price, ShopConfiguration currentShop)
+    {
+        ItemToHandle itemToHandle = null;
+
+        bool alreadyAdded = false;
+
+        for (int i = 0; i < currentShop.items.Count; i++)
+        {
+            if (currentShop.items[i].item == item)
+            {
+                alreadyAdded = true;
+            }
+        }
+
+        if (!alreadyAdded)
+        {
+            itemToHandle = new ItemToHandle();
+
+            itemToHandle.item = item;
+            itemToHandle.price = price;
+
+            currentShop.items.Add(itemToHandle);
+        }
+
+        return itemToHandle;
+    }
+
+    private ShopConfiguration GetCurrentShop()
     {
         GameObject currentSelectedObject = EventSystem.current.currentSelectedGameObject;
 
-        for (int i = 0; i < shopsRole.Count; i++)
+        for (int i = 0; i < shopsConfiguration.Count; i++)
         {
-            if (currentSelectedObject.name.Contains(shopsRole[i].shopRole.ToString()))
+            if (currentSelectedObject.name.Contains(shopsConfiguration[i].shopConfiguration.ToString()))
             {
-                return shopsRole[i];
+                return shopsConfiguration[i];
             }
         }
 
