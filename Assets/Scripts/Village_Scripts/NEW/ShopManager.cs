@@ -18,8 +18,9 @@ public class ShopManager : MonoBehaviour
         public Transform objectsParent;
         public ShopType shopRole;
         public bool isRecipe;
-        public List<ItemToBuy> items;
-        public List<RecipeToBuy> recipes;
+        public bool isForSelling;
+        public List<ItemToHandle> items;
+        public List<RecipeToHandle> recipes;
     }
 
     [SerializeField] private GameObject shopUI;
@@ -48,14 +49,14 @@ public class ShopManager : MonoBehaviour
     }
 
     [Serializable]
-    public class ItemToBuy
+    public class ItemToHandle
     {
         public Item item;
         public int price;
     }
 
     [Serializable]
-    public class RecipeToBuy
+    public class RecipeToHandle
     {
         public Recipe item;
         public int price;
@@ -158,7 +159,7 @@ public class ShopManager : MonoBehaviour
         Show(index);
     }
 
-    private void BuyItem(ItemToBuy itemToBuy, InputField inputField)
+    private void BuyItem(ItemToHandle itemToBuy, InputField inputField)
     {
         int amount = int.Parse(inputField.text);
 
@@ -188,7 +189,33 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void BuyRecipe(RecipeToBuy recipeToBuy)
+    private void SellItem(ItemToHandle itemToSell, InputField inputField)
+    {
+        int amount = int.Parse(inputField.text);
+
+        if (amount == 0) return;
+
+        if (amount <= playerController.PlayerInventory.GetItemQuantity(itemToSell.item))
+        {
+            if (playerController.Money >= (amount * itemToSell.price))
+            {
+                listSlots.UpdateMoney(playerController.Money + (amount * itemToSell.price));
+
+                playerController.PlayerInventory.RemoveQuantityItem(itemToSell.item, amount);
+
+                int index = 0;
+
+                UpdateItemUIText(itemToSell, $"{itemToSell.item.itemName} x{playerController.PlayerInventory.GetItemQuantity(itemToSell.item)}", index);
+
+                if (playerController.PlayerInventory.GetItemQuantity(itemToSell.item) - amount <= 0)
+                {
+                    // Remove Items From Inventory
+                }
+            }
+        }
+    }
+
+    private void BuyRecipe(RecipeToHandle recipeToBuy)
     {
         if (playerController.Money >= recipeToBuy.price)
         {
@@ -212,9 +239,24 @@ public class ShopManager : MonoBehaviour
     private void Show(int index)
     {
         IList shopList;
+        List<int> itemsQuantities = new List<int>();
+        
+        if (!shop[index].isForSelling)
+        {
+            if (!shop[index].isRecipe) shopList = shop[index].items;
+            else shopList = shop[index].recipes;
+        }
+        else
+        {
+            if (shop[index].items.Count > 0) shop[index].items.Clear();
 
-        if (!shop[index].isRecipe) shopList = shop[index].items;
-        else shopList = shop[index].recipes;
+            for (int i = 0; i < playerController.PlayerInventory.SearchItems().Count; i++)
+            {
+                CreateItemToHandle(playerController.PlayerInventory.SearchItems()[i].Item, (int)playerController.PlayerInventory.SearchItems()[i].Item.itemValue, index);
+            }
+
+            shopList = shop[index].items;
+        }
 
         if (shopList == null) return;
 
@@ -226,11 +268,38 @@ public class ShopManager : MonoBehaviour
 
         for (int i = 0; i < shopList.Count; i++)
         {
-            ShowObjectUI(shop[index].objectsParent, shop[index].objectsInfosUI , shopList[i], shop[index].isRecipe);
+            ShowObjectUI(shop[index].objectsParent, shop[index].objectsInfosUI, shopList[i], shop[index].isRecipe, shop[index].isForSelling);
         }
     }
 
-    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToBuy, bool isRecipe)
+    private ItemToHandle CreateItemToHandle(Item item, int price, int index)
+    {
+        ItemToHandle itemToHandle = null;
+
+        bool alreadyAdded = false;
+
+        for (int i = 0; i < shop[index].items.Count; i++)
+        {
+            if (shop[index].items[i].item == item)
+            {
+                alreadyAdded = true;
+            }
+        }
+
+        if (!alreadyAdded)
+        {
+            itemToHandle = new ItemToHandle();
+
+            itemToHandle.item = item;
+            itemToHandle.price = price;
+
+            shop[index].items.Add(itemToHandle);
+        }
+
+        return itemToHandle;
+    }
+
+    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToHandle, bool isRecipe, bool isForSelling)
     {
         Transform item = Instantiate(objectInfoUI, parent).transform;
 
@@ -240,19 +309,22 @@ public class ShopManager : MonoBehaviour
 
         if (!isRecipe)
         {
-            ItemToBuy itemToBuy = (ItemToBuy)objectToBuy;
+            ItemToHandle itemToHandle = (ItemToHandle)objectToHandle;
 
-            objectSprite = itemToBuy.item.itemSprite;
-            objectName = itemToBuy.item.itemName;
-            objectPrice = itemToBuy.price;
+            objectSprite = itemToHandle.item.itemSprite;
+
+            if (!isForSelling) objectName = itemToHandle.item.itemName;
+            else objectName = $"{itemToHandle.item.itemName} x{playerController.PlayerInventory.GetItemQuantity(itemToHandle.item)}";
+
+            objectPrice = itemToHandle.price;        
         }
         else
         {
-            RecipeToBuy recipeToBuy = (RecipeToBuy)objectToBuy;
+            RecipeToHandle recipeToHandle = (RecipeToHandle)objectToHandle;
 
-            objectSprite = recipeToBuy.item.recipeSprite;
-            objectName = recipeToBuy.item.recipeName;
-            objectPrice = recipeToBuy.price;
+            objectSprite = recipeToHandle.item.recipeSprite;
+            objectName = recipeToHandle.item.recipeName;
+            objectPrice = recipeToHandle.price;
         }
 
         item.GetChild(0).GetComponent<Image>().sprite = objectSprite;
@@ -264,11 +336,18 @@ public class ShopManager : MonoBehaviour
             InputField inputField = item.GetChild(3).GetComponent<InputField>();
             inputField.text = $"{0}";
 
-            item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyItem((ItemToBuy)objectToBuy, inputField); });
+            if (!isForSelling)
+            {
+                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyItem((ItemToHandle)objectToHandle, inputField); });
+            }
+            else
+            {
+                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, inputField); });
+            }
         }
         else
         {
-            item.GetChild(3).GetComponent<Button>().onClick.AddListener(delegate { BuyRecipe((RecipeToBuy)objectToBuy); });
+            item.GetChild(3).GetComponent<Button>().onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle); });
         }
     }
 
@@ -288,15 +367,26 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void CreateItemUI(ItemToBuy itemToBuy, int quantity)
+    private void CreateItemUI(ItemToHandle itemToBuy, int quantity)
     {
         GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
 
-        itemUI.GetComponent<DraggableItem>().quantityStacked = quantity;
+        itemUI.GetComponent<DraggableItem>().QuantityStacked = quantity;
 
         itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
 
         listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
+    }
+
+    private void UpdateItemUIText(ItemToHandle itemToHandle, string newText, int index)
+    {
+        for (int i = 0; i < shop[index].items.Count; i++)
+        {
+            if (shop[index].items[i] == itemToHandle)
+            {
+                shop[index].objectsParent.GetChild(i).GetChild(1).GetComponent<Text>().text = newText;
+            }
+        }
     }
 
     #endregion

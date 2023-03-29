@@ -72,15 +72,15 @@ public class PlayerInventory : MonoBehaviour
 
         for (int i = 0; i < dragItemSlot.Count; i++)
         {
-            if (dragItemSlot[i].quantityStacked > quantity)
+            if (dragItemSlot[i].QuantityStacked > quantity)
             {
-                dragItemSlot[i].quantityStacked -= quantity;
+                dragItemSlot[i].QuantityStacked -= quantity;
             }
             else
             {
                 Destroy(dragItemSlot[i].gameObject);
 
-                quantity -= dragItemSlot[i].quantityStacked;
+                quantity -= dragItemSlot[i].QuantityStacked;
             }
         }
     }
@@ -91,8 +91,8 @@ public class PlayerInventory : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.childCount > 0)
-            {
+            /*if (transform.childCount > 0)
+            {*/
                 if (transform.GetChild(i).GetComponentInChildren<DraggableItem>())
                 {
                     DraggableItem dragItemInSlot = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
@@ -104,7 +104,7 @@ public class PlayerInventory : MonoBehaviour
                         dragItems.Add(dragItemInSlot);
                     }
                 }                
-            }
+            //}
         }
 
         return dragItems;
@@ -123,6 +123,37 @@ public class PlayerInventory : MonoBehaviour
         }
 
         return null;
+    }
+
+    public List<DraggableItem> SearchItems()
+    {
+        List<DraggableItem> itemsFounded = new List<DraggableItem>();
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).childCount > 0)
+            {
+                DraggableItem draggableItem = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
+                itemsFounded.Add(draggableItem);
+            }
+        }
+
+        return itemsFounded;
+    }
+
+    public int GetItemQuantity(Item item)
+    {
+        int quantity = 0;
+
+        for (int i = 0; i < SearchItems().Count; i++)
+        {
+            if (item == SearchItems()[i].Item)
+            {
+                quantity += SearchItems()[i].QuantityStacked;
+            }
+        }
+
+        return quantity;
     }
 
     #endregion

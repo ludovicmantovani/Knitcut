@@ -17,6 +17,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform spawn;
     [SerializeField] private int money = 0;
 
+    public PlayerInventory PlayerInventory
+    {
+        get { return playerInventory; }
+    }
+
     public int Money
     {
         get { return money; }

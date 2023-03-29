@@ -184,7 +184,7 @@ public class List_Slots : MonoBehaviour
 
             GameObject itemUI = inventory.CreateItemUI();
 
-            itemUI.GetComponent<DraggableItem>().quantityStacked = 3;
+            itemUI.GetComponent<DraggableItem>().QuantityStacked = 3;
 
             itemUI.GetComponent<DraggableItem>().Item = (Item)stuffs[0];
 
@@ -266,7 +266,7 @@ public class List_Slots : MonoBehaviour
             if (listSlots[i].transform.childCount > 0 && itemsInSlot[i] != -1)
             {
                 listSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlot[i]];
-                listSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked = quantityStackedInventory[i];
+                listSlots[i].GetComponentInChildren<DraggableItem>().QuantityStacked = quantityStackedInventory[i];
             }
         }
     }
@@ -356,7 +356,7 @@ public class List_Slots : MonoBehaviour
             {
                 playerSlotsObjIn[i] = true;
 
-                quantityStackedPlayerInventory[i] = playerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked;
+                quantityStackedPlayerInventory[i] = playerSlots[i].GetComponentInChildren<DraggableItem>().QuantityStacked;
 
                 itemsInSlots[i] = Array.IndexOf(stuffs, playerSlots[i].GetComponentInChildren<DraggableItem>().Item);
             }
@@ -379,7 +379,7 @@ public class List_Slots : MonoBehaviour
             {
                 containerSlotsObjIn[i] = true;
 
-                quantityStackedContainerInventory[i] = containerSlots[i].GetComponentInChildren<DraggableItem>().quantityStacked;
+                quantityStackedContainerInventory[i] = containerSlots[i].GetComponentInChildren<DraggableItem>().QuantityStacked;
 
                 containerItemsInSlot[i] = Array.IndexOf(stuffs, containerSlots[i].GetComponentInChildren<DraggableItem>().Item);
             }

@@ -1400,7 +1400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b905a7d0687314e8aebc62e9639c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipeUI: {fileID: 1510686324823150494, guid: 22980db766efe9545aea1959e652864e, type: 3}
+  recipeUI: {fileID: 1510686324823150494, guid: ec4311ba79574f9448a6dffb4b3a0f8f, type: 3}
   recipesParent: {fileID: 1789740406}
 --- !u!222 &161227635
 CanvasRenderer:
@@ -3756,7 +3756,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Bienvenue chez le Marchand d'Items et Recettes !
+  m_Text: Bienvenue chez le Marchand de troc d'Items et Recettes !
 --- !u!222 &565753511
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4799,7 +4799,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Items \xE0 Acheter"
+  m_Text: "Items \xE0 Vendre"
 --- !u!222 &708228777
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8423,7 +8423,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Shop d'Items/Recettes
+  m_Text: Shop de troc d'Items & Recettes
 --- !u!222 &1296988145
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14196,11 +14196,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.14129284
+      value: 0.14129281
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.011031215
+      value: 0.011031212
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -14208,7 +14208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0770509
+      value: -0.077050894
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14392,6 +14392,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 942800337}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shop.Array.data[0].isForSelling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[0].objectsPanel
       value: 
       objectReference: {fileID: 2114948855}
@@ -14410,14 +14414,14 @@ PrefabInstance:
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[0].objectsInfosUI
       value: 
-      objectReference: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
+      objectReference: {fileID: 1510686324823150494, guid: 3da4595f61ddf4f46bc33f6c885f2b39, type: 3}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[1].objectsInfosUI
       value: 
       objectReference: {fileID: 1510686324823150494, guid: f4dda2dc1ed4ed24dbd553150018852a, type: 3}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[0].items.Array.size
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[1].recipes.Array.size

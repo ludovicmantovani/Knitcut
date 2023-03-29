@@ -6,7 +6,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     /*[HideInInspector]*/ public Transform parentAfterDrag;
 
-    public int quantityStacked = 1;
+    [SerializeField] private int quantityStacked = 1;
     [SerializeField] private Item item;
     public List_Slots ls;
 
