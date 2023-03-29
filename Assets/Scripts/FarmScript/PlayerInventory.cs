@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,81 +65,61 @@ public class PlayerInventory : MonoBehaviour
         itemObject.GetComponent<Image>().sprite = item.itemSprite;
     }
 
-    public void RemoveQuantityMultipleItem(Item item, int quantity)
+    private List<DraggableItem> SearchSameItemInInventory(Item item)
     {
-        List<DraggableItem> dragItemSlot = GetMultipleItemInInventory(item);
-
-        if (dragItemSlot == null || dragItemSlot.Count == 0) return;
-
-        for (int i = 0; i < dragItemSlot.Count; i++)
-        {
-            RemoveSpecificQuantity(dragItemSlot[i], quantity);
-            /*if (dragItemSlot[i].QuantityStacked > quantity)
-            {
-                dragItemSlot[i].QuantityStacked -= quantity;
-            }
-            else
-            {
-                Destroy(dragItemSlot[i].gameObject);
-
-                quantity -= dragItemSlot[i].QuantityStacked;
-            }*/
-        }
-    }
-
-    private void RemoveSpecificQuantity(DraggableItem draggableItem, int quantity)
-    {
-        if (draggableItem.QuantityStacked > quantity)
-        {
-            draggableItem.QuantityStacked -= quantity;
-        }
-        else
-        {
-            Destroy(draggableItem.gameObject);
-
-            quantity -= draggableItem.QuantityStacked;
-        }
-    }
-
-    public void RemoveQuantitySomeItem(Item item, int quantity)
-    {
+        List<DraggableItem> draggableItemsInInventory = new List<DraggableItem>();
+        
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).GetComponentInChildren<DraggableItem>())
             {
-                DraggableItem dragItemInSlot = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
+                DraggableItem draggableItem = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
 
-                if (dragItemInSlot.Item == item)
+                if (draggableItem.Item == item)
                 {
-                    RemoveSpecificQuantity(dragItemInSlot, quantity);
+                    draggableItemsInInventory.Add(draggableItem);
                 }
             }
         }
+
+        return draggableItemsInInventory;
     }
 
-    private List<DraggableItem> GetMultipleItemInInventory(Item item)
+    public void RemoveItemQuantity(Item item, int quantityToRemove)
     {
-        List<DraggableItem> dragItems = new List<DraggableItem>();
+        // Get all same item from inventory
+        List<DraggableItem> draggableItems = SearchSameItemInInventory(item);
 
-        for (int i = 0; i < transform.childCount; i++)
+        if (draggableItems.Count == 0) return;
+
+        draggableItems = draggableItems.OrderBy(item => item.QuantityStacked).ToList();
+
+        // Get total quantity possessed
+        int quantityPossessed = 0;
+
+        for (int i = 0; i < draggableItems.Count; i++)
         {
-            /*if (transform.childCount > 0)
-            {*/
-                if (transform.GetChild(i).GetComponentInChildren<DraggableItem>())
-                {
-                    DraggableItem dragItemInSlot = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
-
-                    if (dragItemInSlot == null) return null;
-
-                    if (dragItemInSlot.Item == item)
-                    {
-                        dragItems.Add(dragItemInSlot);
-                    }
-                }
-            //}
+            quantityPossessed += draggableItems[i].QuantityStacked;
         }
 
-        return dragItems;
+        // Remove total quantityToRemove
+        if (quantityToRemove > quantityPossessed) return;
+
+        for (int i = 0; i < draggableItems.Count; i++)
+        {
+            if (draggableItems[i].QuantityStacked > quantityToRemove)
+            {
+                draggableItems[i].QuantityStacked -= quantityToRemove;
+
+                return;
+            }
+            else
+            {
+                quantityToRemove -= draggableItems[i].QuantityStacked;
+
+                Destroy(draggableItems[i].gameObject);
+            }
+        }
     }
 
     private Transform GetFreeSlot()
@@ -156,7 +137,7 @@ public class PlayerInventory : MonoBehaviour
         return null;
     }
 
-    public List<DraggableItem> SearchItems()
+    public List<DraggableItem> SearchItemsPossessed()
     {
         List<DraggableItem> itemsFounded = new List<DraggableItem>();
 
@@ -165,6 +146,7 @@ public class PlayerInventory : MonoBehaviour
             if (transform.GetChild(i).childCount > 0)
             {
                 DraggableItem draggableItem = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
+
                 itemsFounded.Add(draggableItem);
             }
         }
@@ -176,14 +158,23 @@ public class PlayerInventory : MonoBehaviour
     {
         int quantity = 0;
 
-        for (int i = 0; i < SearchItems().Count; i++)
+        List<DraggableItem> draggableItems = SearchSameItemInInventory(item);
+
+        if (draggableItems.Count == 0) return -1;
+
+        for (int i = 0; i < draggableItems.Count; i++)
         {
-            if (item == SearchItems()[i].Item)
-            {
-                quantity += SearchItems()[i].QuantityStacked;
-            }
+            quantity += draggableItems[i].QuantityStacked;
         }
 
+        /*for (int i = 0; i < SearchItemsPossessed().Count; i++)
+        {
+            if (item == SearchItemsPossessed()[i].Item)
+            {
+                quantity += SearchItemsPossessed()[i].QuantityStacked;
+            }
+        }*/
+        
         return quantity;
     }
 

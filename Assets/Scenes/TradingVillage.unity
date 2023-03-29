@@ -1453,7 +1453,7 @@ GameObject:
   - component: {fileID: 201005590}
   - component: {fileID: 201005589}
   m_Layer: 5
-  m_Name: Go To Seeds
+  m_Name: Button Seeds_Seller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1525,7 +1525,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1500982518}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: ShowFruitSeedsUI
+        m_MethodName: ShowShopContent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2633,7 +2633,7 @@ GameObject:
   - component: {fileID: 387635388}
   - component: {fileID: 387635387}
   m_Layer: 5
-  m_Name: ShopUI_AnimalPenManager
+  m_Name: ShopUI_Animal_Pen_Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4088,7 +4088,7 @@ GameObject:
   - component: {fileID: 580613907}
   - component: {fileID: 580613906}
   m_Layer: 5
-  m_Name: ShopUI_FruitSeedsSeller
+  m_Name: ShopUI_Fruit_Seeds_Seller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6749,7 +6749,7 @@ GameObject:
   - component: {fileID: 942800340}
   - component: {fileID: 942800339}
   m_Layer: 5
-  m_Name: ShopUI_ItemDealer
+  m_Name: ShopUI_Item_Dealer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8788,7 +8788,7 @@ GameObject:
   - component: {fileID: 1348733601}
   - component: {fileID: 1348733600}
   m_Layer: 5
-  m_Name: Go To Items
+  m_Name: Button Items_Dealer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8860,7 +8860,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 981310433}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: ShowItemsUI
+        m_MethodName: ShowShopContent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9754,7 +9754,7 @@ GameObject:
   - component: {fileID: 1461760208}
   - component: {fileID: 1461760207}
   m_Layer: 5
-  m_Name: Go To Recipes
+  m_Name: Button Recipes_Dealer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9826,7 +9826,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 981310433}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: ShowRecipesUI
+        m_MethodName: ShowShopContent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14029,6 +14029,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2104481768}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsUI.Array.data[0]
       value: 
       objectReference: {fileID: 580613905}
@@ -14081,6 +14085,22 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].objectsPanel
+      value: 
+      objectReference: {fileID: 450020063}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].objectsParent
+      value: 
+      objectReference: {fileID: 2104481768}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].objectsInfosUI
+      value: 
+      objectReference: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].items.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[0].items.Array.data[0].item
       value: 
       objectReference: {fileID: 11400000, guid: 311e7d058247aa14e99c13a2c56dc950, type: 2}
@@ -14095,6 +14115,22 @@ PrefabInstance:
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[0].items.Array.data[1].price
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].items.Array.data[0].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 311e7d058247aa14e99c13a2c56dc950, type: 2}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].items.Array.data[1].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 16731705674f8ef40830f45deb0d2950, type: 2}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].items.Array.data[0].price
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].items.Array.data[1].price
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5250619007297615246, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: m_RootOrder
@@ -14360,6 +14396,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsUI.Array.data[0]
       value: 
       objectReference: {fileID: 580613905}
@@ -14412,6 +14452,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1959871837}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].shopRole
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].isRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].shopRole
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[0].objectsInfosUI
       value: 
       objectReference: {fileID: 1510686324823150494, guid: 3da4595f61ddf4f46bc33f6c885f2b39, type: 3}
@@ -14424,7 +14476,39 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].isForSelling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].objectsPanel
+      value: 
+      objectReference: {fileID: 2114948855}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].objectsPanel
+      value: 
+      objectReference: {fileID: 1216664647}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[1].recipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].objectsParent
+      value: 
+      objectReference: {fileID: 1837694701}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].objectsParent
+      value: 
+      objectReference: {fileID: 1959871837}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[0].objectsInfosUI
+      value: 
+      objectReference: {fileID: 1510686324823150494, guid: 3da4595f61ddf4f46bc33f6c885f2b39, type: 3}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].objectsInfosUI
+      value: 
+      objectReference: {fileID: 1510686324823150494, guid: f4dda2dc1ed4ed24dbd553150018852a, type: 3}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].recipes.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
@@ -14465,6 +14549,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shop.Array.data[1].recipes.Array.data[1].price
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].recipes.Array.data[0].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 13f0791220dd3b241996f3b73c0ebe24, type: 2}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].recipes.Array.data[1].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 465e83f5345f57643a43f72cf46bf061, type: 2}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].recipes.Array.data[0].price
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsRole.Array.data[1].recipes.Array.data[1].price
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5250619007297615246, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
@@ -14513,7 +14613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7213266862210746595, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: m_Name
-      value: NEW Shop Item Dealer
+      value: NEW Shop Item - Recipes Dealer
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 251740395819389506, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
