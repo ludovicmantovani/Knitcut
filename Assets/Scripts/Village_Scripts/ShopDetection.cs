@@ -16,8 +16,8 @@ public class ShopDetection : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GetComponentInParent<ShopsManager>().CanUseShop = shopUse;
-            GetComponentInParent<ShopsManager>().InteractionUI.SetActive(shopUse);
+            GetComponentInParent<ShopManager>().CanUseShop = shopUse;
+            GetComponentInParent<ShopManager>().InteractionUI.SetActive(shopUse);
         }
     }
 }
