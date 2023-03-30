@@ -10,19 +10,25 @@ public class ChangeScene : MonoBehaviour
     [SerializeField] private bool isMinigame;
 
     private PlayerInput playerInput;
-    private Shop_Enclos shopEnclos;
     private PlayerController playerController;
     private List_Slots LS;
 
-    bool canChangeScene = false;
-    bool showInstruction = false;
+    private bool canChangeScene = false;
+    private bool showInstruction = false;
+
+    public bool ShowInstruction
+    {
+        get { return showInstruction; }
+        set { showInstruction = value; }
+    }
 
     void Awake()
     {
         playerInput = FindObjectOfType<PlayerInput>();
-        shopEnclos = FindObjectOfType<Shop_Enclos>();
         playerController = FindObjectOfType<PlayerController>();
         LS = FindObjectOfType<List_Slots>();
+
+        interactionPanel.SetActive(false);
     }
 
     void Update()

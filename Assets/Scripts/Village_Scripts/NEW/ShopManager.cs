@@ -92,6 +92,10 @@ public class ShopManager : MonoBehaviour
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
 
+        interactionUI.SetActive(false);
+        CloseShopUI();
+
+        interactionUI.SetActive(false);
         notification.SetActive(false);
     }
 
@@ -113,12 +117,6 @@ public class ShopManager : MonoBehaviour
     {
         if (shopUI != null)
             shopUI.SetActive(shopInUse);
-
-        if (!canUseShop)
-        {
-            CloseShopUI();
-            return;
-        }
 
         if (playerInput.InteractionAction.triggered && canUseShop)
         {
@@ -154,6 +152,14 @@ public class ShopManager : MonoBehaviour
     }
 
     #endregion
+
+    public void ShowHome()
+    {
+        for (int i = 0; i < shopsConfiguration.Count; i++)
+        {
+            shopsConfiguration[i].objectsPanel.SetActive(false);
+        }
+    }
 
     public void ShowShopContent()
     {
