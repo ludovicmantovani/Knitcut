@@ -162,9 +162,9 @@ public class ShopManager : MonoBehaviour
 
     #region Buy / Sell
 
-    private void BuyItem(ItemToHandle itemToBuy, InputField inputField)
+    private void BuyItem(ItemToHandle itemToBuy, InfosUIRefs currentItemUI)
     {
-        int amount = int.Parse(inputField.text);
+        int amount = int.Parse(currentItemUI.AmountUI.text);
 
         if (amount == 0) return;
 
@@ -200,9 +200,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void SellItem(ItemToHandle itemToSell, InputField inputField, Transform currentItemUI, ShopConfiguration shopConfiguration)
+    private void SellItem(ItemToHandle itemToSell, InfosUIRefs currentItemUI, ShopConfiguration shopConfiguration)
     {
-        int amount = int.Parse(inputField.text);
+        int amount = int.Parse(currentItemUI.AmountUI.text);
 
         if (amount == 0) return;
 
@@ -217,7 +217,7 @@ public class ShopManager : MonoBehaviour
 
             playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount);
 
-            currentItemUI.GetChild(1).GetComponent<Text>().text = $"{itemToSell.item.itemName} x{quantityLeft}";
+            currentItemUI.NameUI.text = $"{itemToSell.item.itemName} x{quantityLeft}";
 
             ShowNotification($"Vous avez vendu x{amount} '{itemToSell.item.itemName}' pour {totalPrice} pièces");
 
@@ -303,7 +303,7 @@ public class ShopManager : MonoBehaviour
 
     private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToHandle, bool isRecipe, bool isForSelling, ShopConfiguration shopConfiguration)
     {
-        Transform item = Instantiate(objectInfoUI, parent).transform;
+        InfosUIRefs itemRefs = Instantiate(objectInfoUI, parent).GetComponent<InfosUIRefs>();
 
         Sprite objectSprite;
         string objectName;
@@ -329,28 +329,46 @@ public class ShopManager : MonoBehaviour
             objectPrice = recipeToHandle.price;
         }
 
-        item.GetChild(0).GetComponent<Image>().sprite = objectSprite;
-        item.GetChild(1).GetComponent<Text>().text = objectName;
-        item.GetChild(2).GetComponent<Text>().text = $"{objectPrice} P";
+        itemRefs.ImageUI.sprite = objectSprite;
+        itemRefs.NameUI.text = objectName;
+        itemRefs.PriceUI.text = $"{objectPrice} P";
 
         if (!isRecipe)
         {
-            InputField inputField = item.GetChild(3).GetComponent<InputField>();
-            inputField.text = $"0";
+            itemRefs.AmountUI.text = $"0";
 
             if (!isForSelling)
-            {
-                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { BuyItem((ItemToHandle)objectToHandle, inputField); });
-            }
+                itemRefs.OperationUI.onClick.AddListener(delegate { BuyItem((ItemToHandle)objectToHandle, itemRefs); });
             else
-            {
-                item.GetChild(4).GetComponent<Button>().onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, inputField, item, shopConfiguration); });
-            }
+                itemRefs.OperationUI.onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, itemRefs, shopConfiguration); });
+
+            itemRefs.AmountButtonUp.onClick.AddListener(delegate { AddValue(itemRefs); });
+            itemRefs.AmountButtonDown.onClick.AddListener(delegate { RemoveValue(itemRefs); });
         }
         else
         {
-            item.GetChild(3).GetComponent<Button>().onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle); });
+            itemRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle); });
         }
+    }
+
+    public void AddValue(InfosUIRefs itemRefs)
+    {
+        int currentValue = int.Parse(itemRefs.AmountUI.text);
+
+        currentValue++;
+
+        itemRefs.AmountUI.text = $"{currentValue}";
+    }
+
+    public void RemoveValue(InfosUIRefs itemRefs)
+    {
+        int currentValue = int.Parse(itemRefs.AmountUI.text);
+
+        currentValue--;
+
+        if (currentValue < 0) currentValue = 0;
+
+        itemRefs.AmountUI.text = $"{currentValue}";
     }
 
     #endregion

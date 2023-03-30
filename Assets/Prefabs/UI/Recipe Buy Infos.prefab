@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 1510686324823150490}
   - component: {fileID: 1510686324823150491}
   - component: {fileID: 1510686324823150488}
+  - component: {fileID: 8771643440500668386}
   m_Layer: 5
   m_Name: Recipe Buy Infos
   m_TagString: Untagged
@@ -240,7 +241,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: -14.570374, y: 0}
-  m_SizeDelta: {x: 270.8592, y: 40}
+  m_SizeDelta: {x: 270, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1510686324823150490
 CanvasRenderer:
@@ -324,6 +325,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8771643440500668386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510686324823150494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c935a10d20768e446948e9bad0fbfd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageUI: {fileID: 239812253998273666}
+  nameUI: {fileID: 1510686324268124715}
+  priceUI: {fileID: 3088626253597294335}
+  amountUI: {fileID: 0}
+  amountButtonUp: {fileID: 0}
+  amountButtonDown: {fileID: 0}
+  operationUI: {fileID: 3147264031051460937}
 --- !u!1 &3212627463872513305
 GameObject:
   m_ObjectHideFlags: 0
