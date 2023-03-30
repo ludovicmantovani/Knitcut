@@ -74,8 +74,9 @@ public class FlowerGameManager : MonoBehaviour
         _lastIsError = false;
         if (name == _rightPetalName)
         {
-            if (_turn == relationCanvas.GetTextCount() && _sequence.Count == 0)
+            if (_turn == relationCanvas.GetTextCount() - 1 && _sequence.Count == 0)
             {
+                relationCanvas.Next();
                 flowerCreationScript.FallPetals();
                 _stateTime = Time.time;
                 _win = true;
