@@ -12,6 +12,8 @@ public class Feeder : MonoBehaviour
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private GameObject feederModel;
 
+    private string interaction;
+
     public bool CanUseFeeder
     {
         get { return canUseFeeder; }
@@ -24,7 +26,7 @@ public class Feeder : MonoBehaviour
         canUseFeeder = false;
         feederInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use E to open Feeder";
+        interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
     }
 
     private void Update()
@@ -103,7 +105,7 @@ public class Feeder : MonoBehaviour
     {
         feederInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + playerInput.InteractionAction.GetBindingDisplayString() + " to close Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la mangeoire";
 
         MinigameManager.AddOpenInventory(feederInventory);
     }
@@ -112,7 +114,7 @@ public class Feeder : MonoBehaviour
     {
         feederInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = "Use " + playerInput.InteractionAction.GetBindingDisplayString() + " to open Feeder";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la mangeoire";
 
         MinigameManager.RemoveOpenInventory(feederInventory);
     }

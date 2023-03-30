@@ -22,7 +22,7 @@ public class PlayerInventory : MonoBehaviour
         HandleInventoryUI();
     }
 
-    #region Inventory
+    #region Inventory UI
 
     public void HandleInventoryUI()
     {
@@ -65,7 +65,7 @@ public class PlayerInventory : MonoBehaviour
         itemObject.GetComponent<Image>().sprite = item.itemSprite;
     }
 
-    private List<DraggableItem> SearchSameItemInInventory(Item item)
+    public List<DraggableItem> SearchSameItemInInventory(Item item)
     {
         List<DraggableItem> draggableItemsInInventory = new List<DraggableItem>();
         
@@ -166,14 +166,6 @@ public class PlayerInventory : MonoBehaviour
         {
             quantity += draggableItems[i].QuantityStacked;
         }
-
-        /*for (int i = 0; i < SearchItemsPossessed().Count; i++)
-        {
-            if (item == SearchItemsPossessed()[i].Item)
-            {
-                quantity += SearchItemsPossessed()[i].QuantityStacked;
-            }
-        }*/
         
         return quantity;
     }

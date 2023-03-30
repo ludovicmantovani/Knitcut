@@ -1,3 +1,5 @@
+using System;
+
 [System.Serializable]
 public class PlayerInventory_Data
 {
@@ -5,6 +7,9 @@ public class PlayerInventory_Data
     public int[] itemsInSlot;
     public bool[] playerSlotsObjIn;
     public int[] quantityStackedPlayerInventory;
+
+    //recipes
+    public int[] recipesIndex;
 
     public PlayerInventory_Data(List_Slots LS, int nbSlots)
     {
@@ -19,5 +24,12 @@ public class PlayerInventory_Data
             playerSlotsObjIn[i] = LS.PlayerSlotsObjIn[i];
             quantityStackedPlayerInventory[i] = LS.QuantityStackedPlayerInventory[i];
         }
+    }
+
+    public PlayerInventory_Data(PlayerRecipesInventory playerRecipesInventory)
+    {
+        recipesIndex = Array.Empty<int>();
+
+        recipesIndex = playerRecipesInventory.RecipesIndex.ToArray();
     }
 }

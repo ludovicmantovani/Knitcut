@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 public class List_Slots : MonoBehaviour
 {
@@ -16,9 +15,8 @@ public class List_Slots : MonoBehaviour
     [Header("Money")]
     public Text moneyUI;
 
-    [Header("PlayerInventory")]
+    [Header("Player Inventory")]
     [SerializeField] private Transform playerSlotsParent;
-    [SerializeField] private PlayerRecipesInventory pRInventory;
 
     private GameObject[] playerSlots;
     private int[] itemsInSlots;
@@ -40,12 +38,6 @@ public class List_Slots : MonoBehaviour
     {
         get { return playerSlotsParent; }
         set { playerSlotsParent = value; }
-    }
-
-    public PlayerRecipesInventory PRInventory
-    {
-        get { return pRInventory; }
-        set { pRInventory = value; }
     }
 
     public GameObject[] PlayerSlots
@@ -100,7 +92,6 @@ public class List_Slots : MonoBehaviour
 
     public void AutoSaveMoney()
     {
-        //SaveSystem.SavePlayerMoney(playerController);
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, playerController);
     }
 
@@ -114,9 +105,6 @@ public class List_Slots : MonoBehaviour
 
     private void HandleMoney()
     {
-        //playerController.money = SaveSystem.LoadPlayerController().money;
-
-        //Player_Data playerData = SaveSystem.LoadPlayerController(playerController);
         Player_Data playerData = (Player_Data)SaveSystem.Load(SaveSystem.SaveType.Save_PlayerController, playerController);
 
         if (playerData != null)
@@ -147,10 +135,10 @@ public class List_Slots : MonoBehaviour
         Debug.Log($"Force save");
 
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, playerController);
-        SaveSystem.Save(SaveSystem.SaveType.Save_PlayerInventory, this);
+        AutoSavePlayerInventory();
+        playerController.PlayerRecipesInventory.SaveRecipes();
 
-        if (handleContainer)
-            SaveSystem.Save(SaveSystem.SaveType.Save_ContainerInventory, this);
+        if (handleContainer) AutoSaveContainerInventory();
 
         SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPenLevel, this);
     }

@@ -41,7 +41,7 @@ public class ChangeScene : MonoBehaviour
 
             if (SceneManager.GetActiveScene().name.Contains("Village"))
             {
-                shopEnclos.SaveEncloslevel();
+                //shopEnclos.SaveEncloslevel();
                 playerController.InFarm = false;
             }
 
@@ -72,31 +72,31 @@ public class ChangeScene : MonoBehaviour
         {
             showInstruction = false;
 
-            string instruction = "Use " + playerInput.InteractionAction.GetBindingDisplayString();
+            string instruction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
 
             if (sceneToLoad.Contains("Village"))
             {
-                instruction += " to go to Village";
+                instruction += " pour aller au village marchand";
             }
 
             if (sceneToLoad.Contains("Farm"))
             {
-                instruction += " to return to Farm";
+                instruction += " pour aller à la ferme";
             }
 
             if (isMinigame)
             {
                 if (sceneToLoad.Contains("Cooking"))
                 {
-                    instruction += " to enter the kitchen";
+                    instruction += " pour accéder à la cuisine";
                 }
                 else if (sceneToLoad.Contains("Recognition"))
                 {
-                    instruction += " to use the sewing workshop";
+                    instruction += " pour utiliser l'atelier de couture ";
                 }
                 else if (sceneToLoad.Contains("Flower"))
                 {
-                    instruction += " to try to breed the animals";
+                    instruction += " pour reproduire les animaux";
                 }
             }
 

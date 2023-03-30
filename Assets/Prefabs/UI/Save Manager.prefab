@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8526252944702592420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8526252944702592417}
+  - component: {fileID: 8526252944702592418}
+  m_Layer: 0
+  m_Name: Save Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8526252944702592417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8526252944702592420}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8526252944702592418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8526252944702592420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31fb714142492a498922be265a233d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemUI: {fileID: 6927560123145162241, guid: 49bfabd6e8c30944e983ccc2b038b83b, type: 3}
+  playerController: {fileID: 0}
+  playerInput: {fileID: 0}
+  stuffs:
+  - {fileID: 11400000, guid: 13f0791220dd3b241996f3b73c0ebe24, type: 2}
+  - {fileID: 11400000, guid: 465e83f5345f57643a43f72cf46bf061, type: 2}
+  - {fileID: 11400000, guid: eb524ad6bf4d0b14aa76f8ce57d42a8f, type: 2}
+  - {fileID: 11400000, guid: 77e00ab4b8f25d4429fd38d46d8cda12, type: 2}
+  - {fileID: 11400000, guid: ec944ed32ca814c498dc73399fd3c2a3, type: 2}
+  - {fileID: 11400000, guid: 311e7d058247aa14e99c13a2c56dc950, type: 2}
+  - {fileID: 11400000, guid: 16731705674f8ef40830f45deb0d2950, type: 2}
+  - {fileID: 11400000, guid: 3b77e761f50a744438a55e7367391c9c, type: 2}
+  - {fileID: 11400000, guid: 3d29996c884483d4394b2cb29ee41ce5, type: 2}
+  moneyUI: {fileID: 0}
+  playerSlotsParent: {fileID: 0}
+  handleContainer: 1
+  containerSlotsParent: {fileID: 0}

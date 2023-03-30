@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     List_Slots LS;
     PlayerInventory playerInventory;
-    PlayerRecipesInventory pRInventory;
+    PlayerRecipesInventory playerRecipesInventory;
 
     [Header("References")]
     [SerializeField] private string farmSceneName = "FarmScene";
@@ -20,6 +20,11 @@ public class PlayerController : MonoBehaviour
     public PlayerInventory PlayerInventory
     {
         get { return playerInventory; }
+    }
+
+    public PlayerRecipesInventory PlayerRecipesInventory
+    {
+        get { return playerRecipesInventory; }
     }
 
     public int Money
@@ -84,7 +89,7 @@ public class PlayerController : MonoBehaviour
     {
         LS = FindObjectOfType<List_Slots>();
         playerInventory = FindObjectOfType<PlayerInventory>();
-        pRInventory = FindObjectOfType<PlayerRecipesInventory>();
+        playerRecipesInventory = FindObjectOfType<PlayerRecipesInventory>();
 
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
@@ -248,7 +253,7 @@ public class PlayerController : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Village"))
         {
             playerInventory.HandleInventoryUI();
-            pRInventory.HandleInventoryUI();
+            playerRecipesInventory.HandleInventoryUI();
         }
     }*/
 
@@ -323,7 +328,7 @@ public class PlayerController : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Village"))
         {
             playerInventory.HandleInventoryUI();
-            pRInventory.HandleInventoryUI();
+            playerRecipesInventory.HandleInventoryUI();
         }
     }
 

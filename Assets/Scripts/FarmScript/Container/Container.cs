@@ -43,7 +43,7 @@ public class Container : MonoBehaviour
         canUseContainer = false;
         containerInUse = false;
 
-        interaction = "Use " + playerInput.InteractionAction.GetBindingDisplayString();
+        interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
     }
 
     private void Update()
@@ -98,7 +98,7 @@ public class Container : MonoBehaviour
     {
         containerInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} to close Container";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la réserve";
 
         MinigameManager.AddOpenInventory(containerInventoryContent);
     }
@@ -107,7 +107,7 @@ public class Container : MonoBehaviour
     {
         containerInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} to open Container";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la réserve";
 
         MinigameManager.RemoveOpenInventory(containerInventoryContent);
     }

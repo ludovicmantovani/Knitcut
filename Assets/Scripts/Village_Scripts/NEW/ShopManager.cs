@@ -6,10 +6,32 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class ShopsManager : MonoBehaviour
+public class ShopManager : MonoBehaviour
 {
+    #region Parameters
+
     [Header("References")]
     [SerializeField] private GameObject interactionUI;
+    [SerializeField] private GameObject notification;
+    [SerializeField] private int timeNotification = 5;
+
+    private string interaction;
+
+    public GameObject InteractionUI
+    {
+        get { return interactionUI; }
+        set { interactionUI = value; }
+    }
+
+    [Header("Shop States")]
+    [SerializeField] private bool canUseShop = false;
+    [SerializeField] private bool shopInUse = false;
+
+    public bool CanUseShop
+    {
+        get { return canUseShop; }
+        set { canUseShop = value; }
+    }
 
     [Serializable]
     public class ShopConfiguration
@@ -30,30 +52,13 @@ public class ShopsManager : MonoBehaviour
         public List<RecipeToHandle> recipes;
     }
 
+    [Header("Shop Configuration")]
     [SerializeField] private GameObject shopUI;
     [SerializeField] private List<ShopConfiguration> shopsConfiguration;
-
-    public GameObject InteractionUI
-    {
-        get { return interactionUI; }
-        set { interactionUI = value; }
-    }
 
     private PlayerController playerController;
     private PlayerInput playerInput;
     private List_Slots listSlots;
-
-    private string interaction;
-
-    [Header("Shop States")]
-    [SerializeField] private bool canUseShop = false;
-    [SerializeField] private bool shopInUse = false;
-
-    public bool CanUseShop
-    {
-        get { return canUseShop; }
-        set { canUseShop = value; }
-    }
 
     [Serializable]
     public class ItemToHandle
@@ -77,13 +82,17 @@ public class ShopsManager : MonoBehaviour
         Animal_Pen_Manager
     }
 
+    #endregion
+
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
         playerInput = FindObjectOfType<PlayerInput>();
         listSlots = FindObjectOfType<List_Slots>();
 
-        interaction = "Use " + playerInput.InteractionAction.GetBindingDisplayString();
+        interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
+
+        notification.SetActive(false);
     }
 
     void Update()
@@ -128,7 +137,7 @@ public class ShopsManager : MonoBehaviour
     {
         shopInUse = true;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to close shopsConfiguration";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer l'interface";
 
         MinigameManager.AddOpenInventory(shopUI);
     }
@@ -137,7 +146,7 @@ public class ShopsManager : MonoBehaviour
     {
         shopInUse = false;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} to open shopsConfiguration";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir l'interface";
 
         MinigameManager.RemoveOpenInventory(shopUI);
 
@@ -151,13 +160,17 @@ public class ShopsManager : MonoBehaviour
         Show(GetCurrentShop());
     }
 
+    #region Buy / Sell
+
     private void BuyItem(ItemToHandle itemToBuy, InputField inputField)
     {
         int amount = int.Parse(inputField.text);
 
         if (amount == 0) return;
 
-        if (playerController.Money >= (amount * itemToBuy.price))
+        int totalPrice = amount * itemToBuy.price;
+
+        if (playerController.Money >= totalPrice)
         {
             if (amount <= itemToBuy.item.maxStackSize)
             {
@@ -178,6 +191,12 @@ public class ShopsManager : MonoBehaviour
 
                 CreateItemUI(itemToBuy, lastQuantity);
             }
+
+            ShowNotification($"Vous avez acheté x{amount} '{itemToBuy.item.itemName}' pour {totalPrice} pièces");
+        }
+        else
+        {
+            ShowNotification($"Vous n'avez pas assez de pièces pour acheter cet item");
         }
     }
 
@@ -191,24 +210,27 @@ public class ShopsManager : MonoBehaviour
 
         if (amount <= quantityInInventory)
         {
-            if (playerController.Money >= (amount * itemToSell.price))
+            int totalPrice = amount * itemToSell.price;
+            int quantityLeft = quantityInInventory - amount;
+
+            listSlots.UpdateMoney(playerController.Money + totalPrice);
+
+            playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount);
+
+            currentItemUI.GetChild(1).GetComponent<Text>().text = $"{itemToSell.item.itemName} x{quantityLeft}";
+
+            ShowNotification($"Vous avez vendu x{amount} '{itemToSell.item.itemName}' pour {totalPrice} pièces");
+
+            if (quantityLeft <= 0)
             {
-                int totalPrice = amount * itemToSell.price;
-                int quantityLeft = quantityInInventory - amount;
+                shopConfiguration.items.Remove(itemToSell);
 
-                listSlots.UpdateMoney(playerController.Money + totalPrice);
-
-                playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount);
-
-                currentItemUI.GetChild(1).GetComponent<Text>().text = $"{itemToSell.item.itemName} x{quantityLeft}";
-
-                if (quantityLeft <= 0)
-                {
-                    shopConfiguration.items.Remove(itemToSell);
-
-                    Destroy(currentItemUI.gameObject);
-                }
+                Destroy(currentItemUI.gameObject);
             }
+        }
+        else
+        {
+            ShowNotification($"La quantité saisie est trop élevée");
         }
     }
 
@@ -216,11 +238,28 @@ public class ShopsManager : MonoBehaviour
     {
         if (playerController.Money >= recipeToBuy.price)
         {
-            listSlots.PRInventory.AddRecipeToInventory(recipeToBuy.item);
+            if (!playerController.PlayerRecipesInventory.CheckIfHasRecipe(recipeToBuy.item))
+            {
+                playerController.PlayerRecipesInventory.AddRecipeToInventory(recipeToBuy.item);
 
-            listSlots.UpdateMoney(playerController.Money - recipeToBuy.price);
+                listSlots.UpdateMoney(playerController.Money - recipeToBuy.price);
+
+                ShowNotification($"Vous avez acheté la recette '{recipeToBuy.item.recipeName}' pour {recipeToBuy.price} pièces");
+            }
+            else
+            {
+                ShowNotification($"Vous possedez déjà cette recette");
+            }
+        }
+        else
+        {
+            ShowNotification($"Vous n'avez pas assez de pièces pour acheter cette recette");
         }
     }
+
+    #endregion
+
+    #region Show Current Shop
 
     private void Show(ShopConfiguration currentShop)
     {
@@ -314,21 +353,9 @@ public class ShopsManager : MonoBehaviour
         }
     }
 
-    private void Clear()
-    {
-        for (int i = 0; i < shopsConfiguration.Count; i++)
-        {
-            if (shopsConfiguration[i].objectsPanel != null)
-            {
-                shopsConfiguration[i].objectsPanel.SetActive(false);
+    #endregion
 
-                for (int j = 0; j < shopsConfiguration[i].objectsParent.childCount; j++)
-                {
-                    Destroy(shopsConfiguration[i].objectsParent.GetChild(j).gameObject);
-                }
-            }
-        }
-    }
+    #region Item Creation
 
     private void CreateItemUI(ItemToHandle itemToBuy, int quantity)
     {
@@ -368,6 +395,8 @@ public class ShopsManager : MonoBehaviour
         return itemToHandle;
     }
 
+    #endregion
+
     private ShopConfiguration GetCurrentShop()
     {
         GameObject currentSelectedObject = EventSystem.current.currentSelectedGameObject;
@@ -381,6 +410,39 @@ public class ShopsManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void Clear()
+    {
+        for (int i = 0; i < shopsConfiguration.Count; i++)
+        {
+            if (shopsConfiguration[i].objectsPanel != null)
+            {
+                shopsConfiguration[i].objectsPanel.SetActive(false);
+
+                for (int j = 0; j < shopsConfiguration[i].objectsParent.childCount; j++)
+                {
+                    Destroy(shopsConfiguration[i].objectsParent.GetChild(j).gameObject);
+                }
+            }
+        }
+    }
+
+    private void ShowNotification(string textToShow)
+    {
+        StopCoroutine(ShowingNotification(textToShow));
+        StartCoroutine(ShowingNotification(textToShow));
+    }
+
+    private IEnumerator ShowingNotification(string textToShow)
+    {
+        notification.GetComponentInChildren<Text>().text = textToShow;
+
+        notification.SetActive(true);
+
+        yield return new WaitForSeconds(timeNotification);
+
+        notification.SetActive(false);
     }
 
     #endregion
