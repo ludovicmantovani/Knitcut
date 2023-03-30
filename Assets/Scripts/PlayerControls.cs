@@ -330,6 +330,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Admin"",
+            ""id"": ""1881c14c-69f3-4147-8516-cdb96b330599"",
+            ""actions"": [
+                {
+                    ""name"": ""DeleteSaves"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c8be7b3-7105-4c9f-865c-5e619317adf2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cff041b5-b007-47a4-bc17-ad47d668082c"",
+                    ""path"": ""<Keyboard>/f7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeleteSaves"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -352,6 +380,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_MiniGames = asset.FindActionMap("MiniGames", throwIfNotFound: true);
         m_MiniGames_Mouse_Position = m_MiniGames.FindAction("Mouse_Position", throwIfNotFound: true);
         m_MiniGames_Mouse_Bouton_0 = m_MiniGames.FindAction("Mouse_Bouton_0", throwIfNotFound: true);
+        // Admin
+        m_Admin = asset.FindActionMap("Admin", throwIfNotFound: true);
+        m_Admin_DeleteSaves = m_Admin.FindAction("DeleteSaves", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -619,6 +650,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public MiniGamesActions @MiniGames => new MiniGamesActions(this);
+
+    // Admin
+    private readonly InputActionMap m_Admin;
+    private List<IAdminActions> m_AdminActionsCallbackInterfaces = new List<IAdminActions>();
+    private readonly InputAction m_Admin_DeleteSaves;
+    public struct AdminActions
+    {
+        private @PlayerControls m_Wrapper;
+        public AdminActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @DeleteSaves => m_Wrapper.m_Admin_DeleteSaves;
+        public InputActionMap Get() { return m_Wrapper.m_Admin; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AdminActions set) { return set.Get(); }
+        public void AddCallbacks(IAdminActions instance)
+        {
+            if (instance == null || m_Wrapper.m_AdminActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_AdminActionsCallbackInterfaces.Add(instance);
+            @DeleteSaves.started += instance.OnDeleteSaves;
+            @DeleteSaves.performed += instance.OnDeleteSaves;
+            @DeleteSaves.canceled += instance.OnDeleteSaves;
+        }
+
+        private void UnregisterCallbacks(IAdminActions instance)
+        {
+            @DeleteSaves.started -= instance.OnDeleteSaves;
+            @DeleteSaves.performed -= instance.OnDeleteSaves;
+            @DeleteSaves.canceled -= instance.OnDeleteSaves;
+        }
+
+        public void RemoveCallbacks(IAdminActions instance)
+        {
+            if (m_Wrapper.m_AdminActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IAdminActions instance)
+        {
+            foreach (var item in m_Wrapper.m_AdminActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_AdminActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public AdminActions @Admin => new AdminActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -639,5 +716,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnMouse_Position(InputAction.CallbackContext context);
         void OnMouse_Bouton_0(InputAction.CallbackContext context);
+    }
+    public interface IAdminActions
+    {
+        void OnDeleteSaves(InputAction.CallbackContext context);
     }
 }

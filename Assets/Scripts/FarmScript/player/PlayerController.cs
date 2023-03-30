@@ -114,152 +114,18 @@ public class PlayerController : MonoBehaviour
         HandlePlayerInFarmScene();
         HandlePlayerInVillageScene();
 
-        //ForceSaveAndLoad();
+        DeleteAllSaves();
     }
 
-    #region Handle Player in Farm Scene & Village Scene V1
-
-    /*private void HandlePlayerInFarmSceneV1()
+    private void DeleteAllSaves()
     {
-        if (SceneManager.GetActiveScene().name == farmSceneName)
+        if (playerInput.DeleteSavesAction.triggered)
         {
-            if (verifVillage == true)
-            {
-                characterController.enabled = false;
-                characterController.transform.position = spawnPosition.position;
-                // reinitialise position et rotation du corps
-                playerBody.transform.position = characterController.transform.position;
-                playerBody.transform.rotation = characterController.transform.rotation;
-                characterController.enabled = true;
-                verifVillage = false;
-                cameraFermeCinemachine.SetActive(true);
-            }
-
-            PlayerMovementFarmV1();
+            SaveSystem.DeleteAllSaves();
         }
     }
 
-    private void HandlePlayerInVillageSceneV1()
-    {
-        if (SceneManager.GetActiveScene().name == villageSceneName)
-        {
-            if (verifVillage == false)
-            {
-                characterController.enabled = false;
-                characterController.transform.position = spawnPosition.position;
-                //modifie position du player
-                characterController.transform.rotation = Quaternion.Euler(0, 0, 0);
-                characterController.enabled = true;
-                verifVillage = true;
-                //descative camera cinemachine et change position camera
-                cameraFermeCinemachine.SetActive(false);
-                //cameraFerme.transform.position = new Vector3(0f, 2f, -7f);
-                //cameraFerme.transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-
-            PlayerMovementVillageV1();
-        }
-    }
-
-    private void PlayerMovementFarmV1()
-    {
-        if (!canMove) return;
-
-        Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
-        Vector3 move = new Vector3(input.x, 0, input.y);
-
-        move = move.x * cam.transform.right + move.z * cam.transform.forward;
-        move.y = 0f;
-
-        characterController.Move(move * Time.deltaTime * moveSpeed);
-
-        if (input != Vector2.zero)
-        {
-            _targetAngle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
-            _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            //Quaternion rotation = Quaternion.Euler(0, _targetAngle, 0);
-            transform.rotation = Quaternion.Euler(0, _angle, 0);
-            //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turnSmoothTime);
-
-            move = Quaternion.Euler(0, _targetAngle, 0) * Vector3.forward;
-        }
-
-        playerSpeed = move;
-    }
-
-    private void PlayerMovementVillageV1()
-    {
-        if (!canMove) return;
-
-        if (talkingShop == true && shopsConfiguration == false)
-        {
-
-            characterController.enabled = false;
-            characterController.transform.rotation = Quaternion.Euler(0, 0, 0);
-            characterController.enabled = true;
-            left = false;
-            right = false;
-            shopsConfiguration = true;
-        }
-
-        //modif
-        if (talkingShop == false)
-        {
-            //nouveau system
-            Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
-            Vector3 move = new Vector3(input.x, 0, 0);
-            move = move.x * cam.transform.right + move.z * cam.transform.forward;
-            move.y = 0f;
-            characterController.Move(move * Time.deltaTime * moveSpeed);
-            playerSpeed = move;
-
-            //modif rotation corps
-            if (playerSpeed.x > 0 && right == false)
-            {
-                characterController.enabled = false;
-                playerBody.transform.rotation = Quaternion.Euler(0, 90, 0);
-                characterController.enabled = true;
-                right = true;
-                left = false;
-                shopsConfiguration = false;
-            }
-            //modif rotation corps
-            if (playerSpeed.x < 0 && left == false)
-            {
-
-                characterController.enabled = false;
-                playerBody.transform.rotation = Quaternion.Euler(0, -90, 0);
-                characterController.enabled = true;
-                left = true;
-                right = false;
-                shopsConfiguration = false;
-
-
-            }
-            //modif rotation corps
-            if (verifVillage == false)
-            {
-                characterController.enabled = false;
-                playerBody.transform.rotation = Quaternion.Euler(0, 0, 0);
-                verifVillage = true;
-            }
-
-        }
-        else return;
-    }
-
-    private void HandleInventoriesInFarmAndVillageV1()
-    {
-        if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Village"))
-        {
-            playerInventory.HandleInventoryUI();
-            playerRecipesInventory.HandleInventoryUI();
-        }
-    }*/
-
-    #endregion
-
-    #region Handle Player in Farm Scene & Village Scene V2
+    #region Handle Player in Farm Scene & Village Scene
 
     private void HandlePlayerInFarmScene()
     {

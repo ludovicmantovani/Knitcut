@@ -308,6 +308,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Admin",
+            "id": "1881c14c-69f3-4147-8516-cdb96b330599",
+            "actions": [
+                {
+                    "name": "DeleteSaves",
+                    "type": "Button",
+                    "id": "6c8be7b3-7105-4c9f-865c-5e619317adf2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cff041b5-b007-47a4-bc17-ad47d668082c",
+                    "path": "<Keyboard>/f7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeleteSaves",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

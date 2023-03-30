@@ -17,6 +17,8 @@ public class PlayerInput : MonoBehaviour
     private InputAction inventoryAction;
     private InputAction recipesInventoryAction;
 
+    private InputAction deleteSavesAction;
+
     #region Getters
 
     public InputAction MoveAction
@@ -59,6 +61,11 @@ public class PlayerInput : MonoBehaviour
         get { return recipesInventoryAction; }
     }
 
+    public InputAction DeleteSavesAction
+    {
+        get { return deleteSavesAction; }
+    }
+
     #endregion
 
     private void Awake()
@@ -76,15 +83,19 @@ public class PlayerInput : MonoBehaviour
 
         inventoryAction = controls.FindAction("Inventory");
         recipesInventoryAction = controls.FindAction("RecipesInventory");
+
+        deleteSavesAction = controls.FindAction("DeleteSaves");
     }
 
     private void OnEnable()
     {
         controls.Player.Enable();
+        controls.Admin.Enable();
     }
 
     private void OnDisable()
     {
         controls.Player.Disable();
+        controls.Admin.Disable();
     }
 }   
