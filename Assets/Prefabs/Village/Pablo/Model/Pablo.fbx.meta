@@ -1,8 +1,11 @@
 fileFormatVersion: 2
-guid: b29f52f7dd0e4a641bfec0ab96bf0cab
+guid: f259c008f229b6843a49b452cb26d48a
 ModelImporter:
   serializedVersion: 21100
   internalIDToNameTable:
+  - first:
+      74: -7999083267698835600
+    second: Armature|disctute
   - first:
       74: -8945691123924629249
     second: Armature|Idle
@@ -13,23 +16,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Pablo
-    second: {fileID: 2100000, guid: 46dcaeb6b9fa0914780a40093e8810c3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pablo_body
-    second: {fileID: 2100000, guid: de45482a0646612459c6629ba4c2a97f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pablo_hair
-    second: {fileID: 2100000, guid: 1d6a8f45af8dce74d96e57d21c693a50, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pablo_poncho
-    second: {fileID: 2100000, guid: 028f32cde9f870c40903ee1d473fbee8, type: 2}
+      name: None
+    second: {fileID: 2100000, guid: 01dba8ab817d1914baa384298a3e5a91, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -57,6 +45,35 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations:
+    - serializedVersion: 16
+      name: Armature|disctute
+      takeName: Armature|disctute
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 128
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Armature|Idle
       takeName: Armature|Idle
@@ -91,7 +108,7 @@ ModelImporter:
       takeName: Armature|salutation
       internalID: 0
       firstFrame: 0
-      lastFrame: 33
+      lastFrame: 39
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
