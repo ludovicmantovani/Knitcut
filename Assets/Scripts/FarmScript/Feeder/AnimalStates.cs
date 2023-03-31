@@ -8,8 +8,15 @@ public class AnimalStates : MonoBehaviour
     [SerializeField] private Feeder feeder;
     [SerializeField] private GameObject animalCanvas;
     [SerializeField] private Text animalName;
+    [SerializeField] private AnimalType animalType;
     [SerializeField] private Slider animalHungerSlider;
     [SerializeField] private Image animalHappinessImage;
+
+    public AnimalType AnimalType
+    {
+        get { return animalType; }
+        set { animalType = value; }
+    }
 
     [Header("Hunger parameters")]
     [SerializeField] private float hunger = 0;

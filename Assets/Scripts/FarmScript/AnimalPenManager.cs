@@ -7,6 +7,7 @@ public class AnimalPenManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private List<AnimalPen> animalPenList;
+    [SerializeField] private List<GameObject> animals;
 
     private int totalAnimalPen;
     private int[] animalPenLevels;
@@ -118,5 +119,37 @@ public class AnimalPenManager : MonoBehaviour
                     currentState.animalPenObject.SetActive(false);
             }
         }
+    }
+
+    public void InstantiateTamedAnimalInAnimalPen()
+    {
+        GameObject tamedAnimal = null;
+
+        for (int i = 0; i < animals.Count; i++)
+        {
+            if (animals[i].GetComponent<AnimalStates>().AnimalType == MinigameManager.AnimalTypeToKeep)
+            {
+                tamedAnimal = animals[i];
+                return;
+            }
+        }
+
+        if (tamedAnimal == null) return;
+
+        Transform animalPenOfAnimal = null;
+
+        for (int i = 0; i < animalPenList.Count; i++)
+        {
+            if (animalPenList[i].animalType == MinigameManager.AnimalTypeToKeep)
+            {
+                animalPenOfAnimal = animalPenList[i].animalPenInScene.transform;
+            }
+        }
+
+        if (animalPenOfAnimal == null) return;
+
+        GameObject animal = Instantiate(tamedAnimal, animalPenOfAnimal);
+
+        Debug.Log($"{animal.name} placed in {animalPenOfAnimal.name}");
     }
 }
