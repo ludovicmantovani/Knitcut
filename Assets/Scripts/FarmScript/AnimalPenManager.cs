@@ -76,7 +76,11 @@ public class AnimalPenManager : MonoBehaviour
     {
         AnimalPen_Data data = (AnimalPen_Data)SaveSystem.Load(SaveSystem.SaveType.Save_AnimalPen, this);
 
-        if (data == null) return;
+        if (data == null)
+        {
+            LoadAnimalPenLevels();
+            return;
+        }
 
         animalPenLevels = data.animalPenLevels;
         animalPenTypes = data.animalPenTypes;
