@@ -14,8 +14,12 @@ public class KeyBinding_Data
     public string healPlante;
     public string inventory;
 
+    public string rebinds;
+
     public KeyBinding_Data(UI_Menu ui_menu)
     {
+        rebinds = ui_menu.KeyRebinding.Rebinds;
+
         moveForward = ui_menu.moveForward.text;
         moveBackward = ui_menu.moveBackward.text;
         moveLeft = ui_menu.moveLeft.text;

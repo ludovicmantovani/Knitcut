@@ -64,7 +64,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Intercation"",
+                    ""name"": ""Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""9d6bc202-ba0e-407e-8035-a86912b6cffc"",
                     ""expectedControlType"": ""Button"",
@@ -205,7 +205,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Intercation"",
+                    ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -368,7 +368,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_CameraLook = m_Player.FindAction("CameraLook", throwIfNotFound: true);
         m_Player_QuickSave = m_Player.FindAction("QuickSave", throwIfNotFound: true);
         m_Player_QuickLoad = m_Player.FindAction("QuickLoad", throwIfNotFound: true);
-        m_Player_Intercation = m_Player.FindAction("Intercation", throwIfNotFound: true);
+        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
         m_Player_Hydrate = m_Player.FindAction("Hydrate", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
@@ -448,7 +448,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CameraLook;
     private readonly InputAction m_Player_QuickSave;
     private readonly InputAction m_Player_QuickLoad;
-    private readonly InputAction m_Player_Intercation;
+    private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Heal;
     private readonly InputAction m_Player_Hydrate;
     private readonly InputAction m_Player_Inventory;
@@ -461,7 +461,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @CameraLook => m_Wrapper.m_Player_CameraLook;
         public InputAction @QuickSave => m_Wrapper.m_Player_QuickSave;
         public InputAction @QuickLoad => m_Wrapper.m_Player_QuickLoad;
-        public InputAction @Intercation => m_Wrapper.m_Player_Intercation;
+        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Heal => m_Wrapper.m_Player_Heal;
         public InputAction @Hydrate => m_Wrapper.m_Player_Hydrate;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
@@ -487,9 +487,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @QuickLoad.started += instance.OnQuickLoad;
             @QuickLoad.performed += instance.OnQuickLoad;
             @QuickLoad.canceled += instance.OnQuickLoad;
-            @Intercation.started += instance.OnIntercation;
-            @Intercation.performed += instance.OnIntercation;
-            @Intercation.canceled += instance.OnIntercation;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
             @Heal.started += instance.OnHeal;
             @Heal.performed += instance.OnHeal;
             @Heal.canceled += instance.OnHeal;
@@ -518,9 +518,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @QuickLoad.started -= instance.OnQuickLoad;
             @QuickLoad.performed -= instance.OnQuickLoad;
             @QuickLoad.canceled -= instance.OnQuickLoad;
-            @Intercation.started -= instance.OnIntercation;
-            @Intercation.performed -= instance.OnIntercation;
-            @Intercation.canceled -= instance.OnIntercation;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
             @Heal.started -= instance.OnHeal;
             @Heal.performed -= instance.OnHeal;
             @Heal.canceled -= instance.OnHeal;
@@ -702,7 +702,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnCameraLook(InputAction.CallbackContext context);
         void OnQuickSave(InputAction.CallbackContext context);
         void OnQuickLoad(InputAction.CallbackContext context);
-        void OnIntercation(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
         void OnHeal(InputAction.CallbackContext context);
         void OnHydrate(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);

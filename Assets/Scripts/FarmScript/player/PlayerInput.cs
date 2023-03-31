@@ -21,6 +21,11 @@ public class PlayerInput : MonoBehaviour
 
     #region Getters
 
+    public PlayerControls Controls
+    {
+        get { return controls; }
+    }
+
     public InputAction MoveAction
     {
         get { return moveAction; }
@@ -77,7 +82,7 @@ public class PlayerInput : MonoBehaviour
         quickSaveAction = controls.FindAction("QuickSave");
         quickLoadAction = controls.FindAction("QuickLoad");
 
-        interactionAction = controls.FindAction("Intercation");
+        interactionAction = controls.FindAction("Interaction");
         healAction = controls.FindAction("Heal");
         hydrateAction = controls.FindAction("Hydrate");
 
@@ -85,6 +90,8 @@ public class PlayerInput : MonoBehaviour
         recipesInventoryAction = controls.FindAction("RecipesInventory");
 
         deleteSavesAction = controls.FindAction("DeleteSaves");
+
+        LoadInputs(); 
     }
 
     private void OnEnable()
@@ -97,5 +104,19 @@ public class PlayerInput : MonoBehaviour
     {
         controls.Player.Disable();
         controls.Admin.Disable();
+    }
+
+    public InputAction FindAction(string actionName)
+    {
+        return controls.FindAction(actionName);
+    }
+
+    private void LoadInputs()
+    {
+        KeyBinding_Data data = (KeyBinding_Data)SaveSystem.Load(SaveSystem.SaveType.Save_UIMenu);
+
+        if (data == null || data.rebinds == null || data.rebinds == string.Empty) return;
+
+        controls.LoadBindingOverridesFromJson(data.rebinds);
     }
 }   

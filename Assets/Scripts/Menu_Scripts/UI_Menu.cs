@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+
 [ExecuteAlways]
 public class UI_Menu : MonoBehaviour
 {
@@ -35,21 +37,43 @@ public class UI_Menu : MonoBehaviour
     [SerializeField] private GameObject menuAudio;
     [SerializeField] private Vector3 creditsVector;
     [SerializeField] private GameObject creditsObj;
+    [SerializeField] private GameObject waitingBinding;
     [SerializeField] private float speedY;
     private float yStartPos;
 
     public Slider volume;
     public VolumeCTRL audioVolume;
 
+    private Rebinding rebinding;
+
+    public Rebinding KeyRebinding
+    {
+        get { return rebinding; }
+        set { rebinding = value; }
+    }
+
+    public GameObject WaitingBinding
+    {
+        get { return waitingBinding; }
+        set { waitingBinding = value; }
+    }
+
+    public GameObject MenuKeybinding
+    {
+        get { return menuKeybinding; }
+        set { menuKeybinding = value; }
+    }
+
     public bool startCredits = false;
+
     void Start()
     {
-        yStartPos = -520f;
-        speedY = yStartPos;
-        KeysBinding();
-        LoadKeybindingsTouch();
-        LoadVolumeLevel();
+        rebinding = GetComponent<Rebinding>();
 
+        yStartPos = 0f;
+        speedY = yStartPos;
+
+        LoadVolumeLevel();
     }
 
     void Update()
@@ -59,8 +83,6 @@ public class UI_Menu : MonoBehaviour
             ScrollCredits();
         }
 
-        SavesKeybindingsTouch();
-        KeysBinding();
         SaveVolumeLevel();
     }
     public void UpperCaseVerif()
@@ -76,12 +98,16 @@ public class UI_Menu : MonoBehaviour
     }
     public void OptionsMenu()
     {
+        if (menuKeybinding.activeSelf) rebinding.Save();
+
         menuInterface.SetActive(false);
         menuKeybinding.SetActive(false);
         menuOptions.SetActive(true);
     }
     public void KeyBinding()
     {
+        LoadBindings();
+
         menuInterface.SetActive(false);
         menuKeybinding.SetActive(true);
         menuOptions.SetActive(false);
@@ -140,47 +166,24 @@ public class UI_Menu : MonoBehaviour
         }
          
     }
-    public void KeysBinding()
-    {
-        moveF = (KeyCode) System.Enum.Parse(typeof(KeyCode), moveForward.text);
-        moveB = (KeyCode) System.Enum.Parse(typeof(KeyCode), moveBackward.text);
-        moveL = (KeyCode) System.Enum.Parse(typeof(KeyCode), moveLeft.text);
-        moveR = (KeyCode) System.Enum.Parse(typeof(KeyCode), moveRight.text);
-        inter = (KeyCode) System.Enum.Parse(typeof(KeyCode), interract.text);
-        hydrateP = (KeyCode) System.Enum.Parse(typeof(KeyCode), hydratePlante.text);
-        healP = (KeyCode) System.Enum.Parse(typeof(KeyCode), healPlante.text);
-        invent = (KeyCode) System.Enum.Parse(typeof(KeyCode), inventory.text);
-    }
 
-    public void SavesKeybindingsTouch()
+    private void LoadBindings()
     {
-        if(lastKey != moveForward.text || 
-            lastKey != moveBackward.text || 
-            lastKey != moveLeft.text || 
-            lastKey != moveRight.text || 
-            lastKey != interract.text || 
-            lastKey != hydratePlante.text || 
-            lastKey != healPlante.text || 
-            lastKey != inventory.text)
+        rebinding.Load();
+
+        for (int i = 0; i < MenuKeybinding.transform.childCount; i++)
         {
-            //SaveSystem.SaveKeys(this);
-            SaveSystem.Save(SaveSystem.SaveType.Save_UIMenu, this);
+            if (MenuKeybinding.transform.GetChild(i).GetComponent<KeyBindingRefs>())
+            {
+                KeyBindingRefs keyBindingRefs = MenuKeybinding.transform.GetChild(i).GetComponent<KeyBindingRefs>();
+
+                InputAction action = rebinding.PlayerInput.FindAction(keyBindingRefs.InputActionName);
+
+                rebinding.RebindComplete(keyBindingRefs, action);
+            }
         }
     }
-    public void LoadKeybindingsTouch()
-    {
-        //KeyBinding_Data data = SaveSystem.LoadKeys();
-        KeyBinding_Data data = (KeyBinding_Data)SaveSystem.Load(SaveSystem.SaveType.Save_UIMenu, this);
 
-        moveForward.text = data.moveForward;
-        moveBackward.text = data.moveBackward;
-        moveLeft.text = data.moveLeft;
-        moveRight.text = data.moveRight;
-        interract.text = data.interract;
-        hydratePlante.text = data.hydratePlante;
-        healPlante.text = data.healPlante;
-        inventory.text = data.inventory;
-    }
     public void SaveVolumeLevel()
     {
         if(lastVolume != volume.value)
@@ -190,6 +193,7 @@ public class UI_Menu : MonoBehaviour
             SaveSystem.Save(SaveSystem.SaveType.Save_Volume, this);
         }
     }
+
     public void LoadVolumeLevel()
     {
         //Audio_Data data = SaveSystem.LoadVolume();
@@ -199,6 +203,7 @@ public class UI_Menu : MonoBehaviour
 
         volume.value = data.volume;
     }
+
     void SaveVolumeSystem()
     {
         //SaveSystem.SaveVolume(this);
