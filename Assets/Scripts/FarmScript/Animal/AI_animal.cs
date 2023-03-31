@@ -10,6 +10,7 @@ public class AI_animal : MonoBehaviour
     public float radius;
     private Attirer_Animal attirer_Animal;
     public GameObject capturePosition;
+    public AnimalType animalType;
 
     private void Start()
     {

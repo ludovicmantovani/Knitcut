@@ -55,7 +55,9 @@ public class PositionFruitAttirer : MonoBehaviour
             {
                 if (captureGameSceneName.Length > 0)
                 {
-                    MinigameManager.FinalizeMG(MinigameManager.MGType.Capture, other.gameObject.name);
+                    AI_animal animal = other.GetComponent<AI_animal>();
+
+                    MinigameManager.FinalizeMG(MinigameManager.MGType.Capture, animal.name, animal.animalType);
 
                     SceneManager.LoadScene(
                         captureGameSceneName[UnityEngine.Random.Range(0, captureGameSceneName.Length)]

@@ -50,6 +50,8 @@ public class CustomAnimal : MonoBehaviour
         List<object> dataToKeep = MinigameManager.DataToKeep;
         string animalNameFromFarm = dataToKeep.Count > 0 ? (string)dataToKeep[0]: "";
 
+        Debug.Log($"nom : {dataToKeep[0]} => type : {dataToKeep[1]}");
+
         if (animalNameFromFarm.Length > 0)
         {
             SpriteStringPair tempSpriteStringPair = null;
