@@ -8,8 +8,11 @@ public class MinigameManager : MonoBehaviour
     private static List<object> dataToKeep;
     private static bool startOK = false;
     private static string sceneToLoad = "FarmScene";
+    private static string animalToKeep = "";
+    private static List<int> animalPenIndexToUpgrade = new List<int>();
     private static PlayerController playerController;
     private static List<GameObject> openInventories = new List<GameObject>();
+    private static List<PlayerItem> playerItems = new List<PlayerItem>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
 
     public class PlayerItem
@@ -18,14 +21,9 @@ public class MinigameManager : MonoBehaviour
         public int quantity;
     }
 
-    private static List<PlayerItem> playerItems = new List<PlayerItem>();
-
-    private static string animalToKeep = "";
-
-    public static string AnimalToKeep
+    public static List<object> DataToKeep
     {
-        get { return animalToKeep; }
-        set { animalToKeep = value; }
+        get { return dataToKeep; }
     }
 
     public static bool StartOK
@@ -34,9 +32,16 @@ public class MinigameManager : MonoBehaviour
         set { startOK = value; }
     }
 
-    public static List<object> DataToKeep
+    public static string AnimalToKeep
     {
-        get { return dataToKeep; }
+        get { return animalToKeep; }
+        set { animalToKeep = value; }
+    }
+
+    public static List<int> AnimalPenIndexToUpgrade
+    {
+        get { return animalPenIndexToUpgrade; }
+        set { animalPenIndexToUpgrade = value; }
     }
 
     public static List<GameObject> OpenInventories
@@ -220,7 +225,6 @@ public class MinigameManager : MonoBehaviour
         {
             if (itemsToRemoveQuantity.TryGetValue(item, out int quantity))
                 inventory.RemoveItemQuantity(item, quantity);
-                //inventory.RemoveQuantityMultipleItems(item, quantity);
         }
     }
 

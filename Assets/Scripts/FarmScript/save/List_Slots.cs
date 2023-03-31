@@ -8,6 +8,7 @@ public class List_Slots : MonoBehaviour
     public GameObject itemUI;
     public PlayerController playerController;
     public PlayerInput playerInput;
+    public AnimalPenManager animalPenManager;
     public ScriptableObject[] stuffs;
 
     private bool checkLoad = false;
@@ -82,6 +83,7 @@ public class List_Slots : MonoBehaviour
     {
         playerController = FindObjectOfType<PlayerController>();
         playerInput = FindObjectOfType<PlayerInput>();
+        animalPenManager = FindObjectOfType<AnimalPenManager>();
 
         HandleInventories();
 
@@ -140,7 +142,8 @@ public class List_Slots : MonoBehaviour
 
         if (handleContainer) AutoSaveContainerInventory();
 
-        SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPenLevel, this);
+        if (animalPenManager != null)
+            animalPenManager.SaveAnimalPenLevels();
     }
 
     #region Load Inventory
@@ -182,13 +185,11 @@ public class List_Slots : MonoBehaviour
 
     public void AutoSavePlayerInventory()
     {
-        //SaveSystem.SavePlayerInventory(this);
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerInventory, this);
     }
 
     public void AutoSaveContainerInventory()
     {
-        //SaveSystem.SaveContainerInventory(this);
         SaveSystem.Save(SaveSystem.SaveType.Save_ContainerInventory, this);
     }
 

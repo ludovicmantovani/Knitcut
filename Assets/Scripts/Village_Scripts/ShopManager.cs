@@ -109,7 +109,7 @@ public class ShopManager : MonoBehaviour
         HandleShopUI();
     }
 
-    #region Shop UI
+    #region Handle Shop
 
     #region Handle Main Shop UI
 
@@ -166,7 +166,7 @@ public class ShopManager : MonoBehaviour
         Show(GetCurrentShop());
     }
 
-    #region Buy / Sell
+    #region Buy / Sell / Upgrade
 
     private void BuyItem(ItemToHandle itemToBuy, InfosUIRefs currentItemUI)
     {
@@ -263,37 +263,62 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    private void UpgradeAnimalPen(ShopConfiguration shopConfiguration, InfosUIRefs infosUIRefs, int price, int level, string type, int index)
+    {
+        if (shopConfiguration.items.Count > level)
+        {
+            if (playerController.Money >= price)
+            {
+                listSlots.UpdateMoney(playerController.Money - price);
+
+                MinigameManager.AnimalPenIndexToUpgrade.Add(index);
+
+                level++;
+
+                UpdateAnimalPenUI(shopConfiguration, infosUIRefs, level, type, index);
+
+                ShowNotification($"Vous avez acheté l'amélioration Lv{level} pour l'enclos n°{index} pour {price} P");
+            }
+            else
+            {
+                ShowNotification($"Vous n'avez pas assez de pièces pour améliorer cet enclos");
+            }
+        }
+        else
+        {
+            ShowNotification($"Vous avez achetez toutes les améliorations pour cet enclos");
+        }
+    }
+
     #endregion
 
     #region Show Current Shop
 
     private void Show(ShopConfiguration currentShop)
     {
-        IList shopList;
-        
-        if (!currentShop.isForSelling)
+        switch (currentShop.shopConfiguration)
         {
-            if (!currentShop.isRecipe) shopList = currentShop.items;
-            else shopList = currentShop.recipes;
+            case ShopType.Seeds_Seller:
+                HandleSeedSeller(currentShop);
+                break;
+            case ShopType.Recipes_Dealer:
+                HandleRecipesDealer(currentShop);
+                break;
+            case ShopType.Items_Dealer:
+                HandleItemsDealer(currentShop);
+                break;
+            case ShopType.Animal_Pen_Manager:
+                HandleAnimalPenManager(currentShop);
+                break;
+            default:
+                Debug.Log($"Error Show Shop Content");
+                break;
         }
-        else
-        {
-            if (currentShop.items.Count > 0) currentShop.items.Clear();
+    }
 
-            for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
-            {
-                DraggableItem itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
-
-                if (currentShop.itemsRestriction.Contains(itemPossessed.Item.itemType))
-                {
-                    CreateItemToHandle(playerController.PlayerInventory.SearchItemsPossessed()[i].Item, (int)playerController.PlayerInventory.SearchItemsPossessed()[i].Item.itemValue, currentShop);
-                }
-            }
-
-            shopList = currentShop.items;
-        }
-
-        if (shopList == null) return;
+    private void HandleSeedSeller(ShopConfiguration currentShop)
+    {
+        if (currentShop.items == null) return;
 
         Clear();
 
@@ -301,60 +326,152 @@ public class ShopManager : MonoBehaviour
 
         currentShop.objectsParent.GetComponent<Swipe>().ScrollPos = 1;
 
-        for (int i = 0; i < shopList.Count; i++)
+        for (int i = 0; i < currentShop.items.Count; i++)
         {
-            ShowObjectUI(currentShop.objectsParent, currentShop.objectsInfosUI, shopList[i], currentShop.isRecipe, currentShop.isForSelling, currentShop);
+            ShowObjectUI(currentShop, i);
         }
     }
 
-    private void ShowObjectUI(Transform parent, GameObject objectInfoUI, object objectToHandle, bool isRecipe, bool isForSelling, ShopConfiguration shopConfiguration)
+    private void HandleRecipesDealer(ShopConfiguration currentShop)
     {
-        InfosUIRefs itemRefs = Instantiate(objectInfoUI, parent).GetComponent<InfosUIRefs>();
+        if (currentShop.recipes == null) return;
+
+        Clear();
+
+        currentShop.objectsPanel.SetActive(true);
+
+        currentShop.objectsParent.GetComponent<Swipe>().ScrollPos = 1;
+
+        for (int i = 0; i < currentShop.recipes.Count; i++)
+        {
+            ShowObjectUI(currentShop, i);
+        }
+    }
+
+    private void HandleItemsDealer(ShopConfiguration currentShop)
+    {
+        if (currentShop.items == null) return;
+
+        if (currentShop.items.Count > 0) currentShop.items.Clear();
+
+        for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
+        {
+            DraggableItem itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
+
+            if (currentShop.itemsRestriction.Contains(itemPossessed.Item.itemType))
+            {
+                CreateItemToHandle(playerController.PlayerInventory.SearchItemsPossessed()[i].Item, (int)playerController.PlayerInventory.SearchItemsPossessed()[i].Item.itemValue, currentShop);
+            }
+        }
+
+        Clear();
+
+        currentShop.objectsPanel.SetActive(true);
+
+        currentShop.objectsParent.GetComponent<Swipe>().ScrollPos = 1;
+
+        for (int i = 0; i < currentShop.items.Count; i++)
+        {
+            ShowObjectUI(currentShop, i);
+        }
+    }
+
+    private void HandleAnimalPenManager(ShopConfiguration currentShop)
+    {
+        AnimalPen_Data data = (AnimalPen_Data)SaveSystem.Load(SaveSystem.SaveType.Save_AnimalPen);
+
+        if (data == null) return;
+
+        Clear();
+
+        currentShop.objectsPanel.SetActive(true);
+
+        currentShop.objectsParent.GetComponent<Swipe>().ScrollPos = 1;
+
+        for (int i = 0; i < data.nbAnimalPen; i++)
+        {
+            ShowAnimalsPenUI(currentShop, data.animalPenLevels[i], data.animalPenTypes[i], i);
+        }
+    }
+
+    private void ShowObjectUI(ShopConfiguration shopConfiguration, int index)
+    {
+        InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
 
         Sprite objectSprite;
         string objectName;
         float objectPrice;
 
-        if (!isRecipe)
+        if (!shopConfiguration.isRecipe)
         {
-            ItemToHandle itemToHandle = (ItemToHandle)objectToHandle;
+            ItemToHandle itemToHandle = shopConfiguration.items[index];
 
             objectSprite = itemToHandle.item.itemSprite;
 
-            if (!isForSelling) objectName = itemToHandle.item.itemName;
+            if (!shopConfiguration.isForSelling) objectName = itemToHandle.item.itemName;
             else objectName = $"{itemToHandle.item.itemName} x{playerController.PlayerInventory.GetItemQuantity(itemToHandle.item)}";
 
             objectPrice = itemToHandle.price;        
         }
         else
         {
-            RecipeToHandle recipeToHandle = (RecipeToHandle)objectToHandle;
+            RecipeToHandle recipeToHandle = shopConfiguration.recipes[index]; ;
 
             objectSprite = recipeToHandle.item.recipeSprite;
             objectName = recipeToHandle.item.recipeName;
             objectPrice = recipeToHandle.price;
         }
 
-        itemRefs.ImageUI.sprite = objectSprite;
-        itemRefs.NameUI.text = objectName;
-        itemRefs.PriceUI.text = $"{objectPrice} P";
+        infosUIRefs.ImageUI.sprite = objectSprite;
+        infosUIRefs.NameUI.text = objectName;
+        infosUIRefs.PriceUI.text = $"{objectPrice} P";
 
-        if (!isRecipe)
+        if (!shopConfiguration.isRecipe)
         {
-            itemRefs.AmountUI.text = $"0";
+            infosUIRefs.AmountUI.text = $"0";
 
-            if (!isForSelling)
-                itemRefs.OperationUI.onClick.AddListener(delegate { BuyItem((ItemToHandle)objectToHandle, itemRefs); });
+            if (!shopConfiguration.isForSelling)
+                infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyItem(shopConfiguration.items[index], infosUIRefs); });
             else
-                itemRefs.OperationUI.onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, itemRefs, shopConfiguration); });
+                infosUIRefs.OperationUI.onClick.AddListener(delegate { SellItem(shopConfiguration.items[index], infosUIRefs, shopConfiguration); });
 
-            itemRefs.AmountButtonUp.onClick.AddListener(delegate { AddValue(itemRefs); });
-            itemRefs.AmountButtonDown.onClick.AddListener(delegate { RemoveValue(itemRefs); });
+            infosUIRefs.AmountButtonUp.onClick.AddListener(delegate { AddValue(infosUIRefs); });
+            infosUIRefs.AmountButtonDown.onClick.AddListener(delegate { RemoveValue(infosUIRefs); });
         }
         else
         {
-            itemRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle); });
+            infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe(shopConfiguration.recipes[index]); });
         }
+    }
+
+    private void ShowAnimalsPenUI(ShopConfiguration shopConfiguration, int animalPenLevel, string animalPenType, int index)
+    {
+        InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
+
+        if (MinigameManager.AnimalPenIndexToUpgrade.Contains(index))
+        {
+            for (int i = 0; i < MinigameManager.AnimalPenIndexToUpgrade.Count; i++)
+            {
+                if (MinigameManager.AnimalPenIndexToUpgrade[i] == index)
+                {
+                    animalPenLevel++;
+                    UpdateAnimalPenUI(shopConfiguration, infosUIRefs, animalPenLevel++, animalPenType, index);
+                }
+            }
+        }
+        else
+        {
+            UpdateAnimalPenUI(shopConfiguration, infosUIRefs, animalPenLevel, animalPenType, index);
+        }
+    }
+
+    private void UpdateAnimalPenUI(ShopConfiguration shopConfiguration, InfosUIRefs infosUIRefs, int level, string type, int index)
+    {
+        int price = shopConfiguration.items[level - 1].price;
+
+        infosUIRefs.NameUI.text = $"Enclos Lv.{level} pour {type}";
+        infosUIRefs.PriceUI.text = $"{price} P";
+        infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, level, type, index); });
     }
 
     public void AddValue(InfosUIRefs itemRefs)

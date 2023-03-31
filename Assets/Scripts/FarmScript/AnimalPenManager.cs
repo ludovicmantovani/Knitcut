@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class AnimalPenManager : MonoBehaviour
+{
+    [Header("References")]
+    [SerializeField] private List<AnimalPen> animalPenList;
+
+    private int totalAnimalPen;
+    private int[] animalPenLevels;
+    private string[] animalPenTypes;
+
+    [Serializable]
+    public class AnimalPen
+    {
+        public GameObject animalPenInScene;
+        public List<AnimalPenStates> animalPenStates;
+        public AnimalType animalType;
+        public int animalPenLevel = 1;
+    }
+
+    [Serializable]
+    public class AnimalPenStates
+    {
+        public GameObject animalPenObject;
+        public int levelRequired;
+    }
+
+    public int TotalAnimalPen
+    {
+        get { return totalAnimalPen; }
+        set { totalAnimalPen = value; }
+    }
+
+    public int[] AnimalPenLevels
+    {
+        get { return animalPenLevels; }
+        set { animalPenLevels = value; }
+    }
+
+    public string[] AnimalPenTypes
+    {
+        get { return animalPenTypes; }
+        set { animalPenTypes = value; }
+    }
+
+    private void Start()
+    {
+        InitializeData();
+
+        LoadAnimalPenLevels();
+    }
+
+    private void InitializeData()
+    {
+        totalAnimalPen = animalPenList.Count;
+
+        animalPenLevels = new int[totalAnimalPen];
+        animalPenTypes = new string[totalAnimalPen];
+
+        for (int i = 0; i < totalAnimalPen; i++)
+        {
+            animalPenLevels[i] = animalPenList[i].animalPenLevel;
+            animalPenTypes[i] = animalPenList[i].animalType.ToString();
+        }
+    }
+
+    public void SaveAnimalPenLevels()
+    {
+        SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPen, this);
+    }
+
+    private void LoadAnimalPenLevels()
+    {
+        AnimalPen_Data data = (AnimalPen_Data)SaveSystem.Load(SaveSystem.SaveType.Save_AnimalPen, this);
+
+        if (data == null) return;
+
+        animalPenLevels = data.animalPenLevels;
+        animalPenTypes = data.animalPenTypes;
+
+        if (MinigameManager.AnimalPenIndexToUpgrade.Count > 0)
+        {
+            for (int i = 0; i < MinigameManager.AnimalPenIndexToUpgrade.Count; i++)
+            {
+                animalPenLevels[MinigameManager.AnimalPenIndexToUpgrade[i]]++;
+            }
+
+            MinigameManager.AnimalPenIndexToUpgrade = new List<int>();
+
+            SaveAnimalPenLevels();
+        }
+
+        HandleStates();
+    }
+
+    private void HandleStates()
+    {
+        for (int i = 0; i < animalPenList.Count; i++)
+        {
+            AnimalPen animalPen = animalPenList[i];
+
+            animalPen.animalPenLevel = animalPenLevels[i];
+
+            for (int j = 0; j < animalPen.animalPenStates.Count; j++)
+            {
+                AnimalPenStates currentState = animalPen.animalPenStates[j];
+
+                if (currentState.levelRequired == animalPen.animalPenLevel)
+                    currentState.animalPenObject.SetActive(true);
+                else
+                    currentState.animalPenObject.SetActive(false);
+            }
+        }
+    }
+}

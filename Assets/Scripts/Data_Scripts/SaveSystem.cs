@@ -11,7 +11,7 @@ public static class SaveSystem
         Save_PlayerInventory,
         Save_PlayerRecipesInventory,
         Save_ContainerInventory,
-        Save_AnimalPenLevel,
+        Save_AnimalPen,
         Save_UIMenu,
         Save_Volume,
         Save_SceneVerification
@@ -56,10 +56,9 @@ public static class SaveSystem
                 ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(LS_ContainerInventory, 100);
                 formatter.Serialize(stream, data_ContainerInventory_Data);
                 break;
-            case SaveType.Save_AnimalPenLevel:
-                Debug.Log($"Save Animal Pen Level");
-                /*Player_Data data_AnimalPenLevel = new Player_Data((Shop_Enclos)data);
-                formatter.Serialize(stream, data_AnimalPenLevel);*/
+            case SaveType.Save_AnimalPen:
+                AnimalPen_Data data_AnimalPen_Data = new AnimalPen_Data((AnimalPenManager)data);
+                formatter.Serialize(stream, data_AnimalPen_Data);
                 break;
             case SaveType.Save_UIMenu:
                 KeyBinding_Data data_KeyBinding_Data = new KeyBinding_Data((UI_Menu)data);
@@ -110,9 +109,8 @@ public static class SaveSystem
                 case SaveType.Save_ContainerInventory:
                     dataLoaded = formatter.Deserialize(stream) as ContainerInventory_Data;
                     break;
-                case SaveType.Save_AnimalPenLevel:
-                    Debug.Log($"Load Animal Pen Level");
-                    //dataLoaded = formatter.Deserialize(stream) as Player_Data;
+                case SaveType.Save_AnimalPen:
+                    dataLoaded = formatter.Deserialize(stream) as AnimalPen_Data;
                     break;
                 case SaveType.Save_UIMenu:
                     dataLoaded = formatter.Deserialize(stream) as KeyBinding_Data;
@@ -153,7 +151,7 @@ public static class SaveSystem
                     List_Slots LS_ContainerInventory = (List_Slots)data;
                     LS_ContainerInventory.HandleVerificationAndApplication();
                     break;
-                case SaveType.Save_AnimalPenLevel:
+                case SaveType.Save_AnimalPen:
                     break;
                 case SaveType.Save_UIMenu:
                     break;

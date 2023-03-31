@@ -47,7 +47,6 @@ public class ChangeScene : MonoBehaviour
 
             if (SceneManager.GetActiveScene().name.Contains("Village"))
             {
-                //shopEnclos.SaveEncloslevel();
                 playerController.InFarm = false;
             }
 
