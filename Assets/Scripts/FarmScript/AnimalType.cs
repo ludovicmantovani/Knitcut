@@ -5,5 +5,6 @@ public enum AnimalType
     Unicorn,
     Lion,
     Racoon,
-    Worm
+    Worm,
+    None
 }

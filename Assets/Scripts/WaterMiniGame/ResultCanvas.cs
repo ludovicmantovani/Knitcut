@@ -13,9 +13,11 @@ public class ResultCanvas : MonoBehaviour
 
     private string _animalName = "";
     private bool _isMale = true;
+    private AnimalType _animalType = AnimalType.None;
 
-    public void SetAnimal(string name, bool male = true)
+    public void SetAnimal(AnimalType aimalType, string name, bool male = true)
     {
+        _animalType = aimalType;
         if (name.Length > 0) _animalName = name;
         _isMale = male;
     }
@@ -31,7 +33,7 @@ public class ResultCanvas : MonoBehaviour
         info = "Retour à la ferme";
         if (textButton) textButton.text = info;
 
-        MinigameManager.AnimalToKeep = win ? _animalName : "";
+        MinigameManager.AnimalTypeToKeep = win ? _animalType : AnimalType.None;
     }
 
     public void Display(bool hideObjects = true)

@@ -8,8 +8,7 @@ public class MinigameManager : MonoBehaviour
     private static List<object> dataToKeep;
     private static bool startOK = false;
     private static string sceneToLoad = "FarmScene";
-    private static string animalToKeep = "";
-    private static AnimalType animalTypeToKeep;
+    private static AnimalType animalTypeToKeep = AnimalType.None;
     private static List<int> animalPenIndexToUpgrade = new List<int>();
     private static PlayerController playerController;
     private static List<GameObject> openInventories = new List<GameObject>();
@@ -31,12 +30,6 @@ public class MinigameManager : MonoBehaviour
     {
         get { return startOK; }
         set { startOK = value; }
-    }
-
-    public static string AnimalToKeep
-    {
-        get { return animalToKeep; }
-        set { animalToKeep = value; }
     }
 
     public static AnimalType AnimalTypeToKeep

@@ -46,28 +46,29 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   rawImage: {fileID: 0}
   resultCanvas: {fileID: 0}
+  defaultAnimalType: 1
   spriteStringPairs:
-  - findingName: Renard
+  - animalType: 0
     sprite: {fileID: 21300000, guid: 307f9c51d56639a42baf1ecc39e64a3c, type: 3}
     displayName: renard
     male: 1
-  - findingName: Lama
+  - animalType: 1
     sprite: {fileID: 21300000, guid: c159e7bd5bc506546a44920b8918accf, type: 3}
     displayName: lama
     male: 1
-  - findingName: Licorne
+  - animalType: 2
     sprite: {fileID: 21300000, guid: d1017f6e1b1d8f846a9f84f772abbfe6, type: 3}
     displayName: licorne
     male: 0
-  - findingName: Lion
+  - animalType: 3
     sprite: {fileID: 21300000, guid: ae754a46de6d01a44b9c9037e58bcd03, type: 3}
     displayName: lion
     male: 1
-  - findingName: Racoon
+  - animalType: 4
     sprite: {fileID: 21300000, guid: 5430efaaf6a400d4f9154b005ee17439, type: 3}
     displayName: raton
     male: 1
-  - findingName: Vers
+  - animalType: 5
     sprite: {fileID: 21300000, guid: 98fccb094970aef478572e45e05f2a1d, type: 3}
     displayName: chenille
     male: 0
