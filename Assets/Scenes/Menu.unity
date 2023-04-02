@@ -2197,6 +2197,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: inputActionName
       value: Move
@@ -3547,6 +3559,14 @@ PrefabInstance:
     - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: inputActionName
@@ -3664,7 +3684,7 @@ GameObject:
   - component: {fileID: 407872199}
   - component: {fileID: 407872198}
   m_Layer: 0
-  m_Name: Reset_All
+  m_Name: ResetAll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3734,9 +3754,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1313849511}
-        m_TargetAssemblyTypeName: Rebinding, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1313849512}
+        m_TargetAssemblyTypeName: UI_Menu, Assembly-CSharp
+        m_MethodName: ResetAllBindings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4634,6 +4654,14 @@ PrefabInstance:
     - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: inputActionName
@@ -5648,6 +5676,14 @@ PrefabInstance:
     - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: inputActionName
@@ -7474,6 +7510,14 @@ PrefabInstance:
     - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: inputActionName
@@ -13734,6 +13778,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: inputActionName
       value: Move
@@ -16332,6 +16388,18 @@ PrefabInstance:
       value: StartRebinding
       objectReference: {fileID: 0}
     - target: {fileID: 4500145986558443819, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -20345,6 +20413,14 @@ PrefabInstance:
     - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetSingleBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
       propertyPath: inputActionName

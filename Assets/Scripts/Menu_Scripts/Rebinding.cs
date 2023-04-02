@@ -1,17 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Rebinding : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private int totalInputs = 7;
-    [SerializeField] private List<InputAction> defaultInputs;
 
     private string rebinds;
 
@@ -36,30 +32,11 @@ public class Rebinding : MonoBehaviour
     {
         menu = GetComponent<UI_Menu>();
         playerInput = GetComponent<PlayerInput>();
-
-        SaveDefaultControls();
-    }
-
-    private void SaveDefaultControls()
-    {
-        defaultInputs = new List<InputAction>(totalInputs);
-
-        defaultInputs.Add(playerInput.MoveAction);
-        defaultInputs.Add(playerInput.QuickSaveAction);
-        defaultInputs.Add(playerInput.QuickLoadAction);
-        defaultInputs.Add(playerInput.InteractionAction);
-        defaultInputs.Add(playerInput.HealAction);
-        defaultInputs.Add(playerInput.HydrateAction);
-        defaultInputs.Add(playerInput.InventoryAction);
     }
 
     public void Save()
     {
         rebinds = playerInput.Controls.SaveBindingOverridesAsJson();
-
-        if (rebinds == string.Empty) return;
-
-        Debug.Log($"Saving... : {rebinds}");
 
         SaveSystem.Save(SaveSystem.SaveType.Save_UIMenu, menu);
     }
@@ -118,5 +95,34 @@ public class Rebinding : MonoBehaviour
         rebindingOperation.Dispose();
 
         menu.WaitingBinding.SetActive(false);
+    }
+
+    public void ResetBinding()
+    {
+        GameObject triggerButtonObject = EventSystem.current.currentSelectedGameObject;
+
+        KeyBindingRefs keyBindingRefs = triggerButtonObject.GetComponentInParent<KeyBindingRefs>();
+
+        InputAction action = playerInput.FindAction(keyBindingRefs.InputActionName);
+
+        ResetSingleBinding(keyBindingRefs, action);
+    }
+
+    public void ResetSingleBinding(KeyBindingRefs keyBindingRefs, InputAction action)
+    {
+        if (keyBindingRefs == null) return;
+        if (action == null) return;
+
+        action.Disable();
+
+        int indexBinding = keyBindingRefs.InputActionBindingIndex;
+
+        if (action == playerInput.MoveAction) indexBinding += 1;
+
+        action.RemoveBindingOverride(indexBinding);
+
+        RebindComplete(keyBindingRefs, action);
+
+        action.Enable();
     }
 }

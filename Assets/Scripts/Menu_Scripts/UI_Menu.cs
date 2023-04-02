@@ -184,6 +184,21 @@ public class UI_Menu : MonoBehaviour
         }
     }
 
+    public void ResetAllBindings()
+    {        
+        for (int i = 0; i < MenuKeybinding.transform.childCount; i++)
+        {
+            if (MenuKeybinding.transform.GetChild(i).GetComponent<KeyBindingRefs>())
+            {
+                KeyBindingRefs keyBindingRefs = MenuKeybinding.transform.GetChild(i).GetComponent<KeyBindingRefs>();
+
+                InputAction action = rebinding.PlayerInput.FindAction(keyBindingRefs.InputActionName);
+
+                rebinding.ResetSingleBinding(keyBindingRefs, action);
+            }
+        }
+    }
+
     public void SaveVolumeLevel()
     {
         if(lastVolume != volume.value)
