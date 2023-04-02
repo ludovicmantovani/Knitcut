@@ -58,7 +58,8 @@ public class MinigameManager : MonoBehaviour
 
     private List_Slots listSlots;
 
-    bool dataLoaded;
+    bool dataLoaded = false;
+    bool animalCaptured = false;
 
     public enum MGType
     {
@@ -81,19 +82,31 @@ public class MinigameManager : MonoBehaviour
         {
             dataLoaded = false;
 
-            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<List_Slots>())
-            {
-                return;
-            }
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<List_Slots>()) return;
 
             CheckItemsToAdd();
+        }
+
+        if (animalCaptured)
+        {
+            animalCaptured = false;
+
+            AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
+
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && !animalPenManager) return;
+
+            animalPenManager.InstantiateTamedAnimalInAnimalPen();
         }
     }
 
     private void OnLevelWasLoaded()
     {
-        if ((SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))
-            && dataToKeep != null) dataLoaded = true;
+        if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))
+        {
+            if (dataToKeep != null) dataLoaded = true;
+
+            if (animalTypeToKeep != AnimalType.None) animalCaptured = true;
+        }
     }
 
     public static void AddPlayerItem(Item item, int quantity)

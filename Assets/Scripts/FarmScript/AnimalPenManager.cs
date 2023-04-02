@@ -130,7 +130,6 @@ public class AnimalPenManager : MonoBehaviour
             if (animals[i].GetComponent<AnimalStates>().AnimalType == MinigameManager.AnimalTypeToKeep)
             {
                 tamedAnimal = animals[i];
-                return;
             }
         }
 
@@ -149,6 +148,8 @@ public class AnimalPenManager : MonoBehaviour
         if (animalPenOfAnimal == null) return;
 
         GameObject animal = Instantiate(tamedAnimal, animalPenOfAnimal);
+
+        MinigameManager.AnimalTypeToKeep = AnimalType.None;
 
         Debug.Log($"{animal.name} placed in {animalPenOfAnimal.name}");
     }

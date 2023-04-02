@@ -83,6 +83,8 @@ public class AnimalStates : MonoBehaviour
 
     private void SearchFood()
     {
+        if (feeder == null) return;
+
         Item food = feeder.GetFood();
 
         if (!feeding && food != null && maxHunger - hunger >= food.itemValue)
