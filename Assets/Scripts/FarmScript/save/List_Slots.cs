@@ -143,7 +143,12 @@ public class List_Slots : MonoBehaviour
         if (handleContainer) AutoSaveContainerInventory();
 
         if (animalPenManager != null)
-            animalPenManager.SaveAnimalPenLevels();
+            animalPenManager.SaveAnimalPenData();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveData();
     }
 
     #region Load Inventory

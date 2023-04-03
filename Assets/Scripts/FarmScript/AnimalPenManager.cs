@@ -1,17 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using static AnimalPenManager;
 
 public class AnimalPenManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private List<AnimalPen> animalPenList;
     [SerializeField] private List<GameObject> animals;
+    [SerializeField] private List<GameObject> animalsChildren;
 
+    // Animal Pen
     private int totalAnimalPen;
     private int[] animalPenLevels;
     private string[] animalPenTypes;
+
+    // Captured Animals
+    private int[] totalAnimalsAdults;
+    private int[] totalAnimalsChildren;
 
     [Serializable]
     public class AnimalPen
@@ -47,11 +53,23 @@ public class AnimalPenManager : MonoBehaviour
         set { animalPenTypes = value; }
     }
 
+    public int[] TotalAnimalsAdults
+    {
+        get { return totalAnimalsAdults; }
+        set { totalAnimalsAdults = value; }
+    }
+
+    public int[] TotalAnimalsChildren
+    {
+        get { return totalAnimalsChildren; }
+        set { totalAnimalsChildren = value; }
+    }
+
     private void Start()
     {
         InitializeData();
 
-        LoadAnimalPenLevels();
+        LoadAnimalPenData();
     }
 
     private void InitializeData()
@@ -61,30 +79,39 @@ public class AnimalPenManager : MonoBehaviour
         animalPenLevels = new int[totalAnimalPen];
         animalPenTypes = new string[totalAnimalPen];
 
+        totalAnimalsAdults = new int[totalAnimalPen];
+        totalAnimalsChildren = new int[totalAnimalPen];
+
         for (int i = 0; i < totalAnimalPen; i++)
         {
             animalPenLevels[i] = animalPenList[i].animalPenLevel;
             animalPenTypes[i] = animalPenList[i].animalType.ToString();
+
+            totalAnimalsAdults[i] = 0;
+            totalAnimalsChildren[i] = 0;
         }
     }
 
-    public void SaveAnimalPenLevels()
+    public void SaveAnimalPenData()
     {
         SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPen, this);
     }
 
-    private void LoadAnimalPenLevels()
+    private void LoadAnimalPenData()
     {
         AnimalPen_Data data = (AnimalPen_Data)SaveSystem.Load(SaveSystem.SaveType.Save_AnimalPen, this);
 
         if (data == null)
         {
-            LoadAnimalPenLevels();
+            LoadAnimalPenData();
             return;
         }
 
         animalPenLevels = data.animalPenLevels;
         animalPenTypes = data.animalPenTypes;
+
+        totalAnimalsAdults = data.totalAnimalsAdults;
+        totalAnimalsChildren = data.totalAnimalsChildren;
 
         if (MinigameManager.AnimalPenIndexToUpgrade.Count > 0)
         {
@@ -95,10 +122,13 @@ public class AnimalPenManager : MonoBehaviour
 
             MinigameManager.AnimalPenIndexToUpgrade = new List<int>();
 
-            SaveAnimalPenLevels();
+            SaveAnimalPenData();
         }
 
         HandleStates();
+
+        LoadAllAnimals(totalAnimalsAdults, animals);
+        LoadAllAnimals(totalAnimalsChildren, animalsChildren);
     }
 
     private void HandleStates()
@@ -121,6 +151,42 @@ public class AnimalPenManager : MonoBehaviour
         }
     }
 
+    private void LoadAllAnimals(int[] totalAnimals, List<GameObject> animalsList)
+    {
+        int totalAnimalsLoaded = 0;
+
+        for (int i = 0; i < totalAnimals.Length; i++)
+        {
+            int totalAnimalsInPen = totalAnimals[i];
+
+            for (int k = 0; k < totalAnimalsInPen; k++)
+            {
+                GameObject animal = GetAnimalWithType(animalsList, animalPenList[i].animalType);
+
+                totalAnimalsLoaded++;
+
+                InstantiateAnimal(animal, animalPenList[i].animalPenInScene.transform);
+            }
+        }
+
+        Debug.Log($"Total of {totalAnimalsLoaded} animals loaded");
+
+        SaveAnimalPenData();
+    }
+
+    private GameObject GetAnimalWithType(List<GameObject> animalsList, AnimalType animalType)
+    {
+        for (int i = 0; i < animalsList.Count; i++)
+        {
+            if (animalsList[i].GetComponent<AnimalStates>().AnimalType == animalType)
+            {
+                return animalsList[i];
+            }
+        }
+
+        return null;
+    }
+
     public void InstantiateTamedAnimalInAnimalPen()
     {
         GameObject tamedAnimal = null;
@@ -135,22 +201,31 @@ public class AnimalPenManager : MonoBehaviour
 
         if (tamedAnimal == null) return;
 
-        Transform animalPenOfAnimal = null;
+        int animalPenOfAnimalIndex = -1;
 
         for (int i = 0; i < animalPenList.Count; i++)
         {
             if (animalPenList[i].animalType == MinigameManager.AnimalTypeToKeep)
             {
-                animalPenOfAnimal = animalPenList[i].animalPenInScene.transform;
+                animalPenOfAnimalIndex = i;
             }
         }
 
-        if (animalPenOfAnimal == null) return;
+        if (animalPenOfAnimalIndex == -1) return;
 
-        GameObject animal = Instantiate(tamedAnimal, animalPenOfAnimal);
+        totalAnimalsAdults[animalPenOfAnimalIndex]++;
 
         MinigameManager.AnimalTypeToKeep = AnimalType.None;
 
-        Debug.Log($"{animal.name} placed in {animalPenOfAnimal.name}");
+        InstantiateAnimal(tamedAnimal, animalPenList[animalPenOfAnimalIndex].animalPenInScene.transform);
+    }
+
+    private void InstantiateAnimal(GameObject animalObject, Transform animalPen)
+    {
+        GameObject animal = Instantiate(animalObject, animalPen);
+
+        Debug.Log($"{animal.name} loaded");
+
+        SaveAnimalPenData();
     }
 }

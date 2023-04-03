@@ -714,7 +714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5452514905044068518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4281769015586263661}
@@ -767,6 +767,7 @@ MonoBehaviour:
   feeder: {fileID: 0}
   animalCanvas: {fileID: 1454388534}
   animalName: {fileID: 177763203}
+  animalType: 0
   animalHungerSlider: {fileID: 1561613815}
   animalHappinessImage: {fileID: 1426479858}
   hunger: 0
