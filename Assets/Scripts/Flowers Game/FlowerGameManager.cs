@@ -14,9 +14,9 @@ public class FlowerGameManager : MonoBehaviour
     [SerializeField] private float displaySequenceSpeed = 0.5f;
     [SerializeField] private float waitingChangeStateTime = 3f;
     [SerializeField] private RelationCanvas relationCanvas;
-    [SerializeField] private int nbrErrorAllowed = 1;
+    [SerializeField] private int nbrErrorAllowed = 3;
+    [SerializeField] private ErrorIndicator errorIndicator = null;
 
-    private int _nbPetals = 0;
     private int _turn = 1;
     private Queue<int> _sequence;
     private State gameState = State.BEFORE_GAME;
@@ -27,7 +27,6 @@ public class FlowerGameManager : MonoBehaviour
     private int _nbCurrentStep = 0;
     private int _coutnError = 0;
     private string _rightPetalName = "";
-    private bool _lastIsError = false;
 
     #region UNITY_METHOD
     void Start()
@@ -39,12 +38,13 @@ public class FlowerGameManager : MonoBehaviour
                 _nbCanvasText = relationCanvas.GetTextCount();
                 _nbToNextStep = 1;
             }
-            _nbPetals = flowerCreationScript.MakeFlower(_nbCanvasText);
+            flowerCreationScript.MakeFlower(_nbCanvasText);
             foreach (Transform item in flowerCreationScript.GetRandomPetals())
                 item.gameObject.GetComponent<PetalInput>().OnChange += HandleChange;
             _sequence = new Queue<int>();
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
             flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
+            if (errorIndicator != null) errorIndicator.DisplayErrorCount(nbrErrorAllowed);
             gameState = State.IN_GAME;
         }
     }
@@ -59,7 +59,7 @@ public class FlowerGameManager : MonoBehaviour
             {
                 MinigameManager.FinalizeMG(MinigameManager.MGType.Breeding, _win);
 
-                resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win);
+                resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win, _turn);
                 resultCanvas.SetActive(true);
             };
             gameState = State.FINISHED;
@@ -70,14 +70,13 @@ public class FlowerGameManager : MonoBehaviour
     #region SPECIFIC_METHOD
     private void HandleChange(string name)
     {
-        _rightPetalName = _lastIsError ? _rightPetalName : _sequence.Dequeue().ToString();
-        _lastIsError = false;
+        _rightPetalName = _sequence.Dequeue().ToString();
         if (name == _rightPetalName)
         {
             if (_turn == relationCanvas.GetTextCount() - 1 && _sequence.Count == 0)
             {
                 relationCanvas.Next();
-                flowerCreationScript.FallPetals();
+                flowerCreationScript.CelebrateLove();
                 _stateTime = Time.time;
                 _win = true;
                 gameState = State.AFTER_GAME;
@@ -101,18 +100,28 @@ public class FlowerGameManager : MonoBehaviour
         }
         else
         {
+            if (relationCanvas) relationCanvas.Previous();
+            _turn = Mathf.Max(1, _turn - 1);
+            _sequence.Clear();
+            for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
+            
             if (_coutnError >= nbrErrorAllowed)
             {
-                if (relationCanvas) relationCanvas.Reset();
-                flowerCreationScript.FallPetals();
+                if (_turn < 3)
+                    flowerCreationScript.FallPetals();
+                else
+                {
+                    flowerCreationScript.CelebrateLove();
+                    _win = true;
+                }
                 _stateTime = Time.time;
                 gameState = State.AFTER_GAME;
             }
             else
             {
                 _coutnError++;
-                _lastIsError = true;
-                if (relationCanvas) relationCanvas.Previous();
+                if (errorIndicator != null)
+                    errorIndicator.DisplayErrorCount(nbrErrorAllowed - _coutnError);
                 flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
             }
         }

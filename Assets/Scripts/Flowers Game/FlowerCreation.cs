@@ -13,9 +13,12 @@ public class FlowerCreation : MonoBehaviour
     [SerializeField] private string pathFlowersResources = "Flower/Petal/color6";
     [SerializeField] private Color baseColor = Color.blue;
     [SerializeField] private Color blinkColor = Color.red;
+    
+    [SerializeField] private ParticleSystem loveParticleSystem = null;
 
 
     private List<Transform> _randomPetals;
+    private Animator _animator = null;
 
     public int TotalPetals { get => _randomPetals.Count; }
     public List<Transform> GetRandomPetals() { return _randomPetals; }
@@ -24,6 +27,7 @@ public class FlowerCreation : MonoBehaviour
     private void Start()
     {
         _randomPetals = new List<Transform>();
+        _animator = GetComponent<Animator>();
     }
     #endregion
 
@@ -118,6 +122,18 @@ public class FlowerCreation : MonoBehaviour
     public void FallPetals()
     {
         foreach (Transform item in _randomPetals) { item.gameObject.GetComponent<PetalInput>().Fall(); }
+    }
+
+    public void CelebrateLove()
+    {
+        if (_animator != null)
+            _animator.SetTrigger("PopLove");
+    }
+
+    public void StartHeart()
+    {
+        if (loveParticleSystem != null)
+            loveParticleSystem.Play();
     }
     #endregion
 }
