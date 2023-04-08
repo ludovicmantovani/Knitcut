@@ -11,6 +11,7 @@ public class ShopManager : MonoBehaviour
     #region Parameters
 
     [Header("References")]
+    [SerializeField] private string shopName;
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private GameObject notification;
     [SerializeField] private int timeNotification = 5;
@@ -135,7 +136,7 @@ public class ShopManager : MonoBehaviour
     {
         shopInUse = true;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer l'interface";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer {shopName}";
 
         MinigameManager.AddOpenInventory(shopUI);
     }
@@ -144,11 +145,19 @@ public class ShopManager : MonoBehaviour
     {
         shopInUse = false;
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir l'interface";
+        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
 
         MinigameManager.RemoveOpenInventory(shopUI);
 
         Clear();
+    }
+
+    public void UpdateInteraction(bool state)
+    {
+        interactionUI.SetActive(state);
+
+        if (state)
+            interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
     }
 
     #endregion
@@ -170,6 +179,8 @@ public class ShopManager : MonoBehaviour
 
     private void BuyItem(ItemToHandle itemToBuy, InfosUIRefs currentItemUI)
     {
+        if (currentItemUI.AmountUI.text == String.Empty) return;
+
         int amount = int.Parse(currentItemUI.AmountUI.text);
 
         if (amount == 0) return;
@@ -208,6 +219,8 @@ public class ShopManager : MonoBehaviour
 
     private void SellItem(ItemToHandle itemToSell, InfosUIRefs currentItemUI, ShopConfiguration shopConfiguration)
     {
+        if (currentItemUI.AmountUI.text == String.Empty) return;
+
         int amount = int.Parse(currentItemUI.AmountUI.text);
 
         if (amount == 0) return;
@@ -476,6 +489,8 @@ public class ShopManager : MonoBehaviour
 
     public void AddValue(InfosUIRefs itemRefs)
     {
+        if (itemRefs.AmountUI.text == String.Empty) itemRefs.AmountUI.text = $"0";
+
         int currentValue = int.Parse(itemRefs.AmountUI.text);
 
         currentValue++;
@@ -485,6 +500,8 @@ public class ShopManager : MonoBehaviour
 
     public void RemoveValue(InfosUIRefs itemRefs)
     {
+        if (itemRefs.AmountUI.text == String.Empty) itemRefs.AmountUI.text = $"0";
+
         int currentValue = int.Parse(itemRefs.AmountUI.text);
 
         currentValue--;
