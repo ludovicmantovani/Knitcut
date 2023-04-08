@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     #region Parameters
 
-    List_Slots LS;
     PlayerInventory playerInventory;
     PlayerRecipesInventory playerRecipesInventory;
 
@@ -87,7 +86,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        LS = FindObjectOfType<List_Slots>();
         playerInventory = FindObjectOfType<PlayerInventory>();
         playerRecipesInventory = FindObjectOfType<PlayerRecipesInventory>();
 

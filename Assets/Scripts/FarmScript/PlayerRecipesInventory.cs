@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerRecipesInventory : MonoBehaviour
 {
-    [SerializeField] private GameObject recipeUI;
-    [SerializeField] private Transform recipesParent;
+    //[SerializeField] private GameObject recipeUI;
+    //[SerializeField] private Transform recipesParent;
 
     private bool isOpen = true;
     private PlayerController player;
     private List_Slots listSlots;
+    private BookRecipes bookRecipes;
 
     private List<int> recipesIndex;
 
@@ -23,6 +24,8 @@ public class PlayerRecipesInventory : MonoBehaviour
     {
         player = FindObjectOfType<PlayerController>();
         listSlots = FindObjectOfType<List_Slots>();
+        bookRecipes = GetComponent<BookRecipes>();
+
         recipesIndex = new List<int>();
 
         gameObject.SetActive(false);
@@ -101,29 +104,15 @@ public class PlayerRecipesInventory : MonoBehaviour
 
     public void AddRecipeToInventory(Recipe recipe)
     {
-        if (recipesParent == null) return;
-
-        Transform recipeObject = Instantiate(recipeUI, recipesParent).transform;
-
-        recipeObject.GetComponent<KeepRecipe>().recipe = recipe;
-
-        recipeObject.GetChild(0).GetComponent<Image>().sprite = recipe.recipeSprite;
-        recipeObject.GetChild(1).GetComponent<Text>().text = recipe.recipeName;
-
         recipesIndex.Add(int.Parse(recipe.recipeIndex));
+
+        bookRecipes.AddPage(recipe);
 
         SaveRecipes();
     }
 
     public bool CheckIfHasRecipe(Recipe recipe)
     {
-        for (int i = 0; i < recipesParent.childCount; i++)
-        {
-            Recipe recipeInInventory = recipesParent.GetChild(i).GetComponent<KeepRecipe>().recipe;
-
-            if (recipeInInventory != null && recipeInInventory == recipe) return true;
-        }
-
-        return false;
+        return bookRecipes.CheckRecipe(recipe);
     }
 }
