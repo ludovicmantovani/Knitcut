@@ -57,9 +57,10 @@ public class FlowerGameManager : MonoBehaviour
             if (gameCanvas) gameCanvas.SetActive(false);
             if (resultCanvas)
             {
-                MinigameManager.FinalizeMG(MinigameManager.MGType.Breeding, _win);
+                int nbChildren = _turn - 1;
+                MinigameManager.FinalizeMG(MinigameManager.MGType.Breeding, nbChildren);
 
-                resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win, _turn);
+                resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win, nbChildren);
                 resultCanvas.SetActive(true);
             };
             gameState = State.FINISHED;
@@ -100,7 +101,6 @@ public class FlowerGameManager : MonoBehaviour
         }
         else
         {
-            if (relationCanvas) relationCanvas.Previous();
             _turn = Mathf.Max(1, _turn - 1);
             _sequence.Clear();
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
@@ -119,6 +119,7 @@ public class FlowerGameManager : MonoBehaviour
             }
             else
             {
+                if (relationCanvas) relationCanvas.Previous();
                 _coutnError++;
                 if (errorIndicator != null)
                     errorIndicator.DisplayErrorCount(nbrErrorAllowed - _coutnError);
