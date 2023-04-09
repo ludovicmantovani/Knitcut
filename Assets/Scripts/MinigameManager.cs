@@ -10,6 +10,7 @@ public class MinigameManager : MonoBehaviour
     private static string sceneToLoad = "FarmScene";
     private static AnimalType animalTypeToKeep = AnimalType.None;
     private static List<int> animalPenIndexToUpgrade = new List<int>();
+    private static List<Recipe> recipesPossessed;
     private static PlayerController playerController;
     private static List<GameObject> openInventories = new List<GameObject>();
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
@@ -42,6 +43,12 @@ public class MinigameManager : MonoBehaviour
     {
         get { return animalPenIndexToUpgrade; }
         set { animalPenIndexToUpgrade = value; }
+    }
+
+    public static List<Recipe> RecipesPossessed
+    {
+        get { return recipesPossessed; }
+        set { recipesPossessed = value; }
     }
 
     public static List<GameObject> OpenInventories

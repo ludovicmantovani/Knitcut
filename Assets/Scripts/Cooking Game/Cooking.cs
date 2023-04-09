@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Cooking : MonoBehaviour
@@ -12,12 +9,8 @@ public class Cooking : MonoBehaviour
     [SerializeField] private Canvas resultUI;
     [SerializeField] private Canvas gameUI;
 
-    [Header("Saving References")]
-    [SerializeField] private string sceneToSave;
-
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
-    [SerializeField] private TextMeshProUGUI consumablesList;
     [SerializeField] private Recipe currentRecipe;
     [SerializeField] private Transform contentRecipes;
 
@@ -145,6 +138,11 @@ public class Cooking : MonoBehaviour
 
     private void AddRecipesAtStart()
     {
+        // Get All recipes
+        recipes = MinigameManager.RecipesPossessed;
+
+        if (recipes.Count == 0) return;
+
         for (int i = 0; i < recipes.Count; i++)
         {
             AddRecipeFromListToUI(recipes[i]);

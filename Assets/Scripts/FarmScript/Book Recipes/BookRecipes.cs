@@ -113,6 +113,8 @@ public class BookRecipes : MonoBehaviour
         pageRecipe.RecipeName.text = recipe.recipeName;
         pageRecipe.RecipeImage.sprite = recipe.recipeSprite;
         pageRecipe.RecipeDescription.text = recipe.recipeDescription;
+
+        pageRecipe.transform.SetAsFirstSibling();
     }
 
     public bool CheckRecipe(Recipe recipe)
@@ -125,5 +127,19 @@ public class BookRecipes : MonoBehaviour
         }
 
         return false;
+    }
+
+    public List<Recipe> GetRecipes()
+    {
+        List<Recipe> recipes = new List<Recipe>();
+
+        for (int i = 1; i < pages.Count; i++)
+        {
+            PageRecipe pageRecipe = pages[i].GetComponent<PageRecipe>();
+
+            if (!recipes.Contains(pageRecipe.Recipe)) recipes.Add(pageRecipe.Recipe);
+        }
+
+        return recipes;
     }
 }

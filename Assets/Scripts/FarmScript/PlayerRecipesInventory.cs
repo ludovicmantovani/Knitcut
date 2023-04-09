@@ -115,4 +115,9 @@ public class PlayerRecipesInventory : MonoBehaviour
     {
         return bookRecipes.CheckRecipe(recipe);
     }
+
+    public List<Recipe> GetRecipes()
+    {
+        return bookRecipes.GetRecipes();
+    }
 }

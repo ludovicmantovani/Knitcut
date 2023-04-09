@@ -94,6 +94,8 @@ public class ChangeScene : MonoBehaviour
                 if (sceneToLoad.Contains("Cooking"))
                 {
                     instruction += " pour accéder à la cuisine";
+
+                    MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
                 }
                 else if (sceneToLoad.Contains("Recognition"))
                 {

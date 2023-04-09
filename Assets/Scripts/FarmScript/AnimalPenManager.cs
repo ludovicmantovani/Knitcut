@@ -169,8 +169,6 @@ public class AnimalPenManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"Total of {totalAnimalsLoaded} animals loaded");
-
         SaveAnimalPenData();
     }
 
