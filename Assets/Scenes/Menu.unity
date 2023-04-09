@@ -3703,7 +3703,7 @@ RectTransform:
   m_Children:
   - {fileID: 291085002}
   m_Father: {fileID: 940197235}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6216,7 +6216,7 @@ RectTransform:
   m_Children:
   - {fileID: 1489774697}
   m_Father: {fileID: 940197235}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9827,6 +9827,7 @@ RectTransform:
   - {fileID: 2105444906}
   - {fileID: 460824339}
   - {fileID: 565975471}
+  - {fileID: 1283726021}
   - {fileID: 407872197}
   - {fileID: 613338953}
   m_Father: {fileID: 537229990}
@@ -12631,6 +12632,148 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &1283726020
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 940197235}
+    m_Modifications:
+    - target: {fileID: 552300315419786032, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_text
+      value: Inventaire Recettes
+      objectReference: {fileID: 0}
+    - target: {fileID: 552300315419786034, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_Text
+      value: R
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500145986558443819, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4500145986558443819, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartRebinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500145986558443819, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1313849511}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetBinding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761410808857888490, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Rebinding, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952581235423810850, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: inputActionName
+      value: RecipesInventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 510
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -400
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043166, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_Name
+      value: Recipes Inventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565967814418043166, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+--- !u!224 &1283726021 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6565967814418043153, guid: 5896e3149db3fb4458bfedf502b7a185, type: 3}
+  m_PrefabInstance: {fileID: 1283726020}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1284771729
 GameObject:
   m_ObjectHideFlags: 0
