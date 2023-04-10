@@ -48,7 +48,7 @@ public class PositionFruitAttirer : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Animal")
+        if (other.tag == "AnimalData")
         {
             Debug.Log("Contact " + other.gameObject.name);
             if (pI.InteractionAction.triggered && verif ==true)

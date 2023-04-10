@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static AnimalPenManager;
 
 public class AnimalPenManager : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class AnimalPenManager : MonoBehaviour
     [SerializeField] private List<GameObject> animals;
     [SerializeField] private List<GameObject> animalsChildren;
 
-    // Animal Pen
+    // AnimalData Pen
     private int totalAnimalPen;
     private int[] animalPenLevels;
     private string[] animalPenTypes;
@@ -176,7 +175,7 @@ public class AnimalPenManager : MonoBehaviour
     {
         for (int i = 0; i < animalsList.Count; i++)
         {
-            if (animalsList[i].GetComponent<AnimalStates>().AnimalType == animalType)
+            if (animalsList[i].GetComponent<AnimalData>().AnimalType == animalType)
             {
                 return animalsList[i];
             }
@@ -185,15 +184,24 @@ public class AnimalPenManager : MonoBehaviour
         return null;
     }
 
-    public void InstantiateTamedAnimalInAnimalPen()
+    public void InstantiateTamedAnimalInAnimalPen(bool isChildren = false)
     {
         GameObject tamedAnimal = null;
 
-        for (int i = 0; i < animals.Count; i++)
+        List<GameObject> animalsList;
+
+        if (!isChildren)
+            animalsList = animals;
+        else
+            animalsList = animalsChildren;
+
+        if (animalsList == null) return;
+
+        for (int i = 0; i < animalsList.Count; i++)
         {
-            if (animals[i].GetComponent<AnimalStates>().AnimalType == MinigameManager.AnimalTypeToKeep)
+            if (animalsList[i].GetComponent<AnimalData>().AnimalType == MinigameManager.AnimalTypeToKeep)
             {
-                tamedAnimal = animals[i];
+                tamedAnimal = animalsList[i];
             }
         }
 
@@ -211,7 +219,10 @@ public class AnimalPenManager : MonoBehaviour
 
         if (animalPenOfAnimalIndex == -1) return;
 
-        totalAnimalsAdults[animalPenOfAnimalIndex]++;
+        if (!isChildren)
+            totalAnimalsAdults[animalPenOfAnimalIndex]++;
+        else
+            totalAnimalsChildren[animalPenOfAnimalIndex]++;
 
         MinigameManager.AnimalTypeToKeep = AnimalType.None;
 
@@ -221,8 +232,6 @@ public class AnimalPenManager : MonoBehaviour
     private void InstantiateAnimal(GameObject animalObject, Transform animalPen)
     {
         GameObject animal = Instantiate(animalObject, animalPen);
-
-        Debug.Log($"{animal.name} loaded");
 
         SaveAnimalPenData();
     }

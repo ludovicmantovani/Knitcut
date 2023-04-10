@@ -255,9 +255,19 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleBreedingData()
     {
-        bool breedingSuccess = Convert.ToBoolean(dataToKeep[0]);
+        int nbChildrenToInstantiate = Convert.ToInt32(dataToKeep[0]);
 
-        Debug.Log($"breeding success ? {breedingSuccess}");
+        if (nbChildrenToInstantiate > 0)
+        {
+            AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
+            AnimalType currentAnimalType = animalTypeToKeep;
+
+            for (int i = 0; i < nbChildrenToInstantiate; i++)
+            {
+                animalTypeToKeep = currentAnimalType;
+                animalPenManager.InstantiateTamedAnimalInAnimalPen(true);
+            }
+        }
     }
 
     private void HandleCaptureData()

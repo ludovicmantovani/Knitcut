@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
+using System;
+using System.Collections.Generic;
 
 public class ChangeScene : MonoBehaviour
 {
@@ -99,15 +102,34 @@ public class ChangeScene : MonoBehaviour
                 }
                 else if (sceneToLoad.Contains("Recognition"))
                 {
-                    instruction += " pour utiliser l'atelier de couture ";
+                    instruction += " pour utiliser l'atelier de couture";
                 }
                 else if (sceneToLoad.Contains("Flower"))
                 {
+                    GetAnimalType();
+
                     instruction += " pour reproduire les animaux";
                 }
             }
 
             interactionPanel.GetComponentInChildren<Text>().text = instruction;
+        }
+    }
+
+    private void GetAnimalType()
+    {
+        string animalTypeInName = transform.parent.name.Substring(11);
+
+        List<AnimalType> animalTypeList = Enum.GetValues(typeof(AnimalType)).Cast<AnimalType>().ToList();
+
+        for (int i = 0; i < animalTypeList.Count; i++)
+        {
+            if (animalTypeList[i].ToString() == animalTypeInName)
+            {
+                AnimalType animalType = animalTypeList[i];
+
+                MinigameManager.AnimalTypeToKeep = animalType;
+            }
         }
     }
 

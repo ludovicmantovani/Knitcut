@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: 5452514905044068515}
   - component: {fileID: 9017644873156002465}
   - component: {fileID: 5452514905044068540}
+  - component: {fileID: -6216436201035445645}
   m_Layer: 0
   m_Name: Fox
   m_TagString: Animal
@@ -778,6 +779,19 @@ MonoBehaviour:
   requiredHungerForHappiness: 0.6
   happyColor: {r: 0, g: 0.75454235, b: 1, a: 1}
   sadColor: {r: 0.5471698, g: 0, b: 0, a: 1}
+--- !u!114 &-6216436201035445645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5452514905044068518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c51dad834ae5b4fa92ec14a3cc5b13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animalType: 0
 --- !u!1001 &5645237039238938489
 PrefabInstance:
   m_ObjectHideFlags: 0

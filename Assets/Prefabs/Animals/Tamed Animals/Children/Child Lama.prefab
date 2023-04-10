@@ -698,10 +698,9 @@ GameObject:
   - component: {fileID: 5452514905044068514}
   - component: {fileID: 5452514905044068515}
   - component: {fileID: 364536636588053805}
-  - component: {fileID: 5452514905044068540}
-  - component: {fileID: 295608809406617590}
+  - component: {fileID: 3308459139152792676}
   m_Layer: 0
-  m_Name: Lama
+  m_Name: Child Lama
   m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -716,7 +715,7 @@ Transform:
   m_GameObject: {fileID: 5452514905044068518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 3701441149552422043}
   - {fileID: 1454388535}
@@ -753,33 +752,7 @@ CapsuleCollider:
   m_Height: 3.4098833
   m_Direction: 1
   m_Center: {x: 0, y: 1.7134508, z: 0.03627479}
---- !u!114 &5452514905044068540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5452514905044068518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6acc29ea4ed9e64daa4998e9a167309, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  feeder: {fileID: 0}
-  animalCanvas: {fileID: 1454388534}
-  animalName: {fileID: 177763203}
-  animalType: 1
-  animalHungerSlider: {fileID: 1561613815}
-  animalHappinessImage: {fileID: 1426479858}
-  hunger: 0
-  maxHunger: 300
-  hungerToDecrease: 40
-  timeDecreaseHunger: 10
-  happiness: 0
-  requiredHungerForHappiness: 0.6
-  happyColor: {r: 0, g: 0.75454235, b: 1, a: 1}
-  sadColor: {r: 0.5471698, g: 0, b: 0, a: 1}
---- !u!114 &295608809406617590
+--- !u!114 &3308459139152792676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
