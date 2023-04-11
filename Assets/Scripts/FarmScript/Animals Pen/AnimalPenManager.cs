@@ -22,6 +22,7 @@ public class AnimalPenManager : MonoBehaviour
     public class AnimalPen
     {
         public GameObject animalPenInScene;
+        public GameObject currentAnimalPenState;
         public List<AnimalPenStates> animalPenStates;
         public AnimalType animalType;
         public int animalPenLevel = 1;
@@ -124,10 +125,12 @@ public class AnimalPenManager : MonoBehaviour
             SaveAnimalPenData();
         }
 
-        HandleStates();
+        //HandleStates();
 
         LoadAllAnimals(totalAnimalsAdults, animals);
         LoadAllAnimals(totalAnimalsChildren, animalsChildren);
+
+        HandleStates();
     }
 
     private void HandleStates()
@@ -140,12 +143,34 @@ public class AnimalPenManager : MonoBehaviour
 
             for (int j = 0; j < animalPen.animalPenStates.Count; j++)
             {
-                AnimalPenStates currentState = animalPen.animalPenStates[j];
+                HandleCurrentAnimalPenState(animalPen, animalPen.animalPenStates[j]);
+            }
+        }
+    }
 
-                if (currentState.levelRequired == animalPen.animalPenLevel)
-                    currentState.animalPenObject.SetActive(true);
-                else
-                    currentState.animalPenObject.SetActive(false);
+    private void HandleCurrentAnimalPenState(AnimalPen animalPen, AnimalPenStates currentState)
+    {
+        if (currentState.levelRequired == animalPen.animalPenLevel)
+        {
+            animalPen.currentAnimalPenState = currentState.animalPenObject;
+
+            currentState.animalPenObject.SetActive(true);
+
+            ActualizeAnimals(animalPen, animalPen.animalPenInScene);
+        }
+        else
+            currentState.animalPenObject.SetActive(false);
+    }
+
+    private void ActualizeAnimals(AnimalPen animalPen, GameObject currentAnimalPenState)
+    {
+        for (int i = 0; i < currentAnimalPenState.transform.childCount; i++)
+        {
+            if (currentAnimalPenState.transform.GetChild(i).CompareTag("Animal"))
+            {
+                AnimalData animalData = currentAnimalPenState.transform.GetChild(i).GetComponent<AnimalData>();
+
+                animalData.CurrentAnimalPen = animalPen.currentAnimalPenState;
             }
         }
     }

@@ -700,6 +700,7 @@ GameObject:
   - component: {fileID: 1727004742053540143}
   - component: {fileID: 5452514905044068540}
   - component: {fileID: -7240789792915701964}
+  - component: {fileID: 4184666356251625086}
   m_Layer: 0
   m_Name: Lion
   m_TagString: Animal
@@ -735,7 +736,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -768,7 +769,6 @@ MonoBehaviour:
   feeder: {fileID: 0}
   animalCanvas: {fileID: 1454388534}
   animalName: {fileID: 177763203}
-  animalType: 3
   animalHungerSlider: {fileID: 1561613815}
   animalHappinessImage: {fileID: 1426479858}
   hunger: 0
@@ -792,6 +792,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animalType: 3
+  currentAnimalPen: {fileID: 0}
+  body: {fileID: 0}
+  speed: 2
+  stoppingDistance: 0
+  timeToWaitBeforeMoving: 5
+  distanceMinToChange: 4.2
+  destination: {x: 0, y: 0, z: 0}
+--- !u!195 &4184666356251625086
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5452514905044068518}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.35
+  m_Speed: 2
+  m_Acceleration: 2
+  avoidancePriority: 50
+  m_AngularSpeed: 240
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &7220530272827853278
 PrefabInstance:
   m_ObjectHideFlags: 0
