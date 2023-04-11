@@ -61,7 +61,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 115
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderTexture: {fileID: 8400000, guid: bbcc1cddc95563a498d7e9a39cfb1a4f, type: 2}
   layer: MiniMapUI
+  spriteScale: 6
   objectsToShow:
   - objectName: ChenillePicto
     objectTransform: {fileID: 0}
