@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4604174855525671216}
   - component: {fileID: 2091035195577658346}
   - component: {fileID: 6024074626897517281}
-  - component: {fileID: 8746995817248956966}
+  - component: {fileID: -9014308072167873921}
   m_Layer: 0
-  m_Name: Support_Vers
+  m_Name: Support_Vers V2
   m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,8 +46,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
+  m_UseGravity: 1
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
@@ -74,10 +74,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.66
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 2
+  m_Acceleration: 2
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 240
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -86,22 +86,26 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8746995817248956966
+--- !u!114 &-9014308072167873921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600267746481179708}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22eacb0f1cdb0604f97b0bdd69a16462, type: 3}
+  m_Script: {fileID: 11500000, guid: 17b93482eeed6e0408a8537a79c150c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LifeTimer: 20
-  radius: 10
-  capturePosition: {fileID: 0}
   animalType: 5
+  area: {fileID: 0}
+  body: {fileID: 3980336052553982772}
+  speed: 3.5
+  stoppingDistance: 0
+  timeToWaitBeforeMoving: 3
+  distanceMinToChange: 4.2
+  destination: {x: 0, y: 0, z: 0}
 --- !u!1001 &1043376675512161647
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,11 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AnimalData : MonoBehaviour
+public class AnimalAI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private AnimalType animalType;
-    [SerializeField] private GameObject currentAnimalPen;
+    [SerializeField] private GameObject area;
     [SerializeField] private Transform body;
 
     [Header("Datas")]
@@ -26,13 +26,19 @@ public class AnimalData : MonoBehaviour
         set { animalType = value; }
     }
 
-    public GameObject CurrentAnimalPen
+    public Vector3 Destination
     {
-        get { return currentAnimalPen; }
-        set { currentAnimalPen = value; }
+        get { return destination; }
+        set { destination = value; }
     }
 
-    private void Start()
+    public GameObject Area
+    {
+        get { return area; }
+        set { area = value; }
+    }
+
+    void Start()
     {
         agent = GetComponent<NavMeshAgent>();
 
@@ -40,7 +46,7 @@ public class AnimalData : MonoBehaviour
         agent.stoppingDistance = stoppingDistance;
     }
 
-    private void Update()
+    void Update()
     {
         if (canMove) Move();
 
@@ -52,7 +58,10 @@ public class AnimalData : MonoBehaviour
     {
         canMove = false;
 
-        SearchDestination();
+        if (CaptureManager.instance.FruitPlaced == null)
+            SearchDestination();
+        else
+            destination = CaptureManager.instance.FruitPlaced.transform.position;
 
         if (distance > distanceMinToChange)
         {
@@ -65,20 +74,20 @@ public class AnimalData : MonoBehaviour
 
     private void SearchDestination()
     {
-        float xLimit = currentAnimalPen.GetComponent<AnimalPenRef>().Surface.GetComponent<Renderer>().bounds.size.x;
-        float zLimit = currentAnimalPen.GetComponent<AnimalPenRef>().Surface.GetComponent<Renderer>().bounds.size.z;
+        float xLimit = area.GetComponent<Renderer>().bounds.size.x;
+        float zLimit = area.GetComponent<Renderer>().bounds.size.z;
 
         float randomX = Random.Range(-xLimit / 2, xLimit / 2);
         float randomZ = Random.Range(-zLimit / 2, zLimit / 2);
 
-        destination = currentAnimalPen.transform.position + new Vector3(randomX, transform.position.y, randomZ);
+        destination = area.transform.position + new Vector3(randomX, transform.position.y, randomZ);
     }
 
     private IEnumerator Moving()
     {
         yield return new WaitForSeconds(timeToWaitBeforeMoving);
 
-        SearchDestination();
+        //if (CaptureManager.instance.FruitPlaced == null) SearchDestination();
 
         canMove = true;
     }
