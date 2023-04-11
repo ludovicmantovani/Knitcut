@@ -96,13 +96,15 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        if (!MinigameManager.StartOK)
+        LoadPlayerPositionInScene();
+
+        /*if (!MinigameManager.StartOK)
         {
             MinigameManager.StartOK = true;
 
             Debug.Log($"Initialization OK");
             LoadPlayerPositionInScene();
-        }
+        }*/
     }
 
     private void Update()

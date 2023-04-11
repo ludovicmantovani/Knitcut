@@ -16,7 +16,7 @@ public class AnimalData : MonoBehaviour
     [SerializeField] private float distanceMinToChange = 4.2f;
     [SerializeField] private Vector3 destination;
 
-    private bool canMove = true;
+    private bool animalCanMove = true;
     private float distance;
     private NavMeshAgent agent;
 
@@ -42,7 +42,7 @@ public class AnimalData : MonoBehaviour
 
     private void Update()
     {
-        if (canMove) Move();
+        if (animalCanMove) Move();
 
         Vector3 direction = transform.position - destination;
         distance = direction.magnitude;
@@ -50,7 +50,7 @@ public class AnimalData : MonoBehaviour
 
     private void Move()
     {
-        canMove = false;
+        animalCanMove = false;
 
         SearchDestination();
 
@@ -80,6 +80,6 @@ public class AnimalData : MonoBehaviour
 
         SearchDestination();
 
-        canMove = true;
+        animalCanMove = true;
     }
 }

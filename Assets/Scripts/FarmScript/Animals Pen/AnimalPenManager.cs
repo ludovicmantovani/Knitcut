@@ -259,5 +259,7 @@ public class AnimalPenManager : MonoBehaviour
         GameObject animal = Instantiate(animalObject, animalPen);
 
         SaveAnimalPenData();
+
+        HandleStates();
     }
 }

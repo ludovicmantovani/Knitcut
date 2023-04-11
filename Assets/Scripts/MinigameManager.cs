@@ -142,6 +142,16 @@ public class MinigameManager : MonoBehaviour
     {
         if (openInventories.Contains(inventory))
             openInventories.Remove(inventory);
+
+        for (int i = 0; i < openInventories.Count; i++)
+        {
+            if (openInventories[i] == null) openInventories.Remove(openInventories[i]);
+        }
+    }
+
+    public static void CleanOpenInventories()
+    {
+        openInventories.Clear();
     }
 
     private void HandlePanels()

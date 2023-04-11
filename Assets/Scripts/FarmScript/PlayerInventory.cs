@@ -52,7 +52,7 @@ public class PlayerInventory : MonoBehaviour
         return itemObject;
     }
 
-    public void AddItemToInventory(Item item)
+    public void AddItemToInventory(Item item, int quantity = -1)
     {
         Transform slotParent = GetFreeSlot();
 
@@ -63,6 +63,9 @@ public class PlayerInventory : MonoBehaviour
         itemObject.GetComponent<DraggableItem>().Item = item;
 
         itemObject.GetComponent<Image>().sprite = item.itemSprite;
+
+        if (quantity != -1)
+            itemObject.GetComponent<DraggableItem>().QuantityStacked = quantity;
     }
 
     public List<DraggableItem> SearchSameItemInInventory(Item item)

@@ -16,7 +16,7 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private float distanceMinToChange = 4.2f;
     [SerializeField] private Vector3 destination;
 
-    private bool canMove = true;
+    private bool animalCanMove = true;
     private float distance;
     private NavMeshAgent agent;
 
@@ -48,7 +48,7 @@ public class AnimalAI : MonoBehaviour
 
     void Update()
     {
-        if (canMove) Move();
+        if (animalCanMove) Move();
 
         Vector3 direction = transform.position - destination;
         distance = direction.magnitude;
@@ -56,7 +56,7 @@ public class AnimalAI : MonoBehaviour
 
     private void Move()
     {
-        canMove = false;
+        animalCanMove = false;
 
         if (CaptureManager.instance.FruitPlaced == null)
             SearchDestination();
@@ -89,6 +89,6 @@ public class AnimalAI : MonoBehaviour
 
         //if (CaptureManager.instance.FruitPlaced == null) SearchDestination();
 
-        canMove = true;
+        animalCanMove = true;
     }
 }
