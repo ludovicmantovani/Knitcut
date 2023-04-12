@@ -411,6 +411,7 @@ GameObject:
   - component: {fileID: 4869932853418939875}
   - component: {fileID: 4869932853418939872}
   - component: {fileID: 4869932853418939873}
+  - component: {fileID: 3951702751609914504}
   m_Layer: 0
   m_Name: ParentZoneCulture
   m_TagString: Untagged
@@ -455,7 +456,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4869932853418939902}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 618f6dcbbf985a9428f9680aa2d6e0d8, type: 3}
   m_Name: 
@@ -468,6 +469,19 @@ MonoBehaviour:
   - {fileID: 3399285580761816755, guid: 72a06a98afbf2374498774434d54c6e6, type: 3}
   - {fileID: 3399285580761816755, guid: 279e1d94dc4b42245bab8798b804f9d1, type: 3}
   Vide: 0
+--- !u!114 &3951702751609914504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4869932853418939902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0103521a02746674a9f71e363c684b12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemInCropPlot: {fileID: 0}
 --- !u!1 &4869932853632910663
 GameObject:
   m_ObjectHideFlags: 0

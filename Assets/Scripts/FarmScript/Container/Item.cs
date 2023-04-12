@@ -26,5 +26,6 @@ public enum ItemType
     Recipe,
     Dish,
     Product,
+    Seed,
     Other
 }

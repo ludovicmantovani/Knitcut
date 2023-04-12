@@ -24,7 +24,7 @@ public class Planter : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player_Farm")
+        if (other.tag == "Player")
         {
             Debug.Log("touche");
             infoZone.SetActive(true);
@@ -32,7 +32,7 @@ public class Planter : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag == "Player_Farm" && playerInput.InteractionAction.triggered && Vide == false)
+        if(other.tag == "Player" && playerInput.InteractionAction.triggered && Vide == false)
         {
             graines.SetActive(true);
 
@@ -74,7 +74,7 @@ public class Planter : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player_Farm")
+        if (other.tag == "Player")
         {
             infoZone.SetActive(false);
         }
