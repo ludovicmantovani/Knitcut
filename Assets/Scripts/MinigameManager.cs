@@ -92,6 +92,7 @@ public class MinigameManager : MonoBehaviour
 
             playerController.LoadPlayerPositionInScene();
 
+            //playerController.ListSlots.HandleInventories();
             playerController.ListSlots.CreateTempItems();
 
             Debug.Log($"Initialization OK");

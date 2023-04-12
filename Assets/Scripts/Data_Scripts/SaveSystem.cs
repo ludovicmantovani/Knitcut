@@ -86,7 +86,7 @@ public static class SaveSystem
         if (File.Exists(Path(save.ToString())))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(Path(save.ToString()), FileMode.Open);
+            FileStream stream = new FileStream(Path(save.ToString()), FileMode.OpenOrCreate);
 
             object dataLoaded = null;
 

@@ -79,7 +79,7 @@ public class List_Slots : MonoBehaviour
 
     #endregion
 
-    private void Start()
+    private void Awake()
     {
         playerController = FindObjectOfType<PlayerController>();
         playerInput = FindObjectOfType<PlayerInput>();
@@ -88,6 +88,17 @@ public class List_Slots : MonoBehaviour
         HandleInventories();
 
         HandleMoney();
+    }
+
+    private void Start()
+    {
+        /*playerController = FindObjectOfType<PlayerController>();
+        playerInput = FindObjectOfType<PlayerInput>();
+        animalPenManager = FindObjectOfType<AnimalPenManager>();
+
+        //HandleInventories();
+
+        HandleMoney();*/
     }
 
     #region Money
@@ -153,7 +164,7 @@ public class List_Slots : MonoBehaviour
 
     #region Load Inventory
 
-    private void HandleInventories()
+    public void HandleInventories()
     {
         SetupInventory();
 
@@ -163,6 +174,8 @@ public class List_Slots : MonoBehaviour
         //container
         if (handleContainer)
             LoadContainerInventory();
+
+        //CreateTempItems();
     }
 
     #region Temp Item at Start
@@ -176,9 +189,13 @@ public class List_Slots : MonoBehaviour
 
     private void ItemCreation(int indexItem, int quantity)
     {
+        Debug.Log($"item {indexItem} - quantity {quantity}");
+
         HandleVerificationAndApplication();
 
-        PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
+        Debug.Log($"next");
+
+        PlayerInventory inventory = playerController.PlayerInventory;
 
         if (inventory == null) return;
 
@@ -189,6 +206,8 @@ public class List_Slots : MonoBehaviour
         itemUI.GetComponent<DraggableItem>().QuantityStacked = quantity;
 
         AutoSavePlayerInventory();
+
+        Debug.Log($"added");
     }
 
     #endregion
@@ -325,6 +344,8 @@ public class List_Slots : MonoBehaviour
 
     private void ApplySave()
     {
+        if (playerSlots == null) return;
+
         for (int i = 0; i < playerSlots.Length; i++)
         {
             if (playerSlots[i].transform.childCount > 0)
@@ -337,6 +358,8 @@ public class List_Slots : MonoBehaviour
 
     private void ApplySaveContainer()
     {
+        if (containerSlots == null) return;
+
         for (int i = 0; i < containerSlots.Length; i++)
         {
             if (containerSlots[i].transform.childCount > 0)
@@ -349,6 +372,8 @@ public class List_Slots : MonoBehaviour
 
     private void VerificationChild()
     {
+        if (playerSlots == null) return;
+
         for (int i = 0; i < playerSlots.Length; i++)
         {
             if (playerSlots[i].transform.childCount > 0)
@@ -372,6 +397,8 @@ public class List_Slots : MonoBehaviour
 
     private void VerificationChildContainer()
     {
+        if (containerSlots == null) return;
+
         for (int i = 0; i < containerSlots.Length; i++)
         {
             if (containerSlots[i].transform.childCount > 0)
