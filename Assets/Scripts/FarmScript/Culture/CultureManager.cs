@@ -1,3 +1,4 @@
+using Gameplay.Quests;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -220,5 +221,6 @@ public class CultureManager : MonoBehaviour
         CloseCultureUI();
 
         Debug.Log($"Plant {seed.name}");
+        GetComponent<QuestCompletion>().CompleteObjective();
     }
 }
