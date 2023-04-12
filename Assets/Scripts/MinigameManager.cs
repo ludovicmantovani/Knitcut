@@ -16,6 +16,8 @@ public class MinigameManager : MonoBehaviour
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
 
+    #region Getters / Setters
+
     public class PlayerItem
     {
         public Item item;
@@ -63,6 +65,8 @@ public class MinigameManager : MonoBehaviour
         set { playerItems = value; }
     }
 
+    #endregion
+
     private List_Slots listSlots;
 
     bool dataLoaded = false;
@@ -77,6 +81,22 @@ public class MinigameManager : MonoBehaviour
     }
 
     private static MGType mgType;
+
+    private void Start()
+    {
+        if (!startOK)
+        {
+            startOK = true;
+
+            playerController = FindObjectOfType<PlayerController>();
+
+            playerController.LoadPlayerPositionInScene();
+
+            playerController.ListSlots.CreateTempItems();
+
+            Debug.Log($"Initialization OK");
+        }
+    }
 
     private void Update()
     {

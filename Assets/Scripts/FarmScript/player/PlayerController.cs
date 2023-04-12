@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 
     PlayerInventory playerInventory;
     PlayerRecipesInventory playerRecipesInventory;
+    List_Slots listSlots;
 
     [Header("References")]
     [SerializeField] private string farmSceneName = "FarmScene";
@@ -82,27 +83,23 @@ public class PlayerController : MonoBehaviour
         set { canMove = value; }
     }
 
+    public List_Slots ListSlots
+    {
+        get { return listSlots; }
+        set { listSlots = value; }
+    }
+
     #endregion
 
     private void Awake()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
         playerRecipesInventory = FindObjectOfType<PlayerRecipesInventory>();
+        listSlots = FindObjectOfType<List_Slots>();
 
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
         sceneVerif = GetComponent<SceneVerification>();
-    }
-
-    private void Start()
-    {
-        if (!MinigameManager.StartOK)
-        {
-            MinigameManager.StartOK = true;
-
-            Debug.Log($"Initialization OK");
-            LoadPlayerPositionInScene();
-        }
     }
 
     private void Update()

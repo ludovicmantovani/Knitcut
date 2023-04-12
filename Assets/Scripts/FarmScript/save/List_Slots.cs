@@ -163,30 +163,35 @@ public class List_Slots : MonoBehaviour
         //container
         if (handleContainer)
             LoadContainerInventory();
-
-        //CreateTempItem();
     }
-    private void CreateTempItem()
+
+    #region Temp Item at Start
+
+    public void CreateTempItems()
     {
-        if (!MinigameManager.StartOK)
-        {
-            MinigameManager.StartOK = true;
+        UpdateMoney(750);
 
-            HandleVerificationAndApplication();
-
-            PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
-
-            if (inventory == null) return;
-
-            GameObject itemUI = inventory.CreateItemUI();
-
-            itemUI.GetComponent<DraggableItem>().QuantityStacked = 3;
-
-            itemUI.GetComponent<DraggableItem>().Item = (Item)stuffs[0];
-
-            AutoSavePlayerInventory();
-        }
+        ItemCreation(7, 5);
     }
+
+    private void ItemCreation(int indexItem, int quantity)
+    {
+        HandleVerificationAndApplication();
+
+        PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
+
+        if (inventory == null) return;
+
+        GameObject itemUI = inventory.CreateItemUI();
+
+        itemUI.GetComponent<DraggableItem>().Item = (Item)stuffs[indexItem];
+
+        itemUI.GetComponent<DraggableItem>().QuantityStacked = quantity;
+
+        AutoSavePlayerInventory();
+    }
+
+    #endregion
 
     public void AutoSavePlayerInventory()
     {
