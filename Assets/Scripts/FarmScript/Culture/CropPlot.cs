@@ -42,18 +42,18 @@ public class CropPlot : MonoBehaviour
         {
             isCultivating = true;
 
-            StartCoroutine(Cultivating());
+            //StartCoroutine(Cultivating());
         }
     }
 
-    private IEnumerator Cultivating()
+    /*private IEnumerator Cultivating()
     {
         Debug.Log($"Cultivating...");
 
         yield return new WaitForSeconds(timeOfCultivation);
 
         Debug.Log($"Cultivation finished...");
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {

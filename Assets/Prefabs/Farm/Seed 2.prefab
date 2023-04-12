@@ -44,6 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74cdbdf9b74c6614888604722f1113a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adultPlant: {fileID: 2741518846972547017, guid: 21caa05110757944f903baa28a0f1e53, type: 3}
+  sprout: {fileID: 6457170055854234521, guid: 4f9d292a325465947b36982d452bebd6, type: 3}
+  seed: {fileID: 1989183385646884002}
+  dehydratedPlant: {fileID: 0}
+  sickedPlant: {fileID: 0}
+  productState: 0
+  isGrowing: 0
+  isSick: 0
+  isDehydrated: 0
+  timeOfGrowthSeed: 10
+  timeOfGrowthSprout: 10
 --- !u!1001 &6112581291445945151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,6 +112,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3507575dcba8d24428f12739c5340c46, type: 3}
+--- !u!1 &1989183385646884002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5714715587339544477, guid: 3507575dcba8d24428f12739c5340c46, type: 3}
+  m_PrefabInstance: {fileID: 6112581291445945151}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1211801918262165016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4901445956541791527, guid: 3507575dcba8d24428f12739c5340c46, type: 3}

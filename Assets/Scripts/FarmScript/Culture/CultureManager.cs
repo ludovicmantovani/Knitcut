@@ -94,11 +94,16 @@ public class CultureManager : MonoBehaviour
 
                     HandleSeedsUI();
                 }
-                else
+                else if (currentCropPlot.IsCultivating && currentCropPlot.Product == null)
                 {
                     instruction = $"Une graine est actuellement en production sur cette parcelle";
                     interactionUI.GetComponentInChildren<Text>().text = instruction;
-                }                
+                }
+                else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
+                {
+                    instruction = $"Une graine est prête à être ramassé";
+                    interactionUI.GetComponentInChildren<Text>().text = instruction;
+                }
             }
             else
             {
@@ -181,6 +186,8 @@ public class CultureManager : MonoBehaviour
             Destroy(itemPossessed.gameObject);
 
         GameObject seed = Instantiate(itemPossessed.Item.itemObject, currentCropPlot.transform);
+
+        seed.GetComponent<SeedGrowth>().CropPlot = currentCropPlot;
 
         CloseCultureUI();
 
