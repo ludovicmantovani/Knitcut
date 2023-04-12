@@ -15,6 +15,18 @@ public class CultureManager : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerController playerController;
 
+    public GameObject InteractionUI
+    {
+        get { return interactionUI; }
+        set { interactionUI = value; }
+    }
+
+    public PlayerInput PlayerInput
+    {
+        get { return playerInput; }
+        set { playerInput = value; }
+    }
+
     public GameObject CultureUI
     {
         get { return cultureUI; }
@@ -32,6 +44,12 @@ public class CultureManager : MonoBehaviour
     [SerializeField] private bool cultureUIInUse;
 
     private string instruction;
+
+    public string Instruction
+    {
+        get { return instruction; }
+        set { instruction = value; }
+    }
 
     public bool CanPlantSeed
     {
@@ -186,10 +204,7 @@ public class CultureManager : MonoBehaviour
     {
         if (currentCropPlot == null) return;
 
-        //if (currentCropPlot != null && currentCropPlot.ItemInCropPlot != null) return;
         if (currentCropPlot != null && currentCropPlot.SeedSource != null) return;
-
-        //currentCropPlot.ItemInCropPlot = itemPossessed.Item;
 
         itemPossessed.QuantityStacked -= 1;
 

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3258125421963799723}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7155860889249908095}
@@ -49,12 +49,17 @@ MonoBehaviour:
   seed: {fileID: 7495512861908295621}
   dehydratedPlant: {fileID: 0}
   sickedPlant: {fileID: 0}
+  productGrowth: 0
   productState: 0
-  isGrowing: 0
-  isSick: 0
-  isDehydrated: 0
+  plantRenderer: {fileID: 0}
   timeOfGrowthSeed: 10
   timeOfGrowthSprout: 10
+  timeOfGrowthFruit: 2
+  currentTime: 0
+  yPositionFix: 0.2
+  defaultMaterial: {fileID: 0}
+  sickMaterial: {fileID: 2100000, guid: be0b6e16a85763e4f998f246d3abdb6a, type: 2}
+  dehydratedMaterial: {fileID: 2100000, guid: 69fc90e36653a514e8035147d0aefa8f, type: 2}
 --- !u!1001 &2831592843622529112
 PrefabInstance:
   m_ObjectHideFlags: 0
