@@ -1,4 +1,5 @@
 using Gameplay.Quests;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,16 +12,41 @@ namespace Gameplay.UI.Quests
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private Transform objectiveContainer;
         [SerializeField] private GameObject objectivePrefab;
-        public void Setup(Quest quest)
+        [SerializeField] private GameObject objectiveIncompletePrefab;
+        [SerializeField] private TextMeshProUGUI rewardText;
+        public void Setup(QuestStatus status)
         {
+            Quest quest = status.GetQuest();
             title.text = quest.GetTitle();
-            objectiveContainer.DetachChildren();
-            foreach (string objective in quest.GetObjectives())
+            
+            foreach (Transform item in objectiveContainer)
+                Destroy(item.gameObject);
+            
+            foreach (Quest.Objective objective in quest.GetObjectives())
             {
-                GameObject objectiveInstance = Instantiate(objectivePrefab, objectiveContainer);
+                GameObject prefab = objectiveIncompletePrefab;
+                if (status.IsObjectiveComplete(objective.reference))
+                    prefab = objectivePrefab;
+                GameObject objectiveInstance = Instantiate(prefab, objectiveContainer);
                 TextMeshProUGUI objectiveText = objectiveInstance.GetComponentInChildren<TextMeshProUGUI>();
-                objectiveText.text = objective;
+                objectiveText.text = objective.description;
             }
+            
+            rewardText.text = GetRewardText(quest);
+        }
+
+        private string GetRewardText(Quest quest)
+        {
+            string rewardText = "";
+            foreach (Quest.Reward reward in quest.GetRewards())
+            {
+                if (rewardText != "")
+                    rewardText += ", ";
+                if (reward.number > 1)
+                    rewardText += reward.number + " ";
+                rewardText += reward.item.itemName;
+            }
+            return rewardText;
         }
     }
 }

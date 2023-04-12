@@ -1220,6 +1220,7 @@ GameObject:
   - component: {fileID: 7730635643472712096}
   - component: {fileID: 7730635643472712156}
   - component: {fileID: 7141833701364471796}
+  - component: {fileID: -6120670897050437569}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1350,6 +1351,18 @@ MonoBehaviour:
   animator: {fileID: 3770797155745749325}
   movementThreshold: 0.01
   walkAnimationSpeed: 1.5
+--- !u!114 &-6120670897050437569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730635643472712158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4662d97fae2464d8f37cbc261ad50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &111574068231849826
 PrefabInstance:
   m_ObjectHideFlags: 0

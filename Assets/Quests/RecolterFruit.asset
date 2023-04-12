@@ -10,9 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98fd486f1a299554e97dfd02beef05fc, type: 3}
-  m_Name: "Am\xE9liorer un enclos"
+  m_Name: RecolterFruit
   m_EditorClassIdentifier: 
   objectives:
-  - Aller au village
-  - Faire du commerce avec Tonny
-  - "Revenir \xE0 la ferme"
+  - reference: AllerPotager
+    description: Se rendre au potager
+  - reference: PlanterGraine
+    description: Planter une graine
+  - reference: CueillirFruit
+    description: Cueillir le fruit
+  rewards:
+  - number: 1
+    item: {fileID: 11400000, guid: b131612abcd78854889d1d71beb0a2cf, type: 2}

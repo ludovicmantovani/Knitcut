@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98fd486f1a299554e97dfd02beef05fc, type: 3}
-  m_Name: "R\xE9colter un fruit"
+  m_Name: AmeliorerEnclos
   m_EditorClassIdentifier: 
   objectives:
-  - Aller au potager
-  - Planter une graine
-  - Prendre le fruit
+  - reference: AllerVille
+    description: Aller en ville
+  - reference: AchatEnclos
+    description: "Acheter une am\xE9lioration d'enclos"
+  rewards: []
