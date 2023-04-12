@@ -19,6 +19,10 @@ public class CultureManager : MonoBehaviour
     [SerializeField] private bool canPlantSeed;
     [SerializeField] private bool cultureUIInUse;
 
+    [Header("Quest")]
+    [SerializeField] private QuestCompletion questCompletionPlant;
+    [SerializeField] private QuestCompletion questCompletionPick;
+
     private string instruction;
 
     #region Getters / Setters
@@ -129,6 +133,8 @@ public class CultureManager : MonoBehaviour
                     interactionUI.GetComponentInChildren<Text>().text = instruction;
 
                     Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
+                    if (questCompletionPick != null)
+                        questCompletionPick.CompleteObjective();
 
                     playerController.PlayerInventory.AddItemToInventory(item);
 
@@ -224,6 +230,7 @@ public class CultureManager : MonoBehaviour
         CloseCultureUI();
 
         Debug.Log($"Plant {seed.name}");
-        GetComponent<QuestCompletion>().CompleteObjective();
+        if (questCompletionPlant != null)
+            questCompletionPlant.CompleteObjective();
     }
 }

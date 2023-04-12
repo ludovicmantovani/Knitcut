@@ -11,6 +11,9 @@ namespace Gameplay.Quests
         [SerializeField] private string titre = "";
         [SerializeField] private List<Objective> objectives = new List<Objective>();
         [SerializeField] private List<Reward> rewards = new List<Reward>();
+        [SerializeField] private bool canGiveRewards = true;
+
+        public bool CanGiveRewards { get => canGiveRewards;}
 
         [System.Serializable]
         public class Reward

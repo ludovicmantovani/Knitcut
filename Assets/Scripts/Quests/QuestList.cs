@@ -60,7 +60,7 @@ namespace Gameplay.Quests
 
         private void GiveReward(Quest quest)
         {
-            if (playerInventory == null) return;
+            if (playerInventory == null || quest.CanGiveRewards == false) return;
             foreach (Quest.Reward reward in quest.GetRewards())
             {
                 for (int i = 0; i < reward.number; i++)
