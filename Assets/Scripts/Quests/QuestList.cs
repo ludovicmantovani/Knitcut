@@ -1,3 +1,4 @@
+using Gameplay.UI.Quests;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ namespace Gameplay.Quests
     public class QuestList : MonoBehaviour
     {
         [SerializeField] private PlayerInventory playerInventory = null;
+        [SerializeField] private QuestTooltipUI questTooltipUI = null;
         private List<QuestStatus> _statuses = new List<QuestStatus>();
 
         public event Action onUpdate;
@@ -17,6 +19,8 @@ namespace Gameplay.Quests
             if (HasQuest(quest)) return;
             QuestStatus newStatus = new QuestStatus(quest);
             _statuses.Add(newStatus);
+            if (questTooltipUI != null)
+                questTooltipUI.Setup(newStatus);
             if (onUpdate != null)
                 onUpdate();
         }
@@ -29,6 +33,8 @@ namespace Gameplay.Quests
             {
                 GiveReward(quest);
             }
+            if (questTooltipUI != null)
+                questTooltipUI.Setup(status);
             if (onUpdate != null)
                 onUpdate();
         }

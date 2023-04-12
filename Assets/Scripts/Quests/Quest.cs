@@ -8,6 +8,7 @@ namespace Gameplay.Quests
     [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObject/Gameplay/Quest", order =0)]
     public class Quest : ScriptableObject
     {
+        [SerializeField] private string titre = "";
         [SerializeField] private List<Objective> objectives = new List<Objective>();
         [SerializeField] private List<Reward> rewards = new List<Reward>();
 
@@ -29,7 +30,7 @@ namespace Gameplay.Quests
 
         public string GetTitle()
         {
-            return name;
+            return titre.Length > 0 ? titre : name;
         }
 
         public int GetObjectiveCount()
