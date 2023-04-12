@@ -45,15 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adultPlant: {fileID: 2741518846972547017, guid: 21caa05110757944f903baa28a0f1e53, type: 3}
+  flowerFruit: {fileID: 3244523160136934452, guid: aaa130fd4620d154c98389510010ab6e, type: 3}
+  flower: {fileID: 1744618867880213524, guid: 6518800456a15bf4ca9e84ed9fafbdc2, type: 3}
   sprout: {fileID: 6457170055854234521, guid: 4f9d292a325465947b36982d452bebd6, type: 3}
   seed: {fileID: 1989183385646884002}
-  dehydratedPlant: {fileID: 0}
-  sickedPlant: {fileID: 0}
   productGrowth: 0
   productState: 0
   plantRenderer: {fileID: 0}
   timeOfGrowthSeed: 10
   timeOfGrowthSprout: 10
+  timeOfGrowthFlower: 10
   timeOfGrowthFruit: 2
   currentTime: 0
   yPositionFix: 0.2

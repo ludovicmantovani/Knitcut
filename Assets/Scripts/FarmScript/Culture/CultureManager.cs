@@ -2,7 +2,6 @@ using Gameplay.Quests;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static ShopManager;
 
 public class CultureManager : MonoBehaviour
 {
@@ -15,6 +14,14 @@ public class CultureManager : MonoBehaviour
 
     private PlayerInput playerInput;
     private PlayerController playerController;
+
+    [Header("Datas")]
+    [SerializeField] private bool canPlantSeed;
+    [SerializeField] private bool cultureUIInUse;
+
+    private string instruction;
+
+    #region Getters / Setters
 
     public GameObject InteractionUI
     {
@@ -40,12 +47,6 @@ public class CultureManager : MonoBehaviour
         set { currentCropPlot = value; }
     }
 
-    [Header("Datas")]
-    [SerializeField] private bool canPlantSeed;
-    [SerializeField] private bool cultureUIInUse;
-
-    private string instruction;
-
     public string Instruction
     {
         get { return instruction; }
@@ -57,6 +58,8 @@ public class CultureManager : MonoBehaviour
         get { return canPlantSeed; }
         set { canPlantSeed = value; }
     }
+
+    #endregion
 
     private void Start()
     {

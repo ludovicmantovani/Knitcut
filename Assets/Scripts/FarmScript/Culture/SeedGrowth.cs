@@ -3,15 +3,17 @@ using UnityEngine;
 public class SeedGrowth : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject adultPlant;
+    //[SerializeField] private GameObject adultPlant;
+    [SerializeField] private GameObject flowerFruit;
+    [SerializeField] private GameObject flower;
     [SerializeField] private GameObject sprout;
     [SerializeField] private GameObject seed;
-    [SerializeField] private GameObject dehydratedPlant;
-    [SerializeField] private GameObject sickedPlant;
     [SerializeField] private ProductGrowth productGrowth;
     [SerializeField] private ProductState productState;
 
-    private GameObject adultObject;
+    //private GameObject adultObject;
+    private GameObject flowerFruitObject;
+    private GameObject flowerObject;
     private GameObject sproutObject;
 
     [SerializeField]
@@ -21,7 +23,8 @@ public class SeedGrowth : MonoBehaviour
     {
         Seed,
         Sprout,
-        Fruit,
+        Flower,
+        FlowerFruit,
         End
     }
 
@@ -37,6 +40,7 @@ public class SeedGrowth : MonoBehaviour
     [Header("Datas")]
     [SerializeField] private float timeOfGrowthSeed = 10f;
     [SerializeField] private float timeOfGrowthSprout = 10f;
+    [SerializeField] private float timeOfGrowthFlower = 10f;
     [SerializeField] private float timeOfGrowthFruit = 2f;
     [SerializeField] private float currentTime = 0f;
     [SerializeField] private float yPositionFix = 0.2f;
@@ -114,13 +118,16 @@ public class SeedGrowth : MonoBehaviour
                 SeedToSprout();
                 break;
             case ProductGrowth.Sprout:
-                SproutToFruit();
+                SproutToFlower();
                 break;
-            case ProductGrowth.Fruit:
+            case ProductGrowth.Flower:
+                FlowerToFruit();
+                break;
+            case ProductGrowth.FlowerFruit:
                 FruitToFinal();
                 break;
             case ProductGrowth.End:
-                cropPlot.Product = adultObject;
+                End();
                 break;
             default:
                 break;
@@ -131,12 +138,10 @@ public class SeedGrowth : MonoBehaviour
     {
         currentTime = timeOfGrowthSeed;
 
-        GetRandomState();
-
         productGrowth = ProductGrowth.Sprout;
     }
 
-    private void SproutToFruit()
+    private void SproutToFlower()
     {
         if (currentTime > 0) return;
 
@@ -149,20 +154,38 @@ public class SeedGrowth : MonoBehaviour
 
         currentTime = timeOfGrowthSprout;
 
+        productGrowth = ProductGrowth.Flower;
+    }
+
+    private void FlowerToFruit()
+    {
+        if (currentTime > 0) return;
+
+        flowerObject = Instantiate(flower, transform);
+
+        Destroy(sproutObject);
+
+        plantRenderer = flowerObject.transform.GetComponentInChildren<MeshRenderer>();
+        defaultMaterial = plantRenderer.material;
+
+        currentTime = timeOfGrowthFlower;
+
         GetRandomState();
 
-        productGrowth = ProductGrowth.Fruit;
+        productGrowth = ProductGrowth.FlowerFruit;
     }
 
     private void FruitToFinal()
     {
         if (currentTime > 0) return;
 
-        adultObject = Instantiate(adultPlant, transform);
+        flowerFruitObject = Instantiate(flowerFruit, transform);
+        //adultObject = Instantiate(adultPlant, transform);
 
-        Destroy(sproutObject);
+        Destroy(flowerObject);
 
-        plantRenderer = adultObject.transform.GetComponentInChildren<MeshRenderer>();
+        plantRenderer = flowerFruitObject.transform.GetComponentInChildren<MeshRenderer>();
+        //plantRenderer = adultObject.transform.GetComponentInChildren<MeshRenderer>();
         defaultMaterial = plantRenderer.material;
 
         Vector3 productPosition = transform.position;
@@ -171,9 +194,24 @@ public class SeedGrowth : MonoBehaviour
 
         currentTime = timeOfGrowthFruit;
 
-        GetRandomState();
-
         productGrowth = ProductGrowth.End;
+    }
+
+    private void End()
+    {
+        GameObject fruit = null;
+
+        for (int i = 0; i < flowerFruitObject.transform.childCount; i++)
+        {
+            if (flowerFruitObject.transform.GetChild(i).name.Contains("fruit"))
+            {
+                fruit = flowerFruitObject.transform.GetChild(i).gameObject;
+            }
+        }
+
+        if (fruit == null) return;
+
+        cropPlot.Product = fruit;
     }
 
     #endregion
