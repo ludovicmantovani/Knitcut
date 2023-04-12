@@ -32,7 +32,6 @@ public class CultureManager : MonoBehaviour
     [SerializeField] private bool cultureUIInUse;
 
     private string instruction;
-    private bool resetting;
 
     public bool CanPlantSeed
     {
@@ -44,8 +43,6 @@ public class CultureManager : MonoBehaviour
     {
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
-
-        resetting = false;
 
         instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
         interactionUI.GetComponentInChildren<Text>().text = instruction;
@@ -81,6 +78,11 @@ public class CultureManager : MonoBehaviour
             return;
         }
 
+        HandleCropPlotAction();
+    }
+
+    private void HandleCropPlotAction()
+    {
         if (playerInput.InteractionAction.triggered && canPlantSeed)
         {
             if (!cultureUIInUse)
@@ -103,6 +105,14 @@ public class CultureManager : MonoBehaviour
                 {
                     instruction = $"Une graine est prête à être ramassé";
                     interactionUI.GetComponentInChildren<Text>().text = instruction;
+
+                    Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
+
+                    playerController.PlayerInventory.AddItemToInventory(item);
+
+                    Destroy(currentCropPlot.SeedSource);
+                    currentCropPlot.Product = null;
+                    currentCropPlot.IsCultivating = false;
                 }
             }
             else
@@ -144,7 +154,7 @@ public class CultureManager : MonoBehaviour
         {
             DraggableItem itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
 
-            ShowObjectUI(itemPossessed);
+            if (itemPossessed.Item.itemType == ItemType.Seed) ShowObjectUI(itemPossessed);
         }
     }
 
@@ -176,9 +186,10 @@ public class CultureManager : MonoBehaviour
     {
         if (currentCropPlot == null) return;
 
-        if (currentCropPlot != null && currentCropPlot.ItemInCropPlot != null) return;
+        //if (currentCropPlot != null && currentCropPlot.ItemInCropPlot != null) return;
+        if (currentCropPlot != null && currentCropPlot.SeedSource != null) return;
 
-        currentCropPlot.ItemInCropPlot = itemPossessed.Item;
+        //currentCropPlot.ItemInCropPlot = itemPossessed.Item;
 
         itemPossessed.QuantityStacked -= 1;
 
@@ -188,6 +199,8 @@ public class CultureManager : MonoBehaviour
         GameObject seed = Instantiate(itemPossessed.Item.itemObject, currentCropPlot.transform);
 
         seed.GetComponent<SeedGrowth>().CropPlot = currentCropPlot;
+
+        currentCropPlot.SeedSource = seed;
 
         CloseCultureUI();
 

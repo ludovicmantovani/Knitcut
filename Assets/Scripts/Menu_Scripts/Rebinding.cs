@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -6,9 +5,6 @@ using UnityEngine.UI;
 
 public class Rebinding : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private int totalInputs = 7;
-
     private string rebinds;
 
     UI_Menu menu;

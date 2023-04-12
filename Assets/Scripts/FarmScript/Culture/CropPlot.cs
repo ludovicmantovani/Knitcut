@@ -4,17 +4,23 @@ using UnityEngine.UI;
 
 public class CropPlot : MonoBehaviour
 {
-    [SerializeField] private Item itemInCropPlot = null;
+    //[SerializeField] private Item itemInCropPlot = null;
+    [SerializeField] private GameObject seedSource = null;
     [SerializeField] private GameObject product = null;
-    [SerializeField] private float timeOfCultivation = 20f;
+    [SerializeField] private bool isCultivating;
 
     private CultureManager cultureManager;
-    private bool isCultivating;
 
-    public Item ItemInCropPlot
+    /*public Item ItemInCropPlot
     {
         get { return itemInCropPlot; }
         set { itemInCropPlot = value; }
+    }*/
+
+    public GameObject SeedSource
+    {
+        get { return seedSource; }
+        set { seedSource = value; }
     }
 
     public GameObject Product
@@ -38,22 +44,11 @@ public class CropPlot : MonoBehaviour
 
     private void Update()
     {
-        if (!isCultivating && itemInCropPlot != null)
+        if (!isCultivating && seedSource != null/* && itemInCropPlot != null*/)
         {
             isCultivating = true;
-
-            //StartCoroutine(Cultivating());
         }
     }
-
-    /*private IEnumerator Cultivating()
-    {
-        Debug.Log($"Cultivating...");
-
-        yield return new WaitForSeconds(timeOfCultivation);
-
-        Debug.Log($"Cultivation finished...");
-    }*/
 
     private void OnTriggerEnter(Collider other)
     {

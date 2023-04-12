@@ -32,6 +32,7 @@ public class SeedGrowth : MonoBehaviour
     [SerializeField] private bool isDehydrated;
     [SerializeField] private float timeOfGrowthSeed = 10f;
     [SerializeField] private float timeOfGrowthSprout = 10f;
+    [SerializeField] private float yPositionFix = 0.2f;
 
     private void Start()
     {
@@ -86,6 +87,10 @@ public class SeedGrowth : MonoBehaviour
         Destroy(sproutObject);
 
         Debug.Log($"{adultObject.name} is ready");
+
+        Vector3 productPosition = transform.position;
+        productPosition.y += yPositionFix;
+        transform.position = productPosition;
 
         cropPlot.Product = adultObject;
     }
