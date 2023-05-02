@@ -189,11 +189,7 @@ public class List_Slots : MonoBehaviour
 
     private void ItemCreation(int indexItem, int quantity)
     {
-        Debug.Log($"item {indexItem} - quantity {quantity}");
-
         HandleVerificationAndApplication();
-
-        Debug.Log($"next");
 
         PlayerInventory inventory = playerController.PlayerInventory;
 
@@ -206,8 +202,6 @@ public class List_Slots : MonoBehaviour
         itemUI.GetComponent<DraggableItem>().QuantityStacked = quantity;
 
         AutoSavePlayerInventory();
-
-        Debug.Log($"added");
     }
 
     #endregion

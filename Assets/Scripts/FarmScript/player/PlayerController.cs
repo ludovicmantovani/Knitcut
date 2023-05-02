@@ -140,6 +140,11 @@ public class PlayerController : MonoBehaviour
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0, input.y);
 
+        Debug.Log($"Input : {input}");
+        Debug.Log($"Move : {move} vs {move.magnitude}");
+
+        GetComponentInChildren<Animator>().SetFloat("WalkAnimationSpeed", move.magnitude);
+
         move = move.x * cameraFerme.transform.right + move.z * cameraFerme.transform.forward;
         move.y = 0f;
 
