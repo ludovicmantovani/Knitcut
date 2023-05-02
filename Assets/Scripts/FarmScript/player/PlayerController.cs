@@ -75,7 +75,15 @@ public class PlayerController : MonoBehaviour
     private float _targetAngle;
     private float _angle;
 
+    private Vector3 move;
+
     private bool canMove = true;
+
+    public Vector3 Direction
+    {
+        get { return move; }
+        set { move = value; }
+    }
 
     public bool CanMove
     { 
@@ -138,12 +146,7 @@ public class PlayerController : MonoBehaviour
         if (!canMove) return;
 
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
-        Vector3 move = new Vector3(input.x, 0, input.y);
-
-        Debug.Log($"Input : {input}");
-        Debug.Log($"Move : {move} vs {move.magnitude}");
-
-        GetComponentInChildren<Animator>().SetFloat("WalkAnimationSpeed", move.magnitude);
+        move = new Vector3(input.x, 0, input.y);
 
         move = move.x * cameraFerme.transform.right + move.z * cameraFerme.transform.forward;
         move.y = 0f;
@@ -178,7 +181,7 @@ public class PlayerController : MonoBehaviour
         if (!canMove) return;
 
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
-        Vector3 move = new Vector3(input.x, 0, 0);
+        move = new Vector3(input.x, 0, 0);
 
         move.y = 0f;
         move.z = 0f;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DetectPlayerMovement : MonoBehaviour
@@ -10,12 +8,17 @@ public class DetectPlayerMovement : MonoBehaviour
     private Vector3 _lastPosition;
     private bool _isWalking = false;
 
+    private PlayerController playerController;
+
     public bool IsWalking { get => _isWalking;}
 
     void Start()
     {
+        playerController = GetComponent<PlayerController>();
+
         _lastPosition = transform.position;
-        if (animator) animator.SetFloat("WalkAnimationSpeed", walkAnimationSpeed);
+
+        if (animator) animator.SetFloat("WalkAnimationSpeed", playerController.Direction.magnitude);
     }
 
 
@@ -23,7 +26,7 @@ public class DetectPlayerMovement : MonoBehaviour
     {
         if (animator == null) return;
 
-        animator.SetFloat("WalkAnimationSpeed", walkAnimationSpeed);
+        animator.SetFloat("WalkAnimationSpeed", playerController.Direction.magnitude);
 
         float movement = Vector3.Magnitude(transform.position - _lastPosition);
         _isWalking = movement > movementThreshold;
