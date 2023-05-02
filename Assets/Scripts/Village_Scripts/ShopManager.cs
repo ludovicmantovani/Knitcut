@@ -10,11 +10,15 @@ public class ShopManager : MonoBehaviour
 {
     #region Parameters
 
+    [Header("Notification")]
+    [SerializeField] private GameObject notificationPrefab;
+    [SerializeField] private GameObject notification;
+    [SerializeField] private int timeNotification = 5;
+
     [Header("References")]
     [SerializeField] private string shopName;
     [SerializeField] private GameObject interactionUI;
-    [SerializeField] private GameObject notification;
-    [SerializeField] private int timeNotification = 5;
+    [SerializeField] private GameObject shopsUI;
 
     private string interaction;
 
@@ -97,7 +101,6 @@ public class ShopManager : MonoBehaviour
         CloseShopUI();
 
         interactionUI.SetActive(false);
-        notification.SetActive(false);
     }
 
     void Update()
@@ -189,6 +192,10 @@ public class ShopManager : MonoBehaviour
 
         if (playerController.Money >= totalPrice)
         {
+            Debug.Log($"{playerController.Money} - {totalPrice} = {playerController.Money - totalPrice}");
+
+            listSlots.UpdateMoney(playerController.Money - totalPrice);
+
             if (amount <= itemToBuy.item.maxStackSize)
             {
                 CreateItemUI(itemToBuy, amount);
@@ -522,8 +529,6 @@ public class ShopManager : MonoBehaviour
         itemUI.GetComponent<DraggableItem>().QuantityStacked = quantity;
 
         itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
-
-        listSlots.UpdateMoney(playerController.Money - itemToBuy.price);
     }
 
     private ItemToHandle CreateItemToHandle(Item item, int price, ShopConfiguration currentShop)
@@ -588,19 +593,15 @@ public class ShopManager : MonoBehaviour
 
     private void ShowNotification(string textToShow)
     {
-        StopCoroutine(ShowingNotification(textToShow));
-        StartCoroutine(ShowingNotification(textToShow));
-    }
+        if (notification != null) Destroy(notification);
 
-    private IEnumerator ShowingNotification(string textToShow)
-    {
+        notification = Instantiate(notificationPrefab, shopsUI.transform);
+
+        notification.transform.SetAsFirstSibling();
+
         notification.GetComponentInChildren<Text>().text = textToShow;
 
-        notification.SetActive(true);
-
-        yield return new WaitForSeconds(timeNotification);
-
-        notification.SetActive(false);
+        Destroy(notification, timeNotification);
     }
 
     #endregion
