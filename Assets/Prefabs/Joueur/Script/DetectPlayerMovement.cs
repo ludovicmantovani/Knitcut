@@ -4,7 +4,7 @@ public class DetectPlayerMovement : MonoBehaviour
 {
     [SerializeField] private Animator animator = null;
     [SerializeField] private float movementThreshold = 0.01f;
-    [SerializeField] private float walkAnimationSpeed = 1f;
+    [SerializeField] private float walkAnimationSpeed = 0f;
     private Vector3 _lastPosition;
     private bool _isWalking = false;
 
@@ -18,15 +18,15 @@ public class DetectPlayerMovement : MonoBehaviour
 
         _lastPosition = transform.position;
 
-        if (animator) animator.SetFloat("WalkAnimationSpeed", playerController.Direction.magnitude);
+        if (animator) animator.SetFloat("WalkAnimationSpeed", walkAnimationSpeed);
     }
-
 
     void Update()
     {
         if (animator == null) return;
 
-        animator.SetFloat("WalkAnimationSpeed", playerController.Direction.magnitude);
+        walkAnimationSpeed = playerController.Direction.magnitude;
+        animator.SetFloat("WalkAnimationSpeed", walkAnimationSpeed);
 
         float movement = Vector3.Magnitude(transform.position - _lastPosition);
         _isWalking = movement > movementThreshold;
