@@ -76,6 +76,8 @@ public class PlayerController : MonoBehaviour
     private float _angle;
 
     private Vector3 move;
+    private float verticalVelocity;
+    private float gravity = 9.81f;
 
     private bool canMove = true;
 
@@ -145,13 +147,24 @@ public class PlayerController : MonoBehaviour
     {
         if (!canMove) return;
 
+        // Gravity
+
+        bool groundedPlayer = characterController.isGrounded;
+
+        if (groundedPlayer && verticalVelocity < 0)
+        {
+            verticalVelocity = 0f;
+        }
+
+        verticalVelocity -= gravity * Time.deltaTime;
+
+        // Movement
+
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
         move = new Vector3(input.x, 0, input.y);
 
         Debug.Log($"Input : {input}");
         Debug.Log($"Move : {move} vs {move.magnitude}");
-
-        GetComponentInChildren<Animator>().SetFloat("WalkAnimationSpeed", move.magnitude);
 
         move = move.x * cameraFerme.transform.right + move.z * cameraFerme.transform.forward;
         move.y = 0f;
@@ -166,6 +179,8 @@ public class PlayerController : MonoBehaviour
 
             move = Quaternion.Euler(0, _targetAngle, 0) * Vector3.forward;
         }
+
+        move.y = verticalVelocity;
 
         characterController.Move(move * Time.deltaTime * moveSpeed);
     }
@@ -256,27 +271,4 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
-    /*private void ForceSaveAndLoad()
-    {
-        if (SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            if (playerInput.QuickSaveAction.triggered)
-            {
-                Debug.Log("Save");
-                SavePlayerPosition();
-            }
-
-            if (playerInput.QuickLoadAction.triggered)
-            {
-                if (SceneManager.GetActiveScene().buildIndex != sceneVerif.sceneIndexSaved)
-                {
-                    sceneVerif.LoadLastScene();
-                }
-
-                Debug.Log("Load");
-                LoadPlayerPosition();
-            }
-        }
-    }*/
 }
