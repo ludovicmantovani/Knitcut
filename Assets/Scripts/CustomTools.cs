@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public static class Tools
+public static class CustomTools
 {
     private static Random rand = new Random();
 
