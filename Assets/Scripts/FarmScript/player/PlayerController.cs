@@ -78,13 +78,15 @@ public class PlayerController : MonoBehaviour
     private Vector3 move;
     private float verticalVelocity;
     private float gravity = 9.81f;
+    private float velocity = 0f;
+    private float currentSpeed;
 
     private bool canMove = true;
 
-    public Vector3 Direction
+    public float CurrentSpeed
     {
-        get { return move; }
-        set { move = value; }
+        get { return currentSpeed; }
+        set { currentSpeed = value; }
     }
 
     public bool CanMove
@@ -161,13 +163,12 @@ public class PlayerController : MonoBehaviour
         // Movement
 
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
-        move = new Vector3(input.x, 0, input.y);
 
-        Debug.Log($"Input : {input}");
-        Debug.Log($"Move : {move} vs {move.magnitude}");
+        currentSpeed = Mathf.Abs(input.x) + Mathf.Abs(input.y);
+
+        move.Set(input.x, 0f, input.y);
 
         move = move.x * cameraFerme.transform.right + move.z * cameraFerme.transform.forward;
-        move.y = 0f;
 
         if (input != Vector2.zero)
         {
@@ -200,11 +201,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!canMove) return;
 
-        Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
-        move = new Vector3(input.x, 0, 0);
+        // Movement
 
-        move.y = 0f;
-        move.z = 0f;
+        Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
+
+        currentSpeed = Mathf.Abs(input.x);
+
+        move.Set(input.x, 0f, 0f);
 
         characterController.Move(move * Time.deltaTime * moveSpeed);
 

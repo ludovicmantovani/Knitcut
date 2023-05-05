@@ -7,6 +7,7 @@ public class DetectPlayerMovement : MonoBehaviour
     [SerializeField] private float walkAnimationSpeed = 0f;
     private Vector3 _lastPosition;
     private bool _isWalking = false;
+    private float velocity;
 
     private PlayerController playerController;
 
@@ -25,7 +26,11 @@ public class DetectPlayerMovement : MonoBehaviour
     {
         if (animator == null) return;
 
-        walkAnimationSpeed = playerController.Direction.magnitude;
+        walkAnimationSpeed = playerController.CurrentSpeed;
+
+        walkAnimationSpeed = Mathf.Clamp(walkAnimationSpeed, 0f, 1f);
+        walkAnimationSpeed = Mathf.SmoothDamp(animator.GetFloat("WalkAnimationSpeed"), walkAnimationSpeed, ref velocity, 0.1f);
+
         animator.SetFloat("WalkAnimationSpeed", walkAnimationSpeed);
 
         float movement = Vector3.Magnitude(transform.position - _lastPosition);
