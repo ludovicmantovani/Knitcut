@@ -90,17 +90,6 @@ public class List_Slots : MonoBehaviour
         HandleMoney();
     }
 
-    private void Start()
-    {
-        /*playerController = FindObjectOfType<PlayerController>();
-        playerInput = FindObjectOfType<PlayerInput>();
-        animalPenManager = FindObjectOfType<AnimalPenManager>();
-
-        //HandleInventories();
-
-        HandleMoney();*/
-    }
-
     #region Money
 
     public void AutoSaveMoney()
@@ -145,10 +134,10 @@ public class List_Slots : MonoBehaviour
 
     public void SaveData()
     {
-        Debug.Log($"Force save");
-
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, playerController);
+
         AutoSavePlayerInventory();
+
         playerController.PlayerRecipesInventory.SaveRecipes();
 
         if (handleContainer) AutoSaveContainerInventory();
@@ -174,8 +163,6 @@ public class List_Slots : MonoBehaviour
         //container
         if (handleContainer)
             LoadContainerInventory();
-
-        //CreateTempItems();
     }
 
     #region Temp Item at Start
@@ -285,7 +272,6 @@ public class List_Slots : MonoBehaviour
 
     private void LoadPlayerInventoryItem()
     {
-        //PlayerInventory_Data data = SaveSystem.LoadPlayerInventory(this);
         PlayerInventory_Data data = (PlayerInventory_Data)SaveSystem.Load(SaveSystem.SaveType.Save_PlayerInventory, this);
 
         if (data == null) return;
@@ -302,7 +288,6 @@ public class List_Slots : MonoBehaviour
 
     private void LoadContainerInventoryItem()
     {
-        //ContainerInventory_Data data = SaveSystem.LoadContainerInventory(this);
         ContainerInventory_Data data = (ContainerInventory_Data)SaveSystem.Load(SaveSystem.SaveType.Save_ContainerInventory, this);
 
         if (data == null) return;

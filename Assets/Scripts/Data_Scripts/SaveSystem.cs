@@ -4,6 +4,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
+    private static int playerInventoryMaxSlots = 10;
+    private static int containerInventoryMaxSlots = 50;
+
     public enum SaveType
     {
         Save_PlayerController,
@@ -43,7 +46,7 @@ public static class SaveSystem
                 break;
             case SaveType.Save_PlayerInventory:
                 List_Slots LS_PlayerInventory = (List_Slots)data;
-                PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(LS_PlayerInventory, 10);
+                PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(LS_PlayerInventory, playerInventoryMaxSlots);
                 formatter.Serialize(stream, data_PlayerInventory_Data);
                 break;
             case SaveType.Save_PlayerRecipesInventory:
@@ -53,7 +56,7 @@ public static class SaveSystem
                 break;
             case SaveType.Save_ContainerInventory:
                 List_Slots LS_ContainerInventory = (List_Slots)data;
-                ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(LS_ContainerInventory, 100);
+                ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(LS_ContainerInventory, containerInventoryMaxSlots);
                 formatter.Serialize(stream, data_ContainerInventory_Data);
                 break;
             case SaveType.Save_AnimalPen:

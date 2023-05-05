@@ -183,6 +183,7 @@ public class MinigameManager : MonoBehaviour
         {
             playerController.CameraCineBrain.enabled = false;
             playerController.CanMove = false;
+
         }
         else
         {

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 [System.Serializable]
 public class ContainerInventory_Data
 {
