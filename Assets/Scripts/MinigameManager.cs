@@ -243,15 +243,13 @@ public class MinigameManager : MonoBehaviour
 
         if (inventory == null || FindFirstGenericDishSO() == -1) return;
 
-        GameObject itemUI = inventory.CreateItemUI();
+        Item item = (Item)listSlots.stuffs[FindFirstGenericDishSO() + Convert.ToInt32(dataToKeep[3])];
 
-        itemUI.GetComponent<DraggableItem>().QuantityStacked = 1;
+        item.itemName = (string)dataToKeep[0];
+        item.itemDescription = (string)dataToKeep[1];
+        item.itemValue = (float)dataToKeep[2];
 
-        itemUI.GetComponent<DraggableItem>().Item = (Item)listSlots.stuffs[FindFirstGenericDishSO() + Convert.ToInt32(dataToKeep[3])];
-
-        itemUI.GetComponent<DraggableItem>().Item.itemName = (string)dataToKeep[0];
-        itemUI.GetComponent<DraggableItem>().Item.itemDescription = (string)dataToKeep[1];
-        itemUI.GetComponent<DraggableItem>().Item.itemValue = (float)dataToKeep[2];
+        inventory.AddItemToInventory(item);
 
         HandleItemsInInventory(inventory);
     }

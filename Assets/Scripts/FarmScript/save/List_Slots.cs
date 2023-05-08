@@ -182,11 +182,7 @@ public class List_Slots : MonoBehaviour
 
         if (inventory == null) return;
 
-        GameObject itemUI = inventory.CreateItemUI();
-
-        itemUI.GetComponent<DraggableItem>().Item = (Item)stuffs[indexItem];
-
-        itemUI.GetComponent<DraggableItem>().QuantityStacked = quantity;
+        inventory.AddItemToInventory((Item)stuffs[indexItem], quantity);
 
         AutoSavePlayerInventory();
     }

@@ -45,27 +45,67 @@ public class PlayerInventory : MonoBehaviour
 
     #region Items
 
-    public GameObject CreateItemUI()
+    private GameObject CreateItemUI(bool setup = false, Item item = null, int quantity = -1)
     {
         GameObject itemObject = Instantiate(itemUI, GetFreeSlot());
+
+        if (setup)
+        {
+            itemObject.GetComponent<DraggableItem>().Item = item;
+
+            itemObject.GetComponent<Image>().sprite = item.itemSprite;
+
+            if (quantity != -1)
+                itemObject.GetComponent<DraggableItem>().QuantityStacked = quantity;
+        }
 
         return itemObject;
     }
 
-    public void AddItemToInventory(Item item, int quantity = -1)
+    public void AddItemToInventory(Item item, int quantity = 1)
     {
-        Transform slotParent = GetFreeSlot();
+        List<DraggableItem> sameItems = SearchSameItemInInventory(item);
+        List<DraggableItem> sameItemsNotFull = new List<DraggableItem>();
 
-        if (slotParent == null) return;
+        if (sameItems.Count > 0)
+        {
+            for (int i = 0; i < sameItems.Count; i++)
+            {
+                DraggableItem sameItem = sameItems[i];
 
-        GameObject itemObject = Instantiate(itemUI, slotParent);
+                if (sameItem.QuantityStacked < sameItem.Item.maxStackSize) sameItemsNotFull.Add(sameItem);
+            }
 
-        itemObject.GetComponent<DraggableItem>().Item = item;
+            int remainingQuantity = quantity;
 
-        itemObject.GetComponent<Image>().sprite = item.itemSprite;
+            for (int i = 0; i < sameItemsNotFull.Count; i++)
+            {
+                if (remainingQuantity == 0) return;
 
-        if (quantity != -1)
-            itemObject.GetComponent<DraggableItem>().QuantityStacked = quantity;
+                DraggableItem sameItemNotFull = sameItemsNotFull[i];
+
+                if (sameItemNotFull.QuantityStacked + quantity <= sameItemNotFull.Item.maxStackSize)
+                {
+                    sameItemNotFull.QuantityStacked += quantity;
+
+                    remainingQuantity = 0;
+                }
+
+                if (sameItemNotFull.QuantityStacked + quantity > sameItemNotFull.Item.maxStackSize)
+                {
+                    remainingQuantity = (sameItemNotFull.QuantityStacked + quantity) - sameItemNotFull.Item.maxStackSize;
+
+                    sameItemNotFull.QuantityStacked = sameItemNotFull.Item.maxStackSize;
+                    sameItemsNotFull.Remove(sameItemNotFull);
+                }
+            }
+
+            if (sameItemsNotFull.Count == 0 && remainingQuantity > 0) CreateItemUI(true, item, remainingQuantity);
+        }
+        else
+        {
+            CreateItemUI(true, item, quantity);
+        }
     }
 
     public List<DraggableItem> SearchSameItemInInventory(Item item)

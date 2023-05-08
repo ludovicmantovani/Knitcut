@@ -67,13 +67,6 @@ public class CropPlot : MonoBehaviour
         if (seed.GetProductState == SeedGrowth.ProductState.Dehydrated && cultureManager.PlayerInput.HydrateAction.triggered) ResumePlantGrowth(seed);
     }
 
-    public SeedGrowth.ProductState GetSeedProductState()
-    {
-        SeedGrowth seed = seedSource.GetComponent<SeedGrowth>();
-
-        return seed.GetProductState;
-    }
-
     private void ResumePlantGrowth(SeedGrowth seed)
     {
         cultureManager.InteractionUI.GetComponentInChildren<Text>().text = $"Une graine est actuellement en production sur cette parcelle";

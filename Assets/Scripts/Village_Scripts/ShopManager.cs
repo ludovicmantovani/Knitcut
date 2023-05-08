@@ -524,11 +524,7 @@ public class ShopManager : MonoBehaviour
 
     private void CreateItemUI(ItemToHandle itemToBuy, int quantity)
     {
-        GameObject itemUI = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>().CreateItemUI();
-
-        itemUI.GetComponent<DraggableItem>().QuantityStacked = quantity;
-
-        itemUI.GetComponent<DraggableItem>().Item = itemToBuy.item;
+        playerController.PlayerInventory.AddItemToInventory(itemToBuy.item, quantity);
     }
 
     private ItemToHandle CreateItemToHandle(Item item, int price, ShopConfiguration currentShop)
