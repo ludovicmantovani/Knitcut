@@ -62,24 +62,23 @@ public class CropPlot : MonoBehaviour
 
         SeedGrowth seed = seedSource.GetComponent<SeedGrowth>();
 
-        // Heal Seed
-        if (seed.GetProductStates == SeedGrowth.ProductState.Sick)
-            cultureManager.InteractionUI.GetComponentInChildren<Text>().text = $"Utiliser {cultureManager.PlayerInput.HealAction.GetBindingDisplayString()} pour soigner la plante";
+        if (seed.GetProductState == SeedGrowth.ProductState.Sick && cultureManager.PlayerInput.HealAction.triggered) ResumePlantGrowth(seed);
 
-        if (seed.GetProductStates == SeedGrowth.ProductState.Sick && cultureManager.PlayerInput.HealAction.triggered) ResumePlantGrowth(seed);
+        if (seed.GetProductState == SeedGrowth.ProductState.Dehydrated && cultureManager.PlayerInput.HydrateAction.triggered) ResumePlantGrowth(seed);
+    }
 
-        // Hydrate Seed
-        if (seed.GetProductStates == SeedGrowth.ProductState.Dehydrated)
-            cultureManager.InteractionUI.GetComponentInChildren<Text>().text = $"Utiliser {cultureManager.PlayerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
+    public SeedGrowth.ProductState GetSeedProductState()
+    {
+        SeedGrowth seed = seedSource.GetComponent<SeedGrowth>();
 
-        if (seed.GetProductStates == SeedGrowth.ProductState.Dehydrated && cultureManager.PlayerInput.HydrateAction.triggered) ResumePlantGrowth(seed);
+        return seed.GetProductState;
     }
 
     private void ResumePlantGrowth(SeedGrowth seed)
     {
         cultureManager.InteractionUI.GetComponentInChildren<Text>().text = $"Une graine est actuellement en production sur cette parcelle";
 
-        seed.GetProductStates = SeedGrowth.ProductState.InGrowth;
+        seed.GetProductState = SeedGrowth.ProductState.InGrowth;
 
         manageSource = false;
     }

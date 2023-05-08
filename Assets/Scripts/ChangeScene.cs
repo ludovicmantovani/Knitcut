@@ -106,14 +106,36 @@ public class ChangeScene : MonoBehaviour
                 }
                 else if (sceneToLoad.Contains("Flower"))
                 {
-                    GetAnimalType();
+                    if (GetAnimalsCount() == 0)
+                    {
+                        instruction = "Il n'y a aucun animal dans cet enclos";
+                    }
+                    else
+                    {
+                        instruction += " pour reproduire les animaux";
 
-                    instruction += " pour reproduire les animaux";
+                        GetAnimalType();
+                    }
                 }
             }
 
             interactionPanel.GetComponentInChildren<Text>().text = instruction;
         }
+    }
+
+    private int GetAnimalsCount()
+    {
+        int count = 0;
+
+        for (int i = 0; i < transform.parent.childCount; i++)
+        {
+            if (transform.parent.GetChild(i).CompareTag("Animal"))
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     private void GetAnimalType()

@@ -70,7 +70,7 @@ public class SeedGrowth : MonoBehaviour
         set { productGrowth = value; }
     }
 
-    public ProductState GetProductStates
+    public ProductState GetProductState
     {
         get { return productState; }
         set { productState = value; }

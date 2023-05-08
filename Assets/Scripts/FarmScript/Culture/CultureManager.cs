@@ -104,34 +104,45 @@ public class CultureManager : MonoBehaviour
             return;
         }
 
-        HandleCropPlotAction();
+        HandleCropPlotState();
     }
 
-    private void HandleCropPlotAction()
+    private void HandleCropPlotState()
     {
-        if (playerInput.InteractionAction.triggered && canPlantSeed)
+        if (!cultureUIInUse)
         {
-            if (!cultureUIInUse)
+            if (!currentCropPlot.IsCultivating)
             {
-                if (!currentCropPlot.IsCultivating)
-                {
-                    instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
-                    interactionUI.GetComponentInChildren<Text>().text = instruction;
+                instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
+                interactionUI.GetComponentInChildren<Text>().text = instruction;
 
+                if (playerInput.InteractionAction.triggered)
+                {
                     OpenCultureUI();
 
                     HandleSeedsUI();
                 }
-                else if (currentCropPlot.IsCultivating && currentCropPlot.Product == null)
-                {
-                    instruction = $"Une graine est actuellement en production sur cette parcelle";
-                    interactionUI.GetComponentInChildren<Text>().text = instruction;
-                }
-                else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
-                {
-                    instruction = $"Une graine est prête à être ramassé";
-                    interactionUI.GetComponentInChildren<Text>().text = instruction;
+            }
+            else if (currentCropPlot.IsCultivating && currentCropPlot.Product == null)
+            {
+                SeedGrowth.ProductState seedProductState = currentCropPlot.GetSeedProductState();
 
+                if (seedProductState == SeedGrowth.ProductState.Sick)
+                    instruction = $"Utiliser {playerInput.HealAction.GetBindingDisplayString()} pour soigner la plante";
+                else if (seedProductState == SeedGrowth.ProductState.Dehydrated)
+                    instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
+                else
+                    instruction = $"Croissance en cours...";
+                
+                interactionUI.GetComponentInChildren<Text>().text = instruction;
+            }
+            else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
+            {
+                instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
+                interactionUI.GetComponentInChildren<Text>().text = instruction;
+
+                if (playerInput.InteractionAction.triggered)
+                {
                     Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
                     if (questCompletionPick != null)
                         questCompletionPick.CompleteObjective();
@@ -139,13 +150,10 @@ public class CultureManager : MonoBehaviour
                     playerController.PlayerInventory.AddItemToInventory(item);
 
                     Destroy(currentCropPlot.SeedSource);
+
                     currentCropPlot.Product = null;
                     currentCropPlot.IsCultivating = false;
-                }
-            }
-            else
-            {
-                CloseCultureUI();
+                }                
             }
         }
     }
@@ -169,9 +177,13 @@ public class CultureManager : MonoBehaviour
         canPlantSeed = state;
 
         if (canPlantSeed)
+        {
             currentCropPlot = cropPlot;
+        }
         else
+        {
             currentCropPlot = null;
+        }
     }
 
     private void HandleSeedsUI()
