@@ -86,18 +86,21 @@ public class PlayerInventory : MonoBehaviour
 
                 if (sameItemNotFull.QuantityStacked + quantity <= sameItemNotFull.Item.maxStackSize)
                 {
+                    Debug.Log($"1");
                     sameItemNotFull.QuantityStacked += quantity;
 
                     remainingQuantity = 0;
                 }
-
-                if (sameItemNotFull.QuantityStacked + quantity > sameItemNotFull.Item.maxStackSize)
+                else if (sameItemNotFull.QuantityStacked + quantity > sameItemNotFull.Item.maxStackSize)
                 {
+                    Debug.Log($"2");
                     remainingQuantity = (sameItemNotFull.QuantityStacked + quantity) - sameItemNotFull.Item.maxStackSize;
 
                     sameItemNotFull.QuantityStacked = sameItemNotFull.Item.maxStackSize;
                     sameItemsNotFull.Remove(sameItemNotFull);
                 }
+
+                Debug.Log($"{sameItemNotFull.QuantityStacked} + {quantity} = {sameItemNotFull.QuantityStacked + quantity} => remaining {remainingQuantity}");
             }
 
             if (sameItemsNotFull.Count == 0 && remainingQuantity > 0) CreateItemUI(true, item, remainingQuantity);
