@@ -108,6 +108,7 @@ public class ChangeScene : MonoBehaviour
                 {
                     if (GetAnimalsCount() == 0)
                     {
+                        canChangeScene = false;
                         instruction = "Il n'y a aucun animal dans cet enclos";
                     }
                     else
