@@ -238,7 +238,6 @@ public class CaptureManager : MonoBehaviour
 
             playerController.SavePlayerPositionInScene();
 
-
             StartCoroutine(Saving());
             /*string sceneToLoad = captureGameSceneName[Random.Range(0, captureGameSceneName.Length)];
 
@@ -256,7 +255,7 @@ public class CaptureManager : MonoBehaviour
 
         string sceneToLoad = captureGameSceneName[Random.Range(0, captureGameSceneName.Length)];
 
-        SceneManager.LoadScene(sceneToLoad);
+        MinigameManager.SwitchScene(sceneToLoad);
     }
 
     private DraggableItem GetItemData()

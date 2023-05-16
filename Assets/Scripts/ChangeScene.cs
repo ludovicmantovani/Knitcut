@@ -46,12 +46,12 @@ public class ChangeScene : MonoBehaviour
         {
             canChangeScene = false;
 
-            playerController.SavePlayerPositionInScene();
-
             if (SceneManager.GetActiveScene().name.Contains("Village"))
             {
                 playerController.InFarm = false;
             }
+
+            playerController.SavePlayerPositionInScene();
 
             LS.SaveData();
 
