@@ -57,7 +57,7 @@ public class ChangeScene : MonoBehaviour
 
             CheckPlayerInventory();
 
-            SceneManager.LoadScene(sceneToLoad);
+            MinigameManager.SwitchScene(sceneToLoad);
         }
     }
 

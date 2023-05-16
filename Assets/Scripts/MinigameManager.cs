@@ -72,8 +72,7 @@ public class MinigameManager : MonoBehaviour
         Cooking,
         Recognition,
         Breeding,
-        Capture,
-        None
+        Capture
     }
 
     private static MGType mgType;
@@ -108,12 +107,8 @@ public class MinigameManager : MonoBehaviour
 
     private void OnLevelWasLoaded()
     {
-        Debug.Log($"OnLevelWasLoaded : returnToFarm ? {returnToFarm} & {SceneManager.GetActiveScene().name}");
-
         if (returnToFarm && SceneManager.GetActiveScene().name.Contains("Farm"))
         {
-            Debug.Log($"Load Player in farm");
-
             PlayerController playerController = FindObjectOfType<PlayerController>();
 
             playerController.LoadPlayerPositionInScene();
@@ -200,8 +195,6 @@ public class MinigameManager : MonoBehaviour
 
     private void CheckItemsToAdd()
     {
-        if (mgType == MGType.None) return;
-
         if (SceneManager.GetActiveScene().name.Contains("Farm"))
             listSlots = FindObjectOfType<List_Slots>();
 
@@ -301,18 +294,15 @@ public class MinigameManager : MonoBehaviour
 
     public static void SwitchScene(string specificScene = "")
     {
-        Debug.Log($"Switch scene '{SceneManager.GetActiveScene().name}' to scene '{sceneToLoad}'");
-
         if (specificScene != "")
         {
             returnToFarm = false;
-            sceneToLoad = specificScene;
+            SceneManager.LoadScene(specificScene);
         }
         else
         {
             returnToFarm = true;
+            SceneManager.LoadScene(sceneToLoad);
         }
-
-        SceneManager.LoadScene(sceneToLoad);
     }
 }

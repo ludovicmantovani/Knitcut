@@ -97,13 +97,6 @@ public class Cooking : MonoBehaviour
         HandleGameStart();
     }
 
-    public void QuitWithoutPlaying()
-    {
-        MinigameManager.FinalizeMG(MinigameManager.MGType.None);
-
-        Quit();
-    }
-
     public void Quit()
     {
         MinigameManager.SwitchScene();
