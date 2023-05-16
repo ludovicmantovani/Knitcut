@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ public class MinigameManager : MonoBehaviour
     private static List<GameObject> openInventories = new List<GameObject>();
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
+    private static bool returnToFarm = false;
 
     #region Getters / Setters
 
@@ -106,6 +108,17 @@ public class MinigameManager : MonoBehaviour
 
     private void OnLevelWasLoaded()
     {
+        Debug.Log($"OnLevelWasLoaded : returnToFarm ? {returnToFarm} & {SceneManager.GetActiveScene().name}");
+
+        if (returnToFarm && SceneManager.GetActiveScene().name.Contains("Farm"))
+        {
+            Debug.Log($"Load Player in farm");
+
+            PlayerController playerController = FindObjectOfType<PlayerController>();
+
+            playerController.LoadPlayerPositionInScene();
+        }
+
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))
         {
             if (dataToKeep != null) dataLoaded = true;
@@ -290,7 +303,15 @@ public class MinigameManager : MonoBehaviour
     {
         Debug.Log($"Switch scene '{SceneManager.GetActiveScene().name}' to scene '{sceneToLoad}'");
 
-        if (specificScene != "") sceneToLoad = specificScene;
+        if (specificScene != "")
+        {
+            returnToFarm = false;
+            sceneToLoad = specificScene;
+        }
+        else
+        {
+            returnToFarm = true;
+        }
 
         SceneManager.LoadScene(sceneToLoad);
     }
