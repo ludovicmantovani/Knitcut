@@ -181,7 +181,9 @@ public static class SaveSystem
         foreach (string file in files)
         {
             File.Delete(file);
-            Debug.Log($"{file} is deleted");
+            //Debug.Log($"{file} is deleted");
         }
+
+        Debug.Log($"All files successfully deleted");
     }
 }

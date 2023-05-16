@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class MinigameManager : MonoBehaviour
 {
     private static List<object> dataToKeep;
-    private static bool startOK = false;
     private static string sceneToLoad = "FarmScene";
     private static AnimalType animalTypeToKeep = AnimalType.None;
     private static List<int> animalPenIndexToUpgrade = new List<int>();
@@ -27,12 +26,6 @@ public class MinigameManager : MonoBehaviour
     public static List<object> DataToKeep
     {
         get { return dataToKeep; }
-    }
-
-    public static bool StartOK
-    {
-        get { return startOK; }
-        set { startOK = value; }
     }
 
     public static AnimalType AnimalTypeToKeep
@@ -81,23 +74,6 @@ public class MinigameManager : MonoBehaviour
     }
 
     private static MGType mgType;
-
-    private void Start()
-    {
-        if (!startOK)
-        {
-            startOK = true;
-
-            playerController = FindObjectOfType<PlayerController>();
-
-            playerController.LoadPlayerPositionInScene();
-
-            //playerController.ListSlots.HandleInventories();
-            playerController.ListSlots.CreateTempItems();
-
-            Debug.Log($"Initialization OK");
-        }
-    }
 
     private void Update()
     {

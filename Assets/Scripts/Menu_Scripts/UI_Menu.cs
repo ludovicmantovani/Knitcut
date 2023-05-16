@@ -9,6 +9,10 @@ using UnityEngine.InputSystem;
 [ExecuteAlways]
 public class UI_Menu : MonoBehaviour
 {
+    [Header("Launcher Mode")]
+    [SerializeField] private LauncherMode launcherMode;
+
+    [Header("References Texts")]
     public TMP_InputField moveForward;
     public TMP_InputField moveBackward;
     public TMP_InputField moveRight;
@@ -30,6 +34,7 @@ public class UI_Menu : MonoBehaviour
     private string lastKey;
     private float lastVolume;
 
+    [Header("References Objects")]
     [SerializeField] private GameObject menuInterface;
     [SerializeField] private GameObject menuOptions;
     [SerializeField] private GameObject menuKeybinding;
@@ -85,6 +90,7 @@ public class UI_Menu : MonoBehaviour
 
         SaveVolumeLevel();
     }
+
     public void UpperCaseVerif()
     {
         moveForward.text = moveForward.text.ToUpper();
@@ -96,6 +102,7 @@ public class UI_Menu : MonoBehaviour
         healPlante.text = healPlante.text.ToUpper();
         inventory.text = inventory.text.ToUpper();
     }
+
     public void OptionsMenu()
     {
         if (menuKeybinding.activeSelf) rebinding.Save();
@@ -104,6 +111,7 @@ public class UI_Menu : MonoBehaviour
         menuKeybinding.SetActive(false);
         menuOptions.SetActive(true);
     }
+
     public void KeyBinding()
     {
         LoadBindings();
@@ -112,43 +120,64 @@ public class UI_Menu : MonoBehaviour
         menuKeybinding.SetActive(true);
         menuOptions.SetActive(false);
     }
+
     public void MenuCredits()
     {
         menuOptions.SetActive(false);
         menuCredits.SetActive(true);
         startCredits = true;
     }
+
     public void MenuCreditsBack()
     {
         menuOptions.SetActive(true);
         menuCredits.SetActive(false);
         startCredits = false;
     }
+
     public void MenuAudio()
     {
         menuOptions.SetActive(false);
         menuAudio.SetActive(true);
     }
+
     public void MenuAudioBack()
     {
         menuOptions.SetActive(true);
         menuAudio.SetActive(false);
         SaveVolumeSystem();
     }
+
     public void MenuSettings()
     {
         menuInterface.SetActive(true);
         menuKeybinding.SetActive(false);
         menuOptions.SetActive(false);
     }
+
     public void NewGame()
     {
-        SceneManager.LoadScene("FarmScene");
+        launcherMode.launchMode = LauncherMode.LaunchMode.New;
+
+        launcherMode.Launch();
+
+        //SceneManager.LoadScene("FarmScene");
     }
+
+    public void ContinueGame()
+    {
+        launcherMode.launchMode = LauncherMode.LaunchMode.Continue;
+
+        launcherMode.Launch();
+
+        //SceneManager.LoadScene("FarmScene");
+    }
+
     public void Quit()
     {
         Application.Quit();
     }
+
     public void ScrollCredits()
     {
         if(creditsObj.transform.position.y >= 360f)
