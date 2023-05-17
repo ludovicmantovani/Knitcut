@@ -2748,11 +2748,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.5724701
+      value: -0.57247007
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.044694703
+      value: 0.044694696
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4179,7 +4179,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 465e83f5345f57643a43f72cf46bf061, type: 2}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[0].itemsRestriction.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[1].recipes.Array.data[0].price
@@ -4192,6 +4192,14 @@ PrefabInstance:
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[0].itemsRestriction.Array.data[0]
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsConfiguration.Array.data[0].itemsRestriction.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsConfiguration.Array.data[0].itemsRestriction.Array.data[2]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2071924569, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: m_StaticEditorFlags

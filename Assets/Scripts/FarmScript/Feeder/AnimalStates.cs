@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,14 @@ public class AnimalStates : MonoBehaviour
     [SerializeField] private Text animalName;
     [SerializeField] private Slider animalHungerSlider;
     [SerializeField] private Image animalHappinessImage;
+    [SerializeField] private GameObject woolPrefab;
+    [SerializeField] private float timeWoolProduction = 20f;
+    [SerializeField] private float timeAutoDestroy = 10f;
     [SerializeField] private bool isChild;
 
     private AnimalData animalData;
+    private bool canProduceWool = false;
+    private bool producingWool = false;
 
     [Header("Hunger parameters")]
     [SerializeField] private float hunger = 0;
@@ -48,10 +54,44 @@ public class AnimalStates : MonoBehaviour
             HandleHunger();
 
             HandleHappiness();
+
+            HandleWoolProduction();
         }
         else
             animalName.text = $"{animalData.AnimalType} (B)";
     }
+
+    #region Wool
+
+    private void HandleWoolProduction()
+    {
+        if (!producingWool)
+        {
+            producingWool = true;
+
+            StartCoroutine(ProducingWool());
+        }
+    }
+
+    private IEnumerator ProducingWool()
+    {
+        while (canProduceWool)
+        {
+            if (!canProduceWool) break;
+
+            yield return new WaitForSeconds(timeWoolProduction);
+
+            if (!canProduceWool) break;
+
+            GameObject wool = Instantiate(woolPrefab, transform.position, Quaternion.identity);
+
+            Destroy(wool, timeAutoDestroy);
+        }
+
+        producingWool = false;
+    }
+
+    #endregion
 
     #region Hunger
 
@@ -139,11 +179,13 @@ public class AnimalStates : MonoBehaviour
         {
             happiness = 1;
             animalHappinessImage.color = happyColor;
+            canProduceWool = true;
         }
         else
         {
             happiness = 0;
             animalHappinessImage.color = sadColor;
+            canProduceWool = false;
         }
 
         //CheckBreeding();
