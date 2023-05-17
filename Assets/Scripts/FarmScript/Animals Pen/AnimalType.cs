@@ -1,10 +1,10 @@
 public enum AnimalType
 {
-    Fox,
+    Renard,
     Lama,
-    Unicorn,
+    Licorne,
     Lion,
-    Racoon,
-    Worm,
+    RatonLaveur,
+    Vers,
     None
 }

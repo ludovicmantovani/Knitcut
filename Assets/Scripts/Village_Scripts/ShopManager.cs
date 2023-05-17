@@ -192,8 +192,6 @@ public class ShopManager : MonoBehaviour
 
         if (playerController.Money >= totalPrice)
         {
-            Debug.Log($"{playerController.Money} - {totalPrice} = {playerController.Money - totalPrice}");
-
             listSlots.UpdateMoney(playerController.Money - totalPrice);
 
             if (amount <= itemToBuy.item.maxStackSize)
