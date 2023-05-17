@@ -201,8 +201,8 @@ public class PlayerController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Village"))
         {
-            playerInventory.HandleInventoryUI();
-            playerRecipesInventory.HandleInventoryUI();
+            //playerInventory.HandleInventoryUI();
+            //playerRecipesInventory.HandleInventoryUI();
         }
     }
 
