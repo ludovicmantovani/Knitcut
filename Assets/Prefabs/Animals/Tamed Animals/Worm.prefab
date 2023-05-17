@@ -771,10 +771,11 @@ MonoBehaviour:
   animalName: {fileID: 177763203}
   animalHungerSlider: {fileID: 1561613815}
   animalHappinessImage: {fileID: 1426479858}
+  isChild: 0
   hunger: 0
   maxHunger: 300
-  hungerToDecrease: 40
-  timeDecreaseHunger: 10
+  hungerToDecrease: 20
+  timeDecreaseHunger: 60
   happiness: 0
   requiredHungerForHappiness: 0.6
   happyColor: {r: 0, g: 0.75454235, b: 1, a: 1}

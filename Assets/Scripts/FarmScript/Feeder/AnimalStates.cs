@@ -10,6 +10,9 @@ public class AnimalStates : MonoBehaviour
     [SerializeField] private Text animalName;
     [SerializeField] private Slider animalHungerSlider;
     [SerializeField] private Image animalHappinessImage;
+    [SerializeField] private bool isChild;
+
+    private AnimalData animalData;
 
     [Header("Hunger parameters")]
     [SerializeField] private float hunger = 0;
@@ -29,18 +32,25 @@ public class AnimalStates : MonoBehaviour
 
     void Start()
     {
-        InitializeHunger();
+        animalData = GetComponent<AnimalData>();
+
+        if (!isChild) InitializeHunger();
     }
 
     void Update()
     {
         animalCanvas.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+        
+        if (!isChild)
+        {
+            animalName.text = $"{animalData.AnimalType}";
 
-        animalName.text = name;
+            HandleHunger();
 
-        HandleHunger();
-
-        HandleHappiness();
+            HandleHappiness();
+        }
+        else
+            animalName.text = $"{animalData.AnimalType} (B)";
     }
 
     #region Hunger

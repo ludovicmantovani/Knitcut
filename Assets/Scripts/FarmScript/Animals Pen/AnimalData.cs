@@ -76,10 +76,10 @@ public class AnimalData : MonoBehaviour
 
     private IEnumerator Moving()
     {
+        animalCanMove = true;
+
         yield return new WaitForSeconds(timeToWaitBeforeMoving);
 
         SearchDestination();
-
-        animalCanMove = true;
     }
 }
