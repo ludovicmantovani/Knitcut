@@ -106,7 +106,7 @@ public class ChangeScene : MonoBehaviour
                 }
                 else if (sceneToLoad.Contains("Flower"))
                 {
-                    if (GetAnimalsCount() == 0)
+                    if (GetAnimalsCount() < 2)
                     {
                         canChangeScene = false;
                         instruction = "Il n'y a aucun animal dans cet enclos";
