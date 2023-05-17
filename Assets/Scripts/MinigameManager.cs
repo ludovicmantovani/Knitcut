@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -77,6 +76,16 @@ public class MinigameManager : MonoBehaviour
 
     private static MGType mgType;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLevelFinishedLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoaded;
+    }
+
     private void Update()
     {
         HandlePanels();
@@ -105,7 +114,8 @@ public class MinigameManager : MonoBehaviour
         }
     }
 
-    private void OnLevelWasLoaded()
+    // New method
+    private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
         if (returnToFarm && SceneManager.GetActiveScene().name.Contains("Farm"))
         {

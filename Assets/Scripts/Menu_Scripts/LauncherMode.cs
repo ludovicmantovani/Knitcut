@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +11,16 @@ public class LauncherMode : MonoBehaviour
 
     public LaunchMode launchMode;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLevelFinishedLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoaded;
+    }
+
     public void Launch()
     {
         if (launchMode == LaunchMode.New) SaveSystem.DeleteAllSaves();
@@ -20,7 +28,8 @@ public class LauncherMode : MonoBehaviour
         SceneManager.LoadScene("FarmScene");
     }
 
-    private void OnLevelWasLoaded()
+    // New method
+    private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Village"))
         {
