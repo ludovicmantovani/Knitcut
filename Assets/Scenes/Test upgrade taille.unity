@@ -190,6 +190,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: flower (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1744618867880213524, guid: 4723f2e2799b9cc4fb1b0c7e1a6f702a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4723f2e2799b9cc4fb1b0c7e1a6f702a, type: 3}
 --- !u!1001 &200652453
@@ -202,6 +206,10 @@ PrefabInstance:
     - target: {fileID: 2741518846972547017, guid: 204421647a368d5418cb7fb2a6691aad, type: 3}
       propertyPath: m_Name
       value: fruit_raccord
+      objectReference: {fileID: 0}
+    - target: {fileID: 2741518846972547017, guid: 204421647a368d5418cb7fb2a6691aad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3260611014137615731, guid: 204421647a368d5418cb7fb2a6691aad, type: 3}
       propertyPath: m_RootOrder
@@ -321,7 +329,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 02bef4b43786a2c49bf7fd71ee377433, type: 2}
   m_BuildHeightMesh: 0
@@ -456,6 +464,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: plant
       objectReference: {fileID: 0}
+    - target: {fileID: 6457170055854234521, guid: 690bd78b62d136b4eaee0d7608da1e5c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690bd78b62d136b4eaee0d7608da1e5c, type: 3}
 --- !u!1001 &239768455
@@ -524,6 +536,10 @@ PrefabInstance:
     - target: {fileID: 3244523160136934452, guid: 33e9f6385d290204280584db2ca4e737, type: 3}
       propertyPath: m_Name
       value: flower_fruits
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244523160136934452, guid: 33e9f6385d290204280584db2ca4e737, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33e9f6385d290204280584db2ca4e737, type: 3}
@@ -1217,6 +1233,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: graine
       objectReference: {fileID: 0}
+    - target: {fileID: 5714715587339544477, guid: 3507575dcba8d24428f12739c5340c46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3507575dcba8d24428f12739c5340c46, type: 3}
 --- !u!1 &813314184
@@ -1279,7 +1299,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -2446,6 +2466,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856518643}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &2027330931
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552965025778443410, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2217721387564498472, guid: 103f169146c2aec42b94b577be542e88, type: 3}
+      propertyPath: m_Name
+      value: Radis pret rigAnim
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 103f169146c2aec42b94b577be542e88, type: 3}
 --- !u!1 &2058404190
 GameObject:
   m_ObjectHideFlags: 0
