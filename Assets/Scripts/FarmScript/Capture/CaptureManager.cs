@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CaptureManager : MonoBehaviour
@@ -26,9 +25,6 @@ public class CaptureManager : MonoBehaviour
 
     private DraggableItem currentFruit;
 
-    /*[Header("Datas")]
-    [SerializeField] private bool canPlaceFruit;
-    [SerializeField] private bool canTryToCapture;*/
     [Header("Datas")]
     [SerializeField] private bool zoneDetected;
     [SerializeField] private bool animalDetected;
@@ -57,18 +53,6 @@ public class CaptureManager : MonoBehaviour
         set { animalDetected = value; }
     }
 
-    /*public bool CanPlaceFruit
-    {
-        get { return canPlaceFruit; }
-        set { canPlaceFruit = value; }
-    }
-
-    public bool CanTryToCapture
-    {
-        get { return canTryToCapture; }
-        set { canTryToCapture = value; }
-    }*/
-
     public GameObject WildAnimal
     {
         get { return wildAnimal; }
@@ -89,11 +73,9 @@ public class CaptureManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         LS = FindObjectOfType<List_Slots>();
 
-        /*canPlaceFruit = false;
-        canTryToCapture = false;*/
         zoneDetected = false;
         animalDetected = false;
-        //captureInventoryInUse = false;
+
         isCapturing = false;
 
         instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour placer un fruit";
@@ -104,9 +86,7 @@ public class CaptureManager : MonoBehaviour
 
     private void Update()
     {
-        //HandlePlaceFruitUI();
-        //HandleCaptureAnimalUI();
-        HandlePedestalInventory();
+        captureUI.SetActive(zoneDetected);
 
         HandleAnimals();
 
@@ -114,81 +94,6 @@ public class CaptureManager : MonoBehaviour
 
         HandleCapture();
     }
-
-    #region Handle UI
-
-    /*private void HandlePlaceFruitUI()
-    {
-        if (canPlaceFruit)
-        {
-            interactionUI.SetActive(true);
-        }
-        else
-        {
-            interactionUI.SetActive(false);
-        }
-    }*/
-
-    /*private void HandleCaptureAnimalUI()
-    {
-        if (animalDetected)
-        {
-            interactionUI.SetActive(true);
-        }
-        else
-        {
-            interactionUI.SetActive(false);
-        }
-    }*/
-
-    private void HandlePedestalInventory()
-    {
-        captureUI.SetActive(zoneDetected);
-        //captureUI.SetActive(captureInventoryInUse);
-
-        /*if (zoneDetected)
-        {
-            if (!captureInventoryInUse)
-                captureInventoryInUse = true;
-            else
-                captureInventoryInUse = false;
-        }*/
-
-
-        /*if (!canPlaceFruit)
-        {
-            ClosePedestalInventory();
-            return;
-        }
-
-        if (playerInput.InteractionAction.triggered && canPlaceFruit)
-        {
-            if (!captureInventoryInUse)
-            {
-                OpenPedestalInventory();
-            }
-            else
-            {
-                ClosePedestalInventory();
-            }
-        }*/
-    }
-
-    /*private void OpenPedestalInventory()
-    {
-        captureInventoryInUse = true;
-
-        MinigameManager.AddOpenInventory(captureUI);
-    }
-
-    private void ClosePedestalInventory()
-    {
-        captureInventoryInUse = false;
-
-        MinigameManager.RemoveOpenInventory(captureUI);
-    }*/
-
-    #endregion
 
     #region Handle Animals
 
@@ -227,7 +132,6 @@ public class CaptureManager : MonoBehaviour
         Destroy(wildAnimal);
         wildAnimal = null;
         animalDetected = false;
-        //canTryToCapture = false;
     }
 
     #endregion
@@ -268,15 +172,9 @@ public class CaptureManager : MonoBehaviour
         else
             interactionUI.SetActive(false);
 
-        /*if (canTryToCapture && fruitPlaced != null)
-            instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour capturer l'animal";
-        else if (!canTryToCapture || (canTryToCapture && fruitPlaced == null))
-            instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour placer un fruit";
-        interactionUI.GetComponentInChildren<Text>().text = instruction;*/
-
-        //if (!isCapturing && canTryToCapture && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
         if (!isCapturing && animalDetected && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
         {
+            Debug.Log($"Début de la capture...");
             isCapturing = true;
 
             RemoveItem();
