@@ -9,6 +9,7 @@ public class Feeder : MonoBehaviour
     [SerializeField] private bool canUseFeeder;
     [SerializeField] private bool feederInUse;
     [SerializeField] private GameObject feederInventory;
+    [SerializeField] private GameObject feederInventoryContent;
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private GameObject feederModel;
 
@@ -147,9 +148,9 @@ public class Feeder : MonoBehaviour
 
     public void RemoveItem(Item item)
     {
-        for (int i = 0; i < feederInventory.transform.childCount; i++)
+        for (int i = 0; i < feederInventoryContent.transform.childCount; i++)
         {
-            Transform slot = feederInventory.transform.GetChild(i);
+            Transform slot = feederInventoryContent.transform.GetChild(i);
 
             // If item present in slot
             if (slot.childCount > 0)
@@ -173,9 +174,9 @@ public class Feeder : MonoBehaviour
     {
         bool isEmpty = true;
 
-        for (int i = 0; i < feederInventory.transform.childCount; i++)
+        for (int i = 0; i < feederInventoryContent.transform.childCount; i++)
         {
-            Transform slot = feederInventory.transform.GetChild(i);
+            Transform slot = feederInventoryContent.transform.GetChild(i);
 
             if (slot.childCount > 0)
             {

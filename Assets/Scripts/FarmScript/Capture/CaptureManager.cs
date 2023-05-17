@@ -11,7 +11,8 @@ public class CaptureManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject interactionUI;
-    [SerializeField] private GameObject pedestalUI;
+    [SerializeField] private GameObject captureUI;
+    [SerializeField] private GameObject captureContentUI;
     [SerializeField] private Transform fruitPedestal;
     [SerializeField] private GameObject area;
     [SerializeField] private List<GameObject> animals;
@@ -112,7 +113,7 @@ public class CaptureManager : MonoBehaviour
 
     private void HandlePedestalInventory()
     {
-        pedestalUI.SetActive(pedestalInventoryInUse);
+        captureUI.SetActive(pedestalInventoryInUse);
 
         if (!canPlaceFruit)
         {
@@ -137,14 +138,14 @@ public class CaptureManager : MonoBehaviour
     {
         pedestalInventoryInUse = true;
 
-        MinigameManager.AddOpenInventory(pedestalUI);
+        MinigameManager.AddOpenInventory(captureUI);
     }
 
     private void ClosePedestalInventory()
     {
         pedestalInventoryInUse = false;
 
-        MinigameManager.RemoveOpenInventory(pedestalUI);
+        MinigameManager.RemoveOpenInventory(captureUI);
     }
 
     #endregion
@@ -229,7 +230,7 @@ public class CaptureManager : MonoBehaviour
             RemoveItem();
             Destroy(currentFruit.gameObject);
 
-            pedestalUI.SetActive(false);
+            captureUI.SetActive(false);
             MinigameManager.CleanOpenInventories();
 
             AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
@@ -260,7 +261,7 @@ public class CaptureManager : MonoBehaviour
 
     private DraggableItem GetItemData()
     {
-        Transform slot = pedestalUI.transform.GetChild(0);
+        Transform slot = captureContentUI.transform.GetChild(0);
 
         // If item present in slot
         if (slot.childCount > 0)
@@ -279,7 +280,7 @@ public class CaptureManager : MonoBehaviour
 
     public void RemoveItem()
     {
-        Transform slot = pedestalUI.transform.GetChild(0);
+        Transform slot = captureContentUI.transform.GetChild(0);
 
         // If item present in slot
         if (slot.childCount > 0)
