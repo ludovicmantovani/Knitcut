@@ -26,10 +26,13 @@ public class CaptureManager : MonoBehaviour
 
     private DraggableItem currentFruit;
 
-    [Header("Datas")]
+    /*[Header("Datas")]
     [SerializeField] private bool canPlaceFruit;
-    [SerializeField] private bool canTryToCapture;
-    [SerializeField] private bool pedestalInventoryInUse;
+    [SerializeField] private bool canTryToCapture;*/
+    [Header("Datas")]
+    [SerializeField] private bool zoneDetected;
+    [SerializeField] private bool animalDetected;
+    [SerializeField] private bool captureInventoryInUse;
     [SerializeField] private GameObject wildAnimal;
     [SerializeField] private GameObject fruitPlaced;
     [SerializeField] private float timeAnimalLife = 20f;
@@ -42,7 +45,19 @@ public class CaptureManager : MonoBehaviour
 
     #region Getters / Setters
 
-    public bool CanPlaceFruit
+    public bool ZoneDetected
+    {
+        get { return zoneDetected; }
+        set { zoneDetected = value; }
+    }
+
+    public bool AnimalDetected
+    {
+        get { return animalDetected; }
+        set { animalDetected = value; }
+    }
+
+    /*public bool CanPlaceFruit
     {
         get { return canPlaceFruit; }
         set { canPlaceFruit = value; }
@@ -52,7 +67,7 @@ public class CaptureManager : MonoBehaviour
     {
         get { return canTryToCapture; }
         set { canTryToCapture = value; }
-    }
+    }*/
 
     public GameObject WildAnimal
     {
@@ -74,9 +89,11 @@ public class CaptureManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         LS = FindObjectOfType<List_Slots>();
 
-        canPlaceFruit = false;
-        canTryToCapture = false;
-        pedestalInventoryInUse = false;
+        /*canPlaceFruit = false;
+        canTryToCapture = false;*/
+        zoneDetected = false;
+        animalDetected = false;
+        //captureInventoryInUse = false;
         isCapturing = false;
 
         instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour placer un fruit";
@@ -87,7 +104,8 @@ public class CaptureManager : MonoBehaviour
 
     private void Update()
     {
-        HandlePlaceFruitUI();
+        //HandlePlaceFruitUI();
+        //HandleCaptureAnimalUI();
         HandlePedestalInventory();
 
         HandleAnimals();
@@ -99,7 +117,7 @@ public class CaptureManager : MonoBehaviour
 
     #region Handle UI
 
-    private void HandlePlaceFruitUI()
+    /*private void HandlePlaceFruitUI()
     {
         if (canPlaceFruit)
         {
@@ -109,13 +127,35 @@ public class CaptureManager : MonoBehaviour
         {
             interactionUI.SetActive(false);
         }
-    }
+    }*/
+
+    /*private void HandleCaptureAnimalUI()
+    {
+        if (animalDetected)
+        {
+            interactionUI.SetActive(true);
+        }
+        else
+        {
+            interactionUI.SetActive(false);
+        }
+    }*/
 
     private void HandlePedestalInventory()
     {
-        captureUI.SetActive(pedestalInventoryInUse);
+        captureUI.SetActive(zoneDetected);
+        //captureUI.SetActive(captureInventoryInUse);
 
-        if (!canPlaceFruit)
+        /*if (zoneDetected)
+        {
+            if (!captureInventoryInUse)
+                captureInventoryInUse = true;
+            else
+                captureInventoryInUse = false;
+        }*/
+
+
+        /*if (!canPlaceFruit)
         {
             ClosePedestalInventory();
             return;
@@ -123,7 +163,7 @@ public class CaptureManager : MonoBehaviour
 
         if (playerInput.InteractionAction.triggered && canPlaceFruit)
         {
-            if (!pedestalInventoryInUse)
+            if (!captureInventoryInUse)
             {
                 OpenPedestalInventory();
             }
@@ -131,22 +171,22 @@ public class CaptureManager : MonoBehaviour
             {
                 ClosePedestalInventory();
             }
-        }
+        }*/
     }
 
-    private void OpenPedestalInventory()
+    /*private void OpenPedestalInventory()
     {
-        pedestalInventoryInUse = true;
+        captureInventoryInUse = true;
 
         MinigameManager.AddOpenInventory(captureUI);
     }
 
     private void ClosePedestalInventory()
     {
-        pedestalInventoryInUse = false;
+        captureInventoryInUse = false;
 
         MinigameManager.RemoveOpenInventory(captureUI);
-    }
+    }*/
 
     #endregion
 
@@ -186,7 +226,8 @@ public class CaptureManager : MonoBehaviour
 
         Destroy(wildAnimal);
         wildAnimal = null;
-        canTryToCapture = false;
+        animalDetected = false;
+        //canTryToCapture = false;
     }
 
     #endregion
@@ -217,13 +258,24 @@ public class CaptureManager : MonoBehaviour
 
     private void HandleCapture()
     {
-        if (canTryToCapture && fruitPlaced != null)
+        if (animalDetected && fruitPlaced != null)
+        {
+            instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour capturer l'animal";
+            interactionUI.GetComponentInChildren<Text>().text = instruction;
+
+            interactionUI.SetActive(true);
+        }
+        else
+            interactionUI.SetActive(false);
+
+        /*if (canTryToCapture && fruitPlaced != null)
             instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour capturer l'animal";
         else if (!canTryToCapture || (canTryToCapture && fruitPlaced == null))
             instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour placer un fruit";
-        interactionUI.GetComponentInChildren<Text>().text = instruction;
+        interactionUI.GetComponentInChildren<Text>().text = instruction;*/
 
-        if (!isCapturing && canTryToCapture && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
+        //if (!isCapturing && canTryToCapture && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
+        if (!isCapturing && animalDetected && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
         {
             isCapturing = true;
 
