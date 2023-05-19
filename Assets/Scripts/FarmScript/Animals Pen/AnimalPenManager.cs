@@ -267,22 +267,43 @@ public class AnimalPenManager : MonoBehaviour
 
     #region Animal Pen Restrictions
 
-    public bool CheckAnimalPenRestrictions(AnimalAI animal)
+    public bool CheckAnimalPenRestrictions(AnimalAI animal, bool checkChild = false)
     {
-        bool restrictionOK = false;
-
         AnimalPen linkedAnimalPen = GetLinkedAnimalPen(animal.AnimalType);
 
-        AnimalPenStates currentRestrictions = GetCurrentRestrictions(linkedAnimalPen);
-
-        int[] animalsCount = GetAnimalsCount(linkedAnimalPen.animalPenInScene.transform);
-
-        if (animalsCount[0] < currentRestrictions.maxAdultsRestriction) restrictionOK = true;
+        bool restrictionOK = CheckingRestrictions(linkedAnimalPen, checkChild);
 
         return restrictionOK;
     }
 
-    private AnimalPen GetLinkedAnimalPen(AnimalType animalType)
+    public bool CheckAnimalPenRestrictions(AnimalType animalType, bool checkChild = false)
+    {
+        AnimalPen linkedAnimalPen = GetLinkedAnimalPen(animalType);
+
+        bool restrictionOK = CheckingRestrictions(linkedAnimalPen, checkChild);
+
+        return restrictionOK;
+    }
+
+    private bool CheckingRestrictions(AnimalPen linkedAnimalPen, bool checkChild)
+    {
+        bool restrictionOK = false;
+
+        if (linkedAnimalPen == null) return false;
+
+        AnimalPenStates currentRestrictions = GetCurrentRestrictions(linkedAnimalPen);
+
+        if (currentRestrictions == null) return false;
+
+        int[] animalsCount = GetAnimalsCount(linkedAnimalPen.animalPenInScene.transform);
+
+        if (!checkChild && animalsCount[0] < currentRestrictions.maxAdultsRestriction) restrictionOK = true;
+        if (checkChild && animalsCount[1] < currentRestrictions.maxChildrenRestriction) restrictionOK = true;
+
+        return restrictionOK;
+    }
+
+    public AnimalPen GetLinkedAnimalPen(AnimalType animalType)
     {
         AnimalPen linkedAnimalPen = null;
 
@@ -297,7 +318,7 @@ public class AnimalPenManager : MonoBehaviour
         return linkedAnimalPen;
     }
 
-    private AnimalPenStates GetCurrentRestrictions(AnimalPen animalPen)
+    public AnimalPenStates GetCurrentRestrictions(AnimalPen animalPen)
     {
         AnimalPenStates currentAnimalStates = null;
 
@@ -312,7 +333,7 @@ public class AnimalPenManager : MonoBehaviour
         return currentAnimalStates;
     }
 
-    private int[] GetAnimalsCount(Transform animalPen)
+    public int[] GetAnimalsCount(Transform animalPen)
     {
         int countAdults = 0;
         int countChildren = 0;

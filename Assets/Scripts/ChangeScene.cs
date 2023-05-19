@@ -106,16 +106,26 @@ public class ChangeScene : MonoBehaviour
                 }
                 else if (sceneToLoad.Contains("Flower"))
                 {
-                    if (GetAnimalsCount() < 2)
+                    AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
+
+                    if (GetAnimalsAdultsCount() < 2)
                     {
                         canChangeScene = false;
                         instruction = "Il n'y a aucun animal dans cet enclos";
                     }
                     else
                     {
-                        instruction += " pour reproduire les animaux";
-
                         GetAnimalType();
+
+                        if (animalPenManager.CheckAnimalPenRestrictions(MinigameManager.AnimalTypeToKeep, true))
+                        {
+                            instruction += " pour reproduire les animaux";
+                        }
+                        else
+                        {
+                            canChangeScene = false;
+                            instruction = "L'enclos associé n'est pas assez grand";
+                        }
                     }
                 }
             }
@@ -124,7 +134,7 @@ public class ChangeScene : MonoBehaviour
         }
     }
 
-    private int GetAnimalsCount()
+    private int GetAnimalsAdultsCount()
     {
         int count = 0;
 
@@ -132,7 +142,9 @@ public class ChangeScene : MonoBehaviour
         {
             if (transform.parent.GetChild(i).CompareTag("Animal"))
             {
-                count++;
+                AnimalStates animalStates = transform.parent.GetChild(i).GetComponent<AnimalStates>();
+
+                if (!animalStates.IsChild) count++;
             }
         }
 

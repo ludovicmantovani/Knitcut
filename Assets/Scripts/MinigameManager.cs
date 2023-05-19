@@ -287,10 +287,28 @@ public class MinigameManager : MonoBehaviour
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
             AnimalType currentAnimalType = animalTypeToKeep;
 
-            for (int i = 0; i < nbChildrenToInstantiate; i++)
+            if (animalPenManager.CheckAnimalPenRestrictions(currentAnimalType, true))
             {
-                animalTypeToKeep = currentAnimalType;
-                animalPenManager.InstantiateTamedAnimalInAnimalPen(true);
+                AnimalPenManager.AnimalPen linkedAnimalPen = animalPenManager.GetLinkedAnimalPen(currentAnimalType);
+                AnimalPenManager.AnimalPenStates currentAnimalStates = animalPenManager.GetCurrentRestrictions(linkedAnimalPen);
+
+                int currentChildren = animalPenManager.GetAnimalsCount(linkedAnimalPen.animalPenInScene.transform)[1];
+
+                if (nbChildrenToInstantiate > currentAnimalStates.maxChildrenRestriction)
+                {
+                    nbChildrenToInstantiate = currentAnimalStates.maxChildrenRestriction;
+                }
+
+                if (currentChildren > 0 && currentChildren + nbChildrenToInstantiate > currentAnimalStates.maxChildrenRestriction)
+                {
+                    nbChildrenToInstantiate = currentAnimalStates.maxChildrenRestriction - currentChildren;
+                }
+
+                for (int i = 0; i < nbChildrenToInstantiate; i++)
+                {
+                    animalTypeToKeep = currentAnimalType;
+                    animalPenManager.InstantiateTamedAnimalInAnimalPen(true);
+                }
             }
         }
     }
