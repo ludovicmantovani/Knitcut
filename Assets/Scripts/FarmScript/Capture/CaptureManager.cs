@@ -38,6 +38,7 @@ public class CaptureManager : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerController playerController;
     private List_Slots LS;
+    private AnimalPenManager animalPenManager;
 
     #region Getters / Setters
 
@@ -72,6 +73,7 @@ public class CaptureManager : MonoBehaviour
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
         LS = FindObjectOfType<List_Slots>();
+        animalPenManager = FindObjectOfType<AnimalPenManager>();
 
         zoneDetected = false;
         animalDetected = false;
@@ -162,9 +164,13 @@ public class CaptureManager : MonoBehaviour
 
     private void HandleCapture()
     {
-        if (animalDetected && fruitPlaced != null)
+        if (zoneDetected && animalDetected && fruitPlaced != null)
         {
-            instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour capturer l'animal";
+            if (animalPenManager.CheckAnimalPenRestrictions(wildAnimal.GetComponent<AnimalAI>()))
+                instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour capturer l'animal";
+            else
+                instruction = "L'enclos associé n'est pas assez grand";
+
             interactionUI.GetComponentInChildren<Text>().text = instruction;
 
             interactionUI.SetActive(true);
@@ -174,25 +180,32 @@ public class CaptureManager : MonoBehaviour
 
         if (!isCapturing && animalDetected && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
         {
-            Debug.Log($"Début de la capture...");
-            isCapturing = true;
+            if (animalPenManager.CheckAnimalPenRestrictions(wildAnimal.GetComponent<AnimalAI>()))
+            {
+                instruction = "Début de la capture";
+                interactionUI.GetComponentInChildren<Text>().text = instruction;
 
-            RemoveItem();
-            Destroy(currentFruit.gameObject);
+                isCapturing = true;
 
-            captureUI.SetActive(false);
-            MinigameManager.CleanOpenInventories();
+                RemoveItem();
+                Destroy(currentFruit.gameObject);
 
-            AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
+                captureUI.SetActive(false);
+                MinigameManager.CleanOpenInventories();
 
-            MinigameManager.FinalizeMG(MinigameManager.MGType.Capture, animal.name, animal.AnimalType);
+                AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
 
-            playerController.SavePlayerPositionInScene();
+                MinigameManager.FinalizeMG(MinigameManager.MGType.Capture, animal.name, animal.AnimalType);
 
-            StartCoroutine(Saving());
-            /*string sceneToLoad = captureGameSceneName[Random.Range(0, captureGameSceneName.Length)];
+                playerController.SavePlayerPositionInScene();
 
-            SceneManager.LoadScene(sceneToLoad);*/
+                StartCoroutine(Saving());
+            }
+            else
+            {                
+                RemoveItem();
+                Destroy(currentFruit.gameObject);
+            }
         }
     }
 

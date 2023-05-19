@@ -33,6 +33,8 @@ public class AnimalPenManager : MonoBehaviour
     {
         public GameObject animalPenObject;
         public int levelRequired;
+        public int maxAdultsRestriction = 1;
+        public int maxChildrenRestriction = 0;
     }
 
     public int TotalAnimalPen
@@ -262,4 +264,74 @@ public class AnimalPenManager : MonoBehaviour
 
         HandleStates();
     }
+
+    #region Animal Pen Restrictions
+
+    public bool CheckAnimalPenRestrictions(AnimalAI animal)
+    {
+        bool restrictionOK = false;
+
+        AnimalPen linkedAnimalPen = GetLinkedAnimalPen(animal.AnimalType);
+
+        AnimalPenStates currentRestrictions = GetCurrentRestrictions(linkedAnimalPen);
+
+        int[] animalsCount = GetAnimalsCount(linkedAnimalPen.animalPenInScene.transform);
+
+        if (animalsCount[0] < currentRestrictions.maxAdultsRestriction) restrictionOK = true;
+
+        return restrictionOK;
+    }
+
+    private AnimalPen GetLinkedAnimalPen(AnimalType animalType)
+    {
+        AnimalPen linkedAnimalPen = null;
+
+        for (int i = 0; i < animalPenList.Count; i++)
+        {
+            if (animalPenList[i].animalType == animalType)
+            {
+                linkedAnimalPen = animalPenList[i];
+            }
+        }
+
+        return linkedAnimalPen;
+    }
+
+    private AnimalPenStates GetCurrentRestrictions(AnimalPen animalPen)
+    {
+        AnimalPenStates currentAnimalStates = null;
+
+        for (int i = 0; i < animalPen.animalPenStates.Count; i++)
+        {
+            if (animalPen.animalPenStates[i].levelRequired == animalPen.animalPenLevel)
+            {
+                currentAnimalStates = animalPen.animalPenStates[i];
+            }
+        }
+
+        return currentAnimalStates;
+    }
+
+    private int[] GetAnimalsCount(Transform animalPen)
+    {
+        int countAdults = 0;
+        int countChildren = 0;
+
+        for (int i = 0; i < animalPen.childCount; i++)
+        {
+            if (animalPen.GetChild(i).CompareTag("Animal"))
+            {
+                AnimalStates animalStates = animalPen.GetChild(i).GetComponent<AnimalStates>();
+
+                if (animalStates.IsChild)
+                    countChildren++;
+                else
+                    countAdults++;
+            }
+        }
+
+        return new int[2] { countAdults, countChildren };
+    }
+
+    #endregion
 }

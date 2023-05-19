@@ -20,6 +20,12 @@ public class AnimalStates : MonoBehaviour
     private bool canProduceWool = false;
     private bool producingWool = false;
 
+    public bool IsChild
+    {
+        get { return isChild; }
+        set { isChild = value; }
+    }
+
     [Header("Hunger parameters")]
     [SerializeField] private float hunger = 0;
     [SerializeField] private float maxHunger = 300;
