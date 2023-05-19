@@ -87,6 +87,8 @@ public class ShopManager : MonoBehaviour
         Animal_Pen_Manager
     }
 
+    private int[] animalPensLevel;
+
     #endregion
 
     void Start()
@@ -281,21 +283,28 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void UpgradeAnimalPen(ShopConfiguration shopConfiguration, InfosUIRefs infosUIRefs, int price, int level, string type, int index)
+    private void UpgradeAnimalPen(ShopConfiguration shopConfiguration, InfosUIRefs infosUIRefs, int price, string type, int index)
     {
-        if (shopConfiguration.items.Count > level)
+        int currentLevel = animalPensLevel[index];
+        Debug.Log($"{shopConfiguration.items.Count} vs {currentLevel}");
+
+        if (currentLevel < shopConfiguration.items.Count)
         {
+            Debug.Log($"OK");
+
             if (playerController.Money >= price)
             {
                 listSlots.UpdateMoney(playerController.Money - price);
 
                 MinigameManager.AnimalPenIndexToUpgrade.Add(index);
 
-                level++;
+                currentLevel++;
 
-                UpdateAnimalPenUI(shopConfiguration, infosUIRefs, level, type, index);
+                animalPensLevel[index] = currentLevel;
 
-                ShowNotification($"Vous avez acheté l'amélioration Lv{level} pour l'enclos n°{index} pour {price} P");
+                UpdateAnimalPenUI(shopConfiguration, infosUIRefs, currentLevel, type, index);
+
+                ShowNotification($"Vous avez acheté l'amélioration Lv{currentLevel} pour l'enclos n°{index} pour {price} P");
             }
             else
             {
@@ -406,6 +415,8 @@ public class ShopManager : MonoBehaviour
 
         currentShop.objectsParent.GetComponent<Swipe>().ScrollPos = 1;
 
+        animalPensLevel = data.animalPenLevels;
+
         for (int i = 0; i < data.nbAnimalPen; i++)
         {
             ShowAnimalsPenUI(currentShop, data.animalPenLevels[i], data.animalPenTypes[i], i);
@@ -489,7 +500,7 @@ public class ShopManager : MonoBehaviour
 
         infosUIRefs.NameUI.text = $"Enclos Lv.{level} pour {type}";
         infosUIRefs.PriceUI.text = $"{price} P";
-        infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, level, type, index); });
+        infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, type, index); });
     }
 
     public void AddValue(InfosUIRefs itemRefs)
