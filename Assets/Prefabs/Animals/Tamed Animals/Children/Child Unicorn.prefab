@@ -300,9 +300,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   feeder: {fileID: 0}
   animalCanvas: {fileID: 1454388534}
-  animalName: {fileID: 177763203}
+  animalNameText: {fileID: 177763203}
+  animalName: Licorne
   animalHungerSlider: {fileID: 0}
   animalHappinessImage: {fileID: 0}
+  woolPrefab: {fileID: 0}
+  timeWoolProduction: 20
+  timeAutoDestroy: 10
   isChild: 1
   hunger: 0
   maxHunger: 0

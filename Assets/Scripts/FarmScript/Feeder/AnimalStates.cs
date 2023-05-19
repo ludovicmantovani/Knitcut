@@ -8,7 +8,8 @@ public class AnimalStates : MonoBehaviour
     [Header("References")]
     [SerializeField] private Feeder feeder;
     [SerializeField] private GameObject animalCanvas;
-    [SerializeField] private Text animalName;
+    [SerializeField] private Text animalNameText;
+    [SerializeField] private string animalName;
     [SerializeField] private Slider animalHungerSlider;
     [SerializeField] private Image animalHappinessImage;
     [SerializeField] private GameObject woolPrefab;
@@ -55,7 +56,7 @@ public class AnimalStates : MonoBehaviour
         
         if (!isChild)
         {
-            animalName.text = $"{animalData.AnimalType}";
+            animalNameText.text = $"{animalName}";
 
             HandleHunger();
 
@@ -64,7 +65,7 @@ public class AnimalStates : MonoBehaviour
             HandleWoolProduction();
         }
         else
-            animalName.text = $"{animalData.AnimalType} (B)";
+            animalNameText.text = $"{animalName} (B)";
     }
 
     #region Wool

@@ -768,11 +768,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   feeder: {fileID: 0}
   animalCanvas: {fileID: 1454388534}
-  animalName: {fileID: 177763203}
+  animalNameText: {fileID: 177763203}
+  animalName: Lama
   animalHungerSlider: {fileID: 1561613815}
   animalHappinessImage: {fileID: 1426479858}
   woolPrefab: {fileID: 3943061587771230703, guid: 8e31c9c1167224b4f8f98ed5327130c1, type: 3}
   timeWoolProduction: 20
+  timeAutoDestroy: 10
   isChild: 0
   hunger: 0
   maxHunger: 300
