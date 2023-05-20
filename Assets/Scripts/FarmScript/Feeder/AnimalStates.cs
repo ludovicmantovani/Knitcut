@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,17 +8,31 @@ public class AnimalStates : MonoBehaviour
     [SerializeField] private Feeder feeder;
     [SerializeField] private GameObject animalCanvas;
     [SerializeField] private Text animalNameText;
-    [SerializeField] private string animalName;
     [SerializeField] private Slider animalHungerSlider;
     [SerializeField] private Image animalHappinessImage;
     [SerializeField] private GameObject woolPrefab;
     [SerializeField] private float timeWoolProduction = 20f;
     [SerializeField] private float timeAutoDestroy = 10f;
+
+    [Header("Animal Data")]
+    [SerializeField] private string animalName;
+    [SerializeField] private string animalID;
     [SerializeField] private bool isChild;
 
-    private AnimalData animalData;
     private bool canProduceWool = false;
     private bool producingWool = false;
+
+    public string AnimalName
+    {
+        get { return animalName; }
+        set { animalName = value; }
+    }
+
+    public string AnimalID
+    {
+        get { return animalID; }
+        set { animalID = value; }
+    }
 
     public bool IsChild
     {
@@ -37,16 +50,20 @@ public class AnimalStates : MonoBehaviour
     private bool searchingFood;
     private bool feeding;
 
+    public float Hunger
+    {
+        get { return hunger; }
+        set { hunger = value; }
+    }
+
     [Header("Happiness parameters")]
     [SerializeField] private int happiness;
     [SerializeField] private float requiredHungerForHappiness = 0.6f;
     [SerializeField] private Color happyColor;
     [SerializeField] private Color sadColor;
 
-    void Start()
+    void Awake()
     {
-        animalData = GetComponent<AnimalData>();
-
         if (!isChild) InitializeHunger();
     }
 

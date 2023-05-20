@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AnimalPenManager : MonoBehaviour
@@ -13,6 +14,8 @@ public class AnimalPenManager : MonoBehaviour
     private int totalAnimalPen;
     private int[] animalPenLevels;
     private string[] animalPenTypes;
+
+    private Dictionary<string, float> animalsHunger; // string = animal ID | float = animal hunger
 
     // Captured Animals
     private int[] totalAnimalsAdults;
@@ -37,6 +40,8 @@ public class AnimalPenManager : MonoBehaviour
         public int maxChildrenRestriction = 0;
     }
 
+    #region Getters / Setters
+
     public int TotalAnimalPen
     {
         get { return totalAnimalPen; }
@@ -55,6 +60,12 @@ public class AnimalPenManager : MonoBehaviour
         set { animalPenTypes = value; }
     }
 
+    public Dictionary<string, float> AnimalsHunger
+    {
+        get { return animalsHunger; }
+        set { animalsHunger = value;}
+    }
+
     public int[] TotalAnimalsAdults
     {
         get { return totalAnimalsAdults; }
@@ -66,6 +77,8 @@ public class AnimalPenManager : MonoBehaviour
         get { return totalAnimalsChildren; }
         set { totalAnimalsChildren = value; }
     }
+
+    #endregion
 
     private void Start()
     {
@@ -80,6 +93,8 @@ public class AnimalPenManager : MonoBehaviour
 
         animalPenLevels = new int[totalAnimalPen];
         animalPenTypes = new string[totalAnimalPen];
+
+        animalsHunger = new Dictionary<string, float>();
 
         totalAnimalsAdults = new int[totalAnimalPen];
         totalAnimalsChildren = new int[totalAnimalPen];
@@ -96,6 +111,8 @@ public class AnimalPenManager : MonoBehaviour
 
     public void SaveAnimalPenData()
     {
+        ActualizeAnimalsHunger();
+
         SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPen, this);
     }
 
@@ -111,6 +128,8 @@ public class AnimalPenManager : MonoBehaviour
 
         animalPenLevels = data.animalPenLevels;
         animalPenTypes = data.animalPenTypes;
+
+        animalsHunger = data.animalsHunger;
 
         totalAnimalsAdults = data.totalAnimalsAdults;
         totalAnimalsChildren = data.totalAnimalsChildren;
@@ -258,11 +277,65 @@ public class AnimalPenManager : MonoBehaviour
 
     private void InstantiateAnimal(GameObject animalObject, Transform animalPen)
     {
-        GameObject animal = Instantiate(animalObject, animalPen);
+        AnimalStates animal = Instantiate(animalObject, animalPen).GetComponent<AnimalStates>();
 
-        SaveAnimalPenData();
+        string animalID = GenerateAnimalID(animal.GetComponent<AnimalData>());
 
-        HandleStates();
+        animal.AnimalID = animalID;
+
+        Debug.Log($"{animal} - {animalID}");
+
+        if (animalsHunger.TryGetValue(animalID, out float hungerSaved))
+        {
+            Debug.Log($"animal {animal.AnimalName} ({animalID}) already exist : {hungerSaved}");
+            animal.Hunger = hungerSaved;
+        }
+        else if (!animalsHunger.ContainsKey(animalID))
+        {
+            Debug.Log($"animal {animal.AnimalName} ({animalID}) created : {animal.Hunger}");
+            animalsHunger.Add(animalID, animal.Hunger);
+        }
+
+        //SaveAnimalPenData();
+
+        //HandleStates();
+    }
+
+    private void ActualizeAnimalsHunger()
+    {
+        foreach (string key in animalsHunger.Keys.ToList())
+        {
+            AnimalStates animal = GetAnimalByID(key);
+
+            if (animal == null) return;
+
+            animalsHunger[key] = animal.Hunger;
+        }
+    }
+
+    private string GenerateAnimalID(AnimalData animal)
+    {
+        string id = "";
+
+        for (int i = 0; i < animals.Count; i++)
+        {
+            if (animals[i].GetComponent<AnimalData>().AnimalType == animal.AnimalType) id = $"0{i}";
+        }
+
+        AnimalPen animalPen = GetLinkedAnimalPen(animal.AnimalType);
+
+        int[] animalInPenCount = GetAnimalsCount(animalPen.animalPenInScene.transform);
+
+        int totalAnimalsInPen = animalInPenCount[0] + animalInPenCount[1];
+
+        id += $"0{totalAnimalsInPen}";
+
+        if (animal.GetComponent<AnimalStates>().IsChild)
+            id += $"01";
+        else
+            id += $"02";
+
+        return id;
     }
 
     #region Animal Pen Restrictions
@@ -352,6 +425,20 @@ public class AnimalPenManager : MonoBehaviour
         }
 
         return new int[2] { countAdults, countChildren };
+    }
+
+    private AnimalStates GetAnimalByID(string id)
+    {
+        AnimalStates animal = null;
+
+        AnimalStates[] animalsInScene = FindObjectsOfType<AnimalStates>();
+
+        for (int i = 0; i < animalsInScene.Length; i++)
+        {
+            if (!animalsInScene[i].IsChild && animalsInScene[i].AnimalID == id) animal = animalsInScene[i];
+        }
+
+        return animal;
     }
 
     #endregion

@@ -269,7 +269,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        Debug.Log("Quit");
         SavePlayerPositionInScene();
     }
 

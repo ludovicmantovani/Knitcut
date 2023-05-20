@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 [System.Serializable]
 public class AnimalPen_Data
 {
@@ -5,6 +7,8 @@ public class AnimalPen_Data
 
     public int[] animalPenLevels;
     public string[] animalPenTypes;
+
+    public Dictionary<string, float> animalsHunger; // string = animal ID | float = animal hunger
 
     public int[] totalAnimalsAdults;
     public int[] totalAnimalsChildren;
@@ -15,6 +19,11 @@ public class AnimalPen_Data
 
         animalPenLevels = new int[nbAnimalPen];
         animalPenTypes = new string[nbAnimalPen];
+
+        if (animalPenManager.AnimalsHunger != null)
+            animalsHunger = animalPenManager.AnimalsHunger;
+        else
+            animalsHunger = new Dictionary<string, float>();
 
         totalAnimalsAdults = new int[nbAnimalPen];
         totalAnimalsChildren = new int[nbAnimalPen];
