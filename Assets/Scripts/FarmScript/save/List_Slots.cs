@@ -183,7 +183,9 @@ public class List_Slots : MonoBehaviour
     {
         UpdateMoney(750);
 
-        ItemCreation(8, 5);
+        ItemCreation(14, 5);
+        ItemCreation(9, 2);
+        ItemCreation(18, 2);
     }
 
     private void ItemCreation(int indexItem, int quantity)
