@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -286,12 +285,9 @@ public class ShopManager : MonoBehaviour
     private void UpgradeAnimalPen(ShopConfiguration shopConfiguration, InfosUIRefs infosUIRefs, int price, string type, int index)
     {
         int currentLevel = animalPensLevel[index];
-        Debug.Log($"{shopConfiguration.items.Count} vs {currentLevel}");
 
         if (currentLevel < shopConfiguration.items.Count)
         {
-            Debug.Log($"OK");
-
             if (playerController.Money >= price)
             {
                 listSlots.UpdateMoney(playerController.Money - price);
@@ -343,9 +339,40 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    private void SetupListAccordingToRestrictions(ShopConfiguration currentShop, bool isRecipe)
+    {
+        if (listSlots == null || listSlots.Stuffs == null) return;
+
+        for (int i = 0; i < listSlots.Stuffs.Length; i++)
+        {
+            if (!isRecipe)
+            {
+                if (listSlots.Stuffs[i].GetType() == typeof(Item))
+                {
+                    Item item = (Item)listSlots.Stuffs[i];
+
+                    if (currentShop.itemsRestriction.Contains(item.itemType)) 
+                        CreateItemToHandle(item, (int)item.itemValue, currentShop);
+                }
+            }
+            else
+            {
+                if (listSlots.Stuffs[i].GetType() == typeof(Recipe))
+                {
+                    Recipe recipe = (Recipe)listSlots.Stuffs[i];
+
+                    if (currentShop.itemsRestriction.Contains(ItemType.Recipe)) 
+                        CreateRecipeToHandle(recipe, (int)recipe.basePrice, currentShop);
+                }
+            }
+        }
+    }
+
     private void HandleSeedSeller(ShopConfiguration currentShop)
     {
         if (currentShop.items == null) return;
+
+        SetupListAccordingToRestrictions(currentShop, false);
 
         Clear();
 
@@ -362,6 +389,8 @@ public class ShopManager : MonoBehaviour
     private void HandleRecipesDealer(ShopConfiguration currentShop)
     {
         if (currentShop.recipes == null) return;
+
+        SetupListAccordingToRestrictions(currentShop, true);
 
         Clear();
 
@@ -561,6 +590,33 @@ public class ShopManager : MonoBehaviour
         }
 
         return itemToHandle;
+    }
+
+    private RecipeToHandle CreateRecipeToHandle(Recipe recipe, int price, ShopConfiguration currentShop)
+    {
+        RecipeToHandle recipeToHandle = null;
+
+        bool alreadyAdded = false;
+
+        for (int i = 0; i < currentShop.recipes.Count; i++)
+        {
+            if (currentShop.recipes[i].item == recipe)
+            {
+                alreadyAdded = true;
+            }
+        }
+
+        if (!alreadyAdded)
+        {
+            recipeToHandle = new RecipeToHandle();
+
+            recipeToHandle.item = recipe;
+            recipeToHandle.price = price;
+
+            currentShop.recipes.Add(recipeToHandle);
+        }
+
+        return recipeToHandle;
     }
 
     #endregion

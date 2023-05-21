@@ -238,7 +238,7 @@ public class MinigameManager : MonoBehaviour
 
         if (inventory == null || FindFirstGenericDishSO() == -1) return;
 
-        Item item = (Item)listSlots.stuffs[FindFirstGenericDishSO() + Convert.ToInt32(dataToKeep[3])];
+        Item item = (Item)listSlots.Stuffs[FindFirstGenericDishSO() + Convert.ToInt32(dataToKeep[3])];
 
         item.itemName = (string)dataToKeep[0];
         item.itemDescription = (string)dataToKeep[1];
@@ -251,9 +251,9 @@ public class MinigameManager : MonoBehaviour
 
     private int FindFirstGenericDishSO()
     {
-        for (int i = 0; i < listSlots.stuffs.Length; i++)
+        for (int i = 0; i < listSlots.Stuffs.Length; i++)
         {
-            Item item = (Item)listSlots.stuffs[i];
+            Item item = (Item)listSlots.Stuffs[i];
 
             if (item.name.Contains("Dish"))
             {
@@ -275,7 +275,7 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleRecognitionData()
     {
-        listSlots.UpdateMoney(listSlots.playerController.Money + Convert.ToInt32(dataToKeep[0]));
+        listSlots.UpdateMoney(listSlots.PlayerControl.Money + Convert.ToInt32(dataToKeep[0]));
     }
 
     private void HandleBreedingData()

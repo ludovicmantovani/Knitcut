@@ -3521,7 +3521,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 16731705674f8ef40830f45deb0d2950, type: 2}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[0].items.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsRole.Array.data[0].items.Array.data[0].price
@@ -3546,6 +3546,14 @@ PrefabInstance:
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[0].items.Array.data[1].price
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsConfiguration.Array.data[0].itemsRestriction.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsConfiguration.Array.data[0].itemsRestriction.Array.data[0]
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2071924569, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4151,7 +4159,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 465e83f5345f57643a43f72cf46bf061, type: 2}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[1].recipes.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsRole.Array.data[0].itemsRestriction.Array.size
@@ -4182,6 +4190,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsConfiguration.Array.data[1].itemsRestriction.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[1].recipes.Array.data[0].price
       value: 5
       objectReference: {fileID: 0}
@@ -4200,6 +4212,10 @@ PrefabInstance:
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopsConfiguration.Array.data[0].itemsRestriction.Array.data[2]
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: shopsConfiguration.Array.data[1].itemsRestriction.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2071924569, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: m_StaticEditorFlags

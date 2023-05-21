@@ -5,16 +5,16 @@ using UnityEngine.UI;
 public class List_Slots : MonoBehaviour
 {
     [Header("References / Parameters")]
-    public GameObject itemUI;
-    public PlayerController playerController;
-    public PlayerInput playerInput;
-    public AnimalPenManager animalPenManager;
-    public ScriptableObject[] stuffs;
+    [SerializeField] private GameObject itemUI;
+    [SerializeField] private ScriptableObject[] stuffs;
 
+    private PlayerController playerController;
+    private PlayerInput playerInput;
+    private AnimalPenManager animalPenManager;
     private bool checkLoad = false;
 
     [Header("Money")]
-    public Text moneyUI;
+    [SerializeField] private Text moneyUI;
 
     [Header("Player Inventory")]
     [SerializeField] private Transform playerSlotsParent;
@@ -34,6 +34,18 @@ public class List_Slots : MonoBehaviour
     private int[] quantityStackedContainerInventory;
 
     #region Getters / Setters
+
+    public PlayerController PlayerControl
+    {
+        get { return playerController; }
+        set { playerController = value; }
+    }
+
+    public ScriptableObject[] Stuffs
+    {
+        get { return stuffs; }
+        set { stuffs = value; }
+    }
 
     public Transform PlayerSlotsParent
     {

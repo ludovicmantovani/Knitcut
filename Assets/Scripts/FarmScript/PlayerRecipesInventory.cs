@@ -69,11 +69,11 @@ public class PlayerRecipesInventory : MonoBehaviour
     {
         List<Recipe> recipesInStuffs = new List<Recipe>();
 
-        for (int i = 0; i < listSlots.stuffs.Length; i++)
+        for (int i = 0; i < listSlots.Stuffs.Length; i++)
         {
-            if (listSlots.stuffs[i].GetType() == typeof(Recipe) && !recipesInStuffs.Contains((Recipe)listSlots.stuffs[i]))
+            if (listSlots.Stuffs[i].GetType() == typeof(Recipe) && !recipesInStuffs.Contains((Recipe)listSlots.Stuffs[i]))
             {
-                recipesInStuffs.Add((Recipe)listSlots.stuffs[i]);
+                recipesInStuffs.Add((Recipe)listSlots.Stuffs[i]);
             }
         }
 
