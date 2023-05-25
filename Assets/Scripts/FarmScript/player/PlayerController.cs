@@ -78,7 +78,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 move;
     private float verticalVelocity;
     private float gravity = 9.81f;
-    private float velocity = 0f;
     private float currentSpeed;
 
     private bool canMove = true;

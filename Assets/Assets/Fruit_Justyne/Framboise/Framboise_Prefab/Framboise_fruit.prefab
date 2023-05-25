@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7664575545833307044}
   - component: {fileID: 6769421843247215617}
   - component: {fileID: 8796979250182078667}
-  - component: {fileID: -4872495429812501436}
   m_Layer: 0
   m_Name: Framboise_fruit
   m_TagString: Untagged
@@ -83,18 +82,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-4872495429812501436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6995737793061871902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a190c8397bff5346a948539ec452b45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 609fce7d08936ec4b884f05b2f9bf765, type: 2}
-  plant: {fileID: 0}
-  canPickUp: 0

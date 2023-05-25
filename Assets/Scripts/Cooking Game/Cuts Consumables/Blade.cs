@@ -3,7 +3,7 @@ using UnityEngine;
 public class Blade : MonoBehaviour
 {
     [SerializeField] private GameObject bladeTrailPrefab;
-    [SerializeField] private float minCuttingVelocity = 0.001f;
+    //[SerializeField] private float minCuttingVelocity = 0.001f;
     [SerializeField] private float delayBeforeDestroyingBladeTrail = 2f;
     [SerializeField] private bool canCut;
     [SerializeField] private bool isCutting;
@@ -72,9 +72,9 @@ public class Blade : MonoBehaviour
         _rigidbody.position = newPosition;
         transform.position = _rigidbody.position;
 
-        float velocity = (newPosition - previousPosition).magnitude / Time.deltaTime;
+        /*float velocity = (newPosition - previousPosition).magnitude / Time.deltaTime;
 
-        /*if (velocity > minCuttingVelocity)
+        if (velocity > minCuttingVelocity)
         {
             _circleCollider.enabled = true;
         }

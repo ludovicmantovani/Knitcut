@@ -145,15 +145,6 @@ public class CultureManager : MonoBehaviour
                     instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
                 else
                     instruction = $"Croissance en cours...";
-
-                /*SeedGrowth.ProductState seedProductState = currentCropPlot.SeedSource.GetComponent<SeedGrowth>().GetProductState;
-
-                if (seedProductState == SeedGrowth.ProductState.Sick)
-                    instruction = $"Utiliser {playerInput.HealAction.GetBindingDisplayString()} pour soigner la plante";
-                else if (seedProductState == SeedGrowth.ProductState.Dehydrated)
-                    instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
-                else
-                    instruction = $"Croissance en cours...";*/
                 
                 interactionUI.GetComponentInChildren<Text>().text = instruction;
             }
@@ -279,12 +270,6 @@ public class CultureManager : MonoBehaviour
         plant.GetComponent<PlantGrowth>().CropPlot = currentCropPlot;
 
         currentCropPlot.SeedSource = plant;
-
-        //GameObject seed = Instantiate(item.itemObject, currentCropPlot.transform);
-
-        //seed.GetComponent<SeedGrowth>().CropPlot = currentCropPlot;
-
-        //currentCropPlot.SeedSource = seed;
 
         CloseCultureUI();
 

@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2604767702845685140}
   - component: {fileID: -2368789675597602461}
+  - component: {fileID: -1282886394799725239}
   m_Layer: 0
-  m_Name: Final Product 2
+  m_Name: Dish Salade Fruits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,8 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6adb9cdf8295f34ca768f6405b2fdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dishName: "Plat n\xB02"
-  dishDescription: "Vous allez vous r\xE9galer !"
-  dishPrice: 0
-  itemType: 0
-  dishSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  dishName: Salade de Fruit
+  dishDescription: "Une salade compos\xE9e de plusieurs fruits"
+  dishPrice: 30
+  itemType: 2
+  dishSprite: {fileID: 21300000, guid: 168a82d319292b440ac0044604288be6, type: 3}
+--- !u!114 &-1282886394799725239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412880846473995412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695a0e4553b6dc74fa74053bb405d46d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipe: {fileID: 11400000, guid: 2478aa959c6e43c49b3fae919bbd8dc2, type: 2}

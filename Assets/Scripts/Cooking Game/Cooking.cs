@@ -73,11 +73,7 @@ public class Cooking : MonoBehaviour
         float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
 
         // Save datas
-        MinigameManager.FinalizeMG(MinigameManager.MGType.Cooking,
-            currentRecipe.finalProduct.GetComponent<DishInfos>().dishName,
-            currentRecipe.finalProduct.GetComponent<DishInfos>().dishDescription,
-            finalPrice,
-            currentRecipe.recipeIndex);
+        MinigameManager.FinalizeMG(MinigameManager.MGType.Cooking, currentRecipe, finalPrice);
 
         CookingResultCanvas cookingResultCanvas = null;
         if (resultUI &&
@@ -86,7 +82,8 @@ public class Cooking : MonoBehaviour
             cookingResultCanvas.SetData(
                 Mathf.FloorToInt(finalPrice).ToString(),
                 Mathf.FloorToInt(consumables3Dsliced).ToString() + "/" + Mathf.FloorToInt(totalConsumablesRequired).ToString(),
-                currentRecipe.finalProduct.GetComponent<DishInfos>().dishName + " préparé  avec succès !"
+                currentRecipe.finalProduct.GetComponent<DishInfos>().dishName + " préparé  avec succès !",
+                currentRecipe.finalProduct.GetComponent<DishInfos>().dishSprite
                 );
             resultUI.gameObject.SetActive(true);
         }

@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 5184633760946242630}
   - component: {fileID: 3094298638475492530}
   - component: {fileID: 3552943223181423657}
+  - component: {fileID: 626823165592936060}
+  - component: {fileID: 4865858014339578349}
   m_Layer: 0
   m_Name: Line009
   m_TagString: Untagged
@@ -114,6 +116,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &626823165592936060
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811339381111524777}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 8
+  m_CollisionDetection: 0
+--- !u!65 &4865858014339578349
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811339381111524777}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24766389, y: 0.22, z: 0.1696786}
+  m_Center: {x: 0.000000029802322, y: -9.752276e-16, z: 0.2101991}
 --- !u!1 &8617412239544250208
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +156,8 @@ GameObject:
   - component: {fileID: 3404558891876519026}
   - component: {fileID: 7948300557420592383}
   - component: {fileID: 5217740046611565938}
+  - component: {fileID: 8667080773114968838}
+  - component: {fileID: 7728081973832481626}
   m_Layer: 0
   m_Name: Line010
   m_TagString: Untagged
@@ -196,3 +229,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &8667080773114968838
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8617412239544250208}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 8
+  m_CollisionDetection: 0
+--- !u!65 &7728081973832481626
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8617412239544250208}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24766397, y: 0.22, z: 0.15000002}
+  m_Center: {x: -0.000000047683717, y: -7.5495147e-16, z: 0.07500001}

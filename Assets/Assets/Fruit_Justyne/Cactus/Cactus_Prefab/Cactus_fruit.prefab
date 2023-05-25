@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7205757014944884471}
   - component: {fileID: 6075397981754796370}
   - component: {fileID: 8337518674161065368}
-  - component: {fileID: 3082966823509309188}
   m_Layer: 0
   m_Name: Cactus_fruit
   m_TagString: Untagged
@@ -83,18 +82,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3082966823509309188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7544705300698365005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a190c8397bff5346a948539ec452b45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 670d2ac6152fa754eb54fadd71955edf, type: 2}
-  plant: {fileID: 0}
-  canPickUp: 0

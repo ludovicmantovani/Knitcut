@@ -1136,7 +1136,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897124418}
   m_LocalRotation: {x: 0, y: 0, z: 0.18386555, w: 0.98295146}
-  m_LocalPosition: {x: 9, y: 0, z: 0}
+  m_LocalPosition: {x: 9, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1527712861}
@@ -1299,7 +1299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112995961}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1527712861}
@@ -1515,7 +1515,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1225549800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1555,7 +1555,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bladeTrailPrefab: {fileID: 8421100686429264655, guid: ad66e0b872c41e24184fb4adbea3e4b3, type: 3}
-  minCuttingVelocity: 0.001
   delayBeforeDestroyingBladeTrail: 2
   canCut: 0
   isCutting: 0
@@ -2071,7 +2070,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760617156}
   m_LocalRotation: {x: 0, y: 0, z: -0.08367776, w: 0.9964929}
-  m_LocalPosition: {x: -9, y: 0, z: 0}
+  m_LocalPosition: {x: -9, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1527712861}
@@ -2563,6 +2562,7 @@ MonoBehaviour:
   textPrice: {fileID: 8090213722478525077}
   textScore: {fileID: 8090213722347863210}
   textInfo: {fileID: 8090213722906137874}
+  imageDish: {fileID: 8090213721242980229}
 --- !u!224 &8090213721562151445
 RectTransform:
   m_ObjectHideFlags: 0

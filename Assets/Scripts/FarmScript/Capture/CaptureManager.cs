@@ -154,12 +154,22 @@ public class CaptureManager : MonoBehaviour
         if (fruitPlaced != null) return;
 
         fruitPlaced = Instantiate(item.Item.itemObject, transform);
+
+        DeactivateFruitOptions();
+
         currentFruit = item;
 
         Vector3 fruitPosition = fruitPedestal.position;
         fruitPosition.y += 1f;
 
         fruitPlaced.transform.position = fruitPosition;
+    }
+
+    private void DeactivateFruitOptions()
+    {
+        Destroy(fruitPlaced.GetComponent<Rigidbody2D>());
+        Destroy(fruitPlaced.GetComponent<CircleCollider2D>());
+        Destroy(fruitPlaced.GetComponent<Consumable3D>());
     }
 
     private void HandleCapture()

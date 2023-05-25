@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4377266144705334276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4377266144705334277}
+  - component: {fileID: 4377266144705334331}
+  - component: {fileID: 4377266144705334330}
+  - component: {fileID: 4377266144705334328}
+  - component: {fileID: 6859883034967936547}
+  m_Layer: 0
+  m_Name: Framboise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4377266144705334277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4377266144705334276}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1189844726327251363}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &4377266144705334331
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4377266144705334276}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!58 &4377266144705334330
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4377266144705334276}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.6
+--- !u!114 &4377266144705334328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4377266144705334276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05d127c95bd76fc48a311273b0978455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consumableSlicedPrefab: {fileID: 1201974335801999947, guid: 1c703b66ea9e2434882c8b949e23c944, type: 3}
+  propulsionForce: 14
+  slicedForce: 10
+--- !u!114 &6859883034967936547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4377266144705334276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a190c8397bff5346a948539ec452b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 609fce7d08936ec4b884f05b2f9bf765, type: 2}
+  plant: {fileID: 0}
+  canPickUp: 0
+--- !u!1001 &8853276014136109575
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4377266144705334277}
+    m_Modifications:
+    - target: {fileID: 6995737793061871902, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_Name
+      value: Framboise_fruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.1321101e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+--- !u!4 &1189844726327251363 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7664575545833307044, guid: ed41cf6a095396240b694a46e63fa2cb, type: 3}
+  m_PrefabInstance: {fileID: 8853276014136109575}
+  m_PrefabAsset: {fileID: 0}

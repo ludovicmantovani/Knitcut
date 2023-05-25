@@ -146,6 +146,11 @@ public class MinigameManager : MonoBehaviour
         itemsToRemoveQuantity.Add(item, quantity);
     }
 
+    public static void ClearPlayerItems()
+    {
+        itemsToRemoveQuantity = new Dictionary<Item, int>();
+    }
+
     #region Open Inventories
 
     public static void AddOpenInventory(GameObject inventory)
@@ -236,13 +241,28 @@ public class MinigameManager : MonoBehaviour
     {
         PlayerInventory inventory = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>();
 
-        if (inventory == null || FindFirstGenericDishSO() == -1) return;
+        int firstGenerocDishSO = FindFirstGenericDishSO();
 
-        Item item = (Item)listSlots.Stuffs[FindFirstGenericDishSO() + Convert.ToInt32(dataToKeep[3])];
+        if (inventory == null || firstGenerocDishSO == -1) return;
 
-        item.itemName = (string)dataToKeep[0];
-        item.itemDescription = (string)dataToKeep[1];
-        item.itemValue = (float)dataToKeep[2];
+        Recipe recipe = (Recipe)dataToKeep[0];
+        float price = (float)dataToKeep[1];
+
+        if (recipe == null) return;
+
+        Item item = (Item)listSlots.Stuffs[firstGenerocDishSO + Convert.ToInt32(recipe.recipeIndex)];
+
+        if (item == null) return;
+
+        DishInfos dish = recipe.finalProduct.GetComponent<DishInfos>();
+
+        if (dish == null) return;
+
+        item.itemName = dish.dishName;
+        item.itemDescription = dish.dishDescription;
+        item.itemValue = price;
+        item.itemSprite = dish.dishSprite;
+        item.itemObject = dish.gameObject;
 
         inventory.AddItemToInventory(item);
 
@@ -253,11 +273,13 @@ public class MinigameManager : MonoBehaviour
     {
         for (int i = 0; i < listSlots.Stuffs.Length; i++)
         {
-            Item item = (Item)listSlots.Stuffs[i];
+            ScriptableObject itemSO = listSlots.Stuffs[i];
 
-            if (item.name.Contains("Dish"))
+            if (itemSO.GetType() == typeof(Item))
             {
-                return i;
+                Item item = (Item)itemSO;
+
+                if (item.itemType == ItemType.Dish) return i;
             }
         }
 
@@ -271,6 +293,8 @@ public class MinigameManager : MonoBehaviour
             if (itemsToRemoveQuantity.TryGetValue(item, out int quantity))
                 inventory.RemoveItemQuantity(item, quantity);
         }
+
+        ClearPlayerItems();
     }
 
     private void HandleRecognitionData()
