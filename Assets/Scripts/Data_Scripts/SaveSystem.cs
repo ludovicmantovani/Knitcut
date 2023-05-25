@@ -176,14 +176,31 @@ public static class SaveSystem
     {
         string path = Application.persistentDataPath;
 
+        if (path == null || path == string.Empty) return;
+
         string[] files = Directory.GetFiles(path);
 
-        foreach (string file in files)
-        {
-            File.Delete(file);
-            //Debug.Log($"{file} is deleted");
-        }
+        if (files.Length == 0) return;
 
-        Debug.Log($"All files successfully deleted");
+        try
+        {
+            foreach (string file in files)
+            {
+                // Remove only save files
+                if (file.Contains("Save"))
+                {
+                    var fileOpenRead = File.OpenRead(file);
+                    fileOpenRead.Close();
+
+                    File.Delete(file);
+                }
+            }
+            
+            Debug.Log($"All files successfully deleted");
+        }
+        catch (IOException e)
+        {
+            Debug.LogError($"Error DeleteAllSaves : {e.Message}");
+        }
     }
 }
