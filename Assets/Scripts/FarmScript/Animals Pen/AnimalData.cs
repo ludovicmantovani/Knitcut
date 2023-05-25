@@ -65,6 +65,8 @@ public class AnimalData : MonoBehaviour
 
     private void SearchDestination()
     {
+        if (currentAnimalPen == null) return;
+
         float xLimit = currentAnimalPen.GetComponent<AnimalPenRef>().Surface.GetComponent<Renderer>().bounds.size.x;
         float zLimit = currentAnimalPen.GetComponent<AnimalPenRef>().Surface.GetComponent<Renderer>().bounds.size.z;
 
