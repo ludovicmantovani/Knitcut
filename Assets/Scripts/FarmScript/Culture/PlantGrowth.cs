@@ -1,23 +1,18 @@
 using UnityEngine;
 
-public class SeedGrowth : MonoBehaviour
+public class PlantGrowth : MonoBehaviour
 {
+    #region Parameters
+
     [Header("References")]
-    //[SerializeField] private GameObject adultPlant;
-    [SerializeField] private GameObject flowerFruit;
-    [SerializeField] private GameObject flower;
-    [SerializeField] private GameObject sprout;
-    [SerializeField] private GameObject seed;
+    [SerializeField] private Plant plant;
     [SerializeField] private ProductGrowth productGrowth;
     [SerializeField] private ProductState productState;
+    [SerializeField] private MeshRenderer plantRenderer;
+    [SerializeField] private SkinnedMeshRenderer plantSkinRenderer;
 
-    //private GameObject adultObject;
-    private GameObject flowerFruitObject;
-    private GameObject flowerObject;
-    private GameObject sproutObject;
-
-    [SerializeField]
-    private MeshRenderer plantRenderer;
+    private CropPlot cropPlot;
+    private GameObject stateObject;
 
     public enum ProductGrowth
     {
@@ -35,8 +30,6 @@ public class SeedGrowth : MonoBehaviour
         Dehydrated
     }
 
-    private CropPlot cropPlot;
-
     [Header("Datas")]
     [SerializeField] private float timeOfGrowthSeed = 10f;
     [SerializeField] private float timeOfGrowthSprout = 10f;
@@ -52,10 +45,10 @@ public class SeedGrowth : MonoBehaviour
 
     #region Getters / Setters
 
-    public MeshRenderer PlantRenderer
+    public Plant CurrentPlant
     {
-        get { return plantRenderer; }
-        set { plantRenderer = value; }
+        get { return plant; }
+        set { plant = value; }
     }
 
     public CropPlot CropPlot
@@ -76,12 +69,23 @@ public class SeedGrowth : MonoBehaviour
         set { productState = value; }
     }
 
+    public MeshRenderer PlantRenderer
+    {
+        get { return plantRenderer; }
+        set { plantRenderer = value; }
+    }
+
+    #endregion
+
     #endregion
 
     private void Start()
     {
+        ActualizePlant(plant.seed);
+        /*stateObject = Instantiate(plant.seed, transform);
+
         plantRenderer = transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;
+        defaultMaterial = plantRenderer.material;*/
 
         productGrowth = ProductGrowth.Seed;
         productState = ProductState.InGrowth;
@@ -115,16 +119,16 @@ public class SeedGrowth : MonoBehaviour
         switch (productGrowth)
         {
             case ProductGrowth.Seed:
-                SeedToSprout();
+                SeedGrowth();
                 break;
             case ProductGrowth.Sprout:
-                SproutToFlower();
+                SproutGrowth();
                 break;
             case ProductGrowth.Flower:
-                FlowerToFruit();
+                FlowerGrowth();
                 break;
             case ProductGrowth.FlowerFruit:
-                FruitToFinal();
+                FlowerReadyGrowth();
                 break;
             case ProductGrowth.End:
                 End();
@@ -134,39 +138,70 @@ public class SeedGrowth : MonoBehaviour
         }
     }
 
-    private void SeedToSprout()
+    private void ActualizePlant(GameObject plantStateObject)
+    {
+        Destroy(stateObject);
+
+        stateObject = Instantiate(plantStateObject, transform);
+
+        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
+
+        if (plantRenderer == null)
+        {
+            plantSkinRenderer = stateObject.transform.GetComponentInChildren<SkinnedMeshRenderer>();
+
+            if (plantSkinRenderer == null)
+            {
+                Debug.Log($"Error plant renderer");
+            }
+            else
+            {
+                defaultMaterial = plantSkinRenderer.material;
+            }
+        }
+        else
+        {
+            defaultMaterial = plantRenderer.material;
+        }
+    }
+
+    private void SeedGrowth()
     {
         currentTime = timeOfGrowthSeed;
 
         productGrowth = ProductGrowth.Sprout;
     }
 
-    private void SproutToFlower()
+    private void SproutGrowth()
     {
         if (currentTime > 0) return;
 
-        sproutObject = Instantiate(sprout, transform);
+        /*Destroy(stateObject);
 
-        Destroy(seed);
+        stateObject = Instantiate(plant.sprout, transform);
 
-        plantRenderer = sproutObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;
+        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
+        defaultMaterial = plantRenderer.material;*/
+
+        ActualizePlant(plant.sprout);
 
         currentTime = timeOfGrowthSprout;
 
         productGrowth = ProductGrowth.Flower;
     }
 
-    private void FlowerToFruit()
+    private void FlowerGrowth()
     {
         if (currentTime > 0) return;
 
-        flowerObject = Instantiate(flower, transform);
+        /*Destroy(stateObject);
 
-        Destroy(sproutObject);
+        stateObject = Instantiate(plant.plant, transform);
 
-        plantRenderer = flowerObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;
+        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
+        defaultMaterial = plantRenderer.material;*/
+
+        ActualizePlant(plant.plant);
 
         currentTime = timeOfGrowthFlower;
 
@@ -175,18 +210,20 @@ public class SeedGrowth : MonoBehaviour
         productGrowth = ProductGrowth.FlowerFruit;
     }
 
-    private void FruitToFinal()
+    private void FlowerReadyGrowth()
     {
         if (currentTime > 0) return;
 
-        flowerFruitObject = Instantiate(flowerFruit, transform);
+        /*Destroy(stateObject);
+
+        stateObject = Instantiate(plant.readyPlant, transform);
         //adultObject = Instantiate(adultPlant, transform);
 
-        Destroy(flowerObject);
-
-        plantRenderer = flowerFruitObject.transform.GetComponentInChildren<MeshRenderer>();
+        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
         //plantRenderer = adultObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;
+        defaultMaterial = plantRenderer.material;*/
+
+        ActualizePlant(plant.readyPlant);
 
         Vector3 productPosition = transform.position;
         productPosition.y += yPositionFix;
@@ -199,7 +236,7 @@ public class SeedGrowth : MonoBehaviour
 
     private void End()
     {
-        GameObject fruit = null;
+        /*GameObject fruit = null;
 
         for (int i = 0; i < flowerFruitObject.transform.childCount; i++)
         {
@@ -209,9 +246,9 @@ public class SeedGrowth : MonoBehaviour
             }
         }
 
-        if (fruit == null) return;
+        if (fruit == null) return;*/
 
-        cropPlot.Product = fruit;
+        cropPlot.Product = plant.fruit;
     }
 
     #endregion
@@ -238,23 +275,26 @@ public class SeedGrowth : MonoBehaviour
 
     private void InGrowth()
     {
-        if (plantRenderer == null) return;
+        if (plantRenderer == null && plantSkinRenderer == null) return;
 
-        plantRenderer.material = defaultMaterial;
+        if (plantRenderer != null) plantRenderer.material = defaultMaterial;
+        else if (plantSkinRenderer != null) plantSkinRenderer.material = defaultMaterial;
     }
 
     private void Sick()
     {
-        if (plantRenderer == null) return;
+        if (plantRenderer == null && plantSkinRenderer == null) return;
 
-        plantRenderer.material = sickMaterial;
+        if (plantRenderer != null) plantRenderer.material = sickMaterial;
+        else if (plantSkinRenderer != null) plantSkinRenderer.material = sickMaterial;
     }
 
     private void Dehydrated()
     {
-        if (plantRenderer == null) return;
+        if (plantRenderer == null && plantSkinRenderer == null) return;
 
-        plantRenderer.material = dehydratedMaterial;
+        if (plantRenderer != null) plantRenderer.material = dehydratedMaterial;
+        else if (plantSkinRenderer != null) plantSkinRenderer.material = dehydratedMaterial;
     }
 
     private void GetRandomState()

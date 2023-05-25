@@ -183,9 +183,11 @@ public class List_Slots : MonoBehaviour
     {
         UpdateMoney(750);
 
-        ItemCreation(14, 5);
-        ItemCreation(9, 2);
-        ItemCreation(18, 2);
+        ItemCreation(8, 4); // fruit citrouille
+        ItemCreation(11, 2); // fruit radis
+
+        ItemCreation(14, 8); // graine framboise
+        ItemCreation(15, 5); // graine palmier
     }
 
     private void ItemCreation(int indexItem, int quantity)

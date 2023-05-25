@@ -3,6 +3,7 @@ using UnityEngine;
 public class KeepItem : MonoBehaviour
 {
     [SerializeField] private Item item;
+    [SerializeField] private Plant plant;
     [SerializeField] private bool canPickUp;
 
     public Item Item

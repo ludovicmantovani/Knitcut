@@ -137,14 +137,23 @@ public class CultureManager : MonoBehaviour
             {
                 if (currentCropPlot.SeedSource == null) return;
 
-                SeedGrowth.ProductState seedProductState = currentCropPlot.SeedSource.GetComponent<SeedGrowth>().GetProductState;
+                PlantGrowth.ProductState plantProductState = currentCropPlot.SeedSource.GetComponent<PlantGrowth>().GetProductState;
+
+                if (plantProductState == PlantGrowth.ProductState.Sick)
+                    instruction = $"Utiliser {playerInput.HealAction.GetBindingDisplayString()} pour soigner la plante";
+                else if (plantProductState == PlantGrowth.ProductState.Dehydrated)
+                    instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
+                else
+                    instruction = $"Croissance en cours...";
+
+                /*SeedGrowth.ProductState seedProductState = currentCropPlot.SeedSource.GetComponent<SeedGrowth>().GetProductState;
 
                 if (seedProductState == SeedGrowth.ProductState.Sick)
                     instruction = $"Utiliser {playerInput.HealAction.GetBindingDisplayString()} pour soigner la plante";
                 else if (seedProductState == SeedGrowth.ProductState.Dehydrated)
                     instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
                 else
-                    instruction = $"Croissance en cours...";
+                    instruction = $"Croissance en cours...";*/
                 
                 interactionUI.GetComponentInChildren<Text>().text = instruction;
             }
@@ -265,11 +274,17 @@ public class CultureManager : MonoBehaviour
 
         playerController.PlayerInventory.RemoveItemQuantity(item, 1);
 
-        GameObject seed = Instantiate(item.itemObject, currentCropPlot.transform);
+        GameObject plant = Instantiate(item.itemObject, currentCropPlot.transform);
 
-        seed.GetComponent<SeedGrowth>().CropPlot = currentCropPlot;
+        plant.GetComponent<PlantGrowth>().CropPlot = currentCropPlot;
 
-        currentCropPlot.SeedSource = seed;
+        currentCropPlot.SeedSource = plant;
+
+        //GameObject seed = Instantiate(item.itemObject, currentCropPlot.transform);
+
+        //seed.GetComponent<SeedGrowth>().CropPlot = currentCropPlot;
+
+        //currentCropPlot.SeedSource = seed;
 
         CloseCultureUI();
 
