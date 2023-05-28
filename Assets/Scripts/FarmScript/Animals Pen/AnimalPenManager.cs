@@ -63,7 +63,7 @@ public class AnimalPenManager : MonoBehaviour
     public Dictionary<string, float> AnimalsHunger
     {
         get { return animalsHunger; }
-        set { animalsHunger = value;}
+        set { animalsHunger = value; }
     }
 
     public int[] TotalAnimalsAdults
@@ -210,7 +210,7 @@ public class AnimalPenManager : MonoBehaviour
 
                 totalAnimalsLoaded++;
 
-                InstantiateAnimal(animal, animalPenList[i].animalPenInScene.transform);
+                InstantiateAnimal(animal, animalPenList[i]);
             }
         }
 
@@ -236,6 +236,7 @@ public class AnimalPenManager : MonoBehaviour
 
         List<GameObject> animalsList;
 
+        // Adult or Child
         if (!isChildren)
             animalsList = animals;
         else
@@ -243,6 +244,7 @@ public class AnimalPenManager : MonoBehaviour
 
         if (animalsList == null) return;
 
+        // Get animal prefab
         for (int i = 0; i < animalsList.Count; i++)
         {
             if (animalsList[i].GetComponent<AnimalData>().AnimalType == MinigameManager.AnimalTypeToKeep)
@@ -253,6 +255,7 @@ public class AnimalPenManager : MonoBehaviour
 
         if (tamedAnimal == null) return;
 
+        // Get current animal pen
         int animalPenOfAnimalIndex = -1;
 
         for (int i = 0; i < animalPenList.Count; i++)
@@ -272,12 +275,16 @@ public class AnimalPenManager : MonoBehaviour
 
         MinigameManager.AnimalTypeToKeep = AnimalType.None;
 
-        InstantiateAnimal(tamedAnimal, animalPenList[animalPenOfAnimalIndex].animalPenInScene.transform);
+        InstantiateAnimal(tamedAnimal, animalPenList[animalPenOfAnimalIndex]);
+
+        ActualizeAnimals(animalPenList[animalPenOfAnimalIndex], animalPenList[animalPenOfAnimalIndex].animalPenInScene);
     }
 
-    private void InstantiateAnimal(GameObject animalObject, Transform animalPen)
+    private void InstantiateAnimal(GameObject animalObject, AnimalPen currentAnimalPen)
     {
-        AnimalStates animal = Instantiate(animalObject, animalPen).GetComponent<AnimalStates>();
+        Transform currentAnimalPenInScene = currentAnimalPen.animalPenInScene.transform;
+
+        AnimalStates animal = Instantiate(animalObject, currentAnimalPenInScene).GetComponent<AnimalStates>();
 
         string animalID = GenerateAnimalID(animal.GetComponent<AnimalData>());
 
@@ -296,9 +303,33 @@ public class AnimalPenManager : MonoBehaviour
             animalsHunger.Add(animalID, animal.Hunger);
         }
 
+        // Random Position
+        Transform surface = currentAnimalPenInScene.GetComponentInChildren<AnimalPenRef>().Surface.transform;
+
+        Vector3 randomPosition = GetAnimalPenRandomPos(surface);
+
+        if (randomPosition == Vector3.zero) return;
+
+        animal.transform.position = randomPosition;
+
         //SaveAnimalPenData();
 
         //HandleStates();
+    }
+
+    private Vector3 GetAnimalPenRandomPos(Transform surface)
+    {
+        if (surface == null) return Vector3.zero;
+
+        float xLimit = surface.GetComponent<Renderer>().bounds.size.x;
+        float zLimit = surface.GetComponent<Renderer>().bounds.size.z;
+
+        float randomX = UnityEngine.Random.Range(-xLimit / 2, xLimit / 2);
+        float randomZ = UnityEngine.Random.Range(-zLimit / 2, zLimit / 2);
+
+        Vector3 randomPosition = surface.position + new Vector3(randomX, transform.position.y, randomZ);
+
+        return randomPosition;
     }
 
     private void ActualizeAnimalsHunger()

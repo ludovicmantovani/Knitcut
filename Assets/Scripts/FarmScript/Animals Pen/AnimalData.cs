@@ -12,8 +12,9 @@ public class AnimalData : MonoBehaviour
     [Header("Datas")]
     [SerializeField] private float speed = 3.5f;
     [SerializeField] private float stoppingDistance = 0f;
-    [SerializeField] private float timeToWaitBeforeMoving = 3f;
-    [SerializeField] private float distanceMinToChange = 4.2f;
+    [SerializeField] private float refreshRate = 0.1f;
+    [SerializeField] private float distanceMinToChange = 2f;
+    [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private Vector3 destination;
 
     private bool animalCanMove = true;
@@ -44,6 +45,11 @@ public class AnimalData : MonoBehaviour
     {
         if (animalCanMove) Move();
 
+        ActualizeDirection();
+    }
+
+    private void ActualizeDirection()
+    {
         Vector3 direction = transform.position - destination;
         distance = direction.magnitude;
     }
@@ -54,34 +60,44 @@ public class AnimalData : MonoBehaviour
 
         SearchDestination();
 
-        if (distance > distanceMinToChange)
+        StartCoroutine(GoToDestination());
+    }
+
+    private IEnumerator GoToDestination()
+    {
+        agent.SetDestination(destination);
+
+        while (distance > distanceMinToChange)
         {
-            //body.LookAt(destination);
-            agent.SetDestination(destination);
+            yield return new WaitForSeconds(refreshRate);
         }
 
-        StartCoroutine(Moving());
+        int random = Random.Range(0, 3);
+
+        if (random == 0 | random == 1)
+        {
+            yield return new WaitForSeconds(timeBeforeMoving);
+        }
+
+        animalCanMove = true;
     }
 
     private void SearchDestination()
     {
         if (currentAnimalPen == null) return;
 
-        float xLimit = currentAnimalPen.GetComponent<AnimalPenRef>().Surface.GetComponent<Renderer>().bounds.size.x;
-        float zLimit = currentAnimalPen.GetComponent<AnimalPenRef>().Surface.GetComponent<Renderer>().bounds.size.z;
+        Transform surface = currentAnimalPen.GetComponent<AnimalPenRef>().Surface.transform;
+
+        if (surface == null) return;
+
+        float xLimit = surface.GetComponent<Renderer>().bounds.size.x;
+        float zLimit = surface.GetComponent<Renderer>().bounds.size.z;
 
         float randomX = Random.Range(-xLimit / 2, xLimit / 2);
         float randomZ = Random.Range(-zLimit / 2, zLimit / 2);
 
-        destination = currentAnimalPen.transform.position + new Vector3(randomX, transform.position.y, randomZ);
-    }
+        Vector3 randomPosition = surface.position + new Vector3(randomX, 0f, randomZ);
 
-    private IEnumerator Moving()
-    {
-        yield return new WaitForSeconds(timeToWaitBeforeMoving);
-
-        SearchDestination();
-
-        animalCanMove = true;
+        destination = randomPosition;
     }
 }

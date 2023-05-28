@@ -301,12 +301,13 @@ MonoBehaviour:
   feeder: {fileID: 0}
   animalCanvas: {fileID: 1454388534}
   animalNameText: {fileID: 177763203}
-  animalName: Licorne
   animalHungerSlider: {fileID: 0}
   animalHappinessImage: {fileID: 0}
   woolPrefab: {fileID: 0}
   timeWoolProduction: 20
   timeAutoDestroy: 10
+  animalName: Licorne
+  animalID: 
   isChild: 1
   hunger: 0
   maxHunger: 0
@@ -333,8 +334,9 @@ MonoBehaviour:
   body: {fileID: 0}
   speed: 2
   stoppingDistance: 0
-  timeToWaitBeforeMoving: 5
-  distanceMinToChange: 4.2
+  refreshRate: 0.1
+  distanceMinToChange: 2
+  timeBeforeMoving: 5
   destination: {x: 0, y: 0, z: 0}
 --- !u!195 &-5217736422889576398
 NavMeshAgent:

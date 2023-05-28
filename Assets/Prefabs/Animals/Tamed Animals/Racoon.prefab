@@ -769,12 +769,13 @@ MonoBehaviour:
   feeder: {fileID: 0}
   animalCanvas: {fileID: 1454388534}
   animalNameText: {fileID: 177763203}
-  animalName: Raton Laveur
   animalHungerSlider: {fileID: 1561613815}
   animalHappinessImage: {fileID: 1426479858}
   woolPrefab: {fileID: 3943061587771230703, guid: 8e31c9c1167224b4f8f98ed5327130c1, type: 3}
   timeWoolProduction: 20
   timeAutoDestroy: 10
+  animalName: Raton Laveur
+  animalID: 
   isChild: 0
   hunger: 0
   maxHunger: 300
@@ -801,8 +802,9 @@ MonoBehaviour:
   body: {fileID: 0}
   speed: 2
   stoppingDistance: 0
-  timeToWaitBeforeMoving: 5
-  distanceMinToChange: 4.2
+  refreshRate: 0.1
+  distanceMinToChange: 2
+  timeBeforeMoving: 5
   destination: {x: 0, y: 0, z: 0}
 --- !u!195 &511024955110513253
 NavMeshAgent:
