@@ -17,7 +17,8 @@ public class CaptureManager : MonoBehaviour
     [SerializeField] private List<GameObject> animals;
     [SerializeField] private List<Transform> spawnpoints;
 
-    [SerializeField] private string[] captureGameSceneName = {
+    [SerializeField]
+    private string[] captureGameSceneName = {
         "WaterMiniGameScene1",
         "WaterMiniGameScene2",
         "WaterMiniGameScene3"
@@ -212,7 +213,7 @@ public class CaptureManager : MonoBehaviour
                 StartCoroutine(Saving());
             }
             else
-            {                
+            {
                 RemoveItem();
                 Destroy(currentFruit.gameObject);
             }
