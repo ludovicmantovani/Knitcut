@@ -44,7 +44,11 @@ namespace Gameplay.UI.Quests
                     rewardText += ", ";
                 if (reward.number > 1)
                     rewardText += reward.number + " ";
-                rewardText += reward.item.itemName;
+                
+                if (reward.item == null)
+                    Debug.LogWarning("No item for this reward !");
+                else
+                    rewardText += reward.item.itemName;
             }
             return rewardText;
         }
