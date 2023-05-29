@@ -143,14 +143,14 @@ namespace Recognition
 
             //Clear();
 
-            ShowResult(texture2D, $"{score * 100:0}%");
+            ShowResult(texture2D, $"{score * 100:0}%", 25);
         }
 
         #endregion
 
         #region Display result
 
-        private void ShowResult(Texture2D texture2D, string score)
+        private void ShowResult(Texture2D texture2D, string score, int money)
         {
             if (gameCanvas && panel && resultCanvas)
             {
@@ -164,9 +164,11 @@ namespace Recognition
                 if (rawImageDrawingTransform && texture2D) rawImageDrawingTransform.GetComponent<RawImage>().texture = texture2D;
 
                 //TODO : Set money
+                Transform moneyTransform = resultCanvas.transform.Find("TextCoin (TMP)");
+                if (moneyTransform) moneyTransform.GetComponent<TMP_Text>().text = $"{money}";
 
                 // Save datas
-                MinigameManager.FinalizeMG(MinigameManager.MGType.Recognition, 25);
+                MinigameManager.FinalizeMG(MinigameManager.MGType.Recognition, money);
 
                 //TODO : Set commentary
 
