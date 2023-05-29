@@ -68,7 +68,11 @@ public class ProgressionLevelWaterGame : MonoBehaviour
                         //Lost.SetActive(true);
                         Failed = true;
                     }
-                    
+
+                }
+                else
+                {
+                    tempsBeforeStoping = 2;
                 }
                 
             }

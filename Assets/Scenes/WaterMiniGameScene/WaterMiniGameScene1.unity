@@ -2734,7 +2734,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: b254864d51bda2449a50de9c1bdc8c51, type: 2}
   m_BuildHeightMesh: 0
@@ -3564,6 +3564,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6730646315405189749, guid: 7a74e3f9ddab0e340990e03f680d89a8, type: 3}
+      propertyPath: m_Method
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8277824896195815410, guid: 7a74e3f9ddab0e340990e03f680d89a8, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -3676,6 +3680,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterFront
       objectReference: {fileID: 0}
+    - target: {fileID: 8277824896195815417, guid: 7a74e3f9ddab0e340990e03f680d89a8, type: 3}
+      propertyPath: m_Speed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a74e3f9ddab0e340990e03f680d89a8, type: 3}
 --- !u!212 &8277824896300036667 stripped
@@ -3729,7 +3737,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: cf53e994db1847c4fa5315c7eb123a69, type: 2}
   m_BuildHeightMesh: 0
