@@ -82,10 +82,6 @@ public class PlantGrowth : MonoBehaviour
     private void Start()
     {
         ActualizePlant(plant.seed);
-        /*stateObject = Instantiate(plant.seed, transform);
-
-        plantRenderer = transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
 
         productGrowth = ProductGrowth.Seed;
         productState = ProductState.InGrowth;
@@ -176,13 +172,6 @@ public class PlantGrowth : MonoBehaviour
     {
         if (currentTime > 0) return;
 
-        /*Destroy(stateObject);
-
-        stateObject = Instantiate(plant.sprout, transform);
-
-        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
-
         ActualizePlant(plant.sprout);
 
         currentTime = timeOfGrowthSprout;
@@ -193,13 +182,6 @@ public class PlantGrowth : MonoBehaviour
     private void FlowerGrowth()
     {
         if (currentTime > 0) return;
-
-        /*Destroy(stateObject);
-
-        stateObject = Instantiate(plant.plant, transform);
-
-        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
 
         ActualizePlant(plant.plant);
 
@@ -214,15 +196,6 @@ public class PlantGrowth : MonoBehaviour
     {
         if (currentTime > 0) return;
 
-        /*Destroy(stateObject);
-
-        stateObject = Instantiate(plant.readyPlant, transform);
-        //adultObject = Instantiate(adultPlant, transform);
-
-        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
-        //plantRenderer = adultObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
-
         ActualizePlant(plant.readyPlant);
 
         Vector3 productPosition = transform.position;
@@ -236,18 +209,6 @@ public class PlantGrowth : MonoBehaviour
 
     private void End()
     {
-        /*GameObject fruit = null;
-
-        for (int i = 0; i < flowerFruitObject.transform.childCount; i++)
-        {
-            if (flowerFruitObject.transform.GetChild(i).name.Contains("fruit"))
-            {
-                fruit = flowerFruitObject.transform.GetChild(i).gameObject;
-            }
-        }
-
-        if (fruit == null) return;*/
-
         cropPlot.Product = plant.fruit;
     }
 
