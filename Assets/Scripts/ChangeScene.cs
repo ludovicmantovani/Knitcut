@@ -19,11 +19,27 @@ public class ChangeScene : MonoBehaviour
     private bool canChangeScene = false;
     private bool showInstruction = false;
 
+    #region Getters / Setters
+
+    public GameObject InteractionPanel
+    {
+        get { return interactionPanel; }
+        set { interactionPanel = value; }
+    }
+
+    public bool CanChangeScene
+    {
+        get { return canChangeScene; }
+        set { canChangeScene = value; }
+    }
+
     public bool ShowInstruction
     {
         get { return showInstruction; }
         set { showInstruction = value; }
     }
+
+    #endregion
 
     void Awake()
     {
@@ -174,21 +190,5 @@ public class ChangeScene : MonoBehaviour
                 MinigameManager.AnimalTypeToKeep = animalType;
             }
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player")) canChangeScene = true;
-
-        interactionPanel.SetActive(true);
-        showInstruction = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player")) canChangeScene = false;
-
-        interactionPanel.SetActive(false);
-        showInstruction = false;
     }
 }
