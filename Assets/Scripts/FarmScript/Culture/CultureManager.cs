@@ -153,9 +153,10 @@ public class CultureManager : MonoBehaviour
                 instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
                 interactionUI.GetComponentInChildren<Text>().text = instruction;
 
-                if (playerInput.InteractionAction.triggered)
+                if (playerInput.InteractionAction.triggered && !playerController.PlayerInventory.InventoryIsFull())
                 {
                     Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
+
                     if (questCompletionPick != null)
                         questCompletionPick.CompleteObjective();
 

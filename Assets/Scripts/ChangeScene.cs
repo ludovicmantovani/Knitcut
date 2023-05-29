@@ -37,7 +37,7 @@ public class ChangeScene : MonoBehaviour
     void Update()
     {
         ShowInteraction();
-        HandleChangeScene();        
+        HandleChangeScene();
     }
 
     private void HandleChangeScene()
@@ -96,9 +96,17 @@ public class ChangeScene : MonoBehaviour
             {
                 if (sceneToLoad.Contains("Cooking"))
                 {
-                    instruction += " pour accéder à la cuisine";
+                    if (playerController.PlayerInventory.InventoryIsFull())
+                    {
+                        canChangeScene = false;
+                        instruction = "L'inventaire est plein";
+                    }
+                    else
+                    {
+                        instruction += " pour accéder à la cuisine";
 
-                    MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
+                        MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
+                    }
                 }
                 else if (sceneToLoad.Contains("Recognition"))
                 {

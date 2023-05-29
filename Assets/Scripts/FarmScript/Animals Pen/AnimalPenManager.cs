@@ -146,8 +146,6 @@ public class AnimalPenManager : MonoBehaviour
             SaveAnimalPenData();
         }
 
-        //HandleStates();
-
         LoadAllAnimals(totalAnimalsAdults, animals);
         LoadAllAnimals(totalAnimalsChildren, animalsChildren);
 
@@ -290,16 +288,12 @@ public class AnimalPenManager : MonoBehaviour
 
         animal.AnimalID = animalID;
 
-        Debug.Log($"{animal} - {animalID}");
-
         if (animalsHunger.TryGetValue(animalID, out float hungerSaved))
         {
-            Debug.Log($"animal {animal.AnimalName} ({animalID}) already exist : {hungerSaved}");
             animal.Hunger = hungerSaved;
         }
         else if (!animalsHunger.ContainsKey(animalID))
         {
-            Debug.Log($"animal {animal.AnimalName} ({animalID}) created : {animal.Hunger}");
             animalsHunger.Add(animalID, animal.Hunger);
         }
 
@@ -311,10 +305,6 @@ public class AnimalPenManager : MonoBehaviour
         if (randomPosition == Vector3.zero) return;
 
         animal.transform.position = randomPosition;
-
-        //SaveAnimalPenData();
-
-        //HandleStates();
     }
 
     private Vector3 GetAnimalPenRandomPos(Transform surface)

@@ -179,6 +179,12 @@ public class PlayerInventory : MonoBehaviour
         return null;
     }
 
+    public bool InventoryIsFull()
+    {
+        if (GetFreeSlot() == null) return true;
+        else return false;
+    }
+
     public List<DraggableItem> SearchItemsPossessed()
     {
         List<DraggableItem> itemsFounded = new List<DraggableItem>();

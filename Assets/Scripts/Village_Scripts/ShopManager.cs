@@ -189,6 +189,13 @@ public class ShopManager : MonoBehaviour
 
         if (amount == 0) return;
 
+        if (playerController.PlayerInventory.InventoryIsFull())
+        {
+            ShowNotification($"L'inventaire est plein");
+
+            return;
+        }
+
         int totalPrice = amount * itemToBuy.price;
 
         if (playerController.Money >= totalPrice)
