@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d139ae5575e4d6c42b28a329702bd982, type: 3}
   m_Name: Plant Framboise
   m_EditorClassIdentifier: 
+  source: {fileID: 7137543882201099299, guid: 90a0ceecf1f79014d9bac3aee8e1ebd0, type: 3}
   seed: {fileID: 8646956701133589361, guid: 45d18dbd3dca008448290c6a01727e44, type: 3}
   sprout: {fileID: 1854922746989904831, guid: 5084ae2c778e8fd49b7e8eb9a2794176, type: 3}
   plant: {fileID: 2280762990826415667, guid: 52a3bd291099d5142b4a67da41abd4c1, type: 3}
   readyPlant: {fileID: 7983371786476316770, guid: 481b9c9301d56e243bef6feb523527c9, type: 3}
   fruit: {fileID: 4377266144705334276, guid: 140b1480caba18347bd28074d1bbf0f0, type: 3}
   fruitSliced: {fileID: 1201974335801999947, guid: 1c703b66ea9e2434882c8b949e23c944, type: 3}
+  timeOfGrowthSeed: 5
+  timeOfGrowthSprout: 5
+  timeOfGrowthFlower: 5
+  timeOfGrowthFruit: 2

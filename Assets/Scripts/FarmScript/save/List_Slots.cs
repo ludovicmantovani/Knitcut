@@ -11,6 +11,7 @@ public class List_Slots : MonoBehaviour
     private PlayerController playerController;
     private PlayerInput playerInput;
     private AnimalPenManager animalPenManager;
+    private CultureManager cultureManager;
     private bool checkLoad = false;
 
     [Header("Money")]
@@ -96,6 +97,7 @@ public class List_Slots : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         playerInput = FindObjectOfType<PlayerInput>();
         animalPenManager = FindObjectOfType<AnimalPenManager>();
+        cultureManager = FindObjectOfType<CultureManager>();
 
         HandleInventories();
 
@@ -153,6 +155,7 @@ public class List_Slots : MonoBehaviour
         playerController.PlayerRecipesInventory.SaveRecipes();
 
         if (handleContainer) AutoSaveContainerInventory();
+        if (handleContainer) cultureManager.SaveCulture();
 
         if (animalPenManager != null)
             animalPenManager.SaveAnimalPenData();
@@ -349,7 +352,7 @@ public class List_Slots : MonoBehaviour
             {
                 if (itemsInSlots[i] != -1)
                     playerSlots[i].GetComponentInChildren<DraggableItem>().Item = (Item)stuffs[itemsInSlots[i]];
-            }            
+            }
         }
     }
 
