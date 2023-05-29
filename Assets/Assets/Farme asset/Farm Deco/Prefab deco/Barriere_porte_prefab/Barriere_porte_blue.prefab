@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3431234730085490429
+--- !u!1 &2999115027003736802
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,30 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2654275366982173767}
-  - component: {fileID: 2641399859772577575}
+  - component: {fileID: 2509964691768891480}
   m_Layer: 0
-  m_Name: bp2
+  m_Name: Barriere_porte_blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2654275366982173767
+--- !u!4 &2509964691768891480
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3431234730085490429}
+  m_GameObject: {fileID: 2999115027003736802}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -41.78915, y: 3.5699997, z: -1.411654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2928220675443302418}
+  - {fileID: 3360793372131474445}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2641399859772577575
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3431234730085490429}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.15, y: 0.84, z: 0.18}
-  m_Center: {x: 0.5, y: 0.42, z: 0}
---- !u!1 &7620789698112787235
+--- !u!1 &8053198293223247676
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,9 +39,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2928220675443302418}
-  - component: {fileID: 7608195766661702193}
-  - component: {fileID: 3098409882442792484}
+  - component: {fileID: 3360793372131474445}
+  - component: {fileID: 8040459471390178862}
+  - component: {fileID: 3242325287524721211}
   m_Layer: 0
   m_Name: Barriere_porte001
   m_TagString: Untagged
@@ -63,35 +49,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2928220675443302418
+--- !u!4 &3360793372131474445
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7620789698112787235}
+  m_GameObject: {fileID: 8053198293223247676}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2654275366982173767}
+  m_Father: {fileID: 2509964691768891480}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7608195766661702193
+--- !u!33 &8040459471390178862
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7620789698112787235}
+  m_GameObject: {fileID: 8053198293223247676}
   m_Mesh: {fileID: -2906975919764714377, guid: a7471c84123be224395091f9794bf2b8, type: 3}
---- !u!23 &3098409882442792484
+--- !u!23 &3242325287524721211
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7620789698112787235}
+  m_GameObject: {fileID: 8053198293223247676}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -105,7 +91,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2396964694595886022, guid: a7471c84123be224395091f9794bf2b8, type: 3}
+  - {fileID: 2100000, guid: f6b43bac5fb8a1a40861be617ab2c2c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
