@@ -89,11 +89,6 @@ public class Cooking : MonoBehaviour
         }
     }
 
-    public void Restart()
-    {
-        HandleGameStart();
-    }
-
     public void Quit()
     {
         MinigameManager.SwitchScene();
