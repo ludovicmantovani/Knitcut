@@ -26,6 +26,8 @@ public class AnimalPenManager : MonoBehaviour
     {
         public GameObject animalPenInScene;
         public GameObject currentAnimalPenState;
+        public GameObject currentFeeder;
+        public GameObject currentBell;
         public List<AnimalPenStates> animalPenStates;
         public AnimalType animalType;
         public int animalPenLevel = 1;
@@ -172,6 +174,8 @@ public class AnimalPenManager : MonoBehaviour
         if (currentState.levelRequired == animalPen.animalPenLevel)
         {
             animalPen.currentAnimalPenState = currentState.animalPenObject;
+            animalPen.currentFeeder = currentState.animalPenObject.GetComponent<AnimalPenRef>().Feeder;
+            animalPen.currentBell = currentState.animalPenObject.GetComponent<AnimalPenRef>().Bell;
 
             currentState.animalPenObject.SetActive(true);
 
