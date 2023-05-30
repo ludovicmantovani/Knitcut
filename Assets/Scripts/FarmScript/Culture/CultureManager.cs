@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class CultureManager : MonoBehaviour
 {
@@ -160,11 +159,14 @@ public class CultureManager : MonoBehaviour
         {
             CropPlot crop = crops[i];
 
+            if (crop == null) return;
+
             if (crop.IsCultivating)
             {
-                PlantGrowth plantGrowth = crop.SeedSource.GetComponent<PlantGrowth>();
+                //PlantGrowth plantGrowth = crop.SeedSource.GetComponent<PlantGrowth>();
+                if (crop.SeedSource == null) return;
 
-                if (plantGrowth == null) return;
+                if (!crop.SeedSource.TryGetComponent<PlantGrowth>(out var plantGrowth)) return;
 
                 cropsSeeds[i] = GetPlantIndex(plantGrowth.CurrentPlant);
                 cropsCultivation[i] = true;
@@ -299,6 +301,7 @@ public class CultureManager : MonoBehaviour
 
                     Destroy(currentCropPlot.SeedSource);
 
+                    currentCropPlot.SeedSource = null;
                     currentCropPlot.Product = null;
                     currentCropPlot.IsCultivating = false;
                 }
