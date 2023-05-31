@@ -184,19 +184,19 @@ public class List_Slots : MonoBehaviour
 
     public void CreateTempItems()
     {
-        UpdateMoney(750);
+        UpdateMoney(200);
 
-        ItemCreation(3, 7);
-        ItemCreation(4, 7);
-        ItemCreation(5, 7);
-        ItemCreation(6, 7);
-        ItemCreation(7, 7);
+        ItemCreation(3, 5);
+        ItemCreation(4, 5);
+        ItemCreation(5, 5);
+        ItemCreation(6, 5);
+        ItemCreation(7, 5);
 
         //ItemCreation(4, 4); // fruit citrouille
         //ItemCreation(7, 2); // fruit radis
 
-        ItemCreation(10, 8); // graine framboise
-        ItemCreation(11, 5); // graine palmier
+        ItemCreation(10, 2); // graine framboise
+        ItemCreation(11, 2); // graine palmier
     }
 
     private void ItemCreation(int indexItem, int quantity)
