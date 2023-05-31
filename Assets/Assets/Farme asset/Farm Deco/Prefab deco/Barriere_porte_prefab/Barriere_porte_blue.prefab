@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 3360793372131474445}
   - component: {fileID: 8040459471390178862}
   - component: {fileID: 3242325287524721211}
+  - component: {fileID: 2968153139937156795}
   m_Layer: 0
   m_Name: Barriere_porte001
   m_TagString: Untagged
@@ -113,3 +114,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2968153139937156795
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8053198293223247676}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2906975919764714377, guid: a7471c84123be224395091f9794bf2b8, type: 3}
