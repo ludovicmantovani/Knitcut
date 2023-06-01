@@ -463,6 +463,8 @@ public class ShopManager : MonoBehaviour
     {
         InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
 
+        if (infosUIRefs == null) return;
+
         Sprite objectSprite;
         string objectName;
         float objectPrice;
@@ -492,17 +494,25 @@ public class ShopManager : MonoBehaviour
         infosUIRefs.PriceUI.text = $"{objectPrice} P";
 
         infosUIRefs.OperationUI.onClick.RemoveAllListeners();
-        infosUIRefs.AmountButtonUp.onClick.RemoveAllListeners();
-        infosUIRefs.AmountButtonDown.onClick.RemoveAllListeners();
 
         if (!shopConfiguration.isRecipe)
         {
+            infosUIRefs.AmountButtonUp.onClick.RemoveAllListeners();
+            infosUIRefs.AmountButtonDown.onClick.RemoveAllListeners();
+
             infosUIRefs.AmountUI.text = $"1";
 
             if (!shopConfiguration.isForSelling)
+            {
                 infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyItem(shopConfiguration.items[index], infosUIRefs); });
+            }
             else
+            {
+                Debug.Log($"{index}");
+                Debug.Log($"{shopConfiguration.items}");
+                Debug.Log($"{shopConfiguration.items[index]}");
                 infosUIRefs.OperationUI.onClick.AddListener(delegate { SellItem(shopConfiguration.items[index], infosUIRefs, shopConfiguration); });
+            }                
 
             infosUIRefs.AmountButtonUp.onClick.AddListener(delegate { AddValue(infosUIRefs); });
             infosUIRefs.AmountButtonDown.onClick.AddListener(delegate { RemoveValue(infosUIRefs); });
@@ -538,7 +548,7 @@ public class ShopManager : MonoBehaviour
     {
         if (level == 3)
         {
-            infosUIRefs.NameUI.text = $"Enclos Lv.3 (max) pour {type}";
+            infosUIRefs.NameUI.text = $"Enclos Lv.{level} (max) pour {type}";
             infosUIRefs.PriceUI.text = $"0 P";
             infosUIRefs.OperationUI.onClick.RemoveAllListeners();
             infosUIRefs.OperationUI.interactable = false;

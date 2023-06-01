@@ -7,7 +7,12 @@ public class Slot : MonoBehaviour, IDropHandler//, IPointerClickHandler, IPointe
     public void OnDrop(PointerEventData eventData)
     {
         GameObject objectToDrop = eventData.pointerDrag;
+
+        if (objectToDrop == null) return;
+
         DraggableItem draggableItemToDrop = objectToDrop.GetComponent<DraggableItem>();
+
+        if (draggableItemToDrop == null) return;
 
         // If there is already an item
         #region 1 item already in slot
@@ -16,6 +21,8 @@ public class Slot : MonoBehaviour, IDropHandler//, IPointerClickHandler, IPointe
         {
             DraggableItem draggableItemInSlot = transform.GetChild(0).GetComponent<DraggableItem>();
             Item itemInSlot = draggableItemInSlot.Item;
+
+            if (itemInSlot == null) return;
 
             // If 2 items are same
             #region 2 items are same

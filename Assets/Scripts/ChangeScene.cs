@@ -140,7 +140,7 @@ public class ChangeScene : MonoBehaviour
                     if (GetAnimalsAdultsCount() < 2)
                     {
                         canChangeScene = false;
-                        instruction = "Il n'y a aucun animal dans cet enclos";
+                        instruction = "Il faut au minimum 2 animaux dans l'enclos";
                     }
                     else
                     {
