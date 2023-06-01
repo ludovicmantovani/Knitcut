@@ -119,6 +119,11 @@ public class ChangeScene : MonoBehaviour
                         canChangeScene = false;
                         instruction = "L'inventaire est plein";
                     }
+                    else if (playerController.PlayerRecipesInventory.GetRecipes().Count == 0)
+                    {
+                        canChangeScene = false;
+                        instruction = "Vous ne possédez aucune recette";
+                    }
                     else
                     {
                         instruction += " pour accéder à la cuisine";
