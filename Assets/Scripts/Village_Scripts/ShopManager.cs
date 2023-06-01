@@ -187,7 +187,7 @@ public class ShopManager : MonoBehaviour
 
         int amount = int.Parse(currentItemUI.AmountUI.text);
 
-        if (amount == 0) return;
+        if (amount <= 0) return;
 
         if (playerController.PlayerInventory.InventoryIsFull())
         {
@@ -236,7 +236,7 @@ public class ShopManager : MonoBehaviour
 
         int amount = int.Parse(currentItemUI.AmountUI.text);
 
-        if (amount == 0) return;
+        if (amount <= 0) return;
 
         int quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item);
 
@@ -293,19 +293,21 @@ public class ShopManager : MonoBehaviour
     {
         int currentLevel = animalPensLevel[index];
 
-        if (currentLevel < shopConfiguration.items.Count)
+        int maxLevel = shopConfiguration.items.Count;
+
+        if (currentLevel < maxLevel)
         {
             if (playerController.Money >= price)
             {
                 listSlots.UpdateMoney(playerController.Money - price);
-
-                MinigameManager.AnimalPenIndexToUpgrade.Add(index);
 
                 currentLevel++;
 
                 animalPensLevel[index] = currentLevel;
 
                 UpdateAnimalPenUI(shopConfiguration, infosUIRefs, currentLevel, type, index);
+
+                SaveAnimalPenLevels();
 
                 ShowNotification($"Vous avez acheté l'amélioration Lv{currentLevel} pour l'enclos n°{index} pour {price} P");
             }
@@ -318,6 +320,17 @@ public class ShopManager : MonoBehaviour
         {
             ShowNotification($"Vous avez achetez toutes les améliorations pour cet enclos");
         }
+    }
+
+    private void SaveAnimalPenLevels()
+    {
+        AnimalPen_Data data = (AnimalPen_Data)SaveSystem.Load(SaveSystem.SaveType.Save_AnimalPen);
+
+        if (data == null) return;
+
+        data.animalPenLevels = animalPensLevel;
+
+        SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPen, data);
     }
 
     #endregion
@@ -415,7 +428,7 @@ public class ShopManager : MonoBehaviour
     {
         if (currentShop.items == null) return;
 
-        if (currentShop.items.Count > 0) currentShop.items.Clear();
+        currentShop.items.Clear();
 
         for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
         {
@@ -463,26 +476,32 @@ public class ShopManager : MonoBehaviour
     {
         InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
 
-        if (infosUIRefs == null) return;
+        if (infosUIRefs == null || shopConfiguration == null) return;
 
-        Sprite objectSprite;
-        string objectName;
-        float objectPrice;
+        object objectToHandle = null;
+        Sprite objectSprite = null;
+        string objectName = null;
+        float objectPrice = -1;
+
+        if (!shopConfiguration.isRecipe && shopConfiguration.items.Count == 0) return;
+        if (shopConfiguration.isRecipe && shopConfiguration.recipes.Count == 0) return;
 
         if (!shopConfiguration.isRecipe)
         {
             ItemToHandle itemToHandle = shopConfiguration.items[index];
+            objectToHandle = itemToHandle;
 
             objectSprite = itemToHandle.item.itemSprite;
 
             if (!shopConfiguration.isForSelling) objectName = itemToHandle.item.itemName;
             else objectName = $"{itemToHandle.item.itemName} x{playerController.PlayerInventory.GetItemQuantity(itemToHandle.item)}";
 
-            objectPrice = itemToHandle.price;        
+            objectPrice = itemToHandle.price;
         }
         else
         {
-            RecipeToHandle recipeToHandle = shopConfiguration.recipes[index]; ;
+            RecipeToHandle recipeToHandle = shopConfiguration.recipes[index];
+            objectToHandle = recipeToHandle;
 
             objectSprite = recipeToHandle.item.recipeSprite;
             objectName = recipeToHandle.item.recipeName;
@@ -493,33 +512,32 @@ public class ShopManager : MonoBehaviour
         infosUIRefs.NameUI.text = objectName;
         infosUIRefs.PriceUI.text = $"{objectPrice} P";
 
-        infosUIRefs.OperationUI.onClick.RemoveAllListeners();
-
         if (!shopConfiguration.isRecipe)
         {
-            infosUIRefs.AmountButtonUp.onClick.RemoveAllListeners();
-            infosUIRefs.AmountButtonDown.onClick.RemoveAllListeners();
-
             infosUIRefs.AmountUI.text = $"1";
+
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
 
             if (!shopConfiguration.isForSelling)
             {
-                infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyItem(shopConfiguration.items[index], infosUIRefs); });
+                infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyItem((ItemToHandle)objectToHandle, infosUIRefs); });
             }
             else
             {
-                Debug.Log($"{index}");
-                Debug.Log($"{shopConfiguration.items}");
-                Debug.Log($"{shopConfiguration.items[index]}");
-                infosUIRefs.OperationUI.onClick.AddListener(delegate { SellItem(shopConfiguration.items[index], infosUIRefs, shopConfiguration); });
-            }                
+                infosUIRefs.OperationUI.onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, infosUIRefs, shopConfiguration); });
+            }
+
+            infosUIRefs.AmountButtonUp.onClick.RemoveAllListeners();
+            infosUIRefs.AmountButtonDown.onClick.RemoveAllListeners();
 
             infosUIRefs.AmountButtonUp.onClick.AddListener(delegate { AddValue(infosUIRefs); });
             infosUIRefs.AmountButtonDown.onClick.AddListener(delegate { RemoveValue(infosUIRefs); });
         }
         else
         {
-            infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe(shopConfiguration.recipes[index]); });
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+
+            infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle); });
         }
     }
 

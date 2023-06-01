@@ -61,8 +61,15 @@ public static class SaveSystem
                 formatter.Serialize(stream, data_ContainerInventory_Data);
                 break;
             case SaveType.Save_AnimalPen:
-                AnimalPen_Data data_AnimalPen_Data = new AnimalPen_Data((AnimalPenManager)data);
+                AnimalPen_Data data_AnimalPen_Data;
+                if (data.GetType() == typeof(AnimalPen_Data))
+                    data_AnimalPen_Data = new AnimalPen_Data((AnimalPen_Data)data);
+                else
+                    data_AnimalPen_Data = new AnimalPen_Data((AnimalPenManager)data);
                 formatter.Serialize(stream, data_AnimalPen_Data);
+
+                /*AnimalPen_Data data_AnimalPen_Data = new AnimalPen_Data((AnimalPenManager)data);
+                formatter.Serialize(stream, data_AnimalPen_Data);*/
                 break;
             case SaveType.Save_UIMenu:
                 KeyBinding_Data data_KeyBinding_Data = new KeyBinding_Data((UI_Menu)data);

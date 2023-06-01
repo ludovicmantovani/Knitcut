@@ -15,13 +15,33 @@ public class AnimalPen_Data
 
     public AnimalPen_Data(AnimalPenManager animalPenManager)
     {
-        nbAnimalPen = animalPenManager.TotalAnimalPen;
+        Builder(animalPenManager.TotalAnimalPen, 
+            animalPenManager.AnimalPenLevels, 
+            animalPenManager.AnimalPenTypes, 
+            animalPenManager.AnimalsHunger, 
+            animalPenManager.TotalAnimalsAdults, 
+            animalPenManager.TotalAnimalsChildren);
+    }
+
+    public AnimalPen_Data(AnimalPen_Data animalPen_Data)
+    {
+        Builder(animalPen_Data.nbAnimalPen, 
+            animalPen_Data.animalPenLevels, 
+            animalPen_Data.animalPenTypes, 
+            animalPen_Data.animalsHunger, 
+            animalPen_Data.totalAnimalsAdults, 
+            animalPen_Data.totalAnimalsChildren);
+    }
+
+    private void Builder(int total, int[] levels, string[] types, Dictionary<string, float> hungers, int[] totalAdults, int[] totalChildren)
+    {
+        nbAnimalPen = total;
 
         animalPenLevels = new int[nbAnimalPen];
         animalPenTypes = new string[nbAnimalPen];
 
-        if (animalPenManager.AnimalsHunger != null)
-            animalsHunger = animalPenManager.AnimalsHunger;
+        if (hungers != null)
+            animalsHunger = hungers;
         else
             animalsHunger = new Dictionary<string, float>();
 
@@ -30,11 +50,11 @@ public class AnimalPen_Data
 
         for (int i = 0; i < nbAnimalPen; i++)
         {
-            animalPenLevels[i] = animalPenManager.AnimalPenLevels[i];
-            animalPenTypes[i] = animalPenManager.AnimalPenTypes[i];
+            animalPenLevels[i] = levels[i];
+            animalPenTypes[i] = types[i];
 
-            totalAnimalsAdults[i] = animalPenManager.TotalAnimalsAdults[i];
-            totalAnimalsChildren[i] = animalPenManager.TotalAnimalsChildren[i];
+            totalAnimalsAdults[i] = totalAdults[i];
+            totalAnimalsChildren[i] = totalChildren[i];
         }
     }
 }

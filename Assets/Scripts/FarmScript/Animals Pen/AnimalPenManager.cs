@@ -136,18 +136,6 @@ public class AnimalPenManager : MonoBehaviour
         totalAnimalsAdults = data.totalAnimalsAdults;
         totalAnimalsChildren = data.totalAnimalsChildren;
 
-        if (MinigameManager.AnimalPenIndexToUpgrade.Count > 0)
-        {
-            for (int i = 0; i < MinigameManager.AnimalPenIndexToUpgrade.Count; i++)
-            {
-                animalPenLevels[MinigameManager.AnimalPenIndexToUpgrade[i]]++;
-            }
-
-            MinigameManager.AnimalPenIndexToUpgrade = new List<int>();
-
-            SaveAnimalPenData();
-        }
-
         LoadAllAnimals(totalAnimalsAdults, animals);
         LoadAllAnimals(totalAnimalsChildren, animalsChildren);
 
