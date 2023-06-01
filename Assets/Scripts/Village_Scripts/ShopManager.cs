@@ -491,6 +491,10 @@ public class ShopManager : MonoBehaviour
         infosUIRefs.NameUI.text = objectName;
         infosUIRefs.PriceUI.text = $"{objectPrice} P";
 
+        infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+        infosUIRefs.AmountButtonUp.onClick.RemoveAllListeners();
+        infosUIRefs.AmountButtonDown.onClick.RemoveAllListeners();
+
         if (!shopConfiguration.isRecipe)
         {
             infosUIRefs.AmountUI.text = $"1";
@@ -511,8 +515,6 @@ public class ShopManager : MonoBehaviour
 
     private void ShowAnimalsPenUI(ShopConfiguration shopConfiguration, int animalPenLevel, string animalPenType, int index)
     {
-        Debug.Log($"ShowAnimalsPenUI : {animalPenLevel} - {animalPenType} - {index}");
-
         InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
 
         if (MinigameManager.AnimalPenIndexToUpgrade.Contains(index))
@@ -534,11 +536,22 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateAnimalPenUI(ShopConfiguration shopConfiguration, InfosUIRefs infosUIRefs, int level, string type, int index)
     {
-        int price = shopConfiguration.items[level - 1].price;
+        if (level == 3)
+        {
+            infosUIRefs.NameUI.text = $"Enclos Lv.3 (max) pour {type}";
+            infosUIRefs.PriceUI.text = $"0 P";
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+            infosUIRefs.OperationUI.interactable = false;
+        }
+        else
+        {
+            int price = shopConfiguration.items[level - 1].price;
 
-        infosUIRefs.NameUI.text = $"Enclos Lv.{level} pour {type}";
-        infosUIRefs.PriceUI.text = $"{price} P";
-        infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, type, index); });
+            infosUIRefs.NameUI.text = $"Enclos Lv.{level} -> Lv.{level + 1} pour {type}";
+            infosUIRefs.PriceUI.text = $"{price} P";
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+            infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, type, index); });
+        }
     }
 
     public void AddValue(InfosUIRefs itemRefs)
