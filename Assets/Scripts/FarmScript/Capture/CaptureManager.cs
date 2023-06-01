@@ -189,7 +189,7 @@ public class CaptureManager : MonoBehaviour
         else
             interactionUI.SetActive(false);
 
-        if (!isCapturing && animalDetected && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
+        if (!isCapturing && zoneDetected && animalDetected && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
         {
             if (animalPenManager.CheckAnimalPenRestrictions(wildAnimal.GetComponent<AnimalAI>()))
             {
