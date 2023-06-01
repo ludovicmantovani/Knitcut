@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
 using System;
 
 public class Feeder : MonoBehaviour
 {
     public PlayerInput playerInput;
+
     [Header("Feeder Inventory")]
     [SerializeField] private bool canUseFeeder;
     [SerializeField] private bool feederInUse;
@@ -36,6 +36,12 @@ public class Feeder : MonoBehaviour
     {
         get { return interactionPanel; }
         set { interactionPanel = value; }
+    }
+
+    public ItemsInFeeder[] Items
+    {
+        get { return items; }
+        set { items = value; }
     }
 
     private void Start()
@@ -174,6 +180,15 @@ public class Feeder : MonoBehaviour
         }
     }
 
+    public void TransferItems(Feeder oldFeeder)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i].item = oldFeeder.Items[i].item;
+            items[i].quantity = oldFeeder.Items[i].quantity;
+        }
+    }
+
     private void Clear()
     {
         for (int i = 0; i < feederInventoryContent.transform.childCount; i++)
@@ -186,11 +201,6 @@ public class Feeder : MonoBehaviour
             }
         }
     }
-
-    #endregion
-
-    #region Inventory Content
-
     private Item GetItem()
     {
         for (int i = 0; i < items.Length; i++)

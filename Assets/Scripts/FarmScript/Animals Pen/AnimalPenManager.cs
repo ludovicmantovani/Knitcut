@@ -173,8 +173,13 @@ public class AnimalPenManager : MonoBehaviour
     {
         if (currentState.levelRequired == animalPen.animalPenLevel)
         {
+            Feeder oldFeeder = currentState.animalPenObject.GetComponent<AnimalPenRef>().Feeder.GetComponent<Feeder>();
+
             animalPen.currentAnimalPenState = currentState.animalPenObject;
+
             animalPen.currentFeeder = currentState.animalPenObject.GetComponent<AnimalPenRef>().Feeder;
+            animalPen.currentFeeder.GetComponent<Feeder>().TransferItems(oldFeeder);
+
             animalPen.currentBell = currentState.animalPenObject.GetComponent<AnimalPenRef>().Bell;
 
             currentState.animalPenObject.SetActive(true);
