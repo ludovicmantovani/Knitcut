@@ -493,7 +493,7 @@ public class ShopManager : MonoBehaviour
 
         if (!shopConfiguration.isRecipe)
         {
-            infosUIRefs.AmountUI.text = $"0";
+            infosUIRefs.AmountUI.text = $"1";
 
             if (!shopConfiguration.isForSelling)
                 infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyItem(shopConfiguration.items[index], infosUIRefs); });
@@ -511,6 +511,8 @@ public class ShopManager : MonoBehaviour
 
     private void ShowAnimalsPenUI(ShopConfiguration shopConfiguration, int animalPenLevel, string animalPenType, int index)
     {
+        Debug.Log($"ShowAnimalsPenUI : {animalPenLevel} - {animalPenType} - {index}");
+
         InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
 
         if (MinigameManager.AnimalPenIndexToUpgrade.Contains(index))
