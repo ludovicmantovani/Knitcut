@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class FeederDetector : MonoBehaviour
 {
+    [SerializeField] private GameObject feeder;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-            GetComponentInParent<Feeder>().CanUseFeeder = true;
+        HandleFeederInteraction(other, true);
     }
 
     private void OnTriggerExit(Collider other)
     {
+        HandleFeederInteraction(other, false);
+    }
+
+    private void HandleFeederInteraction(Collider other, bool state)
+    {
+        if (feeder == null) return;
+
         if (other.CompareTag("Player"))
-            GetComponentInParent<Feeder>().CanUseFeeder = false;
+        {
+            feeder.GetComponent<Feeder>().UpdateInteraction(state);
+        }
     }
 }

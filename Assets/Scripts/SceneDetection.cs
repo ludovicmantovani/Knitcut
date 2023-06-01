@@ -11,17 +11,22 @@ public class SceneDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) changeScene.CanChangeScene = true;
-
-        changeScene.InteractionPanel.SetActive(true);
-        changeScene.ShowInstruction = true;
+        HandleSceneDetection(other, true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) changeScene.CanChangeScene = false;
+        HandleSceneDetection(other, false);
+    }
 
-        changeScene.InteractionPanel.SetActive(false);
-        changeScene.ShowInstruction = false;
+    private void HandleSceneDetection(Collider other, bool state)
+    {
+        if (other.CompareTag("Player"))
+        {
+            changeScene.CanChangeScene = state;
+
+            changeScene.InteractionPanel.SetActive(state);
+            changeScene.ShowInstruction = state;
+        }
     }
 }

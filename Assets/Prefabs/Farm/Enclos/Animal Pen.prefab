@@ -507,7 +507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6942255583526983425}
   m_Layer: 0
-  m_Name: Animal Pen V2
+  m_Name: Animal Pen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1354,14 +1354,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6942255582683000195}
     m_Modifications:
-    - target: {fileID: 5521973376392033300, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
-      propertyPath: m_Size.y
-      value: 1.5017505
-      objectReference: {fileID: 0}
-    - target: {fileID: 5521973376392033300, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
-      propertyPath: m_Center.y
-      value: 0.24912477
-      objectReference: {fileID: 0}
     - target: {fileID: 7656397212754373266, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
       propertyPath: m_Name
       value: Cloche
@@ -1369,18 +1361,6 @@ PrefabInstance:
     - target: {fileID: 7656397212754373267, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7656397212754373267, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7656397212754373267, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7656397212754373267, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7656397212754373267, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2118,6 +2098,10 @@ PrefabInstance:
     - target: {fileID: 7656397212754373266, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
       propertyPath: m_Name
       value: Cloche
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656397212754373266, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7656397212754373267, guid: 617570a1d9c9ee84e9ddfe8adcf17461, type: 3}
       propertyPath: m_RootOrder
@@ -7170,18 +7154,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 255685605884107473, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 255685605884107473, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 255685605884107473, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 255685605884107473, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -7220,14 +7192,6 @@ PrefabInstance:
     - target: {fileID: 255685605884107473, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 255685605884107474, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
-      propertyPath: feederInventory
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 255685605884107474, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
-      propertyPath: interactionPanel
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 255685605884107475, guid: 5cca499c7a443e241aeb6c3f5929aa36, type: 3}
       propertyPath: m_Name

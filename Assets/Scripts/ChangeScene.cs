@@ -14,6 +14,7 @@ public class ChangeScene : MonoBehaviour
 
     private PlayerInput playerInput;
     private PlayerController playerController;
+    private AnimalPenManager animalPenManager;
     private List_Slots LS;
 
     private bool canChangeScene = false;
@@ -45,6 +46,7 @@ public class ChangeScene : MonoBehaviour
     {
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
+        animalPenManager = FindObjectOfType<AnimalPenManager>();
         LS = FindObjectOfType<List_Slots>();
 
         interactionPanel.SetActive(false);
@@ -130,8 +132,6 @@ public class ChangeScene : MonoBehaviour
                 }
                 else if (sceneToLoad.Contains("Flower"))
                 {
-                    AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
-
                     if (GetAnimalsAdultsCount() < 2)
                     {
                         canChangeScene = false;
@@ -162,11 +162,13 @@ public class ChangeScene : MonoBehaviour
     {
         int count = 0;
 
-        for (int i = 0; i < transform.parent.childCount; i++)
+        Transform currentAnimalPen = transform.parent.parent;
+
+        for (int i = 0; i < currentAnimalPen.childCount; i++)
         {
-            if (transform.parent.GetChild(i).CompareTag("Animal"))
+            if (currentAnimalPen.GetChild(i).CompareTag("Animal"))
             {
-                AnimalStates animalStates = transform.parent.GetChild(i).GetComponent<AnimalStates>();
+                AnimalStates animalStates = currentAnimalPen.GetChild(i).GetComponent<AnimalStates>();
 
                 if (!animalStates.IsChild) count++;
             }
@@ -177,7 +179,9 @@ public class ChangeScene : MonoBehaviour
 
     private void GetAnimalType()
     {
-        string animalTypeInName = transform.parent.name.Substring(11);
+        Transform currentAnimalPen = transform.parent.parent;
+
+        string animalTypeInName = currentAnimalPen.name.Substring(11);
 
         List<AnimalType> animalTypeList = Enum.GetValues(typeof(AnimalType)).Cast<AnimalType>().ToList();
 

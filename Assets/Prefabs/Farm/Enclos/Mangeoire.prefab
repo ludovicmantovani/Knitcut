@@ -57,6 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245bb310851d4654eb29bc823c0d9bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feeder: {fileID: 255685605884107475}
 --- !u!1 &255685605884107475
 GameObject:
   m_ObjectHideFlags: 0
@@ -67,6 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 255685605884107473}
   - component: {fileID: 255685605884107474}
+  - component: {fileID: 4242731259086396582}
   m_Layer: 0
   m_Name: Mangeoire
   m_TagString: Untagged
@@ -81,7 +83,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 255685605884107475}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -105,10 +107,34 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   canUseFeeder: 0
   feederInUse: 0
+  itemUI: {fileID: 6927560123145162241, guid: 49bfabd6e8c30944e983ccc2b038b83b, type: 3}
   feederInventory: {fileID: 0}
   feederInventoryContent: {fileID: 0}
   interactionPanel: {fileID: 0}
   feederModel: {fileID: 3476614568250941251}
+  items:
+  - item: {fileID: 0}
+    quantity: 0
+  - item: {fileID: 0}
+    quantity: 0
+  - item: {fileID: 0}
+    quantity: 0
+--- !u!208 &4242731259086396582
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255685605884107475}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.4, y: 1, z: 1.15}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.05, y: 1, z: 0.4}
+  m_TimeToStationary: 0.5
 --- !u!1001 &6586335037771202249
 PrefabInstance:
   m_ObjectHideFlags: 0
