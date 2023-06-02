@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8675904263223058127}
   - component: {fileID: 6882617042523253253}
   - component: {fileID: 4043544232735921670}
+  - component: {fileID: 6378455369302071308}
   m_Layer: 0
   m_Name: Barriere_centre_blue
   m_TagString: Untagged
@@ -97,3 +98,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3292925553009838691, guid: c8ce998c8835d054097b4702eab11d01, type: 3}
+--- !u!208 &6378455369302071308
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4936802588370291664}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.2540001, y: 0.23700002, z: 1.059}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 1.059}
+  m_TimeToStationary: 0.5
