@@ -175,7 +175,13 @@ public class AnimalPenManager : MonoBehaviour
     {
         DraggableItem draggableItem = captureManager.GetItemData();
 
-        if (draggableItem == null) return;
+        if (draggableItem == null)
+        {
+            pedestalItemIndex = -1;
+            pedestalItemQuantity = 0;
+
+            return;
+        }
 
         pedestalItemIndex = listSlots.GetItemIndex(draggableItem.Item);
         pedestalItemQuantity = draggableItem.QuantityStacked;
