@@ -15,7 +15,7 @@ public class ChangeScene : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerController playerController;
     private AnimalPenManager animalPenManager;
-    private List_Slots listSlots;
+    private ListSlots listSlots;
 
     private bool canChangeScene = false;
     private bool showInstruction = false;
@@ -47,7 +47,7 @@ public class ChangeScene : MonoBehaviour
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
         animalPenManager = FindObjectOfType<AnimalPenManager>();
-        listSlots = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
 
         interactionPanel.SetActive(false);
     }

@@ -8,7 +8,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     [SerializeField] private int quantityStacked = 1;
     [SerializeField] private Item item;
-    public List_Slots ls;
+    public ListSlots ls;
 
     public Item Item
     {
@@ -26,7 +26,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void Start()
     {
-        ls = FindObjectOfType<List_Slots>();
+        ls = FindObjectOfType<ListSlots>();
 
         image = GetComponent<Image>();
 

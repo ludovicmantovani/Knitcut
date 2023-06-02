@@ -61,7 +61,7 @@ public class MinigameManager : MonoBehaviour
 
     #endregion
 
-    private List_Slots listSlots;
+    private ListSlots listSlots;
 
     bool dataLoaded = false;
     bool animalCaptured = false;
@@ -97,7 +97,7 @@ public class MinigameManager : MonoBehaviour
         {
             dataLoaded = false;
 
-            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<List_Slots>()) return;
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<ListSlots>()) return;
 
             CheckItemsToAdd();
         }
@@ -205,7 +205,7 @@ public class MinigameManager : MonoBehaviour
     private void CheckItemsToAdd()
     {
         if (SceneManager.GetActiveScene().name.Contains("Farm"))
-            listSlots = FindObjectOfType<List_Slots>();
+            listSlots = FindObjectOfType<ListSlots>();
 
         switch (mgType)
         {

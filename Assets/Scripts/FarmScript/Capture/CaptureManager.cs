@@ -39,7 +39,7 @@ public class CaptureManager : MonoBehaviour
     private string instruction;
     private PlayerInput playerInput;
     private PlayerController playerController;
-    private List_Slots listSlots;
+    private ListSlots listSlots;
     private AnimalPenManager animalPenManager;
 
     #region Getters / Setters
@@ -74,7 +74,7 @@ public class CaptureManager : MonoBehaviour
     {
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
-        listSlots = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
         animalPenManager = FindObjectOfType<AnimalPenManager>();
 
         zoneDetected = false;

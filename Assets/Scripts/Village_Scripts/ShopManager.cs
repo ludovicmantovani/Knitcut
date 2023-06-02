@@ -62,7 +62,7 @@ public class ShopManager : MonoBehaviour
 
     private PlayerController playerController;
     private PlayerInput playerInput;
-    private List_Slots listSlots;
+    private ListSlots listSlots;
 
     [Serializable]
     public class ItemToHandle
@@ -94,7 +94,7 @@ public class ShopManager : MonoBehaviour
     {
         playerController = FindObjectOfType<PlayerController>();
         playerInput = FindObjectOfType<PlayerInput>();
-        listSlots = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
 

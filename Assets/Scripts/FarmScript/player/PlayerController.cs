@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     PlayerInventory playerInventory;
     PlayerRecipesInventory playerRecipesInventory;
-    List_Slots listSlots;
+    ListSlots listSlots;
 
     [Header("References")]
     [SerializeField] private string farmSceneName = "FarmScene";
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         set { canMove = value; }
     }
 
-    public List_Slots ListSlots
+    public ListSlots ListSlots
     {
         get { return listSlots; }
         set { listSlots = value; }
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
         playerRecipesInventory = FindObjectOfType<PlayerRecipesInventory>();
-        listSlots = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
 
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();

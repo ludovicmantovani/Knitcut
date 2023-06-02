@@ -8,7 +8,7 @@ public class ContainerInventory_Data
     public bool[] containerSlotsObjIn;
     public int[] quantityStackedContainerInventory;
 
-    public ContainerInventory_Data(List_Slots listSlots, int nbSlots)
+    public ContainerInventory_Data(ListSlots listSlots, int nbSlots)
     {
         //container
         containerItemsInSlot = new int[nbSlots];

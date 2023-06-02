@@ -46,7 +46,7 @@ public static class SaveSystem
                 formatter.Serialize(stream, data_PlayerInput);
                 break;
             case SaveType.Save_PlayerInventory:
-                List_Slots listSlots_PlayerInventory = (List_Slots)data;
+                ListSlots listSlots_PlayerInventory = (ListSlots)data;
                 PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(listSlots_PlayerInventory, playerInventoryMaxSlots);
                 formatter.Serialize(stream, data_PlayerInventory_Data);
                 break;
@@ -56,7 +56,7 @@ public static class SaveSystem
                 formatter.Serialize(stream, data_PlayerRecipesInventory_Data);
                 break;
             case SaveType.Save_ContainerInventory:
-                List_Slots listSlots_ContainerInventory = (List_Slots)data;
+                ListSlots listSlots_ContainerInventory = (ListSlots)data;
                 ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(listSlots_ContainerInventory, containerInventoryMaxSlots);
                 formatter.Serialize(stream, data_ContainerInventory_Data);
                 break;
@@ -160,13 +160,13 @@ public static class SaveSystem
                 case SaveType.Save_PlayerInput:
                     break;
                 case SaveType.Save_PlayerInventory:
-                    List_Slots listSlots_PlayerInventory = (List_Slots)data;
+                    ListSlots listSlots_PlayerInventory = (ListSlots)data;
                     listSlots_PlayerInventory.HandleVerificationAndApplication();
                     break;
                 case SaveType.Save_PlayerRecipesInventory:
                     break;
                 case SaveType.Save_ContainerInventory:
-                    List_Slots listSlots_ContainerInventory = (List_Slots)data;
+                    ListSlots listSlots_ContainerInventory = (ListSlots)data;
                     listSlots_ContainerInventory.HandleVerificationAndApplication();
                     break;
                 case SaveType.Save_AnimalPen:

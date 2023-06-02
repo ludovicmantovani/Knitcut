@@ -10,7 +10,7 @@ public class PlayerRecipesInventory : MonoBehaviour
 
     private bool isOpen = true;
     private PlayerController player;
-    private List_Slots listSlots;
+    private ListSlots listSlots;
     private BookRecipes bookRecipes;
 
     private List<int> recipesIndex;
@@ -23,7 +23,7 @@ public class PlayerRecipesInventory : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        listSlots = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
         bookRecipes = GetComponent<BookRecipes>();
 
         recipesIndex = new List<int>();

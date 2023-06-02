@@ -11,7 +11,7 @@ public class PlayerInventory_Data
     //recipes
     public int[] recipesIndex;
 
-    public PlayerInventory_Data(List_Slots listSlots, int nbSlots)
+    public PlayerInventory_Data(ListSlots listSlots, int nbSlots)
     {
         //player
         itemsInSlot = new int[nbSlots];

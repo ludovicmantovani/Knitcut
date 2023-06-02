@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class List_Slots : MonoBehaviour
+public class ListSlots : MonoBehaviour
 {
     [Header("References / Parameters")]
     [SerializeField] private GameObject itemUI;
