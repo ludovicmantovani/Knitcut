@@ -109,13 +109,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Test"",
-                    ""type"": ""Value"",
-                    ""id"": ""cec4f006-11e6-477f-ad58-d7e055a7ed40"",
-                    ""expectedControlType"": ""Analog"",
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""bef416b9-31e3-4561-b617-9aba6c5ff8b9"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -264,12 +264,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0034af25-b6ee-4dd7-8aaf-d89e6380dc6d"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""2c7ac9c8-aabd-4aa1-ac3d-8330f30e845f"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Test"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -393,7 +393,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Hydrate = m_Player.FindAction("Hydrate", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_RecipesInventory = m_Player.FindAction("RecipesInventory", throwIfNotFound: true);
-        m_Player_Test = m_Player.FindAction("Test", throwIfNotFound: true);
+        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         // Manual_Save
         m_Manual_Save = asset.FindActionMap("Manual_Save", throwIfNotFound: true);
         m_Manual_Save_save_Inventory = m_Manual_Save.FindAction("save_Inventory", throwIfNotFound: true);
@@ -474,7 +474,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Hydrate;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_RecipesInventory;
-    private readonly InputAction m_Player_Test;
+    private readonly InputAction m_Player_Cancel;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -488,7 +488,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Hydrate => m_Wrapper.m_Player_Hydrate;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @RecipesInventory => m_Wrapper.m_Player_RecipesInventory;
-        public InputAction @Test => m_Wrapper.m_Player_Test;
+        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -525,9 +525,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @RecipesInventory.started += instance.OnRecipesInventory;
             @RecipesInventory.performed += instance.OnRecipesInventory;
             @RecipesInventory.canceled += instance.OnRecipesInventory;
-            @Test.started += instance.OnTest;
-            @Test.performed += instance.OnTest;
-            @Test.canceled += instance.OnTest;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -559,9 +559,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @RecipesInventory.started -= instance.OnRecipesInventory;
             @RecipesInventory.performed -= instance.OnRecipesInventory;
             @RecipesInventory.canceled -= instance.OnRecipesInventory;
-            @Test.started -= instance.OnTest;
-            @Test.performed -= instance.OnTest;
-            @Test.canceled -= instance.OnTest;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -736,7 +736,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnHydrate(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnRecipesInventory(InputAction.CallbackContext context);
-        void OnTest(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
     public interface IManual_SaveActions
     {

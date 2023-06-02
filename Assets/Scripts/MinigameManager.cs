@@ -15,6 +15,7 @@ public class MinigameManager : MonoBehaviour
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
     private static bool returnToFarm = false;
+    private GameObject crosshair;
 
     #region Getters / Setters
 
@@ -132,6 +133,8 @@ public class MinigameManager : MonoBehaviour
         }
     }
 
+    #region Handle Player Items
+
     public static void AddPlayerItem(Item item, int quantity)
     {
         PlayerItem playerItem = new PlayerItem();
@@ -152,6 +155,8 @@ public class MinigameManager : MonoBehaviour
         if (statePlayerItems) playerItems.Clear();
     }
 
+    #endregion
+
     #region Open Inventories
 
     public static void AddOpenInventory(GameObject inventory)
@@ -169,6 +174,8 @@ public class MinigameManager : MonoBehaviour
         {
             if (openInventories[i] == null) openInventories.Remove(openInventories[i]);
         }
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public static void CleanOpenInventories()
@@ -181,9 +188,17 @@ public class MinigameManager : MonoBehaviour
         if (playerController == null) return;
 
         if (openInventories.Count > 0)
+        {
             playerController.HandlePlayerMovement(false);
+
+            Cursor.lockState = CursorLockMode.None;
+        }
         else
+        {
             playerController.HandlePlayerMovement(true);
+
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
 #endregion

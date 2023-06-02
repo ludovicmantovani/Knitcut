@@ -90,7 +90,7 @@ public class ShopManager : MonoBehaviour
 
     #endregion
 
-    void Start()
+    private void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
         playerInput = FindObjectOfType<PlayerInput>();
@@ -104,13 +104,8 @@ public class ShopManager : MonoBehaviour
         interactionUI.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            listSlots.UpdateMoney(1000);
-        }
-
         HandleShopUI();
     }
 
@@ -134,6 +129,9 @@ public class ShopManager : MonoBehaviour
                 CloseShopUI();
             }
         }
+
+        if (playerInput.CancelAction.triggered)
+            CloseShopUI();
     }
 
     private void OpenShopUI()

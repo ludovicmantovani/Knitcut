@@ -92,6 +92,9 @@ public class Container : MonoBehaviour
                 CloseContainerInventory();
             }
         }
+
+        if (playerInput.CancelAction.triggered)
+            CloseContainerInventory();
     }
 
     private void OpenContainerInventory()

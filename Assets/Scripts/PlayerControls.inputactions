@@ -87,13 +87,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Test",
-                    "type": "Value",
-                    "id": "cec4f006-11e6-477f-ad58-d7e055a7ed40",
-                    "expectedControlType": "Analog",
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "bef416b9-31e3-4561-b617-9aba6c5ff8b9",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -242,12 +242,12 @@
                 },
                 {
                     "name": "",
-                    "id": "0034af25-b6ee-4dd7-8aaf-d89e6380dc6d",
-                    "path": "<Keyboard>/space",
+                    "id": "2c7ac9c8-aabd-4aa1-ac3d-8330f30e845f",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Test",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

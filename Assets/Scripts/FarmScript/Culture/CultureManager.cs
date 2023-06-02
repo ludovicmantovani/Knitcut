@@ -245,19 +245,18 @@ public class CultureManager : MonoBehaviour
     {
         cultureUI.SetActive(cultureUIInUse);
 
-        if (!canPlantSeed)
-        {
-            CloseCultureUI();
-            return;
-        }
-
         HandleCropPlotState();
+
+        if (playerInput.CancelAction.triggered)
+            CloseCultureUI();
     }
 
     private void HandleCropPlotState()
     {
         if (!cultureUIInUse)
         {
+            if (currentCropPlot == null) return;
+
             if (!currentCropPlot.IsCultivating)
             {
                 instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
@@ -265,6 +264,8 @@ public class CultureManager : MonoBehaviour
 
                 if (playerInput.InteractionAction.triggered)
                 {
+                    canPlantSeed = false;
+
                     OpenCultureUI();
 
                     HandleSeedsUI();
@@ -321,6 +322,8 @@ public class CultureManager : MonoBehaviour
         cultureUIInUse = false;
 
         MinigameManager.RemoveOpenInventory(cultureUI);
+
+        canPlantSeed = true;
     }
 
     public void HandleCropPlot(CropPlot cropPlot, bool state)

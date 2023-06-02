@@ -27,18 +27,30 @@ public class PlayerInventory : MonoBehaviour
     public void HandleInventoryUI()
     {
         if (player.PlayerInput.InventoryAction.triggered && inventoryOpen)
-        {
-            inventoryOpen = false;
-            gameObject.SetActive(true);
-            MinigameManager.AddOpenInventory(gameObject);
-        }
+            OpenInventory();
         else if (player.PlayerInput.InventoryAction.triggered && !inventoryOpen)
-        {
-            inventoryOpen = true;
-            gameObject.SetActive(false);
-            MinigameManager.RemoveOpenInventory(gameObject);
-        }
+            CloseInventory();
 
+        if (player.PlayerInput.CancelAction.triggered)
+            CloseInventory();
+    }
+
+    private void OpenInventory()
+    {
+        inventoryOpen = false;
+
+        gameObject.SetActive(true);
+
+        MinigameManager.AddOpenInventory(gameObject);
+    }
+
+    private void CloseInventory()
+    {
+        inventoryOpen = true;
+
+        gameObject.SetActive(false);
+
+        MinigameManager.RemoveOpenInventory(gameObject);
     }
 
     #endregion

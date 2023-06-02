@@ -118,6 +118,9 @@ public class Feeder : MonoBehaviour
                 CloseFeederInventory();
             }
         }
+
+        if (playerInput.CancelAction.triggered)
+            CloseFeederInventory();
     }
 
     private void OpenFeederInventory()

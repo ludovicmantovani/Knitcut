@@ -19,6 +19,8 @@ public class PlayerInput : MonoBehaviour
 
     private InputAction deleteSavesAction;
 
+    private InputAction cancelAction;
+
     #region Getters
 
     public PlayerControls Controls
@@ -71,6 +73,11 @@ public class PlayerInput : MonoBehaviour
         get { return deleteSavesAction; }
     }
 
+    public InputAction CancelAction
+    {
+        get { return cancelAction; }
+    }
+
     #endregion
 
     private void Awake()
@@ -90,6 +97,8 @@ public class PlayerInput : MonoBehaviour
         recipesInventoryAction = controls.FindAction("RecipesInventory");
 
         deleteSavesAction = controls.FindAction("DeleteSaves");
+
+        cancelAction = controls.FindAction("Cancel");
 
         LoadInputs(); 
     }

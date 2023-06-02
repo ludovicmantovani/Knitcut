@@ -134,14 +134,6 @@ public class AnimalPenManager : MonoBehaviour
         LoadAnimalPenData();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SaveFeedersContent();
-        }
-    }
-
     private void InitializeData()
     {
         totalAnimalPen = animalPenList.Count;
