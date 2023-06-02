@@ -24,9 +24,9 @@ public class Recipe : ScriptableObject
     public bool canBeCooked;
     public Sprite recipeSprite;
 
-    public string GetInfosConsumablesRequired()
+    public string GetInfosConsumablesRequired(List<MinigameManager.PlayerItem> consumablesInInventory)
     {
-        CheckConsumables();
+        HandleRecipeConditions(consumablesInInventory);
 
         StringBuilder builder = new StringBuilder();
 
@@ -37,26 +37,28 @@ public class Recipe : ScriptableObject
             else
                 builder.Append($"<color=red>");
 
-            builder.Append($"x{consumablesRequired[i].quantity} {consumablesRequired[i].consumable.itemName}</color>").AppendLine();
+            builder.Append($"{QuantityPossessed(consumablesRequired[i].consumable, consumablesInInventory)}/{consumablesRequired[i].quantity} {consumablesRequired[i].consumable.itemName}</color>").AppendLine();
         }
 
         return builder.ToString();
     }
 
-    #region Handle Check Consumables
-
-    private void CheckConsumables()
+    private int QuantityPossessed(Item consumable, List<MinigameManager.PlayerItem>  consumablesInInventory)
     {
-        List<MinigameManager.PlayerItem> consumablesInInventory = new List<MinigameManager.PlayerItem>();
+        int quantityPossessed = 0;
 
-        for (int i = 0; i < MinigameManager.PlayerItems.Count; i++)
+        for (int i = 0; i < consumablesInInventory.Count; i++)
         {
-            if (MinigameManager.PlayerItems[i].item.itemType == ItemType.Consumable)
-            {
-                consumablesInInventory.Add(MinigameManager.PlayerItems[i]);
-            }
+            if (consumable == consumablesInInventory[i].item) quantityPossessed = consumablesInInventory[i].quantity;
         }
 
+        return quantityPossessed;
+    }
+
+    #region Can Be Cooked
+
+    private void HandleRecipeConditions(List<MinigameManager.PlayerItem> consumablesInInventory)
+    {
         CheckIfRecipeCanBeCooked(consumablesInInventory);
 
         canBeCooked = true;
@@ -66,7 +68,7 @@ public class Recipe : ScriptableObject
             if (!consumablesRequired[i].ok) canBeCooked = false;
         }
     }
-
+    
     private void CheckIfRecipeCanBeCooked(List<MinigameManager.PlayerItem> consumablesInInventory)
     {
         // For Each required consumable of recipe

@@ -146,9 +146,10 @@ public class MinigameManager : MonoBehaviour
         itemsToRemoveQuantity.Add(item, quantity);
     }
 
-    public static void ClearPlayerItems()
+    public static void ClearPlayerItems(bool stateItemsToRemove, bool statePlayerItems)
     {
-        itemsToRemoveQuantity = new Dictionary<Item, int>();
+        if (stateItemsToRemove) itemsToRemoveQuantity.Clear();
+        if (statePlayerItems) playerItems.Clear();
     }
 
     #region Open Inventories
@@ -236,20 +237,36 @@ public class MinigameManager : MonoBehaviour
 
         int firstGenerocDishSO = FindFirstGenericDishSO();
 
-        if (inventory == null || firstGenerocDishSO == -1) return;
+        if (inventory == null || firstGenerocDishSO == -1 || itemsToRemoveQuantity.Count == 0)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
         Recipe recipe = (Recipe)dataToKeep[0];
         float price = (float)dataToKeep[1];
 
-        if (recipe == null) return;
+        if (recipe == null)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
         Item item = (Item)listSlots.Stuffs[firstGenerocDishSO + Convert.ToInt32(recipe.recipeIndex)];
 
-        if (item == null) return;
+        if (item == null)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
         DishInfos dish = recipe.finalProduct.GetComponent<DishInfos>();
 
-        if (dish == null) return;
+        if (dish == null)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
         item.itemName = dish.dishName;
         item.itemDescription = dish.dishDescription;
@@ -283,11 +300,10 @@ public class MinigameManager : MonoBehaviour
     {
         foreach (Item item in itemsToRemoveQuantity.Keys)
         {
-            if (itemsToRemoveQuantity.TryGetValue(item, out int quantity))
-                inventory.RemoveItemQuantity(item, quantity);
+            inventory.RemoveItemQuantity(item, itemsToRemoveQuantity[item]);
         }
 
-        ClearPlayerItems();
+        ClearPlayerItems(true, true);
     }
 
     private void HandleRecognitionData()

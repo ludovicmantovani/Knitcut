@@ -11,7 +11,7 @@ public class PlayerInventory_Data
     //recipes
     public int[] recipesIndex;
 
-    public PlayerInventory_Data(List_Slots LS, int nbSlots)
+    public PlayerInventory_Data(List_Slots listSlots, int nbSlots)
     {
         //player
         itemsInSlot = new int[nbSlots];
@@ -20,9 +20,9 @@ public class PlayerInventory_Data
 
         for (int i = 0; i < nbSlots; i++)
         {
-            itemsInSlot[i] = LS.ItemsInSlots[i];
-            playerSlotsObjIn[i] = LS.PlayerSlotsObjIn[i];
-            quantityStackedPlayerInventory[i] = LS.QuantityStackedPlayerInventory[i];
+            itemsInSlot[i] = listSlots.ItemsInSlots[i];
+            playerSlotsObjIn[i] = listSlots.PlayerSlotsObjIn[i];
+            quantityStackedPlayerInventory[i] = listSlots.QuantityStackedPlayerInventory[i];
         }
     }
 

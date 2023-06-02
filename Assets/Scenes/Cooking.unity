@@ -842,8 +842,9 @@ MonoBehaviour:
   contentRecipes: {fileID: 1409448659}
   consumables3Dsliced: 0
   totalConsumablesRequired: 0
-  timeBeforeCutting: 5
-  timeToCreateFinalProduct: 2
+  timeBeforeStarting: 0.2
+  timeBeforeCutting: 3
+  timeToCreateFinalProduct: 1
   recipes: []
 --- !u!1 &738636680
 GameObject:
@@ -1557,6 +1558,7 @@ MonoBehaviour:
   bladeTrailPrefab: {fileID: 8421100686429264655, guid: ad66e0b872c41e24184fb4adbea3e4b3, type: 3}
   delayBeforeDestroyingBladeTrail: 2
   canCut: 0
+  cutDetect: 0
   isCutting: 0
 --- !u!58 &1225549804
 CircleCollider2D:
@@ -1897,7 +1899,7 @@ MonoBehaviour:
   minDelay: 0.1
   maxDelay: 1
   delayBeforeDestroyingConsumableObject: 5
-  delayBeforeHandlingFinalProduct: 3
+  delayBeforeHandlingFinalProduct: 2
   canSpawnConsumables: 0
 --- !u!1 &1610044482
 GameObject:

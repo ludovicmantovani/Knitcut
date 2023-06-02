@@ -3,15 +3,27 @@ using UnityEngine.EventSystems;
 
 public class BladeUIDetection : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    private Blade blade;
+
+    private void Start()
+    {
+        blade = FindObjectOfType<Blade>();
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (FindObjectOfType<Blade>())
-            FindObjectOfType<Blade>().CanCut = true;
+        HandleBladeCut(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (FindObjectOfType<Blade>())
-            FindObjectOfType<Blade>().CanCut = false;
+        HandleBladeCut(false);
+    }
+
+    private void HandleBladeCut(bool state)
+    {
+        if (blade == null) return;
+
+        blade.CutDetect = state;
     }
 }

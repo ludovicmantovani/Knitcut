@@ -46,8 +46,8 @@ public static class SaveSystem
                 formatter.Serialize(stream, data_PlayerInput);
                 break;
             case SaveType.Save_PlayerInventory:
-                List_Slots LS_PlayerInventory = (List_Slots)data;
-                PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(LS_PlayerInventory, playerInventoryMaxSlots);
+                List_Slots listSlots_PlayerInventory = (List_Slots)data;
+                PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(listSlots_PlayerInventory, playerInventoryMaxSlots);
                 formatter.Serialize(stream, data_PlayerInventory_Data);
                 break;
             case SaveType.Save_PlayerRecipesInventory:
@@ -56,8 +56,8 @@ public static class SaveSystem
                 formatter.Serialize(stream, data_PlayerRecipesInventory_Data);
                 break;
             case SaveType.Save_ContainerInventory:
-                List_Slots LS_ContainerInventory = (List_Slots)data;
-                ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(LS_ContainerInventory, containerInventoryMaxSlots);
+                List_Slots listSlots_ContainerInventory = (List_Slots)data;
+                ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(listSlots_ContainerInventory, containerInventoryMaxSlots);
                 formatter.Serialize(stream, data_ContainerInventory_Data);
                 break;
             case SaveType.Save_AnimalPen:
@@ -160,14 +160,14 @@ public static class SaveSystem
                 case SaveType.Save_PlayerInput:
                     break;
                 case SaveType.Save_PlayerInventory:
-                    List_Slots LS_PlayerInventory = (List_Slots)data;
-                    LS_PlayerInventory.HandleVerificationAndApplication();
+                    List_Slots listSlots_PlayerInventory = (List_Slots)data;
+                    listSlots_PlayerInventory.HandleVerificationAndApplication();
                     break;
                 case SaveType.Save_PlayerRecipesInventory:
                     break;
                 case SaveType.Save_ContainerInventory:
-                    List_Slots LS_ContainerInventory = (List_Slots)data;
-                    LS_ContainerInventory.HandleVerificationAndApplication();
+                    List_Slots listSlots_ContainerInventory = (List_Slots)data;
+                    listSlots_ContainerInventory.HandleVerificationAndApplication();
                     break;
                 case SaveType.Save_AnimalPen:
                     break;

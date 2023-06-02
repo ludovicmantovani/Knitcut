@@ -17,6 +17,7 @@ public class Cooking : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float consumables3Dsliced = 0;
     [SerializeField] private float totalConsumablesRequired = 0;
+    [SerializeField] private float timeBeforeStarting = 0.3f;
     [SerializeField] private float timeBeforeCutting = 5f;
     [SerializeField] private float timeToCreateFinalProduct = 3f;
 
@@ -26,15 +27,21 @@ public class Cooking : MonoBehaviour
     private bool recipeInPreparation;
     private CookingGameCanvas _cookingGameCanvas = null;
 
-    Consumable3DSpawner consumable3DSpawner;
+    private Consumable3DSpawner consumable3DSpawner;
+    private Blade blade;
+
+    private List<MinigameManager.PlayerItem> consumablesInInventory = new List<MinigameManager.PlayerItem>();
 
     private void Start()
     {
         consumable3DSpawner = FindObjectOfType<Consumable3DSpawner>();
+        blade = FindObjectOfType<Blade>();
 
         HandleGameStart();
 
         AddRecipesAtStart();
+
+        HandlePlayerConsumables();
     }
 
     private void HandleGameStart()
@@ -57,10 +64,23 @@ public class Cooking : MonoBehaviour
         consumables3Dsliced++;
     }
 
+    private void HandlePlayerConsumables()
+    {
+        consumablesInInventory.Clear();
+
+        for (int i = 0; i < MinigameManager.PlayerItems.Count; i++)
+        {
+            if (MinigameManager.PlayerItems[i].item.itemType == ItemType.Consumable)
+                consumablesInInventory.Add(MinigameManager.PlayerItems[i]);
+        }
+    }
+
     #region Final Product
 
     public IEnumerator HandleFinalProduct()
     {
+        blade.CanCut = false;
+
         yield return new WaitForSeconds(timeToCreateFinalProduct);
 
         CreateFinalProduct();
@@ -76,8 +96,8 @@ public class Cooking : MonoBehaviour
         MinigameManager.FinalizeMG(MinigameManager.MGType.Cooking, currentRecipe, finalPrice);
 
         CookingResultCanvas cookingResultCanvas = null;
-        if (resultUI &&
-            resultUI.TryGetComponent<CookingResultCanvas>(out cookingResultCanvas))
+
+        if (resultUI && resultUI.TryGetComponent<CookingResultCanvas>(out cookingResultCanvas))
         {
             cookingResultCanvas.SetData(
                 Mathf.FloorToInt(finalPrice).ToString(),
@@ -117,13 +137,6 @@ public class Cooking : MonoBehaviour
                 AddRecipeFromListToUI(recipes[i]);
             }
         }
-
-        // For each recipe
-        /*foreach (Recipe recipe in recipes)
-        {
-            if (_cookingGameCanvas)
-                _cookingGameCanvas.CanInteract(recipe.canBeCooked);
-        }*/
     }
 
     #region Options
@@ -184,7 +197,7 @@ public class Cooking : MonoBehaviour
             _cookingGameCanvas.SetRecipeData(
                 recipe.recipeName,
                 recipe.recipeDescription,
-                recipe.GetInfosConsumablesRequired(),
+                recipe.GetInfosConsumablesRequired(consumablesInInventory),
                 true
                 );
 
@@ -203,8 +216,7 @@ public class Cooking : MonoBehaviour
             _cookingGameCanvas.HideRecipeSelector();
             _cookingGameCanvas.SetRecipeData("Coupez les différents ingrédients");
         }
-
-        FindObjectOfType<Blade>().CanCut = true;
+        
         recipeInPreparation = true;
 
         if (currentRecipe.canBeCooked)
@@ -244,13 +256,16 @@ public class Cooking : MonoBehaviour
 
     IEnumerator TransferConsumablesToSpawn(GameObject[] consumablesRequired)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(timeBeforeStarting);
 
         float timeToWait = timeBeforeCutting;
+
+        blade.CanCut = true;
 
         if (_cookingGameCanvas)
         {
             _cookingGameCanvas.ReSizeDescriptionText(4f);
+
             while (timeToWait > -1)
             {
                 _cookingGameCanvas.SetRecipeData(
@@ -259,8 +274,10 @@ public class Cooking : MonoBehaviour
                 yield return new WaitForSeconds(1f);
                 timeToWait--;
             }
+
             _cookingGameCanvas.HideRecipeInfo();
         }
+
         consumable3DSpawner.AddConsumablesToSpawn(consumablesRequired);
     }
 

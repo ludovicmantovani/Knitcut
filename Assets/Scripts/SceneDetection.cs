@@ -14,6 +14,11 @@ public class SceneDetection : MonoBehaviour
         HandleSceneDetection(other, true);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        HandleSceneDetection(other, true);
+    }
+
     private void OnTriggerExit(Collider other)
     {
         HandleSceneDetection(other, false);

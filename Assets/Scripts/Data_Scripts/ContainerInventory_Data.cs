@@ -8,7 +8,7 @@ public class ContainerInventory_Data
     public bool[] containerSlotsObjIn;
     public int[] quantityStackedContainerInventory;
 
-    public ContainerInventory_Data(List_Slots LS, int nbSlots)
+    public ContainerInventory_Data(List_Slots listSlots, int nbSlots)
     {
         //container
         containerItemsInSlot = new int[nbSlots];
@@ -17,9 +17,9 @@ public class ContainerInventory_Data
 
         for (int i = 0; i < nbSlots; i++)
         {
-            containerItemsInSlot[i] = LS.ContainerItemsInSlot[i];
-            containerSlotsObjIn[i] = LS.ContainerSlotsObjIn[i];
-            quantityStackedContainerInventory[i] = LS.QuantityStackedContainerInventory[i];
+            containerItemsInSlot[i] = listSlots.ContainerItemsInSlot[i];
+            containerSlotsObjIn[i] = listSlots.ContainerSlotsObjIn[i];
+            quantityStackedContainerInventory[i] = listSlots.QuantityStackedContainerInventory[i];
         }
     }
 }

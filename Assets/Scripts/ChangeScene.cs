@@ -15,7 +15,7 @@ public class ChangeScene : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerController playerController;
     private AnimalPenManager animalPenManager;
-    private List_Slots LS;
+    private List_Slots listSlots;
 
     private bool canChangeScene = false;
     private bool showInstruction = false;
@@ -47,7 +47,7 @@ public class ChangeScene : MonoBehaviour
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
         animalPenManager = FindObjectOfType<AnimalPenManager>();
-        LS = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<List_Slots>();
 
         interactionPanel.SetActive(false);
     }
@@ -71,23 +71,27 @@ public class ChangeScene : MonoBehaviour
 
             playerController.SavePlayerPositionInScene();
 
-            LS.SaveData();
+            listSlots.SaveData();
 
-            CheckPlayerInventory();
+            if (sceneToLoad.Contains("Cooking")) CheckPlayerObjects();
 
             MinigameManager.SwitchScene(sceneToLoad);
         }
     }
 
-    private void CheckPlayerInventory()
+    private void CheckPlayerObjects()
     {
-        for (int i = 0; i < LS.PlayerSlots.Length; i++)
+        MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
+
+        MinigameManager.ClearPlayerItems(false, true);
+
+        for (int i = 0; i < listSlots.PlayerSlots.Length; i++)
         {
-            if (LS.ItemsInSlots[i] != -1)
+            if (listSlots.ItemsInSlots[i] != -1)
             {
-                Item item = LS.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
+                Item item = listSlots.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
                 
-                MinigameManager.AddPlayerItem(item, LS.QuantityStackedPlayerInventory[i]);
+                MinigameManager.AddPlayerItem(item, listSlots.QuantityStackedPlayerInventory[i]);
             }
         }
     }
@@ -127,8 +131,6 @@ public class ChangeScene : MonoBehaviour
                     else
                     {
                         instruction += " pour accéder à la cuisine";
-
-                        MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
                     }
                 }
                 else if (sceneToLoad.Contains("Recognition"))
