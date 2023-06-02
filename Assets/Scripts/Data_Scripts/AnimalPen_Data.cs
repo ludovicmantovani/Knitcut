@@ -8,10 +8,14 @@ public class AnimalPen_Data
     public int[] animalPenLevels;
     public string[] animalPenTypes;
 
-    public Dictionary<string, float> animalsHunger; // string = animal ID | float = animal hunger
+    public Dictionary<string, float> animalsHunger;
 
     public int[] totalAnimalsAdults;
     public int[] totalAnimalsChildren;
+
+    public Dictionary<string, int> feedersItems;
+    public Dictionary<string, int> feedersItemsQuantities;
+    public Dictionary<string, int> feedersItemsFeederIndex;
 
     public AnimalPen_Data(AnimalPenManager animalPenManager)
     {
@@ -20,7 +24,10 @@ public class AnimalPen_Data
             animalPenManager.AnimalPenTypes, 
             animalPenManager.AnimalsHunger, 
             animalPenManager.TotalAnimalsAdults, 
-            animalPenManager.TotalAnimalsChildren);
+            animalPenManager.TotalAnimalsChildren,
+            animalPenManager.FeedersItems,
+            animalPenManager.FeedersItemsQuantities,
+            animalPenManager.FeedersItemsFeederIndex);
     }
 
     public AnimalPen_Data(AnimalPen_Data animalPen_Data)
@@ -29,11 +36,14 @@ public class AnimalPen_Data
             animalPen_Data.animalPenLevels, 
             animalPen_Data.animalPenTypes, 
             animalPen_Data.animalsHunger, 
-            animalPen_Data.totalAnimalsAdults, 
-            animalPen_Data.totalAnimalsChildren);
+            animalPen_Data.totalAnimalsAdults,
+            animalPen_Data.totalAnimalsChildren,
+            animalPen_Data.feedersItems,
+            animalPen_Data.feedersItemsQuantities,
+            animalPen_Data.feedersItemsFeederIndex);
     }
 
-    private void Builder(int total, int[] levels, string[] types, Dictionary<string, float> hungers, int[] totalAdults, int[] totalChildren)
+    private void Builder(int total, int[] levels, string[] types, Dictionary<string, float> hungers, int[] totalAdults, int[] totalChildren, Dictionary<string, int> feedersItemsList, Dictionary<string, int> feedersItemsQuantitiesList, Dictionary<string, int> feedersItemsFeederIndexList)
     {
         nbAnimalPen = total;
 
@@ -47,6 +57,21 @@ public class AnimalPen_Data
 
         totalAnimalsAdults = new int[nbAnimalPen];
         totalAnimalsChildren = new int[nbAnimalPen];
+
+        if (feedersItemsList != null)
+            feedersItems = feedersItemsList;
+        else
+            feedersItems = new Dictionary<string, int>();
+
+        if (feedersItemsQuantitiesList != null)
+            feedersItemsQuantities = feedersItemsQuantitiesList;
+        else
+            feedersItemsQuantities = new Dictionary<string, int>();
+
+        if (feedersItemsFeederIndexList != null)
+            feedersItemsFeederIndex = feedersItemsFeederIndexList;
+        else
+            feedersItemsFeederIndex = new Dictionary<string, int>();
 
         for (int i = 0; i < nbAnimalPen; i++)
         {

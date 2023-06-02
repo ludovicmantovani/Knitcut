@@ -15,16 +15,12 @@ public class Feeder : MonoBehaviour
     [SerializeField] private GameObject feederInventoryContent;
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private GameObject feederModel;
-    [SerializeField] private ItemsInFeeder[] items = new ItemsInFeeder[3];
-
-    [Serializable]
-    public class ItemsInFeeder
-    {
-        public Item item;
-        public int quantity;
-    }
+    [SerializeField] private Item[] items = new Item[3];
+    [SerializeField] private int[] itemsQuantities = new int[3];
 
     private string interaction;
+
+    #region Getters / Setters
 
     public bool CanUseFeeder
     {
@@ -38,11 +34,19 @@ public class Feeder : MonoBehaviour
         set { interactionPanel = value; }
     }
 
-    public ItemsInFeeder[] Items
+    public Item[] Items
     {
         get { return items; }
         set { items = value; }
     }
+
+    public int[] ItemsQuantities
+    {
+        get { return itemsQuantities; }
+        set { itemsQuantities = value; }
+    }
+
+    #endregion
 
     private void Start()
     {
@@ -59,11 +63,9 @@ public class Feeder : MonoBehaviour
         // GameObject Visual
         //HandleVisual();
 
-        // Inventory
-        //HandleFeederUse();
-        //HandleFeederInventory();
-
         HandleFeederInventory();
+
+        if (feederInUse) GetAllItemsInFeederSlots();
     }
 
     private void HandleVisual()
@@ -141,8 +143,6 @@ public class Feeder : MonoBehaviour
 
         MinigameManager.RemoveOpenInventory(feederInventory);
 
-        GetAllItemsInFeederSlots();
-
         Clear();
     }
 
@@ -150,14 +150,14 @@ public class Feeder : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            if (items[i].item != null)
+            if (items[i] != null)
             {
                 Transform slot = feederInventoryContent.transform.GetChild(i);
 
                 DraggableItem itemSlotUI = Instantiate(itemUI, slot).GetComponent<DraggableItem>();
 
-                itemSlotUI.Item = items[i].item;
-                itemSlotUI.QuantityStacked = items[i].quantity;
+                itemSlotUI.Item = items[i];
+                itemSlotUI.QuantityStacked = itemsQuantities[i];
             }
         }
     }
@@ -174,8 +174,13 @@ public class Feeder : MonoBehaviour
 
                 if (draggableItem.Item.itemType != ItemType.Consumable) return;
 
-                items[i].item = draggableItem.Item;
-                items[i].quantity = draggableItem.QuantityStacked;
+                items[i] = draggableItem.Item;
+                itemsQuantities[i] = draggableItem.QuantityStacked;
+            }
+            else if (slot.childCount == 0 && items[i] != null)
+            {
+                items[i] = null;
+                itemsQuantities[i] = 0;
             }
         }
     }
@@ -184,8 +189,8 @@ public class Feeder : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            items[i].item = oldFeeder.Items[i].item;
-            items[i].quantity = oldFeeder.Items[i].quantity;
+            items[i] = oldFeeder.Items[i];
+            itemsQuantities[i] = oldFeeder.ItemsQuantities[i];
         }
     }
 
@@ -205,9 +210,9 @@ public class Feeder : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            if (items[i].item != null && items[i].item.itemType == ItemType.Consumable && items[i].quantity > 0)
+            if (items[i] != null && items[i].itemType == ItemType.Consumable && itemsQuantities[i] > 0)
             {
-                return items[i].item;
+                return items[i];
             }
         }
 

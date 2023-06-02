@@ -10,16 +10,22 @@ public class AnimalPenManager : MonoBehaviour
     [SerializeField] private List<GameObject> animals;
     [SerializeField] private List<GameObject> animalsChildren;
 
+    private List_Slots listSlots;
+
     // AnimalData Pen
     private int totalAnimalPen;
     private int[] animalPenLevels;
     private string[] animalPenTypes;
 
-    private Dictionary<string, float> animalsHunger; // string = animal ID | float = animal hunger
+    private Dictionary<string, float> animalsHunger;
 
     // Captured Animals
     private int[] totalAnimalsAdults;
     private int[] totalAnimalsChildren;
+
+    private Dictionary<string, int> feedersItems;
+    private Dictionary<string, int> feedersItemsQuantities;
+    private Dictionary<string, int> feedersItemsFeederIndex;
 
     [Serializable]
     public class AnimalPen
@@ -32,7 +38,7 @@ public class AnimalPenManager : MonoBehaviour
         public AnimalType animalType;
         public int animalPenLevel = 1;
     }
-
+    
     [Serializable]
     public class AnimalPenStates
     {
@@ -80,13 +86,41 @@ public class AnimalPenManager : MonoBehaviour
         set { totalAnimalsChildren = value; }
     }
 
+    public Dictionary<string, int> FeedersItems
+    {
+        get { return feedersItems; }
+        set { feedersItems = value; }
+    }
+
+    public Dictionary<string, int> FeedersItemsQuantities
+    {
+        get { return feedersItemsQuantities; }
+        set { feedersItemsQuantities = value; }
+    }
+
+    public Dictionary<string, int> FeedersItemsFeederIndex
+    {
+        get { return feedersItemsFeederIndex; }
+        set { feedersItemsFeederIndex = value; }
+    }
+
     #endregion
 
     private void Start()
     {
+        listSlots = FindObjectOfType<List_Slots>();
+
         InitializeData();
 
         LoadAnimalPenData();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SaveFeedersContent();
+        }
     }
 
     private void InitializeData()
@@ -101,6 +135,10 @@ public class AnimalPenManager : MonoBehaviour
         totalAnimalsAdults = new int[totalAnimalPen];
         totalAnimalsChildren = new int[totalAnimalPen];
 
+        feedersItems = new Dictionary<string, int>();
+        feedersItemsQuantities = new Dictionary<string, int>();
+        feedersItemsFeederIndex = new Dictionary<string, int>();
+
         for (int i = 0; i < totalAnimalPen; i++)
         {
             animalPenLevels[i] = animalPenList[i].animalPenLevel;
@@ -114,6 +152,8 @@ public class AnimalPenManager : MonoBehaviour
     public void SaveAnimalPenData()
     {
         ActualizeAnimalsHunger();
+
+        SaveFeedersContent();
 
         SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPen, this);
     }
@@ -136,11 +176,97 @@ public class AnimalPenManager : MonoBehaviour
         totalAnimalsAdults = data.totalAnimalsAdults;
         totalAnimalsChildren = data.totalAnimalsChildren;
 
+        feedersItems = data.feedersItems;
+        feedersItemsQuantities = data.feedersItemsQuantities;
+        feedersItemsFeederIndex = data.feedersItemsFeederIndex;
+
+        HandleStates();
+
+        LoadFeedersContent();
+
         LoadAllAnimals(totalAnimalsAdults, animals);
         LoadAllAnimals(totalAnimalsChildren, animalsChildren);
 
-        HandleStates();
+        SaveAnimalPenData();
     }
+
+    #region Handle Animal Pen Feeders
+
+    private void SaveFeedersContent()
+    {
+        for (int indexAnimalPen = 0; indexAnimalPen < totalAnimalPen; indexAnimalPen++)
+        {
+            AnimalPen animalPen = animalPenList[indexAnimalPen];
+
+            Feeder currentFeeder = animalPen.currentFeeder.GetComponent<Feeder>();
+
+            if (currentFeeder == null) return;
+
+            GetItemsAndQuantityOfFeeder(currentFeeder, indexAnimalPen);
+        }
+    }
+
+    private void GetItemsAndQuantityOfFeeder(Feeder currentFeeder, int indexAnimalPen)
+    {
+        for (int i = 0; i < currentFeeder.Items.Length; i++)
+        {
+            string indexString = $"{indexAnimalPen}_{i}";
+
+            Item item = currentFeeder.Items[i];
+            int quantity = currentFeeder.ItemsQuantities[i];
+
+            if (item != null && quantity > 0)
+            {
+                // Item
+                if (!feedersItems.ContainsKey(indexString))
+                    feedersItems.Add(indexString, listSlots.GetItemIndex(item));
+                else if (feedersItems.ContainsKey(indexString))
+                    feedersItems[indexString] = listSlots.GetItemIndex(item);
+
+                // Quantity
+                if (!feedersItemsQuantities.ContainsKey(indexString))
+                    feedersItemsQuantities.Add(indexString, quantity);
+                else if (feedersItemsQuantities.ContainsKey(indexString))
+                    feedersItemsQuantities[indexString] = quantity;
+
+                // Index in feeder
+                if (!feedersItemsFeederIndex.ContainsKey(indexString))
+                    feedersItemsFeederIndex.Add(indexString, i);
+                else if (feedersItemsFeederIndex.ContainsKey(indexString) && i != feedersItemsFeederIndex[indexString])
+                    feedersItemsFeederIndex[indexString] = i;
+            }
+        }
+    }
+
+    private void LoadFeedersContent()
+    {
+        foreach (string animalPenIndexString in feedersItemsFeederIndex.Keys)
+        {            
+            int feederItemIndex = feedersItems[animalPenIndexString];
+            int feederItemQuantity = feedersItemsQuantities[animalPenIndexString];
+
+            int animalPenIndex = int.Parse(animalPenIndexString.Substring(0, 1));
+
+            if (feederItemIndex != -1 && feederItemQuantity > 0)
+            {
+                Feeder currentFeeder = animalPenList[animalPenIndex].currentFeeder.GetComponent<Feeder>();
+
+                if (currentFeeder == null) return;
+                
+                ScriptableObject scriptObject = listSlots.GetItemByIndex(feederItemIndex);
+
+                if (scriptObject.GetType() == typeof(Item))
+                {
+                    int feederItemFeederIndex = feedersItemsFeederIndex[animalPenIndexString];
+
+                    currentFeeder.Items[feederItemFeederIndex] = (Item)scriptObject;
+                    currentFeeder.ItemsQuantities[feederItemFeederIndex] = feederItemQuantity;
+                }
+            }
+        }
+    }
+
+    #endregion
 
     private void HandleStates()
     {
@@ -166,6 +292,7 @@ public class AnimalPenManager : MonoBehaviour
             animalPen.currentAnimalPenState = currentState.animalPenObject;
 
             animalPen.currentFeeder = currentState.animalPenObject.GetComponent<AnimalPenRef>().Feeder;
+
             animalPen.currentFeeder.GetComponent<Feeder>().TransferItems(oldFeeder);
 
             animalPen.currentBell = currentState.animalPenObject.GetComponent<AnimalPenRef>().Bell;
@@ -208,8 +335,6 @@ public class AnimalPenManager : MonoBehaviour
                 InstantiateAnimal(animal, animalPenList[i]);
             }
         }
-
-        SaveAnimalPenData();
     }
 
     private GameObject GetAnimalWithType(List<GameObject> animalsList, AnimalType animalType)

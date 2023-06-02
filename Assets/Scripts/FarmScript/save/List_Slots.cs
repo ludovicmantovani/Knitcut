@@ -421,4 +421,25 @@ public class List_Slots : MonoBehaviour
     }
 
     #endregion
+
+    public int GetItemIndex(ScriptableObject item)
+    {
+        int index = -1;
+
+        for (int i = 0; i < stuffs.Length; i++)
+        {
+            if (item == stuffs[i]) index = i;
+        }
+
+        return index;
+    }
+
+    public ScriptableObject GetItemByIndex(int index)
+    {
+        ScriptableObject item = null;
+
+        if (index != -1) item = stuffs[index];
+
+        return item;
+    }
 }
