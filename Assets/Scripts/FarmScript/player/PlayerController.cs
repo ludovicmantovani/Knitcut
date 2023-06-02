@@ -223,6 +223,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void HandlePlayerMovement(bool state)
+    {
+        //if (!state) currentSpeed = 0;
+
+        canMove = state;
+        CameraCineBrain.enabled = state;
+    }
+
     #endregion
 
     #region Handle Save & Load of Player Position

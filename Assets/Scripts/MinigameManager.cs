@@ -180,16 +180,9 @@ public class MinigameManager : MonoBehaviour
         if (playerController == null) return;
 
         if (openInventories.Count > 0)
-        {
-            playerController.CameraCineBrain.enabled = false;
-            playerController.CanMove = false;
-
-        }
+            playerController.HandlePlayerMovement(false);
         else
-        {
-            playerController.CameraCineBrain.enabled = true;
-            playerController.CanMove = true;
-        }
+            playerController.HandlePlayerMovement(true);
     }
 
 #endregion

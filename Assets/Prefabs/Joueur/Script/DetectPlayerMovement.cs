@@ -13,7 +13,7 @@ public class DetectPlayerMovement : MonoBehaviour
 
     public bool IsWalking { get => _isWalking;}
 
-    void Start()
+    private void Start()
     {
         playerController = GetComponent<PlayerController>();
 
@@ -22,16 +22,29 @@ public class DetectPlayerMovement : MonoBehaviour
         if (animator) animator.SetFloat("WalkAnimationSpeed", walkAnimationSpeed);
     }
 
-    void Update()
+    private void Update()
     {
         if (animator == null) return;
 
-        walkAnimationSpeed = playerController.CurrentSpeed;
+        HandleAnimatorMovement();
+    }
 
-        walkAnimationSpeed = Mathf.Clamp(walkAnimationSpeed, 0f, 1f);
-        walkAnimationSpeed = Mathf.SmoothDamp(animator.GetFloat("WalkAnimationSpeed"), walkAnimationSpeed, ref velocity, 0.1f);
+    private void HandleAnimatorMovement()
+    {
+        if (playerController.CanMove)
+            walkAnimationSpeed = playerController.CurrentSpeed;
+        else
+            walkAnimationSpeed = 0f;
 
-        animator.SetFloat("WalkAnimationSpeed", walkAnimationSpeed);
+        HandleAnimator(walkAnimationSpeed);
+    }
+
+    private void HandleAnimator(float speed)
+    {
+        speed = Mathf.Clamp(speed, 0f, 1f);
+        speed = Mathf.SmoothDamp(animator.GetFloat("WalkAnimationSpeed"), speed, ref velocity, 0.1f);
+
+        animator.SetFloat("WalkAnimationSpeed", speed);
 
         float movement = Vector3.Magnitude(transform.position - _lastPosition);
         _isWalking = movement > movementThreshold;
