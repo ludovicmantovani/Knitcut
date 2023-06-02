@@ -11,6 +11,7 @@ public class AnimalPenManager : MonoBehaviour
     [SerializeField] private List<GameObject> animalsChildren;
 
     private List_Slots listSlots;
+    private CaptureManager captureManager;
 
     // AnimalData Pen
     private int totalAnimalPen;
@@ -23,9 +24,14 @@ public class AnimalPenManager : MonoBehaviour
     private int[] totalAnimalsAdults;
     private int[] totalAnimalsChildren;
 
+    // Feeders
     private Dictionary<string, int> feedersItems;
     private Dictionary<string, int> feedersItemsQuantities;
     private Dictionary<string, int> feedersItemsFeederIndex;
+
+    // Pedestal Capture Area
+    private int pedestalItemIndex;
+    private int pedestalItemQuantity;
 
     [Serializable]
     public class AnimalPen
@@ -104,11 +110,24 @@ public class AnimalPenManager : MonoBehaviour
         set { feedersItemsFeederIndex = value; }
     }
 
+    public int PedestalItemIndex
+    {
+        get { return pedestalItemIndex; }
+        set { pedestalItemIndex = value; }
+    }
+
+    public int PedestalItemQuantity
+    {
+        get { return pedestalItemQuantity; }
+        set { pedestalItemQuantity = value; }
+    }
+
     #endregion
 
     private void Start()
     {
         listSlots = FindObjectOfType<List_Slots>();
+        captureManager = FindObjectOfType<CaptureManager>();
 
         InitializeData();
 
@@ -139,6 +158,9 @@ public class AnimalPenManager : MonoBehaviour
         feedersItemsQuantities = new Dictionary<string, int>();
         feedersItemsFeederIndex = new Dictionary<string, int>();
 
+        pedestalItemIndex = -1;
+        pedestalItemQuantity = 0;
+
         for (int i = 0; i < totalAnimalPen; i++)
         {
             animalPenLevels[i] = animalPenList[i].animalPenLevel;
@@ -149,11 +171,23 @@ public class AnimalPenManager : MonoBehaviour
         }
     }
 
+    private void SaveCaptureFruitPlaced()
+    {
+        DraggableItem draggableItem = captureManager.GetItemData();
+
+        if (draggableItem == null) return;
+
+        pedestalItemIndex = listSlots.GetItemIndex(draggableItem.Item);
+        pedestalItemQuantity = draggableItem.QuantityStacked;
+    }
+
     public void SaveAnimalPenData()
     {
         ActualizeAnimalsHunger();
 
         SaveFeedersContent();
+
+        SaveCaptureFruitPlaced();
 
         SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPen, this);
     }
@@ -179,6 +213,11 @@ public class AnimalPenManager : MonoBehaviour
         feedersItems = data.feedersItems;
         feedersItemsQuantities = data.feedersItemsQuantities;
         feedersItemsFeederIndex = data.feedersItemsFeederIndex;
+
+        pedestalItemIndex = data.pedestalItemIndex;
+        pedestalItemQuantity = data.pedestalItemQuantity;
+
+        captureManager.LoadFruitPlaced(pedestalItemIndex, pedestalItemQuantity);
 
         HandleStates();
 

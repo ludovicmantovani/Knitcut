@@ -17,6 +17,9 @@ public class AnimalPen_Data
     public Dictionary<string, int> feedersItemsQuantities;
     public Dictionary<string, int> feedersItemsFeederIndex;
 
+    public int pedestalItemIndex;
+    public int pedestalItemQuantity;
+
     public AnimalPen_Data(AnimalPenManager animalPenManager)
     {
         Builder(animalPenManager.TotalAnimalPen, 
@@ -27,7 +30,9 @@ public class AnimalPen_Data
             animalPenManager.TotalAnimalsChildren,
             animalPenManager.FeedersItems,
             animalPenManager.FeedersItemsQuantities,
-            animalPenManager.FeedersItemsFeederIndex);
+            animalPenManager.FeedersItemsFeederIndex,
+            animalPenManager.PedestalItemIndex,
+            animalPenManager.PedestalItemQuantity);
     }
 
     public AnimalPen_Data(AnimalPen_Data animalPen_Data)
@@ -40,10 +45,14 @@ public class AnimalPen_Data
             animalPen_Data.totalAnimalsChildren,
             animalPen_Data.feedersItems,
             animalPen_Data.feedersItemsQuantities,
-            animalPen_Data.feedersItemsFeederIndex);
+            animalPen_Data.feedersItemsFeederIndex,
+            animalPen_Data.pedestalItemIndex,
+            animalPen_Data.pedestalItemQuantity);
     }
 
-    private void Builder(int total, int[] levels, string[] types, Dictionary<string, float> hungers, int[] totalAdults, int[] totalChildren, Dictionary<string, int> feedersItemsList, Dictionary<string, int> feedersItemsQuantitiesList, Dictionary<string, int> feedersItemsFeederIndexList)
+    private void Builder(int total, int[] levels, string[] types, Dictionary<string, float> hungers, int[] totalAdults, int[] totalChildren, 
+        Dictionary<string, int> feedersItemsList, Dictionary<string, int> feedersItemsQuantitiesList, Dictionary<string, int> feedersItemsFeederIndexList,
+        int pedestalIndex, int pedestalQuantity)
     {
         nbAnimalPen = total;
 
@@ -72,6 +81,9 @@ public class AnimalPen_Data
             feedersItemsFeederIndex = feedersItemsFeederIndexList;
         else
             feedersItemsFeederIndex = new Dictionary<string, int>();
+
+        pedestalItemIndex = pedestalIndex;
+        pedestalItemQuantity = pedestalQuantity;
 
         for (int i = 0; i < nbAnimalPen; i++)
         {

@@ -9,6 +9,7 @@ public class CaptureManager : MonoBehaviour
     public static CaptureManager instance;
 
     [Header("References")]
+    [SerializeField] private GameObject itemUI;
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private GameObject captureUI;
     [SerializeField] private GameObject captureContentUI;
@@ -38,7 +39,7 @@ public class CaptureManager : MonoBehaviour
     private string instruction;
     private PlayerInput playerInput;
     private PlayerController playerController;
-    private List_Slots LS;
+    private List_Slots listSlots;
     private AnimalPenManager animalPenManager;
 
     #region Getters / Setters
@@ -73,7 +74,7 @@ public class CaptureManager : MonoBehaviour
     {
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
-        LS = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<List_Slots>();
         animalPenManager = FindObjectOfType<AnimalPenManager>();
 
         zoneDetected = false;
@@ -139,6 +140,13 @@ public class CaptureManager : MonoBehaviour
 
     #endregion
 
+    public void LoadFruitPlaced(int fruitIndex, int fruitQuantity)
+    {
+        if (fruitIndex == -1 && fruitQuantity <= 0) return;
+
+        SetItemData(fruitIndex, fruitQuantity);
+    }
+
     private void HandleItemOnPedestal()
     {
         DraggableItem item = GetItemData();
@@ -150,6 +158,12 @@ public class CaptureManager : MonoBehaviour
             fruitPlaced = null;
             currentFruit = null;
             return;
+        }
+        if (item != null && fruitPlaced != item.Item.itemObject)
+        {
+            Destroy(fruitPlaced);
+            fruitPlaced = null;
+            currentFruit = null;
         }
 
         if (fruitPlaced != null) return;
@@ -224,7 +238,7 @@ public class CaptureManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        LS.SaveData();
+        listSlots.SaveData();
 
         yield return new WaitForSeconds(0.5f);
 
@@ -233,7 +247,7 @@ public class CaptureManager : MonoBehaviour
         MinigameManager.SwitchScene(sceneToLoad);
     }
 
-    private DraggableItem GetItemData()
+    public DraggableItem GetItemData()
     {
         Transform slot = captureContentUI.transform.GetChild(0);
 
@@ -250,6 +264,16 @@ public class CaptureManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void SetItemData(int fruitIndex, int fruitQuantity)
+    {
+        Transform slot = captureContentUI.transform.GetChild(0);
+
+        DraggableItem item = Instantiate(itemUI, slot).GetComponent<DraggableItem>();
+
+        item.Item = (Item)listSlots.GetItemByIndex(fruitIndex);
+        item.QuantityStacked = fruitQuantity;
     }
 
     public void RemoveItem()
