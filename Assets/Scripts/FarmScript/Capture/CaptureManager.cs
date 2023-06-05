@@ -236,11 +236,11 @@ public class CaptureManager : MonoBehaviour
 
     private IEnumerator Saving()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         listSlots.SaveData();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         string sceneToLoad = captureGameSceneName[Random.Range(0, captureGameSceneName.Length)];
 
