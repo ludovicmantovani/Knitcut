@@ -31,7 +31,7 @@ public class PlayerInventory : MonoBehaviour
         else if (player.PlayerInput.InventoryAction.triggered && !inventoryOpen)
             CloseInventory();
 
-        if (inventoryOpen && player.PlayerInput.CancelAction.triggered)
+        if (player.PlayerInput.CancelAction.triggered)
             CloseInventory();
     }
 
