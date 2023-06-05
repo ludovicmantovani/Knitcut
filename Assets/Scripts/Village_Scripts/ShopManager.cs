@@ -130,7 +130,7 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        if (playerInput.CancelAction.triggered)
+        if (shopInUse && playerInput.CancelAction.triggered)
             CloseShopUI();
     }
 

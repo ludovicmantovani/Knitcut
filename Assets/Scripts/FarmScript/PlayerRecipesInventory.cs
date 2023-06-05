@@ -89,7 +89,7 @@ public class PlayerRecipesInventory : MonoBehaviour
         else if (player.PlayerInput.RecipesInventoryAction.triggered && !canOpen)
             CloseInventory();
 
-        if (player.PlayerInput.CancelAction.triggered)
+        if (!canOpen && player.PlayerInput.CancelAction.triggered)
             CloseInventory();
     }
 

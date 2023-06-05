@@ -119,7 +119,7 @@ public class Feeder : MonoBehaviour
             }
         }
 
-        if (playerInput.CancelAction.triggered)
+        if (feederInUse && playerInput.CancelAction.triggered)
             CloseFeederInventory();
     }
 

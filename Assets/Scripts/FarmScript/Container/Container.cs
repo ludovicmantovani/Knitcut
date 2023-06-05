@@ -93,7 +93,7 @@ public class Container : MonoBehaviour
             }
         }
 
-        if (playerInput.CancelAction.triggered)
+        if (containerInUse && playerInput.CancelAction.triggered)
             CloseContainerInventory();
     }
 

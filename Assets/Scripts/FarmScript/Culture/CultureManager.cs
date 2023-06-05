@@ -247,7 +247,7 @@ public class CultureManager : MonoBehaviour
 
         HandleCropPlotState();
 
-        if (playerInput.CancelAction.triggered)
+        if (cultureUIInUse && playerInput.CancelAction.triggered)
             CloseCultureUI();
     }
 
