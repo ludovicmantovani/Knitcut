@@ -15,6 +15,22 @@ public class MinigameManager : MonoBehaviour
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
     private static bool returnToFarm = false;
+    private static MGType mgType;
+
+    private ListSlots listSlots;
+
+    private bool dataLoaded = false;
+    private bool animalCaptured = false;
+
+    private static event Action OnInventoryListUpdate;
+
+    public enum MGType
+    {
+        Cooking,
+        Recognition,
+        Breeding,
+        Capture
+    }
 
     #region Getters / Setters
 
@@ -61,35 +77,22 @@ public class MinigameManager : MonoBehaviour
 
     #endregion
 
-    private ListSlots listSlots;
-
-    bool dataLoaded = false;
-    bool animalCaptured = false;
-
-    public enum MGType
-    {
-        Cooking,
-        Recognition,
-        Breeding,
-        Capture
-    }
-
-    private static MGType mgType;
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoaded;
+
+        OnInventoryListUpdate += OnInventoryOpen;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoaded;
+
+        OnInventoryListUpdate -= OnInventoryOpen;
     }
 
     private void Update()
     {
-        HandlePanels();
-
         if (playerController == null && FindObjectOfType<PlayerController>())
             playerController = FindObjectOfType<PlayerController>();
 
@@ -166,6 +169,8 @@ public class MinigameManager : MonoBehaviour
     {
         if (!openInventories.Contains(inventory))
             openInventories.Add(inventory);
+
+        OnInventoryListUpdate?.Invoke();
     }
 
     public static void RemoveOpenInventory(GameObject inventory)
@@ -178,7 +183,7 @@ public class MinigameManager : MonoBehaviour
             if (openInventories[i] == null) openInventories.Remove(openInventories[i]);
         }
 
-        //Cursor.lockState = CursorLockMode.Locked;
+        OnInventoryListUpdate?.Invoke();
     }
 
     public static void CleanOpenInventories()
@@ -186,25 +191,37 @@ public class MinigameManager : MonoBehaviour
         openInventories.Clear();
     }
 
-    private void HandlePanels()
+    public static void OnInventoryOpen()
     {
-        if (playerController == null) return;
-
         if (openInventories.Count > 0)
         {
             playerController.HandlePlayerMovement(false);
 
-            //Cursor.lockState = CursorLockMode.None;
+            HandleCursor(true);
         }
         else
         {
             playerController.HandlePlayerMovement(true);
 
-            //Cursor.lockState = CursorLockMode.Locked;
+            HandleCursor(false);
         }
     }
 
-#endregion
+    private static void HandleCursor(bool state)
+    {
+        if (state)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    #endregion
 
     #region Handle Mini Games Datas
 

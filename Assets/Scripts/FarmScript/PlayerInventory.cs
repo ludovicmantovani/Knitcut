@@ -7,7 +7,7 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private GameObject itemUI;
 
-    private bool inventoryOpen = true;
+    private bool inUse = false;
     private PlayerController player;
 
     private void Start()
@@ -26,18 +26,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void HandleInventoryUI()
     {
-        if (player.PlayerInput.InventoryAction.triggered && inventoryOpen)
-            OpenInventory();
-        else if (player.PlayerInput.InventoryAction.triggered && !inventoryOpen)
-            CloseInventory();
+        if (player.PlayerInput.InventoryAction.triggered)
+        {
+            if (!inUse) OpenInventory();
+            else CloseInventory();
+        }
 
-        if (player.PlayerInput.CancelAction.triggered)
+        if (player.PlayerInput.CancelAction.triggered && inUse)
             CloseInventory();
     }
 
     private void OpenInventory()
     {
-        inventoryOpen = false;
+        inUse = true;
 
         gameObject.SetActive(true);
 
@@ -46,7 +47,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void CloseInventory()
     {
-        inventoryOpen = true;
+        inUse = false;
 
         gameObject.SetActive(false);
 
