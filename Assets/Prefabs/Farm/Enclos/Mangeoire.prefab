@@ -113,12 +113,10 @@ MonoBehaviour:
   interactionPanel: {fileID: 0}
   feederModel: {fileID: 3476614568250941251}
   items:
-  - item: {fileID: 0}
-    quantity: 0
-  - item: {fileID: 0}
-    quantity: 0
-  - item: {fileID: 0}
-    quantity: 0
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemsQuantities: 000000000000000000000000
 --- !u!208 &4242731259086396582
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -129,7 +127,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.4, y: 1, z: 1.15}
+  m_Extents: {x: 1.6, y: 1, z: 1.4}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
