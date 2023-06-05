@@ -30,7 +30,6 @@ public class CaptureManager : MonoBehaviour
     [Header("Datas")]
     [SerializeField] private bool zoneDetected;
     [SerializeField] private bool animalDetected;
-    [SerializeField] private bool captureInventoryInUse;
     [SerializeField] private GameObject wildAnimal;
     [SerializeField] private GameObject fruitPlaced;
     [SerializeField] private float timeAnimalLife = 20f;
@@ -41,6 +40,8 @@ public class CaptureManager : MonoBehaviour
     private PlayerController playerController;
     private ListSlots listSlots;
     private AnimalPenManager animalPenManager;
+
+    private GameObject previousAnimal = null;
 
     #region Getters / Setters
 
@@ -114,7 +115,17 @@ public class CaptureManager : MonoBehaviour
         if (animals.Count == 0) return;
 
         int randomAnimalIndex = Random.Range(0, animals.Count);
+
         GameObject randomAnimal = animals[randomAnimalIndex];
+
+        // Verify if new random animal is same as previous
+        if (previousAnimal != null && previousAnimal == randomAnimal)
+        {
+            SpawnRandomAnimal();
+            return;
+        }
+
+        previousAnimal = randomAnimal;
 
         if (spawnpoints.Count == 0) return;
 

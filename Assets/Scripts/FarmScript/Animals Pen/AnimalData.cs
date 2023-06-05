@@ -7,7 +7,6 @@ public class AnimalData : MonoBehaviour
     [Header("References")]
     [SerializeField] private AnimalType animalType;
     [SerializeField] private GameObject currentAnimalPen;
-    [SerializeField] private Transform body;
 
     [Header("Datas")]
     [SerializeField] private float speed = 3.5f;
@@ -17,9 +16,14 @@ public class AnimalData : MonoBehaviour
     [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private Vector3 destination;
 
-    private bool animalCanMove = true;
+    private bool canMove = true;
+    private bool isMoving = false;
     private float distance;
+
     private NavMeshAgent agent;
+    private Animator animator;
+
+    #region Getters / Setters
 
     public AnimalType AnimalType
     {
@@ -33,9 +37,12 @@ public class AnimalData : MonoBehaviour
         set { currentAnimalPen = value; }
     }
 
+    #endregion
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
 
         agent.speed = speed;
         agent.stoppingDistance = stoppingDistance;
@@ -43,7 +50,9 @@ public class AnimalData : MonoBehaviour
 
     private void Update()
     {
-        if (animalCanMove) Move();
+        if (canMove) HandleMovement();
+
+        animator.SetBool("Walking", isMoving);
 
         ActualizeDirection();
     }
@@ -54,9 +63,9 @@ public class AnimalData : MonoBehaviour
         distance = direction.magnitude;
     }
 
-    private void Move()
+    private void HandleMovement()
     {
-        animalCanMove = false;
+        canMove = false;
 
         SearchDestination();
 
@@ -65,12 +74,16 @@ public class AnimalData : MonoBehaviour
 
     private IEnumerator GoToDestination()
     {
-        agent.SetDestination(destination);
+        isMoving = true;
 
         while (distance > distanceMinToChange)
         {
+            agent.SetDestination(destination);
+
             yield return new WaitForSeconds(refreshRate);
         }
+
+        isMoving = false;
 
         int random = Random.Range(0, 3);
 
@@ -79,7 +92,7 @@ public class AnimalData : MonoBehaviour
             yield return new WaitForSeconds(timeBeforeMoving);
         }
 
-        animalCanMove = true;
+        canMove = true;
     }
 
     private void SearchDestination()
