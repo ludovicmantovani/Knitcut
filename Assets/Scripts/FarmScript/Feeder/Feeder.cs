@@ -5,7 +5,8 @@ using System;
 
 public class Feeder : MonoBehaviour
 {
-    public PlayerInput playerInput;
+    private PlayerInput playerInput;
+    private PlayerController playerController;
 
     [Header("Feeder Inventory")]
     [SerializeField] private bool canUseFeeder;
@@ -51,8 +52,11 @@ public class Feeder : MonoBehaviour
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
+        playerController = FindObjectOfType<PlayerController>();
+
         canUseFeeder = false;
         feederInUse = false;
+
         feederInventory.SetActive(false);
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
@@ -134,6 +138,8 @@ public class Feeder : MonoBehaviour
         MinigameManager.AddOpenInventory(feederInventory);
 
         ShowItemsInFeeder();
+
+        playerController.PlayerInventory.OpenInventory();
     }
 
     private void CloseFeederInventory()
@@ -147,6 +153,8 @@ public class Feeder : MonoBehaviour
         MinigameManager.RemoveOpenInventory(feederInventory);
 
         Clear();
+
+        playerController.PlayerInventory.CloseInventory();
     }
 
     private void ShowItemsInFeeder()

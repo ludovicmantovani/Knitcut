@@ -36,7 +36,7 @@ public class PlayerInventory : MonoBehaviour
             CloseInventory();
     }
 
-    private void OpenInventory()
+    public void OpenInventory()
     {
         inUse = true;
 
@@ -45,7 +45,7 @@ public class PlayerInventory : MonoBehaviour
         MinigameManager.AddOpenInventory(gameObject);
     }
 
-    private void CloseInventory()
+    public void CloseInventory()
     {
         inUse = false;
 

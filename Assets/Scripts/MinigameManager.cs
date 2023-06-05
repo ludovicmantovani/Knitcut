@@ -93,8 +93,8 @@ public class MinigameManager : MonoBehaviour
 
     private void Update()
     {
-        if (playerController == null && FindObjectOfType<PlayerController>())
-            playerController = FindObjectOfType<PlayerController>();
+        /*if (playerController == null && FindObjectOfType<PlayerController>())
+            playerController = FindObjectOfType<PlayerController>();*/
 
         if (dataLoaded)
         {
@@ -121,14 +121,15 @@ public class MinigameManager : MonoBehaviour
         }
     }
 
-    // New method
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
-        if (returnToFarm && SceneManager.GetActiveScene().name.Contains("Farm"))
-        {
-            PlayerController playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
 
-            playerController.LoadPlayerPositionInScene();
+        if (playerController != null)
+        {
+            if (returnToFarm) playerController.LoadPlayerPositionInScene();
+
+            OnInventoryListUpdate?.Invoke();
         }
 
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))

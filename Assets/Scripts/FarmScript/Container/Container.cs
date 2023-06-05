@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class Container : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private PlayerInput playerInput;
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private GameObject containerInventoryPanel;
     [SerializeField] private GameObject containerInventoryContent;
@@ -16,6 +15,9 @@ public class Container : MonoBehaviour
     [Header("Container states")]
     [SerializeField] private bool canUseContainer;
     [SerializeField] private bool containerInUse;
+
+    private PlayerInput playerInput;
+    private PlayerController playerController;
 
     private string interaction;
 
@@ -40,6 +42,8 @@ public class Container : MonoBehaviour
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
+        playerController = FindObjectOfType<PlayerController>();
+
         canUseContainer = false;
         containerInUse = false;
 
@@ -75,12 +79,6 @@ public class Container : MonoBehaviour
     {
         containerInventoryPanel.SetActive(containerInUse);
 
-        if (!canUseContainer)
-        {
-            CloseContainerInventory();
-            return;
-        }
-
         if (playerInput.InteractionAction.triggered && canUseContainer)
         {
             if (!containerInUse)
@@ -104,6 +102,8 @@ public class Container : MonoBehaviour
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la réserve";
 
         MinigameManager.AddOpenInventory(containerInventoryContent);
+
+        playerController.PlayerInventory.OpenInventory();
     }
 
     private void CloseContainerInventory()
@@ -113,6 +113,8 @@ public class Container : MonoBehaviour
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la réserve";
 
         MinigameManager.RemoveOpenInventory(containerInventoryContent);
+
+        playerController.PlayerInventory.CloseInventory();
     }
 
     #endregion
