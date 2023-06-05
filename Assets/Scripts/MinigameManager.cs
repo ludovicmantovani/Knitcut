@@ -93,9 +93,6 @@ public class MinigameManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (playerController == null && FindObjectOfType<PlayerController>())
-            playerController = FindObjectOfType<PlayerController>();*/
-
         if (dataLoaded)
         {
             dataLoaded = false;
@@ -344,7 +341,11 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleRecognitionData()
     {
+        if (dataToKeep == null || dataToKeep.Count == 0) return;
+
         listSlots.UpdateMoney(listSlots.PlayerControl.Money + Convert.ToInt32(dataToKeep[0]));
+
+        dataToKeep.Clear();
     }
 
     private void HandleBreedingData()
@@ -398,6 +399,8 @@ public class MinigameManager : MonoBehaviour
     {
         if (specificScene != "")
         {
+            HandleCursor(true);
+
             returnToFarm = false;
             SceneManager.LoadScene(specificScene);
         }
