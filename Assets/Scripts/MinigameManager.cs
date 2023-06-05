@@ -15,7 +15,6 @@ public class MinigameManager : MonoBehaviour
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
     private static bool returnToFarm = false;
-    private GameObject crosshair;
 
     #region Getters / Setters
 
@@ -105,6 +104,8 @@ public class MinigameManager : MonoBehaviour
 
         if (animalCaptured)
         {
+            if (mgType != MGType.Capture) return;
+
             animalCaptured = false;
 
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
@@ -112,6 +113,8 @@ public class MinigameManager : MonoBehaviour
             if (SceneManager.GetActiveScene().name.Contains("Farm") && !animalPenManager) return;
 
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
+
+            animalTypeToKeep = AnimalType.None;
         }
     }
 
@@ -127,9 +130,9 @@ public class MinigameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))
         {
-            if (dataToKeep != null) dataLoaded = true;
+            if (dataToKeep != null)dataLoaded = true;
 
-            if (animalTypeToKeep != AnimalType.None) animalCaptured = true;
+            if (animalTypeToKeep != AnimalType.None && mgType == MGType.Capture) animalCaptured = true;
         }
     }
 
@@ -175,7 +178,7 @@ public class MinigameManager : MonoBehaviour
             if (openInventories[i] == null) openInventories.Remove(openInventories[i]);
         }
 
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     public static void CleanOpenInventories()
@@ -191,13 +194,13 @@ public class MinigameManager : MonoBehaviour
         {
             playerController.HandlePlayerMovement(false);
 
-            Cursor.lockState = CursorLockMode.None;
+            //Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             playerController.HandlePlayerMovement(true);
 
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -328,12 +331,17 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleBreedingData()
     {
+        if (dataToKeep == null || dataToKeep.Count == 0 || mgType != MGType.Breeding) return;
+
         int nbChildrenToInstantiate = Convert.ToInt32(dataToKeep[0]);
 
         if (nbChildrenToInstantiate > 0)
         {
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
             AnimalType currentAnimalType = animalTypeToKeep;
+
+            animalTypeToKeep = AnimalType.None;
+            dataToKeep.Clear();
 
             if (animalPenManager.CheckAnimalPenRestrictions(currentAnimalType, true))
             {
