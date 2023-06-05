@@ -1,14 +1,19 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    /*[HideInInspector]*/ public Transform parentAfterDrag;
-
     [SerializeField] private int quantityStacked = 1;
     [SerializeField] private Item item;
-    public ListSlots ls;
+
+    private Transform parentAfterDrag;
+    private Transform overSlot;
+
+    private Image image;
+
+    #region Getters / Setters
 
     public Item Item
     {
@@ -22,12 +27,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         set { quantityStacked = value; }
     }
 
-    private Image image;
+    #endregion
 
     private void Start()
     {
-        ls = FindObjectOfType<ListSlots>();
-
         image = GetComponent<Image>();
 
         parentAfterDrag = transform.parent;
@@ -36,6 +39,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void Update()
     {
         HandleItemSprite();
+
+        //Debug.Log(overSlot);
+
+        HandleDropOneItem();
     }
 
     private void HandleItemSprite()
@@ -66,38 +73,74 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
+
         image.raycastTarget = false;
+
+        overSlot = eventData.pointerEnter.transform;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = Input.mousePosition;
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("Clic droit : drop 1 item");
-        }
+        if (eventData.pointerEnter != null) overSlot = eventData.pointerEnter.transform;
+        else overSlot = null;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.SetParent(parentAfterDrag);
+        if (parentAfterDrag.childCount == 0) transform.SetParent(parentAfterDrag);
+        else
+        {
+            DraggableItem draggableItem = parentAfterDrag.GetChild(0).GetComponent<DraggableItem>();
+
+            draggableItem.quantityStacked += quantityStacked;
+
+            Destroy(gameObject);
+        }
+
         image.raycastTarget = true;
     }
 
     #endregion
 
+    private void HandleDropOneItem()
+    {
+        if (overSlot == null) return;
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (item == null || quantityStacked == 1) return;
+
+            quantityStacked -= 1;
+
+            if (overSlot.childCount == 0)
+            {
+                GameObject itemUI = Instantiate(gameObject, overSlot);
+
+                itemUI.GetComponent<DraggableItem>().Item = item;
+                itemUI.GetComponent<DraggableItem>().QuantityStacked = 1;
+                itemUI.GetComponent<Image>().raycastTarget = true;
+            }
+            else
+            {
+                DraggableItem draggableItem = null;
+
+                if (overSlot.GetComponent<Slot>()) draggableItem = overSlot.GetChild(0).GetComponent<DraggableItem>();
+                else if (overSlot.GetComponent<DraggableItem>()) draggableItem = overSlot.GetComponent<DraggableItem>();
+
+                if (draggableItem == null) return;
+
+                draggableItem.QuantityStacked += 1;
+            }
+        }
+    }
+
     public void DropItemToSlot(Transform slot, bool stacked = false)
     {
-        if (slot != null)
-        {
-            parentAfterDrag = slot;
-        }
+        if (slot != null) parentAfterDrag = slot;
 
-        if (stacked)
-        {
-            Destroy(gameObject);
-        }
+        if (stacked) Destroy(gameObject);
     }
 
     public void ExchangeItems(DraggableItem secondItem)
