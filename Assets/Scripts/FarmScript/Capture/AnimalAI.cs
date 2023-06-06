@@ -16,7 +16,7 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private Vector3 destination;
 
-    private bool canMove = true;
+    private bool canMove;
     private bool isMoving = false;
     private float distance;
 
@@ -45,10 +45,12 @@ public class AnimalAI : MonoBehaviour
 
     #endregion
 
-    private void Start()
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+
+        canMove = true;
 
         agent.speed = speed;
         agent.stoppingDistance = stoppingDistance;
@@ -70,6 +72,8 @@ public class AnimalAI : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (agent == null) return;
+
         canMove = false;
 
         if (CaptureManager.instance.FruitPlaced == null)
