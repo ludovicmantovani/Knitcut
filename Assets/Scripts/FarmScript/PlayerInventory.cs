@@ -141,10 +141,10 @@ public class PlayerInventory : MonoBehaviour
         return itemHandlersInInventory;
     }
 
-    public void RemoveItemQuantity(Item item, int quantityToRemove)
+    public void RemoveItemQuantity(Item item, int quantityToRemove, float uniqueValue = 0)
     {
         // Get all same item from inventory
-        List<ItemHandler> itemHandlers = SearchSameItemInInventory(item);
+        List<ItemHandler> itemHandlers = SearchSameItemInInventory(item, uniqueValue);
 
         if (itemHandlers.Count == 0) return;
 

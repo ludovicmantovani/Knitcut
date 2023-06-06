@@ -236,7 +236,11 @@ public class ShopManager : MonoBehaviour
 
         if (amount <= 0) return;
 
-        int quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item);
+        int quantityInInventory;
+        if (itemToSell.item.itemType == ItemType.Dish)
+            quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item, itemToSell.price);
+        else
+            quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item);
 
         if (amount <= quantityInInventory)
         {
@@ -245,7 +249,7 @@ public class ShopManager : MonoBehaviour
 
             listSlots.UpdateMoney(playerController.Money + (int)totalPrice);
 
-            playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount);
+            playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount, itemToSell.price);
 
             currentItemUI.NameUI.text = $"{itemToSell.item.itemName} x{quantityLeft}";
 
