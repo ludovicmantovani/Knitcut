@@ -25,7 +25,7 @@ public class CaptureManager : MonoBehaviour
         "WaterMiniGameScene3"
     };
 
-    private DraggableItem currentFruit;
+    private ItemHandler currentFruit;
 
     [Header("Datas")]
     [SerializeField] private bool zoneDetected;
@@ -160,7 +160,7 @@ public class CaptureManager : MonoBehaviour
 
     private void HandleItemOnPedestal()
     {
-        DraggableItem item = GetItemData();
+        ItemHandler item = GetItemData();
 
         if (item == null && fruitPlaced == null) return;
         if (item == null && fruitPlaced != null)
@@ -258,19 +258,19 @@ public class CaptureManager : MonoBehaviour
         MinigameManager.SwitchScene(sceneToLoad);
     }
 
-    public DraggableItem GetItemData()
+    public ItemHandler GetItemData()
     {
         Transform slot = captureContentUI.transform.GetChild(0);
 
         // If item present in slot
         if (slot.childCount > 0)
         {
-            DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+            ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
             // If item is consumable
-            if (draggableItem.Item.itemType == ItemType.Consumable && draggableItem.QuantityStacked > 0)
+            if (itemHandler.Item.itemType == ItemType.Consumable && itemHandler.QuantityStacked > 0)
             {
-                return draggableItem;
+                return itemHandler;
             }
         }
 
@@ -281,7 +281,7 @@ public class CaptureManager : MonoBehaviour
     {
         Transform slot = captureContentUI.transform.GetChild(0);
 
-        DraggableItem item = Instantiate(itemUI, slot).GetComponent<DraggableItem>();
+        ItemHandler item = Instantiate(itemUI, slot).GetComponent<ItemHandler>();
 
         item.Item = (Item)listSlots.GetItemByIndex(fruitIndex);
         item.QuantityStacked = fruitQuantity;
@@ -294,14 +294,14 @@ public class CaptureManager : MonoBehaviour
         // If item present in slot
         if (slot.childCount > 0)
         {
-            DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+            ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
-            draggableItem.QuantityStacked -= 1;
+            itemHandler.QuantityStacked -= 1;
 
-            if (draggableItem.QuantityStacked > 0)
-                playerController.PlayerInventory.AddItemToInventory(draggableItem.Item, draggableItem.QuantityStacked);
+            if (itemHandler.QuantityStacked > 0)
+                playerController.PlayerInventory.AddItemToInventory(itemHandler.Item, itemHandler.QuantityStacked);
 
-            Destroy(draggableItem.gameObject);
+            Destroy(itemHandler.gameObject);
         }
     }
 }

@@ -266,11 +266,13 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleCookingData()
     {
+        if (dataToKeep == null || dataToKeep.Count == 0) return;
+
         PlayerInventory inventory = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>();
 
-        int firstGenerocDishSO = FindFirstGenericDishSO();
+        int firstDishDataSO = FindFirstDishData();
 
-        if (inventory == null || firstGenerocDishSO == -1 || itemsToRemoveQuantity.Count == 0)
+        if (inventory == null || firstDishDataSO == -1 || itemsToRemoveQuantity.Count == 0)
         {
             ClearPlayerItems(true, true);
             return;
@@ -285,7 +287,7 @@ public class MinigameManager : MonoBehaviour
             return;
         }
 
-        Item item = (Item)listSlots.Stuffs[firstGenerocDishSO + Convert.ToInt32(recipe.recipeIndex)];
+        Item item = (Item)listSlots.Stuffs[firstDishDataSO + Convert.ToInt32(recipe.recipeIndex)];
 
         if (item == null)
         {
@@ -303,16 +305,15 @@ public class MinigameManager : MonoBehaviour
 
         item.itemName = dish.dishName;
         item.itemDescription = dish.dishDescription;
-        item.itemValue = price;
         item.itemSprite = dish.dishSprite;
         item.itemObject = dish.gameObject;
 
-        inventory.AddItemToInventory(item);
+        inventory.AddItemToInventory(item, 1, price);
 
         HandleItemsInInventory(inventory);
     }
 
-    private int FindFirstGenericDishSO()
+    private int FindFirstDishData()
     {
         for (int i = 0; i < listSlots.Stuffs.Length; i++)
         {

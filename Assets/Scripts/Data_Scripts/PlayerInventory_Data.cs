@@ -7,6 +7,7 @@ public class PlayerInventory_Data
     public int[] itemsInSlot;
     public bool[] playerSlotsObjIn;
     public int[] quantityStackedPlayerInventory;
+    public float[] uniqueValuePlayerInventory;
 
     //recipes
     public int[] recipesIndex;
@@ -17,12 +18,14 @@ public class PlayerInventory_Data
         itemsInSlot = new int[nbSlots];
         playerSlotsObjIn = new bool[nbSlots];
         quantityStackedPlayerInventory = new int[nbSlots];
+        uniqueValuePlayerInventory = new float[nbSlots];
 
         for (int i = 0; i < nbSlots; i++)
         {
             itemsInSlot[i] = listSlots.ItemsInSlots[i];
             playerSlotsObjIn[i] = listSlots.PlayerSlotsObjIn[i];
             quantityStackedPlayerInventory[i] = listSlots.QuantityStackedPlayerInventory[i];
+            uniqueValuePlayerInventory[i] = listSlots.UniqueValuePlayerInventory[i];
         }
     }
 

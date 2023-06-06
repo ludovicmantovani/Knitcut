@@ -165,9 +165,9 @@ public class AnimalPenManager : MonoBehaviour
 
     private void SaveCaptureFruitPlaced()
     {
-        DraggableItem draggableItem = captureManager.GetItemData();
+        ItemHandler itemHandler = captureManager.GetItemData();
 
-        if (draggableItem == null)
+        if (itemHandler == null)
         {
             pedestalItemIndex = -1;
             pedestalItemQuantity = 0;
@@ -175,8 +175,8 @@ public class AnimalPenManager : MonoBehaviour
             return;
         }
 
-        pedestalItemIndex = listSlots.GetItemIndex(draggableItem.Item);
-        pedestalItemQuantity = draggableItem.QuantityStacked;
+        pedestalItemIndex = listSlots.GetItemIndex(itemHandler.Item);
+        pedestalItemQuantity = itemHandler.QuantityStacked;
     }
 
     public void SaveAnimalPenData()

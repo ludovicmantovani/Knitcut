@@ -89,7 +89,7 @@ public class ChangeScene : MonoBehaviour
         {
             if (listSlots.ItemsInSlots[i] != -1)
             {
-                Item item = listSlots.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
+                Item item = listSlots.PlayerSlots[i].GetComponentInChildren<ItemHandler>().Item;
                 
                 MinigameManager.AddPlayerItem(item, listSlots.QuantityStackedPlayerInventory[i]);
             }

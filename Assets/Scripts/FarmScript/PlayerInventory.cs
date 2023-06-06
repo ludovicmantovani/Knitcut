@@ -58,33 +58,36 @@ public class PlayerInventory : MonoBehaviour
 
     #region Items
 
-    private GameObject CreateItemUI(bool setup = false, Item item = null, int quantity = -1)
+    private GameObject CreateItemUI(bool setup = false, Item item = null, int quantity = -1, float uniqueValue = -1)
     {
         GameObject itemObject = Instantiate(itemUI, GetFreeSlot());
 
         if (setup)
         {
-            itemObject.GetComponent<DraggableItem>().Item = item;
+            itemObject.GetComponent<ItemHandler>().Item = item;
 
             itemObject.GetComponent<Image>().sprite = item.itemSprite;
 
             if (quantity != -1)
-                itemObject.GetComponent<DraggableItem>().QuantityStacked = quantity;
+                itemObject.GetComponent<ItemHandler>().QuantityStacked = quantity;
+
+            if (quantity != -1)
+                itemObject.GetComponent<ItemHandler>().UniqueValue = uniqueValue;
         }
 
         return itemObject;
     }
 
-    public void AddItemToInventory(Item item, int quantity = 1)
+    public void AddItemToInventory(Item item, int quantity = 1, float uniqueValue = 0f)
     {
-        List<DraggableItem> sameItems = SearchSameItemInInventory(item);
-        List<DraggableItem> sameItemsNotFull = new List<DraggableItem>();
+        List<ItemHandler> sameItems = SearchSameItemInInventory(item);
+        List<ItemHandler> sameItemsNotFull = new List<ItemHandler>();
 
         if (sameItems.Count > 0)
         {
             for (int i = 0; i < sameItems.Count; i++)
             {
-                DraggableItem sameItem = sameItems[i];
+                ItemHandler sameItem = sameItems[i];
 
                 if (sameItem.QuantityStacked < sameItem.Item.maxStackSize) sameItemsNotFull.Add(sameItem);
             }
@@ -95,7 +98,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (remainingQuantity == 0) return;
 
-                DraggableItem sameItemNotFull = sameItemsNotFull[i];
+                ItemHandler sameItemNotFull = sameItemsNotFull[i];
 
                 if (sameItemNotFull.QuantityStacked + quantity <= sameItemNotFull.Item.maxStackSize)
                 {
@@ -112,67 +115,65 @@ public class PlayerInventory : MonoBehaviour
                 }
             }
 
-            if (sameItemsNotFull.Count == 0 && remainingQuantity > 0) CreateItemUI(true, item, remainingQuantity);
+            if (sameItemsNotFull.Count == 0 && remainingQuantity > 0) CreateItemUI(true, item, remainingQuantity, uniqueValue);
         }
         else
         {
-            CreateItemUI(true, item, quantity);
+            CreateItemUI(true, item, quantity, uniqueValue);
         }
     }
 
-    public List<DraggableItem> SearchSameItemInInventory(Item item)
+    public List<ItemHandler> SearchSameItemInInventory(Item item, float uniqueValue = 0f)
     {
-        List<DraggableItem> draggableItemsInInventory = new List<DraggableItem>();
+        List<ItemHandler> itemHandlersInInventory = new List<ItemHandler>();
         
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).GetComponentInChildren<DraggableItem>())
+            if (transform.GetChild(i).GetComponentInChildren<ItemHandler>())
             {
-                DraggableItem draggableItem = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
+                ItemHandler itemHandler = transform.GetChild(i).GetComponentInChildren<ItemHandler>();
 
-                if (draggableItem.Item == item)
-                {
-                    draggableItemsInInventory.Add(draggableItem);
-                }
+                if (itemHandler.Item == item && itemHandler.UniqueValue == uniqueValue)
+                    itemHandlersInInventory.Add(itemHandler);
             }
         }
 
-        return draggableItemsInInventory;
+        return itemHandlersInInventory;
     }
 
     public void RemoveItemQuantity(Item item, int quantityToRemove)
     {
         // Get all same item from inventory
-        List<DraggableItem> draggableItems = SearchSameItemInInventory(item);
+        List<ItemHandler> itemHandlers = SearchSameItemInInventory(item);
 
-        if (draggableItems.Count == 0) return;
+        if (itemHandlers.Count == 0) return;
 
-        draggableItems = draggableItems.OrderBy(item => item.QuantityStacked).ToList();
+        itemHandlers = itemHandlers.OrderBy(item => item.QuantityStacked).ToList();
 
         // Get total quantity possessed
         int quantityPossessed = 0;
 
-        for (int i = 0; i < draggableItems.Count; i++)
+        for (int i = 0; i < itemHandlers.Count; i++)
         {
-            quantityPossessed += draggableItems[i].QuantityStacked;
+            quantityPossessed += itemHandlers[i].QuantityStacked;
         }
 
         // Remove total quantityToRemove
         if (quantityToRemove > quantityPossessed) return;
 
-        for (int i = 0; i < draggableItems.Count; i++)
+        for (int i = 0; i < itemHandlers.Count; i++)
         {
-            if (draggableItems[i].QuantityStacked > quantityToRemove)
+            if (itemHandlers[i].QuantityStacked > quantityToRemove)
             {
-                draggableItems[i].QuantityStacked -= quantityToRemove;
+                itemHandlers[i].QuantityStacked -= quantityToRemove;
 
                 return;
             }
             else
             {
-                quantityToRemove -= draggableItems[i].QuantityStacked;
+                quantityToRemove -= itemHandlers[i].QuantityStacked;
 
-                Destroy(draggableItems[i].gameObject);
+                Destroy(itemHandlers[i].gameObject);
             }
         }
     }
@@ -198,34 +199,34 @@ public class PlayerInventory : MonoBehaviour
         else return false;
     }
 
-    public List<DraggableItem> SearchItemsPossessed()
+    public List<ItemHandler> SearchItemsPossessed()
     {
-        List<DraggableItem> itemsFounded = new List<DraggableItem>();
+        List<ItemHandler> itemsFounded = new List<ItemHandler>();
 
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).childCount > 0)
             {
-                DraggableItem draggableItem = transform.GetChild(i).GetComponentInChildren<DraggableItem>();
+                ItemHandler itemHandler = transform.GetChild(i).GetComponentInChildren<ItemHandler>();
 
-                itemsFounded.Add(draggableItem);
+                itemsFounded.Add(itemHandler);
             }
         }
 
         return itemsFounded;
     }
 
-    public int GetItemQuantity(Item item)
+    public int GetItemQuantity(Item item, float uniqueValue = 0f)
     {
         int quantity = 0;
 
-        List<DraggableItem> draggableItems = SearchSameItemInInventory(item);
+        List<ItemHandler> itemHandlers = SearchSameItemInInventory(item, uniqueValue);
 
-        if (draggableItems.Count == 0) return -1;
+        if (itemHandlers.Count == 0) return -1;
 
-        for (int i = 0; i < draggableItems.Count; i++)
+        for (int i = 0; i < itemHandlers.Count; i++)
         {
-            quantity += draggableItems[i].QuantityStacked;
+            quantity += itemHandlers[i].QuantityStacked;
         }
         
         return quantity;

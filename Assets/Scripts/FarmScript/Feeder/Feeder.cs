@@ -165,7 +165,7 @@ public class Feeder : MonoBehaviour
             {
                 Transform slot = feederInventoryContent.transform.GetChild(i);
 
-                DraggableItem itemSlotUI = Instantiate(itemUI, slot).GetComponent<DraggableItem>();
+                ItemHandler itemSlotUI = Instantiate(itemUI, slot).GetComponent<ItemHandler>();
 
                 itemSlotUI.Item = items[i];
                 itemSlotUI.QuantityStacked = itemsQuantities[i];
@@ -181,12 +181,12 @@ public class Feeder : MonoBehaviour
 
             if (slot.childCount > 0)
             {
-                DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+                ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
-                if (draggableItem.Item.itemType != ItemType.Consumable) return;
+                if (itemHandler.Item.itemType != ItemType.Consumable) return;
 
-                items[i] = draggableItem.Item;
-                itemsQuantities[i] = draggableItem.QuantityStacked;
+                items[i] = itemHandler.Item;
+                itemsQuantities[i] = itemHandler.QuantityStacked;
             }
             else if (slot.childCount == 0 && items[i] != null)
             {
@@ -239,15 +239,15 @@ public class Feeder : MonoBehaviour
             // If item present in slot
             if (slot.childCount > 0)
             {
-                DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+                ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
-                if (draggableItem.Item == item)
+                if (itemHandler.Item == item)
                 {
-                    draggableItem.QuantityStacked -= 1;
+                    itemHandler.QuantityStacked -= 1;
 
-                    if (draggableItem.QuantityStacked <= 0)
+                    if (itemHandler.QuantityStacked <= 0)
                     {
-                        Destroy(draggableItem.gameObject);
+                        Destroy(itemHandler.gameObject);
                     }
                 }
             }

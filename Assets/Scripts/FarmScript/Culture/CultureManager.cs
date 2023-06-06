@@ -350,7 +350,7 @@ public class CultureManager : MonoBehaviour
 
         for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
         {
-            DraggableItem itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
+            ItemHandler itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
 
             if (itemPossessed.Item.itemType == ItemType.Seed)
             {

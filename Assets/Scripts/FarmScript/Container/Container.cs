@@ -129,7 +129,7 @@ public class Container : MonoBehaviour
 
         GameObject itemObject = Instantiate(itemUI, slotParent);
 
-        itemObject.GetComponent<DraggableItem>().Item = item;
+        itemObject.GetComponent<ItemHandler>().Item = item;
 
         itemObject.GetComponent<Image>().sprite = item.itemSprite;
     }
