@@ -16,10 +16,10 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private float distanceMinToChange = 2f;
     [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private float timeAnimalLife = 20f;
+    [SerializeField] private bool isMoving = false;
     [SerializeField] private Vector3 destination;
 
     private GameObject currentFruitPlaced;
-    private bool isMoving = false;
     private float distance;
 
     private NavMeshAgent agent;
@@ -67,52 +67,32 @@ public class AnimalAI : MonoBehaviour
     {
         animator.SetBool("Walking", isMoving);
 
-        if (CaptureManager.instance.FruitPlaced != currentFruitPlaced)
+        if (CaptureManager.instance.FruitPlaced != null)
             currentFruitPlaced = CaptureManager.instance.FruitPlaced;
+
+        ActualizeDirection();
 
         if (agent == null || isMoving) return;
 
-        Item currentItemFruitPlaced = currentFruitPlaced.GetComponent<KeepItem>().Item;
+        HandleDestination();
 
-        HandleDestination(currentItemFruitPlaced);
-
-        StartCoroutine(GoToDestination(currentItemFruitPlaced));
-
-        ActualizeDirection();
+        StartCoroutine(GoToDestination());
     }
 
-    private void HandleDestination(Item itemFruitPlaced)
+    #region Direction & Distance
+
+    private void HandleDestination()
     {
-        if (currentFruitPlaced == null || itemFruitPlaced != favoriteFruit)
+        if (currentFruitPlaced == null)
             destination = SearchDestination();
-        else if (currentFruitPlaced != null && itemFruitPlaced == favoriteFruit)
-            destination = currentFruitPlaced.transform.position;
-    }
-
-    private IEnumerator GoToDestination(Item itemFruitPlaced)
-    {
-        isMoving = true;
-
-        Debug.Log($"Go to destination");
-
-        Item itemPlaced = CaptureManager.instance.FruitPlaced.GetComponent<KeepItem>().Item;
-
-        while (distance > distanceMinToChange && itemPlaced == itemFruitPlaced)
+        else
         {
-            agent.SetDestination(destination);
+            Item itemFruitPlaced = currentFruitPlaced.GetComponent<KeepItem>().Item;
 
-            yield return new WaitForSeconds(refreshRate);
-        }
-
-        isMoving = false;
-
-        Debug.Log($"Arrived at destination");
-
-        int random = Random.Range(0, 3);
-
-        if (random == 0 | random == 1)
-        {
-            yield return new WaitForSeconds(timeBeforeMoving);
+            if (itemFruitPlaced == favoriteFruit)
+                destination = currentFruitPlaced.transform.position;
+            else
+                destination = SearchDestination();
         }
     }
 
@@ -135,6 +115,51 @@ public class AnimalAI : MonoBehaviour
     {
         Vector3 direction = transform.position - destination;
         distance = direction.magnitude;
+    }
+
+    #endregion
+
+    private IEnumerator GoToDestination()
+    {
+        isMoving = true;
+
+        Vector3 currentFruitPosition = Vector3.zero;
+
+        if (currentFruitPlaced != null)
+            currentFruitPosition = currentFruitPlaced.transform.position;
+
+        bool canContinue = true;
+
+        while (distance > distanceMinToChange && canContinue)
+        {
+            if (!canContinue) yield break;
+
+            Item itemPlaced = null;
+            if (currentFruitPlaced != null) itemPlaced = currentFruitPlaced.GetComponent<KeepItem>().Item;
+
+            if ((destination != currentFruitPosition && itemPlaced == favoriteFruit)
+                || (destination == currentFruitPosition && (itemPlaced == null || itemPlaced != favoriteFruit)))
+                canContinue = false;
+
+            agent.SetDestination(destination);
+
+            yield return new WaitForSeconds(refreshRate);
+        }
+
+        yield return new WaitForSeconds(TimeToWaitAtEnd());
+
+        isMoving = false;
+    }
+
+    private float TimeToWaitAtEnd()
+    {
+        float timeToWait = timeBeforeMoving;
+
+        int random = Random.Range(0, 3);
+
+        if (random == 2) timeToWait = 0f;
+
+        return timeToWait;
     }
 
     private IEnumerator AnimalLife()

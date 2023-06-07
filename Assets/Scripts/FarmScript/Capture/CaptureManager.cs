@@ -214,9 +214,11 @@ public class CaptureManager : MonoBehaviour
                 isCapturing = true;
 
                 RemoveItem();
+
                 Destroy(currentFruit.gameObject);
 
                 captureUI.SetActive(false);
+
                 MinigameManager.CleanOpenInventories();
 
                 AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
@@ -230,6 +232,7 @@ public class CaptureManager : MonoBehaviour
             else
             {
                 RemoveItem();
+
                 Destroy(currentFruit.gameObject);
             }
         }
