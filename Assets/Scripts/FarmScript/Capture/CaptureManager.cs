@@ -32,7 +32,6 @@ public class CaptureManager : MonoBehaviour
     [SerializeField] private bool animalDetected;
     [SerializeField] private GameObject wildAnimal;
     [SerializeField] private GameObject fruitPlaced;
-    [SerializeField] private float timeAnimalLife = 20f;
 
     private bool isCapturing;
     private string instruction;
@@ -106,6 +105,8 @@ public class CaptureManager : MonoBehaviour
     {
         if (wildAnimal == null)
         {
+            if (animalDetected) animalDetected = false;
+
             SpawnRandomAnimal();
         }
     }
@@ -119,11 +120,11 @@ public class CaptureManager : MonoBehaviour
         GameObject randomAnimal = animals[randomAnimalIndex];
 
         // Verify if new random animal is same as previous
-        if (previousAnimal != null && previousAnimal == randomAnimal)
+        /*if (previousAnimal != null && previousAnimal == randomAnimal)
         {
             SpawnRandomAnimal();
             return;
-        }
+        }*/
 
         previousAnimal = randomAnimal;
 
@@ -136,17 +137,6 @@ public class CaptureManager : MonoBehaviour
 
         wildAnimal = Instantiate(randomAnimal, randomSpawnpoint);
         wildAnimal.GetComponent<AnimalAI>().Area = area;
-
-        StartCoroutine(AnimalLife());
-    }
-
-    private IEnumerator AnimalLife()
-    {
-        yield return new WaitForSeconds(timeAnimalLife);
-
-        Destroy(wildAnimal);
-        wildAnimal = null;
-        animalDetected = false;
     }
 
     #endregion
