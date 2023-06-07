@@ -100,13 +100,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalType: 1
   area: {fileID: 0}
-  favoriteFruit: {fileID: 4377266144705334276, guid: df15247d4521a7a4380a029677117c2d, type: 3}
+  favoriteFruit: {fileID: 11400000, guid: 670d2ac6152fa754eb54fadd71955edf, type: 2}
   speed: 3.5
   stoppingDistance: 0
   refreshRate: 0.1
-  distanceMinToChange: 2
+  distanceMinToChange: 3
   timeBeforeMoving: 3
-  timeAnimalLife: 20
+  timeAnimalLife: {x: 15, y: 30}
+  isMoving: 0
   destination: {x: 0, y: 0, z: 0}
 --- !u!1001 &8993236304750086542
 PrefabInstance:

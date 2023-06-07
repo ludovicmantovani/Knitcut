@@ -15,7 +15,7 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private float refreshRate = 0.1f;
     [SerializeField] private float distanceMinToChange = 2f;
     [SerializeField] private float timeBeforeMoving = 3f;
-    [SerializeField] private float timeAnimalLife = 20f;
+    [SerializeField] private Vector2 timeAnimalLife = new Vector2(15, 30);
     [SerializeField] private bool isMoving = false;
     [SerializeField] private Vector3 destination;
 
@@ -164,7 +164,9 @@ public class AnimalAI : MonoBehaviour
 
     private IEnumerator AnimalLife()
     {
-        yield return new WaitForSeconds(timeAnimalLife);
+        float randomTime = Random.Range(timeAnimalLife.x, timeAnimalLife.y);
+
+        yield return new WaitForSeconds(randomTime);
 
         StopAllCoroutines();
 

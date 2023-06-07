@@ -16,7 +16,6 @@ public class AnimalData : MonoBehaviour
     [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private Vector3 destination;
 
-    private bool canMove = true;
     private bool isMoving = false;
     private float distance;
 
@@ -50,50 +49,23 @@ public class AnimalData : MonoBehaviour
 
     private void Update()
     {
-        if (canMove) HandleMovement();
-
-        animator.SetBool("Walking", isMoving);
-
-        ActualizeDirection();
-    }
-
-    private void ActualizeDirection()
-    {
-        Vector3 direction = transform.position - destination;
-        distance = direction.magnitude;
+        HandleMovement();
     }
 
     private void HandleMovement()
     {
-        canMove = false;
+        animator.SetBool("Walking", isMoving);
+
+        ActualizeDirection();
+
+        if (agent == null || isMoving) return;
 
         SearchDestination();
 
         StartCoroutine(GoToDestination());
     }
 
-    private IEnumerator GoToDestination()
-    {
-        isMoving = true;
-
-        while (distance > distanceMinToChange)
-        {
-            agent.SetDestination(destination);
-
-            yield return new WaitForSeconds(refreshRate);
-        }
-
-        isMoving = false;
-
-        int random = Random.Range(0, 3);
-
-        if (random == 0 | random == 1)
-        {
-            yield return new WaitForSeconds(timeBeforeMoving);
-        }
-
-        canMove = true;
-    }
+    #region Direction & Distance
 
     private void SearchDestination()
     {
@@ -112,5 +84,40 @@ public class AnimalData : MonoBehaviour
         Vector3 randomPosition = surface.position + new Vector3(randomX, 0f, randomZ);
 
         destination = randomPosition;
+    }
+
+    private void ActualizeDirection()
+    {
+        Vector3 direction = transform.position - destination;
+        distance = direction.magnitude;
+    }
+
+    #endregion
+
+    private IEnumerator GoToDestination()
+    {
+        isMoving = true;
+
+        while (distance > distanceMinToChange)
+        {
+            agent.SetDestination(destination);
+
+            yield return new WaitForSeconds(refreshRate);
+        }
+
+        yield return new WaitForSeconds(TimeToWaitAtEnd());
+
+        isMoving = false;
+    }
+
+    private float TimeToWaitAtEnd()
+    {
+        float timeToWait = timeBeforeMoving;
+
+        int random = Random.Range(0, 3);
+
+        if (random == 2) timeToWait = 0f;
+
+        return timeToWait;
     }
 }
