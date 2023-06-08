@@ -84,7 +84,7 @@ public class PlayerInput : MonoBehaviour
     {
         controls = new PlayerControls();
 
-        moveAction = controls.FindAction("HandleMovement");
+        moveAction = controls.FindAction("Move");
 
         quickSaveAction = controls.FindAction("QuickSave");
         quickLoadAction = controls.FindAction("QuickLoad");
