@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d139ae5575e4d6c42b28a329702bd982, type: 3}
   m_Name: Plant Palmier
   m_EditorClassIdentifier: 
+  source: {fileID: 7137543882201099299, guid: 9018c664724ec8c4d8e713f4ac5dcb76, type: 3}
   seed: {fileID: 6097403206486560273, guid: 9227ebeca1450c84684d4a1272b14cce, type: 3}
   sprout: {fileID: 1363811691294603448, guid: 4bba2c1004c040c4e9068ffa50c8bd82, type: 3}
   plant: {fileID: 4452896828173832544, guid: f2561e751148df4418378323a8974984, type: 3}
   readyPlant: {fileID: 5781973762153534079, guid: b8b076af45a880b4daa57dd251fb484c, type: 3}
   fruit: {fileID: 4377266144705334276, guid: a0712bf162316184c99bd9c0ba15e5c4, type: 3}
   fruitSliced: {fileID: 5269427850539475497, guid: 101b0da73255c6447afd1715f91b038b, type: 3}
+  timeOfGrowthSeed: 5
+  timeOfGrowthSprout: 5
+  timeOfGrowthFlower: 5
+  timeOfGrowthFruit: 2

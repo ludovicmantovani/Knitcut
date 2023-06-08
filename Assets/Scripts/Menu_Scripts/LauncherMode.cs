@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class LauncherMode : MonoBehaviour
 {
+    [SerializeField] private string sceneToLoad = "FarmScene";
+
     public enum LaunchMode
     {
         New,
@@ -25,7 +27,7 @@ public class LauncherMode : MonoBehaviour
     {
         if (launchMode == LaunchMode.New) SaveSystem.DeleteAllSaves();
 
-        SceneManager.LoadScene("FarmScene");
+        SceneManager.LoadScene(sceneToLoad);
     }
 
     // New method

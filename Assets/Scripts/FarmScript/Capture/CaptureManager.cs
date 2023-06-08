@@ -9,6 +9,7 @@ public class CaptureManager : MonoBehaviour
     public static CaptureManager instance;
 
     [Header("References")]
+    [SerializeField] private GameObject itemUI;
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private GameObject captureUI;
     [SerializeField] private GameObject captureContentUI;
@@ -24,22 +25,22 @@ public class CaptureManager : MonoBehaviour
         "WaterMiniGameScene3"
     };
 
-    private DraggableItem currentFruit;
+    private ItemHandler currentFruit;
 
     [Header("Datas")]
     [SerializeField] private bool zoneDetected;
     [SerializeField] private bool animalDetected;
-    [SerializeField] private bool captureInventoryInUse;
     [SerializeField] private GameObject wildAnimal;
     [SerializeField] private GameObject fruitPlaced;
-    [SerializeField] private float timeAnimalLife = 20f;
 
     private bool isCapturing;
     private string instruction;
     private PlayerInput playerInput;
     private PlayerController playerController;
-    private List_Slots LS;
+    private ListSlots listSlots;
     private AnimalPenManager animalPenManager;
+
+    private GameObject previousAnimal = null;
 
     #region Getters / Setters
 
@@ -73,7 +74,7 @@ public class CaptureManager : MonoBehaviour
     {
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
-        LS = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
         animalPenManager = FindObjectOfType<AnimalPenManager>();
 
         zoneDetected = false;
@@ -104,6 +105,8 @@ public class CaptureManager : MonoBehaviour
     {
         if (wildAnimal == null)
         {
+            if (animalDetected) animalDetected = false;
+
             SpawnRandomAnimal();
         }
     }
@@ -113,7 +116,17 @@ public class CaptureManager : MonoBehaviour
         if (animals.Count == 0) return;
 
         int randomAnimalIndex = Random.Range(0, animals.Count);
+
         GameObject randomAnimal = animals[randomAnimalIndex];
+
+        // Verify if new random animal is same as previous
+        if (previousAnimal != null && previousAnimal == randomAnimal)
+        {
+            SpawnRandomAnimal();
+            return;
+        }
+
+        previousAnimal = randomAnimal;
 
         if (spawnpoints.Count == 0) return;
 
@@ -124,24 +137,20 @@ public class CaptureManager : MonoBehaviour
 
         wildAnimal = Instantiate(randomAnimal, randomSpawnpoint);
         wildAnimal.GetComponent<AnimalAI>().Area = area;
-
-        StartCoroutine(AnimalLife());
-    }
-
-    private IEnumerator AnimalLife()
-    {
-        yield return new WaitForSeconds(timeAnimalLife);
-
-        Destroy(wildAnimal);
-        wildAnimal = null;
-        animalDetected = false;
     }
 
     #endregion
 
+    public void LoadFruitPlaced(int fruitIndex, int fruitQuantity)
+    {
+        if (fruitIndex == -1 && fruitQuantity <= 0) return;
+
+        SetItemData(fruitIndex, fruitQuantity);
+    }
+
     private void HandleItemOnPedestal()
     {
-        DraggableItem item = GetItemData();
+        ItemHandler item = GetItemData();
 
         if (item == null && fruitPlaced == null) return;
         if (item == null && fruitPlaced != null)
@@ -150,6 +159,12 @@ public class CaptureManager : MonoBehaviour
             fruitPlaced = null;
             currentFruit = null;
             return;
+        }
+        if (item != null && fruitPlaced != item.Item.itemObject)
+        {
+            Destroy(fruitPlaced);
+            fruitPlaced = null;
+            currentFruit = null;
         }
 
         if (fruitPlaced != null) return;
@@ -189,7 +204,7 @@ public class CaptureManager : MonoBehaviour
         else
             interactionUI.SetActive(false);
 
-        if (!isCapturing && animalDetected && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
+        if (!isCapturing && zoneDetected && animalDetected && currentFruit != null && playerInput.InteractionAction.triggered && captureGameSceneName.Length > 0)
         {
             if (animalPenManager.CheckAnimalPenRestrictions(wildAnimal.GetComponent<AnimalAI>()))
             {
@@ -199,9 +214,11 @@ public class CaptureManager : MonoBehaviour
                 isCapturing = true;
 
                 RemoveItem();
+
                 Destroy(currentFruit.gameObject);
 
                 captureUI.SetActive(false);
+
                 MinigameManager.CleanOpenInventories();
 
                 AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
@@ -215,6 +232,7 @@ public class CaptureManager : MonoBehaviour
             else
             {
                 RemoveItem();
+
                 Destroy(currentFruit.gameObject);
             }
         }
@@ -222,34 +240,44 @@ public class CaptureManager : MonoBehaviour
 
     private IEnumerator Saving()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
-        LS.SaveData();
+        listSlots.SaveData();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         string sceneToLoad = captureGameSceneName[Random.Range(0, captureGameSceneName.Length)];
 
         MinigameManager.SwitchScene(sceneToLoad);
     }
 
-    private DraggableItem GetItemData()
+    public ItemHandler GetItemData()
     {
         Transform slot = captureContentUI.transform.GetChild(0);
 
         // If item present in slot
         if (slot.childCount > 0)
         {
-            DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+            ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
             // If item is consumable
-            if (draggableItem.Item.itemType == ItemType.Consumable && draggableItem.QuantityStacked > 0)
+            if (itemHandler.Item.itemType == ItemType.Consumable && itemHandler.QuantityStacked > 0)
             {
-                return draggableItem;
+                return itemHandler;
             }
         }
 
         return null;
+    }
+
+    private void SetItemData(int fruitIndex, int fruitQuantity)
+    {
+        Transform slot = captureContentUI.transform.GetChild(0);
+
+        ItemHandler item = Instantiate(itemUI, slot).GetComponent<ItemHandler>();
+
+        item.Item = (Item)listSlots.GetItemByIndex(fruitIndex);
+        item.QuantityStacked = fruitQuantity;
     }
 
     public void RemoveItem()
@@ -259,14 +287,14 @@ public class CaptureManager : MonoBehaviour
         // If item present in slot
         if (slot.childCount > 0)
         {
-            DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+            ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
-            draggableItem.QuantityStacked -= 1;
+            itemHandler.QuantityStacked -= 1;
 
-            if (draggableItem.QuantityStacked > 0)
-                playerController.PlayerInventory.AddItemToInventory(draggableItem.Item, draggableItem.QuantityStacked);
+            if (itemHandler.QuantityStacked > 0)
+                playerController.PlayerInventory.AddItemToInventory(itemHandler.Item, itemHandler.QuantityStacked);
 
-            Destroy(draggableItem.gameObject);
+            Destroy(itemHandler.gameObject);
         }
     }
 }

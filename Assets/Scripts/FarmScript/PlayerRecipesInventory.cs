@@ -8,9 +8,9 @@ public class PlayerRecipesInventory : MonoBehaviour
     //[SerializeField] private GameObject recipeUI;
     //[SerializeField] private Transform recipesParent;
 
-    private bool isOpen = true;
+    private bool canOpen = true;
     private PlayerController player;
-    private List_Slots listSlots;
+    private ListSlots listSlots;
     private BookRecipes bookRecipes;
 
     private List<int> recipesIndex;
@@ -23,7 +23,7 @@ public class PlayerRecipesInventory : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        listSlots = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
         bookRecipes = GetComponent<BookRecipes>();
 
         recipesIndex = new List<int>();
@@ -84,20 +84,29 @@ public class PlayerRecipesInventory : MonoBehaviour
 
     public void HandleInventoryUI()
     {
-        if (player.PlayerInput.RecipesInventoryAction.triggered && isOpen)
-        {
-            isOpen = false;
-            gameObject.SetActive(true);
+        if (player.PlayerInput.RecipesInventoryAction.triggered && canOpen)
+            OpenInventory();
+        else if (player.PlayerInput.RecipesInventoryAction.triggered && !canOpen)
+            CloseInventory();
 
-            MinigameManager.AddOpenInventory(gameObject);
-        }
-        else if (player.PlayerInput.RecipesInventoryAction.triggered && !isOpen)
-        {
-            isOpen = true;
-            gameObject.SetActive(false);
+        if (!canOpen && player.PlayerInput.CancelAction.triggered)
+            CloseInventory();
+    }
 
-            MinigameManager.RemoveOpenInventory(gameObject);
-        }
+    private void OpenInventory()
+    {
+        canOpen = false;
+        gameObject.SetActive(true);
+
+        MinigameManager.AddOpenInventory(gameObject);
+    }
+
+    private void CloseInventory()
+    {
+        canOpen = true;
+        gameObject.SetActive(false);
+
+        MinigameManager.RemoveOpenInventory(gameObject);
     }
 
     #endregion

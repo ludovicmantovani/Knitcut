@@ -18,6 +18,13 @@ public class CultureManager : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerController playerController;
 
+    private int cropsCount;
+    private List<CropPlot> crops;
+    private int[] cropsSeeds;
+    private bool[] cropsCultivation;
+    public string[] cropsGrowth;
+    public string[] cropsState;
+
     [Header("Datas")]
     [SerializeField] private bool canPlantSeed;
     [SerializeField] private bool cultureUIInUse;
@@ -36,6 +43,36 @@ public class CultureManager : MonoBehaviour
     }
 
     #region Getters / Setters
+
+    public int CropsCount
+    {
+        get { return cropsCount; }
+        set { cropsCount = value; }
+    }
+
+    public int[] CropsSeeds
+    {
+        get { return cropsSeeds; }
+        set { cropsSeeds = value; }
+    }
+
+    public bool[] CropsCultivation
+    {
+        get { return cropsCultivation; }
+        set { cropsCultivation = value; }
+    }
+
+    public string[] CropsGrowth
+    {
+        get { return cropsGrowth; }
+        set { cropsGrowth = value; }
+    }
+
+    public string[] CropsState
+    {
+        get { return cropsState; }
+        set { cropsState = value; }
+    }
 
     public GameObject InteractionUI
     {
@@ -82,12 +119,112 @@ public class CultureManager : MonoBehaviour
 
         instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
         interactionUI.GetComponentInChildren<Text>().text = instruction;
+
+        SetupCulture();
+        LoadCulture();
     }
 
     private void Update()
     {
         HandlePlantSeedUI();
         HandleCultureInventory();
+
+        HandleCultureData();
+    }
+
+    private void SetupCulture()
+    {
+        cropsCount = transform.childCount;
+
+        crops = new List<CropPlot>();
+
+        cropsSeeds = new int[cropsCount];
+
+        cropsCultivation = new bool[cropsCount];
+
+        cropsGrowth = new string[cropsCount];
+        cropsState = new string[cropsCount];
+
+        for (int i = 0; i < cropsCount; i++)
+        {
+            CropPlot crop = transform.GetChild(i).GetComponent<CropPlot>();
+
+            if (!crops.Contains(crop)) crops.Add(crop);
+        }
+    }
+
+    private void HandleCultureData()
+    {
+        for (int i = 0; i < cropsCount; i++)
+        {
+            CropPlot crop = crops[i];
+
+            if (crop == null) return;
+
+            if (crop.IsCultivating)
+            {
+                //PlantGrowth plantGrowth = crop.SeedSource.GetComponent<PlantGrowth>();
+                if (crop.SeedSource == null) return;
+
+                if (!crop.SeedSource.TryGetComponent<PlantGrowth>(out var plantGrowth)) return;
+
+                cropsSeeds[i] = GetPlantIndex(plantGrowth.CurrentPlant);
+                cropsCultivation[i] = true;
+                cropsGrowth[i] = plantGrowth.GetProductGrowth.ToString();
+                cropsState[i] = plantGrowth.GetProductState.ToString();
+            }
+            else
+            {
+                cropsSeeds[i] = -1;
+                cropsCultivation[i] = false;
+                cropsGrowth[i] = string.Empty;
+                cropsState[i] = string.Empty;
+            }
+        }
+    }
+
+    public void SaveCulture()
+    {
+        SaveSystem.Save(SaveSystem.SaveType.Save_Culture, this);
+    }
+
+    public void LoadCulture()
+    {
+        Culture_Data data = (Culture_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Culture, this);
+
+        if (data == null) return;
+
+        cropsSeeds = data.cropsSeeds;
+        cropsCultivation = data.cropsCultivation;
+        cropsGrowth = data.cropsGrowth;
+        cropsState = data.cropsState;
+
+        for (int i = 0; i < cropsCount; i++)
+        {
+            if (cropsCultivation[i])
+            {
+                CropPlot crop = crops[i];
+
+                crop.IsCultivating = true;
+
+                Plant plant = (Plant)playerController.ListSlots.Stuffs[cropsSeeds[i]];
+
+                PlantSpectificPlantAtCropPlot(plant, crop, cropsGrowth[i], cropsState[i]);
+            }
+        }
+    }
+
+    private int GetPlantIndex(Plant plant)
+    {
+        for (int i = 0; i < playerController.ListSlots.Stuffs.Length; i++)
+        {
+            if (playerController.ListSlots.Stuffs[i] == plant)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     #region Handle UI
@@ -108,19 +245,18 @@ public class CultureManager : MonoBehaviour
     {
         cultureUI.SetActive(cultureUIInUse);
 
-        if (!canPlantSeed)
-        {
-            CloseCultureUI();
-            return;
-        }
-
         HandleCropPlotState();
+
+        if (cultureUIInUse && playerInput.CancelAction.triggered)
+            CloseCultureUI();
     }
 
     private void HandleCropPlotState()
     {
         if (!cultureUIInUse)
         {
+            if (currentCropPlot == null) return;
+
             if (!currentCropPlot.IsCultivating)
             {
                 instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
@@ -128,6 +264,8 @@ public class CultureManager : MonoBehaviour
 
                 if (playerInput.InteractionAction.triggered)
                 {
+                    canPlantSeed = false;
+
                     OpenCultureUI();
 
                     HandleSeedsUI();
@@ -145,7 +283,7 @@ public class CultureManager : MonoBehaviour
                     instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
                 else
                     instruction = $"Croissance en cours...";
-                
+
                 interactionUI.GetComponentInChildren<Text>().text = instruction;
             }
             else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
@@ -153,9 +291,10 @@ public class CultureManager : MonoBehaviour
                 instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
                 interactionUI.GetComponentInChildren<Text>().text = instruction;
 
-                if (playerInput.InteractionAction.triggered)
+                if (playerInput.InteractionAction.triggered && !playerController.PlayerInventory.InventoryIsFull())
                 {
                     Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
+
                     if (questCompletionPick != null)
                         questCompletionPick.CompleteObjective();
 
@@ -163,9 +302,10 @@ public class CultureManager : MonoBehaviour
 
                     Destroy(currentCropPlot.SeedSource);
 
+                    currentCropPlot.SeedSource = null;
                     currentCropPlot.Product = null;
                     currentCropPlot.IsCultivating = false;
-                }                
+                }
             }
         }
     }
@@ -182,6 +322,8 @@ public class CultureManager : MonoBehaviour
         cultureUIInUse = false;
 
         MinigameManager.RemoveOpenInventory(cultureUI);
+
+        canPlantSeed = true;
     }
 
     public void HandleCropPlot(CropPlot cropPlot, bool state)
@@ -208,7 +350,7 @@ public class CultureManager : MonoBehaviour
 
         for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
         {
-            DraggableItem itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
+            ItemHandler itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
 
             if (itemPossessed.Item.itemType == ItemType.Seed)
             {
@@ -275,5 +417,18 @@ public class CultureManager : MonoBehaviour
 
         if (questCompletionPlant != null)
             questCompletionPlant.CompleteObjective();
+    }
+
+    private void PlantSpectificPlantAtCropPlot(Plant plantSO, CropPlot currentCropPlot, string growth, string state)
+    {
+        if (plantSO == null || currentCropPlot == null) return;
+
+        GameObject plant = Instantiate(plantSO.source, currentCropPlot.transform);
+
+        plant.GetComponent<PlantGrowth>().CropPlot = currentCropPlot;
+
+        currentCropPlot.SeedSource = plant;
+
+        plant.GetComponent<PlantGrowth>().SetGrowthState(growth, state, plantSO);
     }
 }

@@ -15,6 +15,22 @@ public class MinigameManager : MonoBehaviour
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
     private static bool returnToFarm = false;
+    private static MGType mgType;
+
+    private ListSlots listSlots;
+
+    private bool dataLoaded = false;
+    private bool animalCaptured = false;
+
+    private static event Action OnInventoryListUpdate;
+
+    public enum MGType
+    {
+        Cooking,
+        Recognition,
+        Breeding,
+        Capture
+    }
 
     #region Getters / Setters
 
@@ -61,49 +77,35 @@ public class MinigameManager : MonoBehaviour
 
     #endregion
 
-    private List_Slots listSlots;
-
-    bool dataLoaded = false;
-    bool animalCaptured = false;
-
-    public enum MGType
-    {
-        Cooking,
-        Recognition,
-        Breeding,
-        Capture
-    }
-
-    private static MGType mgType;
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoaded;
+
+        OnInventoryListUpdate += OnInventoryOpen;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoaded;
+
+        OnInventoryListUpdate -= OnInventoryOpen;
     }
 
     private void Update()
     {
-        HandlePanels();
-
-        if (playerController == null && FindObjectOfType<PlayerController>())
-            playerController = FindObjectOfType<PlayerController>();
-
         if (dataLoaded)
         {
             dataLoaded = false;
 
-            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<List_Slots>()) return;
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<ListSlots>()) return;
 
             CheckItemsToAdd();
         }
 
         if (animalCaptured)
         {
+            if (mgType != MGType.Capture) return;
+
             animalCaptured = false;
 
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
@@ -111,26 +113,31 @@ public class MinigameManager : MonoBehaviour
             if (SceneManager.GetActiveScene().name.Contains("Farm") && !animalPenManager) return;
 
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
+
+            animalTypeToKeep = AnimalType.None;
         }
     }
 
-    // New method
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
-        if (returnToFarm && SceneManager.GetActiveScene().name.Contains("Farm"))
-        {
-            PlayerController playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
 
-            playerController.LoadPlayerPositionInScene();
+        if (playerController != null)
+        {
+            if (returnToFarm) playerController.LoadPlayerPositionInScene();
+
+            OnInventoryListUpdate?.Invoke();
         }
 
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))
         {
-            if (dataToKeep != null) dataLoaded = true;
+            if (dataToKeep != null)dataLoaded = true;
 
-            if (animalTypeToKeep != AnimalType.None) animalCaptured = true;
+            if (animalTypeToKeep != AnimalType.None && mgType == MGType.Capture) animalCaptured = true;
         }
     }
+
+    #region Handle Player Items
 
     public static void AddPlayerItem(Item item, int quantity)
     {
@@ -146,10 +153,13 @@ public class MinigameManager : MonoBehaviour
         itemsToRemoveQuantity.Add(item, quantity);
     }
 
-    public static void ClearPlayerItems()
+    public static void ClearPlayerItems(bool stateItemsToRemove, bool statePlayerItems)
     {
-        itemsToRemoveQuantity = new Dictionary<Item, int>();
+        if (stateItemsToRemove) itemsToRemoveQuantity.Clear();
+        if (statePlayerItems) playerItems.Clear();
     }
+
+    #endregion
 
     #region Open Inventories
 
@@ -157,6 +167,8 @@ public class MinigameManager : MonoBehaviour
     {
         if (!openInventories.Contains(inventory))
             openInventories.Add(inventory);
+
+        OnInventoryListUpdate?.Invoke();
     }
 
     public static void RemoveOpenInventory(GameObject inventory)
@@ -168,6 +180,8 @@ public class MinigameManager : MonoBehaviour
         {
             if (openInventories[i] == null) openInventories.Remove(openInventories[i]);
         }
+
+        OnInventoryListUpdate?.Invoke();
     }
 
     public static void CleanOpenInventories()
@@ -175,24 +189,37 @@ public class MinigameManager : MonoBehaviour
         openInventories.Clear();
     }
 
-    private void HandlePanels()
+    public static void OnInventoryOpen()
     {
-        if (playerController == null) return;
-
         if (openInventories.Count > 0)
         {
-            playerController.CameraCineBrain.enabled = false;
-            playerController.CanMove = false;
+            playerController.HandlePlayerMovement(false);
 
+            HandleCursor(true);
         }
         else
         {
-            playerController.CameraCineBrain.enabled = true;
-            playerController.CanMove = true;
+            playerController.HandlePlayerMovement(true);
+
+            HandleCursor(false);
         }
     }
 
-#endregion
+    private static void HandleCursor(bool state)
+    {
+        if (state)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    #endregion
 
     #region Handle Mini Games Datas
 
@@ -211,7 +238,7 @@ public class MinigameManager : MonoBehaviour
     private void CheckItemsToAdd()
     {
         if (SceneManager.GetActiveScene().name.Contains("Farm"))
-            listSlots = FindObjectOfType<List_Slots>();
+            listSlots = FindObjectOfType<ListSlots>();
 
         switch (mgType)
         {
@@ -239,37 +266,54 @@ public class MinigameManager : MonoBehaviour
 
     private void HandleCookingData()
     {
+        if (dataToKeep == null || dataToKeep.Count == 0) return;
+
         PlayerInventory inventory = listSlots.PlayerSlotsParent.GetComponent<PlayerInventory>();
 
-        int firstGenerocDishSO = FindFirstGenericDishSO();
+        int firstDishDataSO = FindFirstDishData();
 
-        if (inventory == null || firstGenerocDishSO == -1) return;
+        if (inventory == null || firstDishDataSO == -1 || itemsToRemoveQuantity.Count == 0)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
         Recipe recipe = (Recipe)dataToKeep[0];
         float price = (float)dataToKeep[1];
 
-        if (recipe == null) return;
+        if (recipe == null)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
-        Item item = (Item)listSlots.Stuffs[firstGenerocDishSO + Convert.ToInt32(recipe.recipeIndex)];
+        Item item = (Item)listSlots.Stuffs[firstDishDataSO + Convert.ToInt32(recipe.recipeIndex)];
 
-        if (item == null) return;
+        if (item == null)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
         DishInfos dish = recipe.finalProduct.GetComponent<DishInfos>();
 
-        if (dish == null) return;
+        if (dish == null)
+        {
+            ClearPlayerItems(true, true);
+            return;
+        }
 
         item.itemName = dish.dishName;
         item.itemDescription = dish.dishDescription;
-        item.itemValue = price;
         item.itemSprite = dish.dishSprite;
         item.itemObject = dish.gameObject;
 
-        inventory.AddItemToInventory(item);
+        inventory.AddItemToInventory(item, 1, price);
 
         HandleItemsInInventory(inventory);
     }
 
-    private int FindFirstGenericDishSO()
+    private int FindFirstDishData()
     {
         for (int i = 0; i < listSlots.Stuffs.Length; i++)
         {
@@ -290,26 +334,34 @@ public class MinigameManager : MonoBehaviour
     {
         foreach (Item item in itemsToRemoveQuantity.Keys)
         {
-            if (itemsToRemoveQuantity.TryGetValue(item, out int quantity))
-                inventory.RemoveItemQuantity(item, quantity);
+            inventory.RemoveItemQuantity(item, itemsToRemoveQuantity[item]);
         }
 
-        ClearPlayerItems();
+        ClearPlayerItems(true, true);
     }
 
     private void HandleRecognitionData()
     {
+        if (dataToKeep == null || dataToKeep.Count == 0) return;
+
         listSlots.UpdateMoney(listSlots.PlayerControl.Money + Convert.ToInt32(dataToKeep[0]));
+
+        dataToKeep.Clear();
     }
 
     private void HandleBreedingData()
     {
+        if (dataToKeep == null || dataToKeep.Count == 0 || mgType != MGType.Breeding) return;
+
         int nbChildrenToInstantiate = Convert.ToInt32(dataToKeep[0]);
 
         if (nbChildrenToInstantiate > 0)
         {
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
             AnimalType currentAnimalType = animalTypeToKeep;
+
+            animalTypeToKeep = AnimalType.None;
+            dataToKeep.Clear();
 
             if (animalPenManager.CheckAnimalPenRestrictions(currentAnimalType, true))
             {
@@ -348,6 +400,8 @@ public class MinigameManager : MonoBehaviour
     {
         if (specificScene != "")
         {
+            HandleCursor(true);
+
             returnToFarm = false;
             SceneManager.LoadScene(specificScene);
         }

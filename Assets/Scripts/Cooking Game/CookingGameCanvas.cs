@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +11,7 @@ public class CookingGameCanvas : MonoBehaviour
     [SerializeField] private Button actionCooking = null;
     [SerializeField] private RawImage rawImageRecipes = null;
     [SerializeField] private RawImage rawImageRecipesInfo = null;
+    [SerializeField] private Button quitButton = null;
 
     public Button ActionCooking
     {
@@ -53,6 +52,9 @@ public class CookingGameCanvas : MonoBehaviour
     {
         if (rawImageRecipes)
             rawImageRecipes.gameObject.SetActive(false);
+
+        if (quitButton)
+            quitButton.gameObject.SetActive(false);
     }
 
     public void HideRecipeInfo()

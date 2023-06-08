@@ -6,12 +6,19 @@ public class Blade : MonoBehaviour
     //[SerializeField] private float minCuttingVelocity = 0.001f;
     [SerializeField] private float delayBeforeDestroyingBladeTrail = 2f;
     [SerializeField] private bool canCut;
+    [SerializeField] private bool cutDetect;
     [SerializeField] private bool isCutting;
 
     public bool CanCut
     {
         get { return canCut; }
         set { canCut = value; }
+    }
+
+    public bool CutDetect
+    {
+        get { return cutDetect; }
+        set { cutDetect = value; }
     }
 
     public bool IsCutting
@@ -37,36 +44,34 @@ public class Blade : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _circleCollider = GetComponent<CircleCollider2D>();
 
+        canCut = false;
+        cutDetect = false;
         isCutting = false;
-        canCut = true;
     }
 
     private void Update()
     {
-        if (canCut)
+        if (cutDetect && canCut)
             HandleCut();
+
+        if (canCut && !cutDetect)
+            StopCutting();
     }
 
     private void HandleCut()
     {
         if (Input.GetMouseButtonDown(0))
-        {
             StartCutting();
-        }
         else if (Input.GetMouseButtonUp(0) && isCutting)
-        {
             StopCutting();
-        }
 
         if (isCutting)
-        {
             UpdateCut();
-        }
     }
 
     private void UpdateCut()
     {
-        if (!canCut) return;
+        if (!cutDetect) return;
 
         Vector2 newPosition =Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _rigidbody.position = newPosition;
@@ -90,7 +95,9 @@ public class Blade : MonoBehaviour
     {
         _circleCollider.enabled = true;
         isCutting = true;
+
         currentBladeTrail = Instantiate(bladeTrailPrefab, transform);
+
         previousPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
@@ -98,6 +105,9 @@ public class Blade : MonoBehaviour
     {
         _circleCollider.enabled = false;
         isCutting = false;
+
+        if (currentBladeTrail == null) return;
+         
         currentBladeTrail.transform.SetParent(null);
 
         Destroy(currentBladeTrail, delayBeforeDestroyingBladeTrail);

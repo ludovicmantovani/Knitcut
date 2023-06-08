@@ -7,29 +7,30 @@ public class AnimalAI : MonoBehaviour
     [Header("References")]
     [SerializeField] private AnimalType animalType;
     [SerializeField] private GameObject area;
-    [SerializeField] private Transform body;
+    [SerializeField] private Item favoriteFruit;
 
     [Header("Datas")]
     [SerializeField] private float speed = 3.5f;
     [SerializeField] private float stoppingDistance = 0f;
-    [SerializeField] private float timeToWaitBeforeMoving = 3f;
-    [SerializeField] private float distanceMinToChange = 4.2f;
+    [SerializeField] private float refreshRate = 0.1f;
+    [SerializeField] private float distanceMinToChange = 2f;
+    [SerializeField] private float timeBeforeMoving = 3f;
+    [SerializeField] private Vector2 timeAnimalLife = new Vector2(15, 30);
+    [SerializeField] private bool isMoving = false;
     [SerializeField] private Vector3 destination;
 
-    private bool animalCanMove = true;
+    private GameObject currentFruitPlaced;
     private float distance;
+
     private NavMeshAgent agent;
+    private Animator animator;
+
+    #region Getters / Setters
 
     public AnimalType AnimalType
     {
         get { return animalType; }
         set { animalType = value; }
-    }
-
-    public Vector3 Destination
-    {
-        get { return destination; }
-        set { destination = value; }
     }
 
     public GameObject Area
@@ -38,57 +39,137 @@ public class AnimalAI : MonoBehaviour
         set { area = value; }
     }
 
-    void Start()
+    public GameObject CurrentFruitPlaced
+    {
+        get { return currentFruitPlaced; }
+        set { currentFruitPlaced = value; }
+    }
+
+    #endregion
+
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
 
         agent.speed = speed;
         agent.stoppingDistance = stoppingDistance;
+
+        StartCoroutine(AnimalLife());
     }
 
-    void Update()
+    private void Update()
     {
-        if (animalCanMove) Move();
-
-        Vector3 direction = transform.position - destination;
-        distance = direction.magnitude;
+        HandleMovement();
     }
 
-    private void Move()
+    private void HandleMovement()
     {
-        animalCanMove = false;
+        animator.SetBool("Walking", isMoving);
 
-        if (CaptureManager.instance.FruitPlaced == null)
-            SearchDestination();
+        if (CaptureManager.instance.FruitPlaced != null)
+            currentFruitPlaced = CaptureManager.instance.FruitPlaced;
+
+        ActualizeDirection();
+
+        if (agent == null || isMoving) return;
+
+        HandleDestination();
+
+        StartCoroutine(GoToDestination());
+    }
+
+    #region Direction & Distance
+
+    private void HandleDestination()
+    {
+        if (currentFruitPlaced == null)
+            destination = SearchDestination();
         else
-            destination = CaptureManager.instance.FruitPlaced.transform.position;
-
-        if (distance > distanceMinToChange)
         {
-            //body.LookAt(destination);
-            agent.SetDestination(destination);
-        }
+            Item itemFruitPlaced = currentFruitPlaced.GetComponent<KeepItem>().Item;
 
-        StartCoroutine(Moving());
+            if (itemFruitPlaced == favoriteFruit)
+                destination = currentFruitPlaced.transform.position;
+            else
+                destination = SearchDestination();
+        }
     }
 
-    private void SearchDestination()
+    private Vector3 SearchDestination()
     {
+        if (area == null) return Vector3.zero;
+
         float xLimit = area.GetComponent<Renderer>().bounds.size.x;
         float zLimit = area.GetComponent<Renderer>().bounds.size.z;
 
         float randomX = Random.Range(-xLimit / 2, xLimit / 2);
         float randomZ = Random.Range(-zLimit / 2, zLimit / 2);
 
-        destination = area.transform.position + new Vector3(randomX, transform.position.y, randomZ);
+        Vector3 randomPosition = area.transform.position + new Vector3(randomX, 0f, randomZ);
+
+        return randomPosition;
     }
 
-    private IEnumerator Moving()
+    private void ActualizeDirection()
     {
-        yield return new WaitForSeconds(timeToWaitBeforeMoving);
+        Vector3 direction = transform.position - destination;
+        distance = direction.magnitude;
+    }
 
-        //if (CaptureManager.instance.FruitPlaced == null) SearchDestination();
+    #endregion
 
-        animalCanMove = true;
+    private IEnumerator GoToDestination()
+    {
+        isMoving = true;
+
+        Vector3 currentFruitPosition = Vector3.zero;
+
+        if (currentFruitPlaced != null)
+            currentFruitPosition = currentFruitPlaced.transform.position;
+
+        bool canContinue = true;
+
+        while (distance > distanceMinToChange && canContinue)
+        {
+            if (!canContinue) yield break;
+
+            Item itemPlaced = null;
+            if (currentFruitPlaced != null) itemPlaced = currentFruitPlaced.GetComponent<KeepItem>().Item;
+
+            if ((destination != currentFruitPosition && itemPlaced == favoriteFruit)
+                || (destination == currentFruitPosition && (itemPlaced == null || itemPlaced != favoriteFruit)))
+                canContinue = false;
+
+            agent.SetDestination(destination);
+
+            yield return new WaitForSeconds(refreshRate);
+        }
+
+        yield return new WaitForSeconds(TimeToWaitAtEnd());
+
+        isMoving = false;
+    }
+
+    private float TimeToWaitAtEnd()
+    {
+        float timeToWait = timeBeforeMoving;
+
+        int random = Random.Range(0, 3);
+
+        if (random == 2) timeToWait = 0f;
+
+        return timeToWait;
+    }
+
+    private IEnumerator AnimalLife()
+    {
+        float randomTime = Random.Range(timeAnimalLife.x, timeAnimalLife.y);
+
+        yield return new WaitForSeconds(randomTime);
+
+        StopAllCoroutines();
+
+        Destroy(gameObject);
     }
 }

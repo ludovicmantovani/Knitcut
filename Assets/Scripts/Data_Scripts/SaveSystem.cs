@@ -17,7 +17,8 @@ public static class SaveSystem
         Save_AnimalPen,
         Save_UIMenu,
         Save_Volume,
-        Save_SceneVerification
+        Save_SceneVerification,
+        Save_Culture
     }
 
     public static SaveType saveType;
@@ -45,8 +46,8 @@ public static class SaveSystem
                 formatter.Serialize(stream, data_PlayerInput);
                 break;
             case SaveType.Save_PlayerInventory:
-                List_Slots LS_PlayerInventory = (List_Slots)data;
-                PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(LS_PlayerInventory, playerInventoryMaxSlots);
+                ListSlots listSlots_PlayerInventory = (ListSlots)data;
+                PlayerInventory_Data data_PlayerInventory_Data = new PlayerInventory_Data(listSlots_PlayerInventory, playerInventoryMaxSlots);
                 formatter.Serialize(stream, data_PlayerInventory_Data);
                 break;
             case SaveType.Save_PlayerRecipesInventory:
@@ -55,13 +56,20 @@ public static class SaveSystem
                 formatter.Serialize(stream, data_PlayerRecipesInventory_Data);
                 break;
             case SaveType.Save_ContainerInventory:
-                List_Slots LS_ContainerInventory = (List_Slots)data;
-                ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(LS_ContainerInventory, containerInventoryMaxSlots);
+                ListSlots listSlots_ContainerInventory = (ListSlots)data;
+                ContainerInventory_Data data_ContainerInventory_Data = new ContainerInventory_Data(listSlots_ContainerInventory, containerInventoryMaxSlots);
                 formatter.Serialize(stream, data_ContainerInventory_Data);
                 break;
             case SaveType.Save_AnimalPen:
-                AnimalPen_Data data_AnimalPen_Data = new AnimalPen_Data((AnimalPenManager)data);
+                AnimalPen_Data data_AnimalPen_Data;
+                if (data.GetType() == typeof(AnimalPen_Data))
+                    data_AnimalPen_Data = new AnimalPen_Data((AnimalPen_Data)data);
+                else
+                    data_AnimalPen_Data = new AnimalPen_Data((AnimalPenManager)data);
                 formatter.Serialize(stream, data_AnimalPen_Data);
+
+                /*AnimalPen_Data data_AnimalPen_Data = new AnimalPen_Data((AnimalPenManager)data);
+                formatter.Serialize(stream, data_AnimalPen_Data);*/
                 break;
             case SaveType.Save_UIMenu:
                 KeyBinding_Data data_KeyBinding_Data = new KeyBinding_Data((UI_Menu)data);
@@ -74,6 +82,10 @@ public static class SaveSystem
             case SaveType.Save_SceneVerification:
                 Player_Data data_SceneVerification = new Player_Data((SceneVerification)data);
                 formatter.Serialize(stream, data_SceneVerification);
+                break;
+            case SaveType.Save_Culture:
+                Culture_Data data_Culture = new Culture_Data((CultureManager)data);
+                formatter.Serialize(stream, data_Culture);
                 break;
             default:
                 break;
@@ -124,6 +136,9 @@ public static class SaveSystem
                 case SaveType.Save_SceneVerification:
                     dataLoaded = formatter.Deserialize(stream) as Player_Data;
                     break;
+                case SaveType.Save_Culture:
+                    dataLoaded = formatter.Deserialize(stream) as Culture_Data;
+                    break;
                 default:
                     break;
             }
@@ -145,14 +160,14 @@ public static class SaveSystem
                 case SaveType.Save_PlayerInput:
                     break;
                 case SaveType.Save_PlayerInventory:
-                    List_Slots LS_PlayerInventory = (List_Slots)data;
-                    LS_PlayerInventory.HandleVerificationAndApplication();
+                    ListSlots listSlots_PlayerInventory = (ListSlots)data;
+                    listSlots_PlayerInventory.HandleVerificationAndApplication();
                     break;
                 case SaveType.Save_PlayerRecipesInventory:
                     break;
                 case SaveType.Save_ContainerInventory:
-                    List_Slots LS_ContainerInventory = (List_Slots)data;
-                    LS_ContainerInventory.HandleVerificationAndApplication();
+                    ListSlots listSlots_ContainerInventory = (ListSlots)data;
+                    listSlots_ContainerInventory.HandleVerificationAndApplication();
                     break;
                 case SaveType.Save_AnimalPen:
                     break;
@@ -161,6 +176,8 @@ public static class SaveSystem
                 case SaveType.Save_Volume:
                     break;
                 case SaveType.Save_SceneVerification:
+                    break;
+                case SaveType.Save_Culture:
                     break;
                 default:
                     break;
@@ -195,7 +212,7 @@ public static class SaveSystem
                     File.Delete(file);
                 }
             }
-            
+
             Debug.Log($"All files successfully deleted");
         }
         catch (IOException e)

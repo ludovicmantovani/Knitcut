@@ -14,10 +14,25 @@ public class ChangeScene : MonoBehaviour
 
     private PlayerInput playerInput;
     private PlayerController playerController;
-    private List_Slots LS;
+    private AnimalPenManager animalPenManager;
+    private ListSlots listSlots;
 
     private bool canChangeScene = false;
     private bool showInstruction = false;
+
+    #region Getters / Setters
+
+    public GameObject InteractionPanel
+    {
+        get { return interactionPanel; }
+        set { interactionPanel = value; }
+    }
+
+    public bool CanChangeScene
+    {
+        get { return canChangeScene; }
+        set { canChangeScene = value; }
+    }
 
     public bool ShowInstruction
     {
@@ -25,11 +40,14 @@ public class ChangeScene : MonoBehaviour
         set { showInstruction = value; }
     }
 
+    #endregion
+
     void Awake()
     {
         playerInput = FindObjectOfType<PlayerInput>();
         playerController = FindObjectOfType<PlayerController>();
-        LS = FindObjectOfType<List_Slots>();
+        animalPenManager = FindObjectOfType<AnimalPenManager>();
+        listSlots = FindObjectOfType<ListSlots>();
 
         interactionPanel.SetActive(false);
     }
@@ -37,7 +55,7 @@ public class ChangeScene : MonoBehaviour
     void Update()
     {
         ShowInteraction();
-        HandleChangeScene();        
+        HandleChangeScene();
     }
 
     private void HandleChangeScene()
@@ -53,23 +71,27 @@ public class ChangeScene : MonoBehaviour
 
             playerController.SavePlayerPositionInScene();
 
-            LS.SaveData();
+            listSlots.SaveData();
 
-            CheckPlayerInventory();
+            if (sceneToLoad.Contains("Cooking")) CheckPlayerObjects();
 
             MinigameManager.SwitchScene(sceneToLoad);
         }
     }
 
-    private void CheckPlayerInventory()
+    private void CheckPlayerObjects()
     {
-        for (int i = 0; i < LS.PlayerSlots.Length; i++)
+        MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
+
+        MinigameManager.ClearPlayerItems(false, true);
+
+        for (int i = 0; i < listSlots.PlayerSlots.Length; i++)
         {
-            if (LS.ItemsInSlots[i] != -1)
+            if (listSlots.ItemsInSlots[i] != -1)
             {
-                Item item = LS.PlayerSlots[i].GetComponentInChildren<DraggableItem>().Item;
+                Item item = listSlots.PlayerSlots[i].GetComponentInChildren<ItemHandler>().Item;
                 
-                MinigameManager.AddPlayerItem(item, LS.QuantityStackedPlayerInventory[i]);
+                MinigameManager.AddPlayerItem(item, listSlots.QuantityStackedPlayerInventory[i]);
             }
         }
     }
@@ -96,9 +118,20 @@ public class ChangeScene : MonoBehaviour
             {
                 if (sceneToLoad.Contains("Cooking"))
                 {
-                    instruction += " pour accéder à la cuisine";
-
-                    MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
+                    if (playerController.PlayerInventory.InventoryIsFull())
+                    {
+                        canChangeScene = false;
+                        instruction = "L'inventaire est plein";
+                    }
+                    else if (playerController.PlayerRecipesInventory.GetRecipes().Count == 0)
+                    {
+                        canChangeScene = false;
+                        instruction = "Vous ne possédez aucune recette";
+                    }
+                    else
+                    {
+                        instruction += " pour accéder à la cuisine";
+                    }
                 }
                 else if (sceneToLoad.Contains("Recognition"))
                 {
@@ -106,12 +139,10 @@ public class ChangeScene : MonoBehaviour
                 }
                 else if (sceneToLoad.Contains("Flower"))
                 {
-                    AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
-
                     if (GetAnimalsAdultsCount() < 2)
                     {
                         canChangeScene = false;
-                        instruction = "Il n'y a aucun animal dans cet enclos";
+                        instruction = "Il faut au minimum 2 animaux dans l'enclos";
                     }
                     else
                     {
@@ -138,11 +169,13 @@ public class ChangeScene : MonoBehaviour
     {
         int count = 0;
 
-        for (int i = 0; i < transform.parent.childCount; i++)
+        Transform currentAnimalPen = transform.parent.parent;
+
+        for (int i = 0; i < currentAnimalPen.childCount; i++)
         {
-            if (transform.parent.GetChild(i).CompareTag("Animal"))
+            if (currentAnimalPen.GetChild(i).CompareTag("Animal"))
             {
-                AnimalStates animalStates = transform.parent.GetChild(i).GetComponent<AnimalStates>();
+                AnimalStates animalStates = currentAnimalPen.GetChild(i).GetComponent<AnimalStates>();
 
                 if (!animalStates.IsChild) count++;
             }
@@ -153,7 +186,9 @@ public class ChangeScene : MonoBehaviour
 
     private void GetAnimalType()
     {
-        string animalTypeInName = transform.parent.name.Substring(11);
+        Transform currentAnimalPen = transform.parent.parent;
+
+        string animalTypeInName = currentAnimalPen.name.Substring(11);
 
         List<AnimalType> animalTypeList = Enum.GetValues(typeof(AnimalType)).Cast<AnimalType>().ToList();
 
@@ -166,21 +201,5 @@ public class ChangeScene : MonoBehaviour
                 MinigameManager.AnimalTypeToKeep = animalType;
             }
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player")) canChangeScene = true;
-
-        interactionPanel.SetActive(true);
-        showInstruction = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player")) canChangeScene = false;
-
-        interactionPanel.SetActive(false);
-        showInstruction = false;
     }
 }

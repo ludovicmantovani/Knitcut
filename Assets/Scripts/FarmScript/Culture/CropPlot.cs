@@ -59,12 +59,6 @@ public class CropPlot : MonoBehaviour
     {
         if (seedSource == null) return;
 
-        /*SeedGrowth seed = seedSource.GetComponent<SeedGrowth>();
-
-        if (seed.GetProductState == SeedGrowth.ProductState.Sick && cultureManager.PlayerInput.HealAction.triggered) ResumePlantGrowth(seed);
-
-        if (seed.GetProductState == SeedGrowth.ProductState.Dehydrated && cultureManager.PlayerInput.HydrateAction.triggered) ResumePlantGrowth(seed);*/
-
         PlantGrowth plant = seedSource.GetComponent<PlantGrowth>();
 
         if (plant.GetProductState == PlantGrowth.ProductState.Sick && cultureManager.PlayerInput.HealAction.triggered) ResumePlantGrowth(plant);
@@ -72,11 +66,10 @@ public class CropPlot : MonoBehaviour
         if (plant.GetProductState == PlantGrowth.ProductState.Dehydrated && cultureManager.PlayerInput.HydrateAction.triggered) ResumePlantGrowth(plant);
     }
 
-    private void ResumePlantGrowth(/*SeedGrowth seed*/PlantGrowth plant)
+    private void ResumePlantGrowth(PlantGrowth plant)
     {
         cultureManager.InteractionUI.GetComponentInChildren<Text>().text = $"Une graine est actuellement en production sur cette parcelle";
 
-        //seed.GetProductState = SeedGrowth.ProductState.InGrowth;
         plant.GetProductState = PlantGrowth.ProductState.InGrowth;
 
         manageSource = false;

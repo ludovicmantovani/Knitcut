@@ -7,19 +7,20 @@ public class CaptureDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && zoneDetection)
-            GetComponentInParent<CaptureManager>().ZoneDetected = true;
-
-        if (other.CompareTag("Animal") && animalDetection)
-            GetComponentInParent<CaptureManager>().AnimalDetected = true;
+        HandleCaptureDetection(other, true);
     }
 
     private void OnTriggerExit(Collider other)
     {
+        HandleCaptureDetection(other, false);
+    }
+
+    private void HandleCaptureDetection(Collider other, bool state)
+    {
         if (other.CompareTag("Player") && zoneDetection)
-            GetComponentInParent<CaptureManager>().ZoneDetected = false;
+            GetComponentInParent<CaptureManager>().ZoneDetected = state;
 
         if (other.CompareTag("Animal") && animalDetection)
-            GetComponentInParent<CaptureManager>().AnimalDetected = false;
+            GetComponentInParent<CaptureManager>().AnimalDetected = state;
     }
 }

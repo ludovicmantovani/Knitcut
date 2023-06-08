@@ -1,19 +1,27 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System;
 
 public class Feeder : MonoBehaviour
 {
-    public PlayerInput playerInput;
+    private PlayerInput playerInput;
+    private PlayerController playerController;
+
     [Header("Feeder Inventory")]
     [SerializeField] private bool canUseFeeder;
     [SerializeField] private bool feederInUse;
+    [SerializeField] private GameObject itemUI;
     [SerializeField] private GameObject feederInventory;
     [SerializeField] private GameObject feederInventoryContent;
     [SerializeField] private GameObject interactionPanel;
     [SerializeField] private GameObject feederModel;
+    [SerializeField] private Item[] items = new Item[3];
+    [SerializeField] private int[] itemsQuantities = new int[3];
 
     private string interaction;
+
+    #region Getters / Setters
 
     public bool CanUseFeeder
     {
@@ -21,11 +29,35 @@ public class Feeder : MonoBehaviour
         set { canUseFeeder = value; }
     }
 
+    public GameObject InteractionPanel
+    {
+        get { return interactionPanel; }
+        set { interactionPanel = value; }
+    }
+
+    public Item[] Items
+    {
+        get { return items; }
+        set { items = value; }
+    }
+
+    public int[] ItemsQuantities
+    {
+        get { return itemsQuantities; }
+        set { itemsQuantities = value; }
+    }
+
+    #endregion
+
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
+        playerController = FindObjectOfType<PlayerController>();
+
         canUseFeeder = false;
         feederInUse = false;
+
+        feederInventory.SetActive(false);
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
     }
@@ -33,11 +65,11 @@ public class Feeder : MonoBehaviour
     private void Update()
     {
         // GameObject Visual
-        HandleVisual();
+        //HandleVisual();
 
-        // Inventory
-        HandleFeederUse();
         HandleFeederInventory();
+
+        if (feederInUse) GetAllItemsInFeederSlots();
     }
 
     private void HandleVisual()
@@ -67,28 +99,18 @@ public class Feeder : MonoBehaviour
 
     #region Inventory UI
 
-    private void HandleFeederUse()
+    public void UpdateInteraction(bool state)
     {
+        canUseFeeder = state;
+
         if (canUseFeeder)
-        {
-            interactionPanel.SetActive(true);
-        }
-        else
-        {
-            interactionPanel.SetActive(false);
-        }
+            interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la mangeoire";
+
+        interactionPanel.SetActive(state);
     }
 
     private void HandleFeederInventory()
     {
-        feederInventory.SetActive(feederInUse);
-
-        if (!canUseFeeder)
-        {
-            CloseFeederInventory();
-            return;
-        }
-
         if (playerInput.InteractionAction.triggered && canUseFeeder)
         {
             if (!feederInUse)
@@ -100,46 +122,108 @@ public class Feeder : MonoBehaviour
                 CloseFeederInventory();
             }
         }
+
+        if (feederInUse && playerInput.CancelAction.triggered)
+            CloseFeederInventory();
     }
 
     private void OpenFeederInventory()
     {
         feederInUse = true;
 
+        feederInventory.SetActive(true);
+
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la mangeoire";
 
         MinigameManager.AddOpenInventory(feederInventory);
+
+        ShowItemsInFeeder();
+
+        playerController.PlayerInventory.OpenInventory();
     }
 
     private void CloseFeederInventory()
     {
         feederInUse = false;
 
+        feederInventory.SetActive(false);
+
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la mangeoire";
 
         MinigameManager.RemoveOpenInventory(feederInventory);
+
+        Clear();
+
+        playerController.PlayerInventory.CloseInventory();
     }
 
-    #endregion
-
-    #region Inventory Content
-
-    private Item GetItem()
+    private void ShowItemsInFeeder()
     {
-        for (int i = 0; i < feederInventory.transform.childCount; i++)
+        for (int i = 0; i < items.Length; i++)
         {
-            Transform slot = feederInventory.transform.GetChild(i);
+            if (items[i] != null)
+            {
+                Transform slot = feederInventoryContent.transform.GetChild(i);
 
-            // If item present in slot
+                ItemHandler itemSlotUI = Instantiate(itemUI, slot).GetComponent<ItemHandler>();
+
+                itemSlotUI.Item = items[i];
+                itemSlotUI.QuantityStacked = itemsQuantities[i];
+            }
+        }
+    }
+
+    private void GetAllItemsInFeederSlots()
+    {
+        for (int i = 0; i < feederInventoryContent.transform.childCount; i++)
+        {
+            Transform slot = feederInventoryContent.transform.GetChild(i);
+
             if (slot.childCount > 0)
             {
-                DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+                ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
-                // If item is consumable
-                if (draggableItem.Item.itemType == ItemType.Consumable && draggableItem.QuantityStacked > 0)
-                {
-                    return draggableItem.Item;
-                }
+                if (itemHandler.Item.itemType != ItemType.Consumable) return;
+
+                items[i] = itemHandler.Item;
+                itemsQuantities[i] = itemHandler.QuantityStacked;
+            }
+            else if (slot.childCount == 0 && items[i] != null)
+            {
+                items[i] = null;
+                itemsQuantities[i] = 0;
+            }
+        }
+    }
+
+    public void TransferItems(Feeder oldFeeder)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i] = oldFeeder.Items[i];
+            itemsQuantities[i] = oldFeeder.ItemsQuantities[i];
+        }
+    }
+
+    private void Clear()
+    {
+        for (int i = 0; i < feederInventoryContent.transform.childCount; i++)
+        {
+            Transform slot = feederInventoryContent.transform.GetChild(i);
+
+            if (slot.childCount > 0)
+            {
+                Destroy(slot.GetChild(0).gameObject);
+            }
+        }
+    }
+    private Item GetItem()
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null && items[i].itemType == ItemType.Consumable && itemsQuantities[i] > 0)
+            {
+                return items[i];
             }
         }
 
@@ -155,15 +239,15 @@ public class Feeder : MonoBehaviour
             // If item present in slot
             if (slot.childCount > 0)
             {
-                DraggableItem draggableItem = slot.GetChild(0).GetComponent<DraggableItem>();
+                ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
 
-                if (draggableItem.Item == item)
+                if (itemHandler.Item == item)
                 {
-                    draggableItem.QuantityStacked -= 1;
+                    itemHandler.QuantityStacked -= 1;
 
-                    if (draggableItem.QuantityStacked <= 0)
+                    if (itemHandler.QuantityStacked <= 0)
                     {
-                        Destroy(draggableItem.gameObject);
+                        Destroy(itemHandler.gameObject);
                     }
                 }
             }

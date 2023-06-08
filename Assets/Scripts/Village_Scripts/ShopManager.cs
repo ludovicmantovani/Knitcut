@@ -62,13 +62,13 @@ public class ShopManager : MonoBehaviour
 
     private PlayerController playerController;
     private PlayerInput playerInput;
-    private List_Slots listSlots;
+    private ListSlots listSlots;
 
     [Serializable]
     public class ItemToHandle
     {
         public Item item;
-        public int price;
+        public float price;
     }
 
     [Serializable]
@@ -90,11 +90,11 @@ public class ShopManager : MonoBehaviour
 
     #endregion
 
-    void Start()
+    private void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
         playerInput = FindObjectOfType<PlayerInput>();
-        listSlots = FindObjectOfType<List_Slots>();
+        listSlots = FindObjectOfType<ListSlots>();
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
 
@@ -104,13 +104,8 @@ public class ShopManager : MonoBehaviour
         interactionUI.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            listSlots.UpdateMoney(1000);
-        }
-
         HandleShopUI();
     }
 
@@ -134,6 +129,9 @@ public class ShopManager : MonoBehaviour
                 CloseShopUI();
             }
         }
+
+        if (shopInUse && playerInput.CancelAction.triggered)
+            CloseShopUI();
     }
 
     private void OpenShopUI()
@@ -187,13 +185,20 @@ public class ShopManager : MonoBehaviour
 
         int amount = int.Parse(currentItemUI.AmountUI.text);
 
-        if (amount == 0) return;
+        if (amount <= 0) return;
 
-        int totalPrice = amount * itemToBuy.price;
+        if (playerController.PlayerInventory.InventoryIsFull())
+        {
+            ShowNotification($"L'inventaire est plein");
+
+            return;
+        }
+
+        float totalPrice = amount * itemToBuy.price;
 
         if (playerController.Money >= totalPrice)
         {
-            listSlots.UpdateMoney(playerController.Money - totalPrice);
+            listSlots.UpdateMoney(playerController.Money - (int)totalPrice);
 
             if (amount <= itemToBuy.item.maxStackSize)
             {
@@ -229,18 +234,22 @@ public class ShopManager : MonoBehaviour
 
         int amount = int.Parse(currentItemUI.AmountUI.text);
 
-        if (amount == 0) return;
+        if (amount <= 0) return;
 
-        int quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item);
+        int quantityInInventory;
+        if (itemToSell.item.itemType == ItemType.Dish)
+            quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item, itemToSell.price);
+        else
+            quantityInInventory = playerController.PlayerInventory.GetItemQuantity(itemToSell.item);
 
         if (amount <= quantityInInventory)
         {
-            int totalPrice = amount * itemToSell.price;
+            float totalPrice = amount * itemToSell.price;
             int quantityLeft = quantityInInventory - amount;
 
-            listSlots.UpdateMoney(playerController.Money + totalPrice);
+            listSlots.UpdateMoney(playerController.Money + (int)totalPrice);
 
-            playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount);
+            playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount, itemToSell.price);
 
             currentItemUI.NameUI.text = $"{itemToSell.item.itemName} x{quantityLeft}";
 
@@ -286,19 +295,21 @@ public class ShopManager : MonoBehaviour
     {
         int currentLevel = animalPensLevel[index];
 
-        if (currentLevel < shopConfiguration.items.Count)
+        int maxLevel = shopConfiguration.items.Count;
+
+        if (currentLevel < maxLevel)
         {
             if (playerController.Money >= price)
             {
                 listSlots.UpdateMoney(playerController.Money - price);
-
-                MinigameManager.AnimalPenIndexToUpgrade.Add(index);
 
                 currentLevel++;
 
                 animalPensLevel[index] = currentLevel;
 
                 UpdateAnimalPenUI(shopConfiguration, infosUIRefs, currentLevel, type, index);
+
+                SaveAnimalPenLevels();
 
                 ShowNotification($"Vous avez acheté l'amélioration Lv{currentLevel} pour l'enclos n°{index} pour {price} P");
             }
@@ -311,6 +322,17 @@ public class ShopManager : MonoBehaviour
         {
             ShowNotification($"Vous avez achetez toutes les améliorations pour cet enclos");
         }
+    }
+
+    private void SaveAnimalPenLevels()
+    {
+        AnimalPen_Data data = (AnimalPen_Data)SaveSystem.Load(SaveSystem.SaveType.Save_AnimalPen);
+
+        if (data == null) return;
+
+        data.animalPenLevels = animalPensLevel;
+
+        SaveSystem.Save(SaveSystem.SaveType.Save_AnimalPen, data);
     }
 
     #endregion
@@ -407,16 +429,26 @@ public class ShopManager : MonoBehaviour
     private void HandleItemsDealer(ShopConfiguration currentShop)
     {
         if (currentShop.items == null) return;
-
-        if (currentShop.items.Count > 0) currentShop.items.Clear();
+        
+        currentShop.items.Clear();
 
         for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
         {
-            DraggableItem itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
+            ItemHandler itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
 
             if (currentShop.itemsRestriction.Contains(itemPossessed.Item.itemType))
             {
-                CreateItemToHandle(playerController.PlayerInventory.SearchItemsPossessed()[i].Item, (int)playerController.PlayerInventory.SearchItemsPossessed()[i].Item.itemValue, currentShop);
+                Item item = itemPossessed.Item;
+
+                int price;
+
+                if (item.itemType == ItemType.Dish)
+                    price = (int)itemPossessed.UniqueValue;
+                else
+                    price = (int)itemPossessed.Item.itemValue;
+
+                if (!CheckItemInUIList(itemPossessed, currentShop))
+                    CreateItemToHandle(item, price, currentShop);
             }
         }
 
@@ -430,6 +462,18 @@ public class ShopManager : MonoBehaviour
         {
             ShowObjectUI(currentShop, i);
         }
+    }
+
+    private bool CheckItemInUIList(ItemHandler itemHandler, ShopConfiguration currentShop)
+    {
+        for (int i = 0; i < currentShop.items.Count; i++)
+        {
+            ItemToHandle itemToHandle = currentShop.items[i];
+
+            if (itemToHandle.item == itemHandler.Item && itemToHandle.price == itemHandler.UniqueValue) return true;
+        }
+
+        return false;
     }
 
     private void HandleAnimalPenManager(ShopConfiguration currentShop)
@@ -456,24 +500,43 @@ public class ShopManager : MonoBehaviour
     {
         InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
 
-        Sprite objectSprite;
-        string objectName;
-        float objectPrice;
+        if (infosUIRefs == null || shopConfiguration == null) return;
+
+        object objectToHandle = null;
+        Sprite objectSprite = null;
+        string objectName = null;
+        float objectPrice = -1;
+
+        if (!shopConfiguration.isRecipe && shopConfiguration.items.Count == 0) return;
+        if (shopConfiguration.isRecipe && shopConfiguration.recipes.Count == 0) return;
 
         if (!shopConfiguration.isRecipe)
         {
             ItemToHandle itemToHandle = shopConfiguration.items[index];
+            objectToHandle = itemToHandle;
 
             objectSprite = itemToHandle.item.itemSprite;
 
-            if (!shopConfiguration.isForSelling) objectName = itemToHandle.item.itemName;
-            else objectName = $"{itemToHandle.item.itemName} x{playerController.PlayerInventory.GetItemQuantity(itemToHandle.item)}";
+            objectName = itemToHandle.item.itemName;
 
-            objectPrice = itemToHandle.price;        
+            if (shopConfiguration.isForSelling)
+            {
+                int quantity;
+                
+                if (itemToHandle.item.itemType == ItemType.Dish)
+                    quantity = playerController.PlayerInventory.GetItemQuantity(itemToHandle.item, itemToHandle.price);
+                else
+                    quantity = playerController.PlayerInventory.GetItemQuantity(itemToHandle.item);
+
+                objectName += $" x{quantity}";
+            }
+
+            objectPrice = itemToHandle.price;
         }
         else
         {
-            RecipeToHandle recipeToHandle = shopConfiguration.recipes[index]; ;
+            RecipeToHandle recipeToHandle = shopConfiguration.recipes[index];
+            objectToHandle = recipeToHandle;
 
             objectSprite = recipeToHandle.item.recipeSprite;
             objectName = recipeToHandle.item.recipeName;
@@ -486,19 +549,30 @@ public class ShopManager : MonoBehaviour
 
         if (!shopConfiguration.isRecipe)
         {
-            infosUIRefs.AmountUI.text = $"0";
+            infosUIRefs.AmountUI.text = $"1";
+
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
 
             if (!shopConfiguration.isForSelling)
-                infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyItem(shopConfiguration.items[index], infosUIRefs); });
+            {
+                infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyItem((ItemToHandle)objectToHandle, infosUIRefs); });
+            }
             else
-                infosUIRefs.OperationUI.onClick.AddListener(delegate { SellItem(shopConfiguration.items[index], infosUIRefs, shopConfiguration); });
+            {
+                infosUIRefs.OperationUI.onClick.AddListener(delegate { SellItem((ItemToHandle)objectToHandle, infosUIRefs, shopConfiguration); });
+            }
+
+            infosUIRefs.AmountButtonUp.onClick.RemoveAllListeners();
+            infosUIRefs.AmountButtonDown.onClick.RemoveAllListeners();
 
             infosUIRefs.AmountButtonUp.onClick.AddListener(delegate { AddValue(infosUIRefs); });
             infosUIRefs.AmountButtonDown.onClick.AddListener(delegate { RemoveValue(infosUIRefs); });
         }
         else
         {
-            infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe(shopConfiguration.recipes[index]); });
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+
+            infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle); });
         }
     }
 
@@ -525,11 +599,22 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateAnimalPenUI(ShopConfiguration shopConfiguration, InfosUIRefs infosUIRefs, int level, string type, int index)
     {
-        int price = shopConfiguration.items[level - 1].price;
+        if (level == 3)
+        {
+            infosUIRefs.NameUI.text = $"Enclos Lv.{level} (max) pour {type}";
+            infosUIRefs.PriceUI.text = $"0 P";
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+            infosUIRefs.OperationUI.interactable = false;
+        }
+        else
+        {
+            int price = (int)shopConfiguration.items[level - 1].price;
 
-        infosUIRefs.NameUI.text = $"Enclos Lv.{level} pour {type}";
-        infosUIRefs.PriceUI.text = $"{price} P";
-        infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, type, index); });
+            infosUIRefs.NameUI.text = $"Enclos Lv.{level} -> Lv.{level + 1} pour {type}";
+            infosUIRefs.PriceUI.text = $"{price} P";
+            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+            infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, type, index); });
+        }
     }
 
     public void AddValue(InfosUIRefs itemRefs)
@@ -573,10 +658,10 @@ public class ShopManager : MonoBehaviour
 
         for (int i = 0; i < currentShop.items.Count; i++)
         {
-            if (currentShop.items[i].item == item)
-            {
-                alreadyAdded = true;
-            }
+            Item itemInShop = currentShop.items[i].item;
+
+            //if (itemInShop == item) alreadyAdded = true;
+            if (itemInShop == item && itemInShop.itemType != ItemType.Dish) alreadyAdded = true;
         }
 
         if (!alreadyAdded)

@@ -7,7 +7,6 @@ public class AnimalData : MonoBehaviour
     [Header("References")]
     [SerializeField] private AnimalType animalType;
     [SerializeField] private GameObject currentAnimalPen;
-    [SerializeField] private Transform body;
 
     [Header("Datas")]
     [SerializeField] private float speed = 3.5f;
@@ -17,9 +16,13 @@ public class AnimalData : MonoBehaviour
     [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private Vector3 destination;
 
-    private bool animalCanMove = true;
+    private bool isMoving = false;
     private float distance;
+
     private NavMeshAgent agent;
+    private Animator animator;
+
+    #region Getters / Setters
 
     public AnimalType AnimalType
     {
@@ -33,9 +36,12 @@ public class AnimalData : MonoBehaviour
         set { currentAnimalPen = value; }
     }
 
+    #endregion
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
 
         agent.speed = speed;
         agent.stoppingDistance = stoppingDistance;
@@ -43,44 +49,23 @@ public class AnimalData : MonoBehaviour
 
     private void Update()
     {
-        if (animalCanMove) Move();
+        HandleMovement();
+    }
+
+    private void HandleMovement()
+    {
+        animator.SetBool("Walking", isMoving);
 
         ActualizeDirection();
-    }
 
-    private void ActualizeDirection()
-    {
-        Vector3 direction = transform.position - destination;
-        distance = direction.magnitude;
-    }
-
-    private void Move()
-    {
-        animalCanMove = false;
+        if (agent == null || isMoving) return;
 
         SearchDestination();
 
         StartCoroutine(GoToDestination());
     }
 
-    private IEnumerator GoToDestination()
-    {
-        agent.SetDestination(destination);
-
-        while (distance > distanceMinToChange)
-        {
-            yield return new WaitForSeconds(refreshRate);
-        }
-
-        int random = Random.Range(0, 3);
-
-        if (random == 0 | random == 1)
-        {
-            yield return new WaitForSeconds(timeBeforeMoving);
-        }
-
-        animalCanMove = true;
-    }
+    #region Direction & Distance
 
     private void SearchDestination()
     {
@@ -99,5 +84,40 @@ public class AnimalData : MonoBehaviour
         Vector3 randomPosition = surface.position + new Vector3(randomX, 0f, randomZ);
 
         destination = randomPosition;
+    }
+
+    private void ActualizeDirection()
+    {
+        Vector3 direction = transform.position - destination;
+        distance = direction.magnitude;
+    }
+
+    #endregion
+
+    private IEnumerator GoToDestination()
+    {
+        isMoving = true;
+
+        while (distance > distanceMinToChange)
+        {
+            agent.SetDestination(destination);
+
+            yield return new WaitForSeconds(refreshRate);
+        }
+
+        yield return new WaitForSeconds(TimeToWaitAtEnd());
+
+        isMoving = false;
+    }
+
+    private float TimeToWaitAtEnd()
+    {
+        float timeToWait = timeBeforeMoving;
+
+        int random = Random.Range(0, 3);
+
+        if (random == 2) timeToWait = 0f;
+
+        return timeToWait;
     }
 }

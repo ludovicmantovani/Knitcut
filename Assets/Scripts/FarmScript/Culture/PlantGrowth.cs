@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlantGrowth : MonoBehaviour
@@ -10,6 +11,7 @@ public class PlantGrowth : MonoBehaviour
     [SerializeField] private ProductState productState;
     [SerializeField] private MeshRenderer plantRenderer;
     [SerializeField] private SkinnedMeshRenderer plantSkinRenderer;
+    [SerializeField] private bool loadGrowthState = false;
 
     private CropPlot cropPlot;
     private GameObject stateObject;
@@ -31,10 +33,6 @@ public class PlantGrowth : MonoBehaviour
     }
 
     [Header("Datas")]
-    [SerializeField] private float timeOfGrowthSeed = 10f;
-    [SerializeField] private float timeOfGrowthSprout = 10f;
-    [SerializeField] private float timeOfGrowthFlower = 10f;
-    [SerializeField] private float timeOfGrowthFruit = 2f;
     [SerializeField] private float currentTime = 0f;
     [SerializeField] private float yPositionFix = 0.2f;
 
@@ -75,20 +73,25 @@ public class PlantGrowth : MonoBehaviour
         set { plantRenderer = value; }
     }
 
+    public bool LoadGrowthState
+    {
+        get { return loadGrowthState; }
+        set { loadGrowthState = value; }
+    }
+
     #endregion
 
     #endregion
 
     private void Start()
     {
-        ActualizePlant(plant.seed);
-        /*stateObject = Instantiate(plant.seed, transform);
+        if (!loadGrowthState)
+        {
+            ActualizePlant(plant.seed);
 
-        plantRenderer = transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
-
-        productGrowth = ProductGrowth.Seed;
-        productState = ProductState.InGrowth;
+            productGrowth = ProductGrowth.Seed;
+            productState = ProductState.InGrowth;
+        }
     }
 
     private void Update()
@@ -167,7 +170,7 @@ public class PlantGrowth : MonoBehaviour
 
     private void SeedGrowth()
     {
-        currentTime = timeOfGrowthSeed;
+        currentTime = plant.timeOfGrowthSeed;
 
         productGrowth = ProductGrowth.Sprout;
     }
@@ -176,16 +179,9 @@ public class PlantGrowth : MonoBehaviour
     {
         if (currentTime > 0) return;
 
-        /*Destroy(stateObject);
-
-        stateObject = Instantiate(plant.sprout, transform);
-
-        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
-
         ActualizePlant(plant.sprout);
 
-        currentTime = timeOfGrowthSprout;
+        currentTime = plant.timeOfGrowthSprout;
 
         productGrowth = ProductGrowth.Flower;
     }
@@ -194,16 +190,9 @@ public class PlantGrowth : MonoBehaviour
     {
         if (currentTime > 0) return;
 
-        /*Destroy(stateObject);
-
-        stateObject = Instantiate(plant.plant, transform);
-
-        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
-
         ActualizePlant(plant.plant);
 
-        currentTime = timeOfGrowthFlower;
+        currentTime = plant.timeOfGrowthFlower;
 
         GetRandomState();
 
@@ -214,40 +203,19 @@ public class PlantGrowth : MonoBehaviour
     {
         if (currentTime > 0) return;
 
-        /*Destroy(stateObject);
-
-        stateObject = Instantiate(plant.readyPlant, transform);
-        //adultObject = Instantiate(adultPlant, transform);
-
-        plantRenderer = stateObject.transform.GetComponentInChildren<MeshRenderer>();
-        //plantRenderer = adultObject.transform.GetComponentInChildren<MeshRenderer>();
-        defaultMaterial = plantRenderer.material;*/
-
         ActualizePlant(plant.readyPlant);
 
         Vector3 productPosition = transform.position;
         productPosition.y += yPositionFix;
         transform.position = productPosition;
 
-        currentTime = timeOfGrowthFruit;
+        currentTime = plant.timeOfGrowthFruit;
 
         productGrowth = ProductGrowth.End;
     }
 
     private void End()
     {
-        /*GameObject fruit = null;
-
-        for (int i = 0; i < flowerFruitObject.transform.childCount; i++)
-        {
-            if (flowerFruitObject.transform.GetChild(i).name.Contains("fruit"))
-            {
-                fruit = flowerFruitObject.transform.GetChild(i).gameObject;
-            }
-        }
-
-        if (fruit == null) return;*/
-
         cropPlot.Product = plant.fruit;
     }
 
@@ -299,7 +267,7 @@ public class PlantGrowth : MonoBehaviour
 
     private void GetRandomState()
     {
-        int random = Random.Range(0, 3);
+        int random = UnityEngine.Random.Range(0, 3);
 
         if (random == 0)
         {
@@ -316,4 +284,21 @@ public class PlantGrowth : MonoBehaviour
     }
 
     #endregion
+
+    public void SetGrowthState(string growth, string state, Plant plant)
+    {
+        productGrowth = (ProductGrowth)Enum.Parse(typeof(ProductGrowth), growth);
+        productState = (ProductState)Enum.Parse(typeof(ProductState), state);
+
+        loadGrowthState = true;
+
+        object[] datas = plant.CurrentPlantGrowthState(productGrowth);
+
+        if (datas == null) return;
+
+        GameObject objectToPlant = (GameObject)datas[0];
+        currentTime = Convert.ToInt32(datas[1]);
+
+        ActualizePlant(objectToPlant);
+    }
 }

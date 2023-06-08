@@ -3,7 +3,6 @@ using UnityEngine;
 public class KeepItem : MonoBehaviour
 {
     [SerializeField] private Item item;
-    [SerializeField] private Plant plant;
     [SerializeField] private bool canPickUp;
 
     public Item Item
@@ -18,9 +17,12 @@ public class KeepItem : MonoBehaviour
         {
             PlayerController player = FindObjectOfType<PlayerController>();
 
-            player.PlayerInventory.AddItemToInventory(item);
+            if (!player.PlayerInventory.InventoryIsFull())
+            {
+                player.PlayerInventory.AddItemToInventory(item);
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }

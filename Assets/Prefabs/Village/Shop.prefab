@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 3.5, z: 3.5}
-  m_Center: {x: 0, y: 1.6, z: -4}
+  m_Size: {x: 5, y: 3.5, z: 5}
+  m_Center: {x: 0, y: 1.6, z: -4.5}
 --- !u!114 &2071924571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,12 +200,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec927c987f67ca44a4c21a44c1fcc91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToBuyUI: {fileID: 1510686324823150494, guid: e2be5c79d1171984cae90ed8739e3361, type: 3}
+  notificationPrefab: {fileID: 0}
+  notification: {fileID: 0}
+  timeNotification: 5
+  shopName: 
   interactionUI: {fileID: 0}
-  shopUI: {fileID: 0}
-  shop: []
+  shopsUI: {fileID: 0}
   canUseShop: 0
   shopInUse: 0
+  shopUI: {fileID: 0}
+  shopsConfiguration: []
 --- !u!1001 &2086264936196145307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219,7 +223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 241209643524153782, guid: 7a1ba8b88fccef447a40b30447204474, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.000000119209275
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 241209643524153782, guid: 7a1ba8b88fccef447a40b30447204474, type: 3}
       propertyPath: m_LocalPosition.y
