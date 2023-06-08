@@ -15,12 +15,14 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private float refreshRate = 0.1f;
     [SerializeField] private float distanceMinToChange = 2f;
     [SerializeField] private float timeBeforeMoving = 3f;
+    [SerializeField] private float timeBeforeEatingFruit = 5f;
     [SerializeField] private Vector2 timeAnimalLife = new Vector2(15, 30);
     [SerializeField] private bool isMoving = false;
     [SerializeField] private Vector3 destination;
 
     private GameObject currentFruitPlaced;
     private float distance;
+    private float timeRemaining = 0f;
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -62,6 +64,8 @@ public class AnimalAI : MonoBehaviour
     {
         HandleMovement();
     }
+
+    #region Movement
 
     private void HandleMovement()
     {
@@ -160,6 +164,34 @@ public class AnimalAI : MonoBehaviour
         if (random == 2) timeToWait = 0f;
 
         return timeToWait;
+    }
+
+    #endregion
+
+    private void HandleFruit()
+    {
+        if (currentFruitPlaced == null) return;
+
+        bool nearFruit;
+
+        if (destination == currentFruitPlaced.transform.position && distance <= distanceMinToChange)
+            nearFruit = true;
+        else
+            nearFruit = false;
+
+        if (nearFruit)
+        {
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log($"End timer");
+
+                nearFruit = false;
+            }
+        }
     }
 
     private IEnumerator AnimalLife()
