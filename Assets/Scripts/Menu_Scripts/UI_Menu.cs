@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -17,7 +14,7 @@ public class UI_Menu : MonoBehaviour
     public TMP_InputField moveBackward;
     public TMP_InputField moveRight;
     public TMP_InputField moveLeft;
-    public TMP_InputField interract;
+    public TMP_InputField interact;
     public TMP_InputField hydratePlante;
     public TMP_InputField healPlante;
     public TMP_InputField inventory;
@@ -97,7 +94,7 @@ public class UI_Menu : MonoBehaviour
         moveBackward.text = moveBackward.text.ToUpper();
         moveRight.text = moveRight.text.ToUpper();
         moveLeft.text = moveLeft.text.ToUpper();
-        interract.text = interract.text.ToUpper();
+        interact.text = interact.text.ToUpper();
         hydratePlante.text = hydratePlante.text.ToUpper();
         healPlante.text = healPlante.text.ToUpper();
         inventory.text = inventory.text.ToUpper();

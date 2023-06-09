@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 public static class SaveSystem
 {
@@ -198,18 +199,37 @@ public static class SaveSystem
         string[] files = Directory.GetFiles(path);
 
         if (files.Length == 0) return;
+        
+        List<string> filesToKeep = new List<string>
+        {
+            SaveType.Save_UIMenu.ToString()
+        };
 
         try
         {
             foreach (string file in files)
             {
-                // Remove only save files
+                // Remove only save files                
                 if (file.Contains("Save"))
                 {
-                    var fileOpenRead = File.OpenRead(file);
-                    fileOpenRead.Close();
+                    bool canDelete = true;
 
-                    File.Delete(file);
+                    for (int i = 0; i < filesToKeep.Count; i++)
+                    {
+                        if (file.Contains(filesToKeep[i]))
+                        {
+                            canDelete = false;
+                            return;
+                        }
+                    }
+
+                    if (canDelete)
+                    {
+                        var fileOpenRead = File.OpenRead(file);
+                        fileOpenRead.Close();
+
+                        File.Delete(file);
+                    }
                 }
             }
 
