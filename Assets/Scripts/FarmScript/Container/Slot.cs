@@ -5,8 +5,6 @@ public class Slot : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right) return;
-
         GameObject objectToDrop = eventData.pointerDrag;
 
         if (objectToDrop == null) return;

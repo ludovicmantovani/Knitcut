@@ -83,22 +83,45 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right) return;
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            inDrag = true;
 
-        inDrag = true;
+            transform.SetParent(transform.root);
+            transform.SetAsLastSibling();
 
-        transform.SetParent(transform.root);
-        transform.SetAsLastSibling();
+            image.raycastTarget = false;
 
-        image.raycastTarget = false;
+            overSlot = eventData.pointerEnter.transform;
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            int stackQuantity = quantityStacked - 1;
 
-        overSlot = eventData.pointerEnter.transform;
+            quantityStacked = 1;
+
+            if (stackQuantity > 0)
+            {
+                GameObject itemUI = Instantiate(gameObject, parentAfterDrag);
+
+                itemUI.GetComponent<ItemHandler>().Item = item;
+                itemUI.GetComponent<ItemHandler>().QuantityStacked = stackQuantity;
+                itemUI.GetComponent<Image>().raycastTarget = true;
+            }
+
+            inDrag = true;
+
+            transform.SetParent(transform.root);
+            transform.SetAsLastSibling();
+
+            image.raycastTarget = false;
+
+            overSlot = eventData.pointerEnter.transform;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right) return;
-        
         transform.position = Input.mousePosition;
 
         if (eventData.pointerEnter != null) overSlot = eventData.pointerEnter.transform;
@@ -107,8 +130,6 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right) return;
-
         if (parentAfterDrag.childCount == 0) transform.SetParent(parentAfterDrag);
         else
         {
