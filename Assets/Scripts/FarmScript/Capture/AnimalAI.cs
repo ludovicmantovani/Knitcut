@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class AnimalAI : MonoBehaviour
 {
@@ -9,6 +9,10 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private AnimalType animalType;
     [SerializeField] private GameObject area;
     [SerializeField] private Item favoriteFruit;
+    [SerializeField] private GameObject animalCanvas;
+    [SerializeField] private Image animalFruitImage;
+    [SerializeField] private Text animalNameText;
+    [SerializeField] private string animalName;
 
     [Header("Datas")]
     [SerializeField] private float speed = 3.5f;
@@ -61,12 +65,16 @@ public class AnimalAI : MonoBehaviour
         agent.stoppingDistance = stoppingDistance;
 
         StartCoroutine(AnimalLife());
+
+        animalNameText.text = animalName;
+        animalFruitImage.sprite = favoriteFruit.itemSprite;
     }
 
     private void Update()
     {
+        animalCanvas.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+
         HandleMovement();
-        //HandleFruit();
     }
 
     #region Movement
@@ -180,8 +188,6 @@ public class AnimalAI : MonoBehaviour
 
         if (destination == currentFruitPlaced.transform.position && distance <= distanceMinToChange && !timerStarted)
         {
-            Debug.Log($"({currentFruitPlaced}) destination ? {destination == currentFruitPlaced.transform.position} / {distance} <= {distanceMinToChange} ? {distance <= distanceMinToChange} / time started {!timerStarted}");
-
             nearFruit = true;
             timeRemaining = timeBeforeEatingFruit;
         }
@@ -192,17 +198,12 @@ public class AnimalAI : MonoBehaviour
             {
                 timerStarted = true;
 
-                Debug.Log($"Timer... {timeRemaining}");
-
                 timeRemaining -= Time.deltaTime;
             }
             else
             {
-                Debug.Log($"End timer");
-
                 if (currentFruitPlaced != null)
                 {
-                    Debug.Log($"Eat fruit and run");
                     CaptureManager.instance.RemoveItem();
                     currentFruitPlaced = null;
                 }
