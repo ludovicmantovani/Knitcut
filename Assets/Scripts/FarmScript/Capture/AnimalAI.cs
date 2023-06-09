@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class AnimalAI : MonoBehaviour
 {
@@ -18,11 +19,13 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private float timeBeforeEatingFruit = 5f;
     [SerializeField] private Vector2 timeAnimalLife = new Vector2(15, 30);
     [SerializeField] private bool isMoving = false;
+    [SerializeField] private bool nearFruit = false;
     [SerializeField] private Vector3 destination;
 
     private GameObject currentFruitPlaced;
     private float distance;
     private float timeRemaining = 0f;
+    private bool timerStarted = false;
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -63,6 +66,7 @@ public class AnimalAI : MonoBehaviour
     private void Update()
     {
         HandleMovement();
+        //HandleFruit();
     }
 
     #region Movement
@@ -75,6 +79,8 @@ public class AnimalAI : MonoBehaviour
             currentFruitPlaced = CaptureManager.instance.FruitPlaced;
 
         ActualizeDirection();
+
+        HandleFruit();
 
         if (agent == null || isMoving) return;
 
@@ -172,24 +178,38 @@ public class AnimalAI : MonoBehaviour
     {
         if (currentFruitPlaced == null) return;
 
-        bool nearFruit;
+        if (destination == currentFruitPlaced.transform.position && distance <= distanceMinToChange && !timerStarted)
+        {
+            Debug.Log($"({currentFruitPlaced}) destination ? {destination == currentFruitPlaced.transform.position} / {distance} <= {distanceMinToChange} ? {distance <= distanceMinToChange} / time started {!timerStarted}");
 
-        if (destination == currentFruitPlaced.transform.position && distance <= distanceMinToChange)
             nearFruit = true;
-        else
-            nearFruit = false;
+            timeRemaining = timeBeforeEatingFruit;
+        }
 
         if (nearFruit)
         {
             if (timeRemaining > 0)
             {
+                timerStarted = true;
+
+                Debug.Log($"Timer... {timeRemaining}");
+
                 timeRemaining -= Time.deltaTime;
             }
             else
             {
                 Debug.Log($"End timer");
 
+                if (currentFruitPlaced != null)
+                {
+                    Debug.Log($"Eat fruit and run");
+                    CaptureManager.instance.RemoveItem();
+                    currentFruitPlaced = null;
+                }
+
                 nearFruit = false;
+
+                timerStarted = false;
             }
         }
     }
