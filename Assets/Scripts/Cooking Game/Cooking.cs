@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class Cooking : MonoBehaviour
 {
     [Header("UI Panels")]
     [SerializeField] private Canvas resultUI;
     [SerializeField] private Canvas gameUI;
+    [SerializeField] private Canvas tutorialUI;
 
     [Header("References")]
     [SerializeField] private GameObject recipeUI;
@@ -32,17 +34,50 @@ public class Cooking : MonoBehaviour
 
     private List<MinigameManager.PlayerItem> consumablesInInventory = new List<MinigameManager.PlayerItem>();
 
+    private VideoPlayer videoPlayer;
+
     private void Start()
     {
         consumable3DSpawner = FindObjectOfType<Consumable3DSpawner>();
         blade = FindObjectOfType<Blade>();
+
+        tutorialUI.gameObject.SetActive(false);
 
         HandleGameStart();
 
         AddRecipesAtStart();
 
         HandlePlayerConsumables();
+
+        PlayTutorial();
     }
+
+    #region Tutorial
+
+    public void PlayTutorial()
+    {
+        tutorialUI.gameObject.SetActive(true);
+
+        videoPlayer = tutorialUI.GetComponent<VideoPlayer>();
+
+        videoPlayer.loopPointReached += StopTutorial;
+
+        videoPlayer.Play();
+    }
+
+    public void SkipTutorial()
+    {
+        StopTutorial(videoPlayer);
+    }
+
+    public void StopTutorial(VideoPlayer videoPlayer)
+    {
+        videoPlayer.Stop();
+
+        tutorialUI.gameObject.SetActive(false);
+    }
+
+    #endregion
 
     private void HandleGameStart()
     {
