@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnimalPenManager : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class AnimalPenManager : MonoBehaviour
         public GameObject currentAnimalPenState;
         public GameObject currentFeeder;
         public GameObject currentBell;
+        public GameObject currentPanel;
+        public Material animalPanelMat;
         public List<AnimalPenStates> animalPenStates;
         public AnimalType animalType;
         public int animalPenLevel = 1;
@@ -333,6 +336,12 @@ public class AnimalPenManager : MonoBehaviour
             animalPen.currentFeeder.GetComponent<Feeder>().TransferItems(oldFeeder);
 
             animalPen.currentBell = currentState.animalPenObject.GetComponent<AnimalPenRef>().Bell;
+
+            animalPen.currentPanel = currentState.animalPenObject.GetComponent<AnimalPenRef>().Panel;
+
+            animalPen.currentPanel.GetComponentInChildren<Renderer>().sharedMaterial = animalPen.animalPanelMat;
+
+            animalPen.currentPanel.GetComponentInChildren<Text>().text = $"Niveau {animalPen.animalPenLevel}";
 
             currentState.animalPenObject.SetActive(true);
 

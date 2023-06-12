@@ -40383,6 +40383,8 @@ MonoBehaviour:
     currentAnimalPenState: {fileID: 0}
     currentFeeder: {fileID: 0}
     currentBell: {fileID: 0}
+    currentPanel: {fileID: 0}
+    animalPanelMat: {fileID: 2100000, guid: 9f07a81914779274a85a36ce5cbde4f0, type: 2}
     animalPenStates:
     - animalPenObject: {fileID: 6942255582023607604}
       levelRequired: 1
@@ -40402,6 +40404,8 @@ MonoBehaviour:
     currentAnimalPenState: {fileID: 0}
     currentFeeder: {fileID: 0}
     currentBell: {fileID: 0}
+    currentPanel: {fileID: 0}
+    animalPanelMat: {fileID: 2100000, guid: 8fa0d0b3e73a33544ae7143cff989305, type: 2}
     animalPenStates:
     - animalPenObject: {fileID: 618142188}
       levelRequired: 1
@@ -40421,6 +40425,8 @@ MonoBehaviour:
     currentAnimalPenState: {fileID: 0}
     currentFeeder: {fileID: 0}
     currentBell: {fileID: 0}
+    currentPanel: {fileID: 0}
+    animalPanelMat: {fileID: 2100000, guid: 60f9532f34ac949409db43c050c5ea07, type: 2}
     animalPenStates:
     - animalPenObject: {fileID: 1073233205}
       levelRequired: 1
@@ -40440,6 +40446,8 @@ MonoBehaviour:
     currentAnimalPenState: {fileID: 0}
     currentFeeder: {fileID: 0}
     currentBell: {fileID: 0}
+    currentPanel: {fileID: 0}
+    animalPanelMat: {fileID: 2100000, guid: 56321c4656f02664b94f33f202da366a, type: 2}
     animalPenStates:
     - animalPenObject: {fileID: 2092376676}
       levelRequired: 1
@@ -40459,6 +40467,8 @@ MonoBehaviour:
     currentAnimalPenState: {fileID: 0}
     currentFeeder: {fileID: 0}
     currentBell: {fileID: 0}
+    currentPanel: {fileID: 0}
+    animalPanelMat: {fileID: 2100000, guid: 4c9e1331dcd9f0d44a7b76a33ea7ace7, type: 2}
     animalPenStates:
     - animalPenObject: {fileID: 1329994323}
       levelRequired: 1
@@ -40478,6 +40488,8 @@ MonoBehaviour:
     currentAnimalPenState: {fileID: 0}
     currentFeeder: {fileID: 0}
     currentBell: {fileID: 0}
+    currentPanel: {fileID: 0}
+    animalPanelMat: {fileID: 2100000, guid: a75bb2a8ba0c43a419eca25730fd8809, type: 2}
     animalPenStates:
     - animalPenObject: {fileID: 346707714}
       levelRequired: 1
@@ -46151,27 +46163,27 @@ PrefabInstance:
       objectReference: {fileID: 1260978016}
     - target: {fileID: 4934237556231945923, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.1795917
+      value: -0.17959167
       objectReference: {fileID: 0}
     - target: {fileID: 4934237556231945923, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.017304447
-      objectReference: {fileID: 0}
-    - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.17987604
-      objectReference: {fileID: 0}
-    - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.014043539
-      objectReference: {fileID: 0}
-    - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.1795917
-      objectReference: {fileID: 0}
-    - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
-      propertyPath: m_LocalRotation.x
       value: -0.017304441
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.17987609
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.014043544
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.17959167
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.01730444
       objectReference: {fileID: 0}
     - target: {fileID: 7730635643472712096, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: spawn
