@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class FlowerGameManager : MonoBehaviour
 {
@@ -10,12 +11,16 @@ public class FlowerGameManager : MonoBehaviour
 
     [SerializeField] private GameObject gameCanvas;
     [SerializeField] private GameObject resultCanvas;
+    [SerializeField] private GameObject tutorialCanvas;
     [SerializeField] private FlowerCreation flowerCreationScript;
     [SerializeField] private float displaySequenceSpeed = 0.5f;
     [SerializeField] private float waitingChangeStateTime = 3f;
     [SerializeField] private RelationCanvas relationCanvas;
     [SerializeField] private int nbrErrorAllowed = 3;
     [SerializeField] private ErrorIndicator errorIndicator = null;
+
+    private VideoPlayer videoPlayer;
+    private bool initialize = false;
 
     private int _turn = 1;
     private Queue<int> _sequence;
@@ -31,8 +36,15 @@ public class FlowerGameManager : MonoBehaviour
     #region UNITY_METHOD
     void Start()
     {
+        PlayTutorial();
+    }
+
+    private void InitializeFlower()
+    {
         if (flowerCreationScript)
         {
+            initialize = true;
+
             if (relationCanvas)
             {
                 _nbCanvasText = relationCanvas.GetTextCount();
@@ -45,9 +57,38 @@ public class FlowerGameManager : MonoBehaviour
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
             flowerCreationScript.ShowSequence(displaySequenceSpeed, _turn);
             if (errorIndicator != null) errorIndicator.DisplayErrorCount(nbrErrorAllowed);
-            gameState = State.IN_GAME;
+            //gameState = State.IN_GAME;
         }
     }
+
+    #region Tutorial
+
+    public void PlayTutorial()
+    {
+        tutorialCanvas.gameObject.SetActive(true);
+
+        videoPlayer = tutorialCanvas.GetComponent<VideoPlayer>();
+
+        videoPlayer.loopPointReached += StopTutorial;
+
+        videoPlayer.Play();
+    }
+
+    public void SkipTutorial()
+    {
+        StopTutorial(videoPlayer);
+    }
+
+    public void StopTutorial(VideoPlayer videoPlayer)
+    {
+        videoPlayer.Stop();
+
+        tutorialCanvas.gameObject.SetActive(false);
+
+        if (!initialize) InitializeFlower();
+    }
+
+    #endregion
 
     void Update()
     {

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 namespace Recognition
 {
@@ -40,11 +41,14 @@ namespace Recognition
         [Header("Display Properties")]
         [SerializeField] private Canvas gameCanvas;
         [SerializeField] private Canvas resultCanvas;
+        [SerializeField] private Canvas tutorialCanvas;
         [SerializeField] private GameObject panel;
 
         private int index;
         private LineRenderer lineToDraw = null;
         private bool canCreateLine;
+
+        private VideoPlayer videoPlayer;
 
         private void Start()
         {
@@ -55,7 +59,36 @@ namespace Recognition
             lineToDraw = Instantiate(lineModel, area);
 
             gesture.SetTextWidht(widthTextLine);
+
+            PlayTutorial();
         }
+
+        #region Tutorial
+
+        public void PlayTutorial()
+        {
+            tutorialCanvas.gameObject.SetActive(true);
+
+            videoPlayer = tutorialCanvas.GetComponent<VideoPlayer>();
+
+            videoPlayer.loopPointReached += StopTutorial;
+
+            videoPlayer.Play();
+        }
+
+        public void SkipTutorial()
+        {
+            StopTutorial(videoPlayer);
+        }
+
+        public void StopTutorial(VideoPlayer videoPlayer)
+        {
+            videoPlayer.Stop();
+
+            tutorialCanvas.gameObject.SetActive(false);
+        }
+
+        #endregion
 
         private void SetupLine()
         {
