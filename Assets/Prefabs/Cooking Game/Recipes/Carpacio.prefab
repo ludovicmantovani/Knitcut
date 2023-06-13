@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -2368789675597602461}
   - component: {fileID: 5341298431673419790}
   m_Layer: 0
-  m_Name: Dish Soupe Noix
+  m_Name: Carpacio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6adb9cdf8295f34ca768f6405b2fdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dishName: Soupe de Noix
-  dishDescription: Une bonne soupe de Noix
-  dishPrice: 15
+  dishName: Carpacio
+  dishDescription: 
+  dishPrice: 0
   itemType: 2
-  dishSprite: {fileID: 21300000, guid: 482c6e0f87c5f8a4991bb329cdfec07c, type: 3}
+  dishSprite: {fileID: 21300000, guid: 99f5de5e01b530e41b3ccfc584f67336, type: 3}
 --- !u!114 &5341298431673419790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,4 +61,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695a0e4553b6dc74fa74053bb405d46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipe: {fileID: 11400000, guid: b3343bd5a3f3ea64faea50584c0cfb26, type: 2}
+  recipe: {fileID: 11400000, guid: c4231986acd2c0843a574072fc833fc9, type: 2}

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2604767702845685140}
   - component: {fileID: -2368789675597602461}
-  - component: {fileID: -1282886394799725239}
+  - component: {fileID: 5341298431673419790}
   m_Layer: 0
-  m_Name: Dish Salade Fruits
+  m_Name: Salade de Fruit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dishName: Salade de Fruit
-  dishDescription: "Une salade compos\xE9e de plusieurs fruits"
-  dishPrice: 30
+  dishDescription: 
+  dishPrice: 0
   itemType: 2
   dishSprite: {fileID: 21300000, guid: 168a82d319292b440ac0044604288be6, type: 3}
---- !u!114 &-1282886394799725239
+--- !u!114 &5341298431673419790
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,4 +61,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695a0e4553b6dc74fa74053bb405d46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipe: {fileID: 11400000, guid: 2478aa959c6e43c49b3fae919bbd8dc2, type: 2}
+  recipe: {fileID: 11400000, guid: bafc21442cb665c4d85cdaa7bd44acd1, type: 2}

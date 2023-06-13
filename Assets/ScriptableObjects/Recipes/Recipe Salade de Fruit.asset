@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef1c9be13ecd0240881a3c487a6db78, type: 3}
+  m_Name: Recipe Salade de Fruit
+  m_EditorClassIdentifier: 
+  recipeIndex: 3
+  recipeName: Salade de Fruits
+  recipeDescription: "Coupez les grenades et retirez la chair. Faites des tranches
+    de radis. Coupez en petits d\xE9s le cactus. Egrapper les framboises puis disposez
+    le tout de fa\xE7on harmonieuse sur une assiette."
+  consumablesRequired:
+  - consumable: {fileID: 11400000, guid: 670d2ac6152fa754eb54fadd71955edf, type: 2}
+    quantity: 1
+    ok: 0
+  - consumable: {fileID: 11400000, guid: 609fce7d08936ec4b884f05b2f9bf765, type: 2}
+    quantity: 3
+    ok: 0
+  - consumable: {fileID: 11400000, guid: f426e41c98654014ba9f50a930c89272, type: 2}
+    quantity: 3
+    ok: 0
+  finalProduct: {fileID: 412880846473995412, guid: a4a27d2d1409b924bb3ed398c876ec93, type: 3}
+  basePrice: 50
+  finalPrice: 0
+  canBeCooked: 0
+  recipeSprite: {fileID: 21300000, guid: 02009b0e64dcece49833f5abb0176ef2, type: 3}

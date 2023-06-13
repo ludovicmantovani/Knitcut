@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef1c9be13ecd0240881a3c487a6db78, type: 3}
+  m_Name: Recipe Soupe de Noix
+  m_EditorClassIdentifier: 
+  recipeIndex: 4
+  recipeName: Soupe de Noix
+  recipeDescription: "Prenez vos radis et vos grenades ainsi que 5 noix et mixez
+    les ensemble. Faites cuire \xE0 petit feu et coupez en tranches la derni\xE8re
+    noix. Versez la soupe dans un bol et ajoutez la noix tranch\xE9e pour la d\xE9coration."
+  consumablesRequired:
+  - consumable: {fileID: 11400000, guid: f426e41c98654014ba9f50a930c89272, type: 2}
+    quantity: 2
+    ok: 0
+  - consumable: {fileID: 11400000, guid: 994e1c1d0951f4a4da746eb670e6ee5b, type: 2}
+    quantity: 2
+    ok: 0
+  - consumable: {fileID: 11400000, guid: 670d2ac6152fa754eb54fadd71955edf, type: 2}
+    quantity: 6
+    ok: 0
+  finalProduct: {fileID: 412880846473995412, guid: 117507a5541095c4fb5263b4b6b282d0, type: 3}
+  basePrice: 140
+  finalPrice: 0
+  canBeCooked: 0
+  recipeSprite: {fileID: 21300000, guid: 02009b0e64dcece49833f5abb0176ef2, type: 3}

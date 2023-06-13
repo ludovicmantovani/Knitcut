@@ -249,11 +249,15 @@ public class ShopManager : MonoBehaviour
 
             listSlots.UpdateMoney(playerController.Money + (int)totalPrice);
 
-            playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount, itemToSell.price);
+            bool itemQuantityRemoved = playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount, itemToSell.price);
+
+            if (!itemQuantityRemoved) return;
 
             currentItemUI.NameUI.text = $"{itemToSell.item.itemName} x{quantityLeft}";
 
             ShowNotification($"Vous avez vendu x{amount} '{itemToSell.item.itemName}' pour {totalPrice} pièces");
+
+            Debug.Log($"{itemToSell} x{amount} for {totalPrice}P / left ? ({quantityLeft})");
 
             if (quantityLeft <= 0)
             {
