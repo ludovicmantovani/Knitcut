@@ -6,7 +6,7 @@ public class Player_Data
     public float[] playerPosition;
 
     public int scene;
-   
+
     public Player_Data (PlayerInput playerInput)
     {
         playerPosition = new float[] { playerInput.transform.position.x, playerInput.transform.position.y, playerInput.transform.position.z };

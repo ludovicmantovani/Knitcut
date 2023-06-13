@@ -68,4 +68,11 @@ public class Music_Scene : MonoBehaviour
 
         volume = data.volume;
     }
+
+    public void UpdateVolume(float newVolume)
+    {
+        volume = newVolume;
+
+        _audio.SetFloat(volumeName, Mathf.Log(volume) * 20f);
+    }
 }

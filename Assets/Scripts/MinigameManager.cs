@@ -7,6 +7,7 @@ public class MinigameManager : MonoBehaviour
 {
     private static List<object> dataToKeep;
     private static string sceneToLoad = "FarmScene";
+    private static string menuScene = "Menu";
     private static AnimalType animalTypeToKeep = AnimalType.None;
     private static List<int> animalPenIndexToUpgrade = new List<int>();
     private static List<Recipe> recipesPossessed;
@@ -18,7 +19,6 @@ public class MinigameManager : MonoBehaviour
     private static MGType mgType;
 
     private ListSlots listSlots;
-
     private bool dataLoaded = false;
     private bool animalCaptured = false;
 
@@ -115,6 +115,22 @@ public class MinigameManager : MonoBehaviour
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
 
             animalTypeToKeep = AnimalType.None;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) && openInventories.Count == 0)
+        {
+            if (Cursor.visible)
+            {
+                playerController.HandlePlayerMovement(true);
+
+                HandleCursor(false);
+            }
+            else
+            {
+                playerController.HandlePlayerMovement(false);
+
+                HandleCursor(true);
+            }
         }
     }
 
@@ -410,5 +426,12 @@ public class MinigameManager : MonoBehaviour
             returnToFarm = true;
             SceneManager.LoadScene(sceneToLoad);
         }
+    }
+
+    public static void ReturnToMenu()
+    {
+        FindObjectOfType<ListSlots>().SaveData();
+
+        SceneManager.LoadScene(menuScene);
     }
 }
