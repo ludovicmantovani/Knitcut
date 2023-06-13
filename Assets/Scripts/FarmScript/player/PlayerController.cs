@@ -1,21 +1,53 @@
 using Cinemachine;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    #region Parameters
-
-    PlayerInventory playerInventory;
-    PlayerRecipesInventory playerRecipesInventory;
-    ListSlots listSlots;
-
     [Header("References")]
     [SerializeField] private string farmSceneName = "FarmScene";
     [SerializeField] private string villageSceneName = "TradingVillage";
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform spawn;
     [SerializeField] private int money = 0;
+
+    private CharacterController characterController;
+    private SceneVerification sceneVerif;
+    private PlayerInput playerInput;
+    private PlayerInventory playerInventory;
+    private PlayerRecipesInventory playerRecipesInventory;
+    private ListSlots listSlots;
+
+    [Header("References Scene Handlers")]
+    [SerializeField] private GameObject farmHandler;
+    [SerializeField] private GameObject villageHandler;
+    [SerializeField] private GameObject cameraFerme;
+
+    [Header("Datas")]
+    [SerializeField] private float turnSmoothTime;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private bool talkingShop = false;
+    [SerializeField] private bool inFarm = false;
+
+    [Header("Camera Datas")]
+    [SerializeField] private CinemachineFreeLook freeLook;
+    [SerializeField] private float cameraSensibilityX;
+    [SerializeField] private float cameraSensibilityY;
+
+    private float turnSmoothVelocity;
+
+    private float _targetAngle;
+    private float _angle;
+
+    private Vector3 move;
+    private float verticalVelocity;
+    private float gravity = 9.81f;
+    private float currentSpeed;
+
+    private bool canMove = true;
+
+    #region Getters / Setters
 
     public PlayerInventory PlayerInventory
     {
@@ -33,23 +65,28 @@ public class PlayerController : MonoBehaviour
         set { money = value; }
     }
 
-    [Header("References Scene Handlers")]
-    [SerializeField] private GameObject farmHandler;
-    [SerializeField] private GameObject villageHandler;
-    [SerializeField] private GameObject cameraFerme;
-
     public CinemachineBrain CameraCineBrain
     {
         get { return cameraFerme.GetComponent<CinemachineBrain>(); }
     }
 
-    [Header("Datas")]
-    [SerializeField] private float turnSmoothTime;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private bool talkingShop = false;
-    [SerializeField] private bool inFarm = false;
+    public CinemachineFreeLook FreeLook
+    {
+        get { return freeLook; }
+        set { freeLook = value; }
+    }
 
-    private float turnSmoothVelocity;
+    public float CameraSensibilityX
+    {
+        get { return cameraSensibilityX; }
+        set { cameraSensibilityX = value; }
+    }
+
+    public float CameraSensibilityY
+    {
+        get { return cameraSensibilityY; }
+        set { cameraSensibilityY = value; }
+    }
 
     public bool TalkingShop
     {
@@ -63,24 +100,10 @@ public class PlayerController : MonoBehaviour
         set { inFarm = value; }
     }
 
-    private CharacterController  characterController;
-    private SceneVerification sceneVerif;
-    private PlayerInput playerInput;
-
     public PlayerInput PlayerInput
     {
         get { return playerInput; }
     }
-
-    private float _targetAngle;
-    private float _angle;
-
-    private Vector3 move;
-    private float verticalVelocity;
-    private float gravity = 9.81f;
-    private float currentSpeed;
-
-    private bool canMove = true;
 
     public float CurrentSpeed
     {
@@ -111,6 +134,8 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
         sceneVerif = GetComponent<SceneVerification>();
+
+        LoadCameraSensibility();
     }
 
     private void Update()
@@ -131,6 +156,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Camera Sensibility
+
+    public void UpdateCameraSensibility()
+    {
+        freeLook.m_XAxis.m_MaxSpeed = cameraSensibilityX;
+        freeLook.m_YAxis.m_MaxSpeed = cameraSensibilityY;
+    }
+
+    private void LoadCameraSensibility()
+    {
+        Audio_Data data = (Audio_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Volume);
+
+        if (data == null) return;
+
+        cameraSensibilityX = data.cameraSensibilityX;
+        cameraSensibilityY = data.cameraSensibilityY;
+    }
+
+    #endregion
+
     #region Handle Player in Farm Scene & Village Scene
 
     private void HandlePlayerInFarmScene()
@@ -141,6 +186,8 @@ public class PlayerController : MonoBehaviour
             villageHandler.SetActive(false);
 
             PlayerMovementFarm();
+
+            UpdateCameraSensibility();
         }
     }
 

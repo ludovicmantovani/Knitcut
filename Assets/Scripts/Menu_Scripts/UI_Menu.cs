@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Globalization;
 
 [ExecuteAlways]
 public class UI_Menu : MonoBehaviour
@@ -28,9 +29,6 @@ public class UI_Menu : MonoBehaviour
     public KeyCode healP;
     public KeyCode invent;
 
-    private string lastKey;
-    private float lastVolume;
-
     [Header("References Objects")]
     [SerializeField] private GameObject menuInterface;
     [SerializeField] private GameObject menuOptions;
@@ -44,7 +42,15 @@ public class UI_Menu : MonoBehaviour
     private float yStartPos;
 
     public Slider volume;
+    public InputField volumeValue;
     public VolumeCTRL audioVolume;
+
+    private Music_Scene musicScene;
+
+    public Slider cameraSensibilityX;
+    public InputField cameraSensibilityXValue;
+    public Slider cameraSensibilityY;
+    public InputField cameraSensibilityYValue;
 
     private Rebinding rebinding;
 
@@ -71,11 +77,13 @@ public class UI_Menu : MonoBehaviour
     void Start()
     {
         rebinding = GetComponent<Rebinding>();
+        musicScene = FindObjectOfType<Music_Scene>();
 
         yStartPos = 0f;
         speedY = yStartPos;
 
-        LoadVolumeLevel();
+        LoadVolumeAndCameraSensibility();
+        SaveVolumeAndCameraSensibility();
     }
 
     void Update()
@@ -84,8 +92,6 @@ public class UI_Menu : MonoBehaviour
         {
             ScrollCredits();
         }
-
-        SaveVolumeLevel();
     }
 
     public void UpperCaseVerif()
@@ -142,7 +148,8 @@ public class UI_Menu : MonoBehaviour
     {
         menuOptions.SetActive(true);
         menuAudio.SetActive(false);
-        SaveVolumeSystem();
+
+        SaveVolumeAndCameraSensibility();
     }
 
     public void MenuSettings()
@@ -157,8 +164,6 @@ public class UI_Menu : MonoBehaviour
         launcherMode.launchMode = LauncherMode.LaunchMode.New;
 
         launcherMode.Launch();
-
-        //SceneManager.LoadScene("FarmScene");
     }
 
     public void ContinueGame()
@@ -166,8 +171,6 @@ public class UI_Menu : MonoBehaviour
         launcherMode.launchMode = LauncherMode.LaunchMode.Continue;
 
         launcherMode.Launch();
-
-        //SceneManager.LoadScene("FarmScene");
     }
 
     public void Quit()
@@ -225,29 +228,87 @@ public class UI_Menu : MonoBehaviour
         }
     }
 
-    public void SaveVolumeLevel()
+    #region OnChanged
+
+    public void OnVolumeSliderChanged()
     {
-        if(lastVolume != volume.value)
-        {
-            lastVolume = volume.value;
-            //SaveSystem.SaveVolume(this);
-            SaveSystem.Save(SaveSystem.SaveType.Save_Volume, this);
-        }
+        volumeValue.text = volume.value.ToString();
+
+        musicScene.UpdateVolume(volume.value);
     }
 
-    public void LoadVolumeLevel()
+    public void OnVolumeInputChanged()
     {
-        //Audio_Data data = SaveSystem.LoadVolume();
-        Audio_Data data = (Audio_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Volume, this);
+        CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+        ci.NumberFormat.CurrencyDecimalSeparator = ".";
+        if (float.TryParse(volumeValue.text, NumberStyles.Any, ci, out float value)) volume.value = value;
+
+        musicScene.UpdateVolume(volume.value);
+    }
+
+    public void OnSensibilityXSliderChanged()
+    {
+        cameraSensibilityXValue.text = cameraSensibilityX.value.ToString();
+    }
+
+    public void OnSensibilityXInputChanged()
+    {
+        CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+        ci.NumberFormat.CurrencyDecimalSeparator = ".";
+        if (float.TryParse(cameraSensibilityXValue.text, NumberStyles.Any, ci, out float value)) cameraSensibilityX.value = value;
+
+        cameraSensibilityXValue.text = cameraSensibilityX.value.ToString();
+    }
+
+    public void OnSensibilityYSliderChanged()
+    {
+        cameraSensibilityYValue.text = cameraSensibilityY.value.ToString();
+    }
+
+    public void OnSensibilityYInputChanged()
+    {
+        CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+        ci.NumberFormat.CurrencyDecimalSeparator = ".";
+        if (float.TryParse(cameraSensibilityYValue.text, NumberStyles.Any, ci, out float value)) cameraSensibilityY.value = value;
+        //cameraSensibilityY.value = float.Parse(cameraSensibilityYValue.text, NumberStyles.Any, ci);
+
+        cameraSensibilityYValue.text = cameraSensibilityY.value.ToString();
+    }
+
+    #endregion
+
+    public void SaveVolumeAndCameraSensibility()
+    {
+        SaveSystem.Save(SaveSystem.SaveType.Save_Volume, this);
+    }
+
+    public void LoadVolumeAndCameraSensibility()
+    {
+        Audio_Data data = (Audio_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Volume);
 
         if (data == null) return;
 
-        volume.value = data.volume;
+        if (data.volume != 0)
+        {
+            volume.value = data.volume;
+            volumeValue.text = volume.value.ToString();
+        }
+
+        if (data.cameraSensibilityX != 0)
+        {
+            cameraSensibilityX.value = data.cameraSensibilityX;
+            cameraSensibilityXValue.text = cameraSensibilityX.value.ToString();
+        }
+
+        if (data.cameraSensibilityY != 0)
+        {
+            cameraSensibilityY.value = data.cameraSensibilityY;
+            cameraSensibilityYValue.text = cameraSensibilityY.value.ToString();
+        }
     }
 
-    void SaveVolumeSystem()
+    private void OnApplicationQuit()
     {
-        //SaveSystem.SaveVolume(this);
-        SaveSystem.Save(SaveSystem.SaveType.Save_Volume, this);
+        SaveVolumeAndCameraSensibility();
     }
 }

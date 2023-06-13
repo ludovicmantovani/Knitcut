@@ -2,6 +2,8 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Collections;
 
 public static class SaveSystem
 {
@@ -202,7 +204,8 @@ public static class SaveSystem
         
         List<string> filesToKeep = new List<string>
         {
-            SaveType.Save_UIMenu.ToString()
+            SaveType.Save_UIMenu.ToString(),
+            SaveType.Save_Volume.ToString()
         };
 
         try

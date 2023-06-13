@@ -313,7 +313,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2438901173890801025}
-  m_LocalRotation: {x: 0.04499092, y: -0.8790768, z: 0.0847029, w: 0.46693176}
+  m_LocalRotation: {x: -0.02137319, y: 0.9703596, z: -0.09349837, w: -0.22181866}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
@@ -675,7 +675,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5743545934113397702}
-  m_LocalRotation: {x: 0.036512695, y: -0.8804688, z: 0.06874123, w: 0.46767113}
+  m_LocalRotation: {x: -0.017345559, y: 0.9718961, z: -0.075879246, w: -0.22216985}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
@@ -752,7 +752,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6087692599362268869}
-  m_LocalRotation: {x: 0.053476725, y: -0.8773906, z: 0.10067884, w: 0.46603614}
+  m_LocalRotation: {x: -0.025404423, y: 0.9684984, z: -0.111133255, w: -0.22139317}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
@@ -924,8 +924,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7730635642889785836}
-  m_LocalRotation: {x: 0.044990927, y: -0.8790768, z: 0.08470291, w: 0.46693176}
-  m_LocalPosition: {x: 5.938009, y: 2.6666667, z: 4.0126243}
+  m_LocalRotation: {x: -0.02137319, y: 0.9703596, z: -0.09349837, w: -0.22181861}
+  m_LocalPosition: {x: 3.1138053, y: 2.6666667, z: 6.4548697}
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children: []
   m_Father: {fileID: 6542243303300282677}
@@ -1076,7 +1076,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7730635643159269678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.938009, y: 2.6666667, z: 4.0126243}
+  m_LocalPosition: {x: 3.1138053, y: 2.6666667, z: 6.4548697}
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children:
   - {fileID: 6262813186389587193}
@@ -1125,7 +1125,7 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_SpeedMode: 0
+    m_SpeedMode: 1
     m_MaxSpeed: 1.8
     m_AccelTime: 0.2
     m_DecelTime: 0.1
@@ -1149,7 +1149,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_SpeedMode: 0
+    m_SpeedMode: 1
     m_MaxSpeed: 200
     m_AccelTime: 0.1
     m_DecelTime: 0.1
@@ -1352,6 +1352,9 @@ MonoBehaviour:
   moveSpeed: 12
   talkingShop: 0
   inFarm: 0
+  freeLook: {fileID: 7730635643159269682}
+  cameraSensibilityX: 0
+  cameraSensibilityY: 0
 --- !u!114 &7730635643472712156
 MonoBehaviour:
   m_ObjectHideFlags: 0
