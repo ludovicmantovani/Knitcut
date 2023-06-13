@@ -8,6 +8,7 @@ public class AnimalPenManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private List<AnimalPen> animalPenList;
+    [SerializeField] private List<string> animalPenPictos;
     [SerializeField] private List<GameObject> animals;
     [SerializeField] private List<GameObject> animalsChildren;
 
@@ -58,6 +59,12 @@ public class AnimalPenManager : MonoBehaviour
     }
 
     #region Getters / Setters
+
+    public List<string> AnimalPenPictos
+    {
+        get { return animalPenPictos; }
+        set { animalPenPictos = value; }
+    }
 
     public int TotalAnimalPen
     {
@@ -164,6 +171,16 @@ public class AnimalPenManager : MonoBehaviour
             totalAnimalsAdults[i] = 0;
             totalAnimalsChildren[i] = 0;
         }
+    }
+
+    public Transform GetAnimalPenWithPicto(string pictoName)
+    {
+        for (int i = 0; i < animalPenPictos.Count; i++)
+        {
+            if (animalPenPictos[i] == pictoName) return animalPenList[i].animalPenInScene.transform;
+        }
+
+        return null;
     }
 
     private void SaveCaptureFruitPlaced()

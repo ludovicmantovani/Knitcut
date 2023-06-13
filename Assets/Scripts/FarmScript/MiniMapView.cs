@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class MiniMapView : MonoBehaviour
 {
-
     [System.Serializable]
     public class SpriteTransformPair
     {
@@ -18,10 +17,13 @@ public class MiniMapView : MonoBehaviour
     [SerializeField] private List<SpriteTransformPair> objectsToShow = null;
 
     private Camera _camera = null;
+    private AnimalPenManager animalPenManager;
 
     void Start()
     {
         _camera = GetComponent<Camera>();
+        animalPenManager = FindObjectOfType<AnimalPenManager>();
+
         MakeMiniMap();
     }
 
@@ -35,6 +37,10 @@ public class MiniMapView : MonoBehaviour
 
         foreach (SpriteTransformPair spriteTransformPair in objectsToShow)
         {
+            spriteTransformPair.objectTransform = animalPenManager.GetAnimalPenWithPicto(spriteTransformPair.objectName);
+
+            if (spriteTransformPair.objectTransform == null) return;
+
             GameObject go = new GameObject(spriteTransformPair.objectName, typeof(SpriteRenderer));
 
             if (layer.Length > 0 && LayerMask.NameToLayer(layer) != -1) go.layer = LayerMask.NameToLayer(layer);
