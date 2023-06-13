@@ -137,7 +137,7 @@ public class Cooking : MonoBehaviour
             cookingResultCanvas.SetData(
                 Mathf.FloorToInt(finalPrice).ToString(),
                 Mathf.FloorToInt(consumables3Dsliced).ToString() + "/" + Mathf.FloorToInt(totalConsumablesRequired).ToString(),
-                currentRecipe.finalProduct.GetComponent<DishInfos>().dishName + " préparé  avec succès !",
+                currentRecipe.finalProduct.GetComponent<DishInfos>().dishName + " préparé(e)  avec succès !",
                 currentRecipe.finalProduct.GetComponent<DishInfos>().dishSprite
                 );
             resultUI.gameObject.SetActive(true);

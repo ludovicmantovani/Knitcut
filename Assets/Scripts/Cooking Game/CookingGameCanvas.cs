@@ -12,6 +12,7 @@ public class CookingGameCanvas : MonoBehaviour
     [SerializeField] private RawImage rawImageRecipes = null;
     [SerializeField] private RawImage rawImageRecipesInfo = null;
     [SerializeField] private Button quitButton = null;
+    [SerializeField] private Button tutorialButton = null;
 
     public Button ActionCooking
     {
@@ -55,6 +56,9 @@ public class CookingGameCanvas : MonoBehaviour
 
         if (quitButton)
             quitButton.gameObject.SetActive(false);
+
+        if (tutorialButton)
+            tutorialButton.gameObject.SetActive(false);
     }
 
     public void HideRecipeInfo()

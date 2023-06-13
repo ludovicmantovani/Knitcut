@@ -133,6 +133,11 @@ public class PlayerInventory : MonoBehaviour
             {
                 ItemHandler itemHandler = transform.GetChild(i).GetComponentInChildren<ItemHandler>();
 
+                Debug.Log($"{itemHandler}");
+                Debug.Log($"{itemHandler.Item}");
+                Debug.Log($"{item}");
+                Debug.Log($"{itemHandler.UniqueValue} vs {uniqueValue} ? {itemHandler.UniqueValue == uniqueValue}");
+
                 if (itemHandler.Item == item && itemHandler.UniqueValue == uniqueValue)
                     itemHandlersInInventory.Add(itemHandler);
             }
@@ -141,12 +146,14 @@ public class PlayerInventory : MonoBehaviour
         return itemHandlersInInventory;
     }
 
-    public void RemoveItemQuantity(Item item, int quantityToRemove, float uniqueValue = 0)
+    public bool RemoveItemQuantity(Item item, int quantityToRemove, float uniqueValue = 0)
     {
         // Get all same item from inventory
         List<ItemHandler> itemHandlers = SearchSameItemInInventory(item, uniqueValue);
 
-        if (itemHandlers.Count == 0) return;
+        Debug.Log($"RemoveItemQuantity {itemHandlers.Count}");
+
+        if (itemHandlers.Count == 0) return false;
 
         itemHandlers = itemHandlers.OrderBy(item => item.QuantityStacked).ToList();
 
@@ -158,8 +165,10 @@ public class PlayerInventory : MonoBehaviour
             quantityPossessed += itemHandlers[i].QuantityStacked;
         }
 
+        Debug.Log($"RemoveItemQuantity quantityPossessed {quantityPossessed}");
+
         // Remove total quantityToRemove
-        if (quantityToRemove > quantityPossessed) return;
+        if (quantityToRemove > quantityPossessed) return false;
 
         for (int i = 0; i < itemHandlers.Count; i++)
         {
@@ -167,7 +176,9 @@ public class PlayerInventory : MonoBehaviour
             {
                 itemHandlers[i].QuantityStacked -= quantityToRemove;
 
-                return;
+                Debug.Log($"RemoveItemQuantity remove {quantityToRemove} to {itemHandlers[i].QuantityStacked}");
+
+                return true;
             }
             else
             {
@@ -176,6 +187,8 @@ public class PlayerInventory : MonoBehaviour
                 Destroy(itemHandlers[i].gameObject);
             }
         }
+
+        return true;
     }
 
     private Transform GetFreeSlot()
