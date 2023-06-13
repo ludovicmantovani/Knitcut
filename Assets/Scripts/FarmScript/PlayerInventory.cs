@@ -133,13 +133,16 @@ public class PlayerInventory : MonoBehaviour
             {
                 ItemHandler itemHandler = transform.GetChild(i).GetComponentInChildren<ItemHandler>();
 
-                Debug.Log($"{itemHandler}");
-                Debug.Log($"{itemHandler.Item}");
-                Debug.Log($"{item}");
-                Debug.Log($"{itemHandler.UniqueValue} vs {uniqueValue} ? {itemHandler.UniqueValue == uniqueValue}");
+                Debug.Log($"{itemHandler} - {itemHandler.Item} ({itemHandler.UniqueValue}) VS {item} ({uniqueValue})");
 
-                if (itemHandler.Item == item && itemHandler.UniqueValue == uniqueValue)
-                    itemHandlersInInventory.Add(itemHandler);
+                if (itemHandler.Item == item)
+                {
+                    if ((itemHandler.Item.itemType == ItemType.Dish && itemHandler.UniqueValue == uniqueValue)
+                        || itemHandler.Item.itemType != ItemType.Dish)
+                    {
+                        itemHandlersInInventory.Add(itemHandler);
+                    }
+                }
             }
         }
 
