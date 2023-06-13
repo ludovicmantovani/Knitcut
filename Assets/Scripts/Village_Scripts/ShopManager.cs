@@ -249,6 +249,8 @@ public class ShopManager : MonoBehaviour
 
             listSlots.UpdateMoney(playerController.Money + (int)totalPrice);
 
+            Debug.Log($"{itemToSell.item} in inventory ? {quantityInInventory}");
+
             bool itemQuantityRemoved = playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount, itemToSell.price);
 
             if (!itemQuantityRemoved) return;
