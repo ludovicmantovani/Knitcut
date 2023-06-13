@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Video;
 
 public class ProgressionLevelWaterGame : MonoBehaviour
 {
@@ -15,15 +16,55 @@ public class ProgressionLevelWaterGame : MonoBehaviour
     private bool Failed = false;
     public bool StopMoving = false;
     //[SerializeField] private GameObject Lost;
+    [SerializeField] private Canvas tutorialCanvas;
     [SerializeField] private ResultCanvas canvasResult;
     [SerializeField] private GameObject[] Pieces;
     private bool _running;
 
+    private VideoPlayer videoPlayer;
+    private bool initialize = false;
+
     void Start()
     {
+        PlayTutorial();
+    }
+
+    private void InitializeWaterGame()
+    {
+        initialize = true;
+
         victoryWaterGame = FindObjectOfType<VictoryWaterGame>();
         _running = true;
     }
+
+    #region Tutorial
+
+    public void PlayTutorial()
+    {
+        tutorialCanvas.gameObject.SetActive(true);
+
+        videoPlayer = tutorialCanvas.GetComponent<VideoPlayer>();
+
+        videoPlayer.loopPointReached += StopTutorial;
+
+        videoPlayer.Play();
+    }
+
+    public void SkipTutorial()
+    {
+        StopTutorial(videoPlayer);
+    }
+
+    public void StopTutorial(VideoPlayer videoPlayer)
+    {
+        videoPlayer.Stop();
+
+        tutorialCanvas.gameObject.SetActive(false);
+
+        if (!initialize) InitializeWaterGame();
+    }
+
+    #endregion
 
     void FixedUpdate()
     {
