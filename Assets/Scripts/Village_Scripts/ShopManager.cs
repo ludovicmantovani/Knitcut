@@ -749,7 +749,7 @@ public class ShopManager : MonoBehaviour
 
         notification = Instantiate(notificationPrefab, shopsUI.transform);
 
-        notification.transform.SetAsFirstSibling();
+        notification.transform.SetAsLastSibling();
 
         notification.GetComponentInChildren<Text>().text = textToShow;
 
