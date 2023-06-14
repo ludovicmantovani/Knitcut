@@ -12,6 +12,8 @@ public class Culture_Data
     public string[] cropsGrowth;
     public string[] cropsState;
 
+    public float[] cropsTimer;
+
     public Culture_Data(CultureManager cultureManager)
     {
         cropsCount = cultureManager.CropsCount;
@@ -23,6 +25,8 @@ public class Culture_Data
         cropsGrowth = new string[cropsCount];
         cropsState = new string[cropsCount];
 
+        cropsTimer = new float[cropsCount];
+
         for (int i = 0; i < cropsCount; i++)
         {
             cropsSeeds[i] = cultureManager.CropsSeeds[i];
@@ -31,6 +35,8 @@ public class Culture_Data
 
             cropsGrowth[i] = cultureManager.CropsGrowth[i];
             cropsState[i] = cultureManager.CropsState[i];
+
+            cropsTimer[i] = cultureManager.CropsTimer[i];
         }
     }
 }

@@ -1,10 +1,17 @@
 using Cinemachine;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField] private GameObject inventoryKeyUI;
+    [SerializeField] private GameObject recipesInventoryKeyUI;
+    [SerializeField] private GameObject cursorKeyUI;
+
     [Header("References")]
     [SerializeField] private string farmSceneName = "FarmScene";
     [SerializeField] private string villageSceneName = "TradingVillage";
@@ -127,15 +134,20 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        playerInventory = FindObjectOfType<PlayerInventory>();
-        playerRecipesInventory = FindObjectOfType<PlayerRecipesInventory>();
-        listSlots = FindObjectOfType<ListSlots>();
-
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
         sceneVerif = GetComponent<SceneVerification>();
 
+        playerInventory = FindObjectOfType<PlayerInventory>();
+        playerRecipesInventory = FindObjectOfType<PlayerRecipesInventory>();
+        listSlots = FindObjectOfType<ListSlots>();
+    }
+
+    private void Start()
+    {
         LoadCameraSensibility();
+
+        LoadKeysUI();
     }
 
     private void Update()
@@ -154,6 +166,13 @@ public class PlayerController : MonoBehaviour
         {
             SaveSystem.DeleteAllSaves();
         }
+    }
+
+    private void LoadKeysUI()
+    {
+        inventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.InventoryAction.GetBindingDisplayString();
+        recipesInventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.RecipesInventoryAction.GetBindingDisplayString();
+        cursorKeyUI.GetComponentInChildren<Text>().text = KeyCode.LeftControl.ToString();
     }
 
     #region Camera Sensibility

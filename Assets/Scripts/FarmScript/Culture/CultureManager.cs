@@ -24,6 +24,7 @@ public class CultureManager : MonoBehaviour
     private bool[] cropsCultivation;
     public string[] cropsGrowth;
     public string[] cropsState;
+    public float[] cropsTimer;
 
     [Header("Datas")]
     [SerializeField] private bool canPlantSeed;
@@ -72,6 +73,12 @@ public class CultureManager : MonoBehaviour
     {
         get { return cropsState; }
         set { cropsState = value; }
+    }
+
+    public float[] CropsTimer
+    {
+        get { return cropsTimer; }
+        set { cropsTimer = value; }
     }
 
     public GameObject InteractionUI
@@ -145,6 +152,8 @@ public class CultureManager : MonoBehaviour
         cropsGrowth = new string[cropsCount];
         cropsState = new string[cropsCount];
 
+        cropsTimer = new float[cropsCount];
+
         for (int i = 0; i < cropsCount; i++)
         {
             CropPlot crop = transform.GetChild(i).GetComponent<CropPlot>();
@@ -172,6 +181,7 @@ public class CultureManager : MonoBehaviour
                 cropsCultivation[i] = true;
                 cropsGrowth[i] = plantGrowth.GetProductGrowth.ToString();
                 cropsState[i] = plantGrowth.GetProductState.ToString();
+                cropsTimer[i] = plantGrowth.CurrentTimer;
             }
             else
             {
@@ -179,6 +189,7 @@ public class CultureManager : MonoBehaviour
                 cropsCultivation[i] = false;
                 cropsGrowth[i] = string.Empty;
                 cropsState[i] = string.Empty;
+                cropsTimer[i] = 0f;
             }
         }
     }
@@ -198,6 +209,7 @@ public class CultureManager : MonoBehaviour
         cropsCultivation = data.cropsCultivation;
         cropsGrowth = data.cropsGrowth;
         cropsState = data.cropsState;
+        cropsTimer = data.cropsTimer;
 
         for (int i = 0; i < cropsCount; i++)
         {
@@ -209,7 +221,7 @@ public class CultureManager : MonoBehaviour
 
                 Plant plant = (Plant)playerController.ListSlots.Stuffs[cropsSeeds[i]];
 
-                PlantSpectificPlantAtCropPlot(plant, crop, cropsGrowth[i], cropsState[i]);
+                PlantSpectificPlantAtCropPlot(plant, crop, cropsGrowth[i], cropsState[i], cropsTimer[i]);
             }
         }
     }
@@ -419,7 +431,7 @@ public class CultureManager : MonoBehaviour
             questCompletionPlant.CompleteObjective();
     }
 
-    private void PlantSpectificPlantAtCropPlot(Plant plantSO, CropPlot currentCropPlot, string growth, string state)
+    private void PlantSpectificPlantAtCropPlot(Plant plantSO, CropPlot currentCropPlot, string growth, string state, float timeSkip)
     {
         if (plantSO == null || currentCropPlot == null) return;
 
@@ -429,6 +441,6 @@ public class CultureManager : MonoBehaviour
 
         currentCropPlot.SeedSource = plant;
 
-        plant.GetComponent<PlantGrowth>().SetGrowthState(growth, state, plantSO);
+        plant.GetComponent<PlantGrowth>().SetGrowthState(growth, state, plantSO, timeSkip);
     }
 }
