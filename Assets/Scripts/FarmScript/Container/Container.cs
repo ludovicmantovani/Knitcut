@@ -48,6 +48,7 @@ public class Container : MonoBehaviour
         containerInUse = false;
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la réserve";
     }
 
     private void Update()
