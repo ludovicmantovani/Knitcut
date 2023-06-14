@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6010023406019250662}
   - component: {fileID: 3332059924996463422}
   - component: {fileID: 3637813226394693041}
+  - component: {fileID: 463571603898964007}
   m_Layer: 0
   m_Name: botte_foin
   m_TagString: Untagged
@@ -82,6 +83,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &463571603898964007
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650958126886216326}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7388809498508422382, guid: 5fd8b89b153b53a408ea1de402114b1c, type: 3}
 --- !u!1 &3254833129431923037
 GameObject:
   m_ObjectHideFlags: 0
