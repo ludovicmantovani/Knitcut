@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 2962802483886965124}
   - component: {fileID: 7923906337560226683}
   - component: {fileID: 3676560076027253360}
+  - component: {fileID: 6444343757799649387}
   m_Layer: 0
   m_Name: botte_de_foind_carr_
   m_TagString: Untagged
@@ -196,3 +197,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6444343757799649387
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8936239217579119839}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2859998, y: 2.2859998, z: 3.81}
+  m_Center: {x: -0.052374005, y: 1.1429999, z: 0.0049185753}
