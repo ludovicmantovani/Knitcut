@@ -71,7 +71,7 @@ public class PlayerInventory : MonoBehaviour
             if (quantity != -1)
                 itemObject.GetComponent<ItemHandler>().QuantityStacked = quantity;
 
-            if (quantity != -1)
+            if (uniqueValue != -1)
                 itemObject.GetComponent<ItemHandler>().UniqueValue = uniqueValue;
         }
 
