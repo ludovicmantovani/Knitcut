@@ -79,6 +79,12 @@ public class PlantGrowth : MonoBehaviour
         set { loadGrowthState = value; }
     }
 
+    public float CurrentTimer
+    {
+        get { return currentTime; }
+        set { currentTime = value; }
+    }
+
     #endregion
 
     #endregion
@@ -285,7 +291,7 @@ public class PlantGrowth : MonoBehaviour
 
     #endregion
 
-    public void SetGrowthState(string growth, string state, Plant plant)
+    public void SetGrowthState(string growth, string state, Plant plant, float timeSkip)
     {
         productGrowth = (ProductGrowth)Enum.Parse(typeof(ProductGrowth), growth);
         productState = (ProductState)Enum.Parse(typeof(ProductState), state);
@@ -300,5 +306,7 @@ public class PlantGrowth : MonoBehaviour
         currentTime = Convert.ToInt32(datas[1]);
 
         ActualizePlant(objectToPlant);
+
+        currentTime = timeSkip;
     }
 }
