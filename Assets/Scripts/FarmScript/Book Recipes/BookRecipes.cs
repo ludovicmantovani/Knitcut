@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BookRecipes : MonoBehaviour
@@ -10,6 +11,8 @@ public class BookRecipes : MonoBehaviour
     [SerializeField] private List<Transform> pages;
     [SerializeField] private GameObject forwardButton;
     [SerializeField] private GameObject backButton;
+
+    private List<MinigameManager.PlayerItem> consumablesInInventory = new List<MinigameManager.PlayerItem>();
 
     private int index = -1;
     private bool rotate = false;
@@ -113,8 +116,48 @@ public class BookRecipes : MonoBehaviour
         pageRecipe.RecipeName.text = recipe.recipeName;
         pageRecipe.RecipeImage.sprite = recipe.recipeSprite;
         pageRecipe.RecipeDescription.text = recipe.recipeDescription;
+        pageRecipe.RecipeList.text = recipe.GetInfosConsumablesRequired(consumablesInInventory);
+
+        pageRecipe.RecipeDescription.enabled = false;
+        pageRecipe.RecipeList.enabled = false;
+
+        pageRecipe.RecipeDescription.enabled = true;
+        pageRecipe.RecipeList.enabled = true;
 
         pageRecipe.transform.SetAsFirstSibling();
+    }
+
+    public void HandlePlayerConsumables(PlayerInventory inventory)
+    {
+        consumablesInInventory.Clear();
+
+        if (inventory == null) return;
+
+        for (int i = 0; i < inventory.SearchItemsPossessed().Count; i++)
+        {
+            ItemHandler itemHandler = inventory.SearchItemsPossessed()[i];
+
+            if (itemHandler.Item.itemType == ItemType.Consumable)
+            {
+                MinigameManager.PlayerItem playerItem = new MinigameManager.PlayerItem();
+                playerItem.item = itemHandler.Item;
+                playerItem.quantity = itemHandler.QuantityStacked;
+
+                consumablesInInventory.Add(playerItem);
+            }            
+        }
+
+        for (int i = 0; i < pages.Count; i++)
+        {
+            PageRecipe pageRecipe = pages[i].GetComponent<PageRecipe>();
+
+            if (pageRecipe != null)
+            {
+                Debug.Log(pageRecipe.Recipe.GetInfosConsumablesRequired(consumablesInInventory));
+
+                pageRecipe.RecipeList.text = pageRecipe.Recipe.GetInfosConsumablesRequired(consumablesInInventory);
+            }
+        }
     }
 
     public bool CheckRecipe(Recipe recipe)

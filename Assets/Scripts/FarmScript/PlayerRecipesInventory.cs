@@ -95,6 +95,8 @@ public class PlayerRecipesInventory : MonoBehaviour
 
     private void OpenInventory()
     {
+        bookRecipes.HandlePlayerConsumables(player.PlayerInventory);
+
         canOpen = false;
         gameObject.SetActive(true);
 
