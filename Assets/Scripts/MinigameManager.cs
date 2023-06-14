@@ -110,7 +110,7 @@ public class MinigameManager : MonoBehaviour
 
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
 
-            if (SceneManager.GetActiveScene().name.Contains("Farm") && !animalPenManager) return;
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && animalPenManager == null) return;
 
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
 
