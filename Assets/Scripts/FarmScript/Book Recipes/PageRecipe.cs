@@ -8,6 +8,7 @@ public class PageRecipe : MonoBehaviour
     [SerializeField] private TextMeshProUGUI recipeName;
     [SerializeField] private Image recipeImage;
     [SerializeField] private TextMeshProUGUI recipeDescription;
+    [SerializeField] private TextMeshProUGUI recipeList;
 
     public Recipe Recipe
     {
@@ -31,5 +32,11 @@ public class PageRecipe : MonoBehaviour
     {
         get { return recipeDescription; }
         set { recipeDescription = value; }
+    }
+
+    public TextMeshProUGUI RecipeList
+    {
+        get { return recipeList; }
+        set { recipeList = value; }
     }
 }
