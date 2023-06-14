@@ -8359,7 +8359,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Placer un fruit ci-dessous pour attirer un animal
+  m_Text: "D\xE9poser un fruit dans la fen\xEAtre ci-dessous pour attirer un animal"
 --- !u!222 &1169600488
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10445,6 +10445,81 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7095871906218338005, guid: b48dfec8190da314a912eac13648660a, type: 3}
   m_PrefabInstance: {fileID: 655884801}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1420625051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1420625052}
+  - component: {fileID: 1420625054}
+  - component: {fileID: 1420625053}
+  m_Layer: 5
+  m_Name: Arrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1420625052
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420625051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1630878780}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -110, y: -40}
+  m_SizeDelta: {x: 90, y: 90}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1420625053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420625051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 78bbd2efa48a60c4c82954a4c6e7f2cf, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1420625054
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420625051}
+  m_CullTransparentMesh: 1
 --- !u!1 &1421913281
 GameObject:
   m_ObjectHideFlags: 0
@@ -11514,6 +11589,7 @@ RectTransform:
   m_Children:
   - {fileID: 949986671}
   - {fileID: 1169600486}
+  - {fileID: 1420625052}
   m_Father: {fileID: 1589716461}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11630,7 +11706,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Placer des fruits ci-dessous pour nourrir les animaux
+  m_Text: "D\xE9poser des fruits dans la fen\xEAtre ci-dessous pour nourrir les animaux"
 --- !u!222 &1631210957
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14407,11 +14483,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.46603614
+      value: 0.46603617
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.053476725
+      value: 0.05347674
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -14419,7 +14495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.10067884
+      value: 0.10067886
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14431,11 +14507,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.4676711
+      value: 0.46767113
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.03651269
+      value: 0.036512695
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -14443,7 +14519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.068741225
+      value: 0.06874123
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14463,7 +14539,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.04499091
+      value: 0.044990905
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -17642,7 +17718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7810383345980546946, guid: 77005ba73338f5a428a2db9b9090e2c0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7810383346953551937, guid: 77005ba73338f5a428a2db9b9090e2c0, type: 3}
       propertyPath: m_SizeDelta.x

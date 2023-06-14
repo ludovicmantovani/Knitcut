@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -131,6 +132,39 @@ public class MinigameManager : MonoBehaviour
 
                 HandleCursor(true);
             }
+        }
+
+        // Cheat Codes
+
+        // Money
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            listSlots = FindObjectOfType<ListSlots>();
+            if (listSlots == null) return;
+            listSlots.UpdateMoney(listSlots.PlayerControl.Money + 400);
+        }
+
+        // Plant
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            CultureManager culture = FindObjectOfType<CultureManager>();
+            if (culture == null) return;
+            PlantGrowth plant = culture.CurrentCropPlot.SeedSource.GetComponent<PlantGrowth>();
+            if (plant == null) return;
+            plant.SetGrowthState("End", "InGrowth", plant.CurrentPlant, 0);
+        }
+
+        // Capture Animal
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            CaptureManager captureManager = FindObjectOfType<CaptureManager>();
+            if (captureManager == null) return;
+            if (captureManager.WildAnimal == null) return;
+            animalTypeToKeep = captureManager.WildAnimal.GetComponent<AnimalAI>().AnimalType;
+            Destroy(captureManager.WildAnimal);
+            AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
+            if (animalPenManager == null) return;
+            animalPenManager.InstantiateTamedAnimalInAnimalPen();
         }
     }
 
