@@ -264,7 +264,7 @@ VideoPlayer:
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 0
   m_WaitForFirstFrame: 1
@@ -359,7 +359,7 @@ RectTransform:
   - {fileID: 776703053}
   - {fileID: 1910944554}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -516,7 +516,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &247108901
 GameObject:
@@ -1520,7 +1520,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 36be6f723dc0bb04e840b4945cd0ac6b, type: 2}
+  m_Texture: {fileID: 8400000, guid: b8e552a072cd23942894c1b64f452320, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1960,7 +1960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6684046742517623807, guid: 9ae92e56bd6ee504290e09d6f24246a9, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6684046742517623807, guid: 9ae92e56bd6ee504290e09d6f24246a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2186,7 +2186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2416570076037475679, guid: 6369f65ff21fd834d89ef50053e21921, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2416570076037475679, guid: 6369f65ff21fd834d89ef50053e21921, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4209,7 +4209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2360994967946422222, guid: 91ff41ad6f03a02458790e5014de4179, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2360994967946422222, guid: 91ff41ad6f03a02458790e5014de4179, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4355,7 +4355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7196685384886497386, guid: 47ebee693d3f7324c905d68a31de0d25, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7196685384886497386, guid: 47ebee693d3f7324c905d68a31de0d25, type: 3}
       propertyPath: m_AnchorMax.x
