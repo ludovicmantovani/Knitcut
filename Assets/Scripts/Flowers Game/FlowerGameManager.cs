@@ -146,10 +146,14 @@ public class FlowerGameManager : MonoBehaviour
             _sequence.Clear();
             for (int i = 0; i < _turn; i++) _sequence.Enqueue(i);
             
-            if (_coutnError >= nbrErrorAllowed)
+            if (_coutnError >= nbrErrorAllowed - 1)
             {
                 if (_turn < 3)
+                {
+                    if (errorIndicator != null)
+                        errorIndicator.DisplayErrorCount(nbrErrorAllowed - 1 - _coutnError);
                     flowerCreationScript.FallPetals();
+                }
                 else
                 {
                     flowerCreationScript.CelebrateLove();
