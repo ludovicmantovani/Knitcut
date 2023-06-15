@@ -51,6 +51,11 @@ namespace Gameplay.Quests
             return rewards;
         }
 
+        public int GetRewardsCount()
+        {
+            return rewards.Count;
+        }
+
         public bool HasObjective(string objectiveRef)
         {
             foreach (Quest.Objective objective in objectives)
