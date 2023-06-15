@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -181,7 +180,7 @@ public class MinigameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name.Contains("Farm") || SceneManager.GetActiveScene().name.Contains("Water"))
         {
-            if (dataToKeep != null)dataLoaded = true;
+            if (dataToKeep != null) dataLoaded = true;
 
             if (animalTypeToKeep != AnimalType.None && mgType == MGType.Capture) animalCaptured = true;
         }
@@ -245,11 +244,15 @@ public class MinigameManager : MonoBehaviour
         {
             playerController.HandlePlayerMovement(false);
 
+            playerController.ReturnToMenuButton.gameObject.SetActive(false);
+
             HandleCursor(true);
         }
         else
         {
             playerController.HandlePlayerMovement(true);
+
+            playerController.ReturnToMenuButton.gameObject.SetActive(true);
 
             HandleCursor(false);
         }
@@ -358,7 +361,7 @@ public class MinigameManager : MonoBehaviour
         item.itemSprite = dish.dishSprite;
         item.itemObject = dish.gameObject;
 
-        inventory.AddItemToInventory(item, 1, price);
+        inventory.AddItemToInventory(item, 1, (float)price);
 
         HandleItemsInInventory(inventory);
     }

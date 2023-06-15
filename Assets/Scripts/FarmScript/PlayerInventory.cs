@@ -71,8 +71,10 @@ public class PlayerInventory : MonoBehaviour
             if (quantity != -1)
                 itemObject.GetComponent<ItemHandler>().QuantityStacked = quantity;
 
+            int uniqueValueInt = (int)uniqueValue;
+
             if (uniqueValue != -1)
-                itemObject.GetComponent<ItemHandler>().UniqueValue = uniqueValue;
+                itemObject.GetComponent<ItemHandler>().UniqueValue = (float)uniqueValueInt;
         }
 
         return itemObject;
@@ -126,7 +128,7 @@ public class PlayerInventory : MonoBehaviour
     public List<ItemHandler> SearchSameItemInInventory(Item item, float uniqueValue = 0f)
     {
         List<ItemHandler> itemHandlersInInventory = new List<ItemHandler>();
-        
+
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).GetComponentInChildren<ItemHandler>())
@@ -152,8 +154,6 @@ public class PlayerInventory : MonoBehaviour
         // Get all same item from inventory
         List<ItemHandler> itemHandlers = SearchSameItemInInventory(item, uniqueValue);
 
-        Debug.Log($"RemoveItemQuantity {itemHandlers.Count}");
-
         if (itemHandlers.Count == 0) return false;
 
         itemHandlers = itemHandlers.OrderBy(item => item.QuantityStacked).ToList();
@@ -166,8 +166,6 @@ public class PlayerInventory : MonoBehaviour
             quantityPossessed += itemHandlers[i].QuantityStacked;
         }
 
-        Debug.Log($"RemoveItemQuantity quantityPossessed {quantityPossessed}");
-
         // Remove total quantityToRemove
         if (quantityToRemove > quantityPossessed) return false;
 
@@ -176,8 +174,6 @@ public class PlayerInventory : MonoBehaviour
             if (itemHandlers[i].QuantityStacked > quantityToRemove)
             {
                 itemHandlers[i].QuantityStacked -= quantityToRemove;
-
-                Debug.Log($"RemoveItemQuantity remove {quantityToRemove} to {itemHandlers[i].QuantityStacked}");
 
                 return true;
             }
@@ -242,7 +238,7 @@ public class PlayerInventory : MonoBehaviour
         {
             quantity += itemHandlers[i].QuantityStacked;
         }
-        
+
         return quantity;
     }
 

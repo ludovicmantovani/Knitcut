@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject inventoryKeyUI;
     [SerializeField] private GameObject recipesInventoryKeyUI;
     [SerializeField] private GameObject cursorKeyUI;
+    [SerializeField] private GameObject returnToMenuButton;
 
     [Header("References")]
     [SerializeField] private string farmSceneName = "FarmScene";
@@ -54,6 +55,12 @@ public class PlayerController : MonoBehaviour
     private bool canMove = true;
 
     #region Getters / Setters
+
+    public GameObject ReturnToMenuButton
+    {
+        get { return returnToMenuButton; }
+        set { returnToMenuButton = value; }
+    }
 
     public PlayerInventory PlayerInventory
     {
@@ -171,7 +178,8 @@ public class PlayerController : MonoBehaviour
     {
         inventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.InventoryAction.GetBindingDisplayString();
         recipesInventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.RecipesInventoryAction.GetBindingDisplayString();
-        cursorKeyUI.GetComponentInChildren<Text>().text = KeyCode.LeftControl.ToString();
+        cursorKeyUI.GetComponentInChildren<Text>().text = $"L Ctrl";
+        //cursorKeyUI.GetComponentInChildren<Text>().text = KeyCode.LeftControl.ToString();
     }
 
     #region Camera Sensibility

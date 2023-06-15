@@ -79,7 +79,7 @@ public class ShopManager : MonoBehaviour
     }
 
     public enum ShopType
-    { 
+    {
         Seeds_Seller,
         Recipes_Dealer,
         Items_Dealer,
@@ -249,8 +249,6 @@ public class ShopManager : MonoBehaviour
 
             listSlots.UpdateMoney(playerController.Money + (int)totalPrice);
 
-            Debug.Log($"{itemToSell.item} in inventory ? {quantityInInventory}");
-
             bool itemQuantityRemoved = playerController.PlayerInventory.RemoveItemQuantity(itemToSell.item, amount, itemToSell.price);
 
             if (!itemQuantityRemoved) return;
@@ -258,8 +256,6 @@ public class ShopManager : MonoBehaviour
             currentItemUI.NameUI.text = $"{itemToSell.item.itemName} x{quantityLeft}";
 
             ShowNotification($"Vous avez vendu x{amount} '{itemToSell.item.itemName}' pour {totalPrice} pièces");
-
-            Debug.Log($"{itemToSell} x{amount} for {totalPrice}P / left ? ({quantityLeft})");
 
             if (quantityLeft <= 0)
             {
@@ -379,7 +375,7 @@ public class ShopManager : MonoBehaviour
                 {
                     Item item = (Item)listSlots.Stuffs[i];
 
-                    if (currentShop.itemsRestriction.Contains(item.itemType)) 
+                    if (currentShop.itemsRestriction.Contains(item.itemType))
                         CreateItemToHandle(item, (int)item.itemValue, currentShop);
                 }
             }
@@ -389,7 +385,7 @@ public class ShopManager : MonoBehaviour
                 {
                     Recipe recipe = (Recipe)listSlots.Stuffs[i];
 
-                    if (currentShop.itemsRestriction.Contains(ItemType.Recipe)) 
+                    if (currentShop.itemsRestriction.Contains(ItemType.Recipe))
                         CreateRecipeToHandle(recipe, (int)recipe.basePrice, currentShop);
                 }
             }
@@ -435,7 +431,7 @@ public class ShopManager : MonoBehaviour
     private void HandleItemsDealer(ShopConfiguration currentShop)
     {
         if (currentShop.items == null) return;
-        
+
         currentShop.items.Clear();
 
         for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
@@ -528,7 +524,7 @@ public class ShopManager : MonoBehaviour
             if (shopConfiguration.isForSelling)
             {
                 int quantity;
-                
+
                 if (itemToHandle.item.itemType == ItemType.Dish)
                     quantity = playerController.PlayerInventory.GetItemQuantity(itemToHandle.item, itemToHandle.price);
                 else

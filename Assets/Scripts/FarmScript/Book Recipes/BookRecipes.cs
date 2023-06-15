@@ -144,7 +144,7 @@ public class BookRecipes : MonoBehaviour
                 playerItem.quantity = itemHandler.QuantityStacked;
 
                 consumablesInInventory.Add(playerItem);
-            }            
+            }
         }
 
         for (int i = 0; i < pages.Count; i++)
@@ -152,11 +152,7 @@ public class BookRecipes : MonoBehaviour
             PageRecipe pageRecipe = pages[i].GetComponent<PageRecipe>();
 
             if (pageRecipe != null)
-            {
-                Debug.Log(pageRecipe.Recipe.GetInfosConsumablesRequired(consumablesInInventory));
-
                 pageRecipe.RecipeList.text = pageRecipe.Recipe.GetInfosConsumablesRequired(consumablesInInventory);
-            }
         }
     }
 
