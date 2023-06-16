@@ -99,7 +99,6 @@ public class ShopManager : MonoBehaviour
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
 
         interactionUI.SetActive(false);
-        CloseShopUI();
 
         interactionUI.SetActive(false);
     }
@@ -141,6 +140,8 @@ public class ShopManager : MonoBehaviour
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer {shopName}";
 
         MinigameManager.AddOpenInventory(shopUI);
+
+        playerController.PlayerInventory.OpenInventory();
     }
 
     private void CloseShopUI()
@@ -150,6 +151,8 @@ public class ShopManager : MonoBehaviour
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
 
         MinigameManager.RemoveOpenInventory(shopUI);
+
+        playerController.PlayerInventory.CloseInventory();
 
         Clear();
     }
