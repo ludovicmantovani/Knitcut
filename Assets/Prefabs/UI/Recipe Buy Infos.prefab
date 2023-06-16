@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 1510686324823150491}
   - component: {fileID: 1510686324823150488}
   - component: {fileID: 8771643440500668386}
+  - component: {fileID: 2686920140863102168}
   m_Layer: 5
   m_Name: Recipe Buy Infos
   m_TagString: Untagged
@@ -420,6 +421,18 @@ MonoBehaviour:
   amountButtonUp: {fileID: 0}
   amountButtonDown: {fileID: 0}
   operationUI: {fileID: 3147264031051460937}
+--- !u!225 &2686920140863102168
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510686324823150494}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2371691609861295491
 GameObject:
   m_ObjectHideFlags: 0

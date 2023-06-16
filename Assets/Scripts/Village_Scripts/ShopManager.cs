@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -223,11 +223,11 @@ public class ShopManager : MonoBehaviour
                 CreateItemUI(itemToBuy, lastQuantity);
             }
 
-            ShowNotification($"Vous avez acheté x{amount} '{itemToBuy.item.itemName}' pour {totalPrice} pièces");
+            ShowNotification($"Vous avez achetÃ© x{amount} '{itemToBuy.item.itemName}' pour {totalPrice} piÃ¨ces");
         }
         else
         {
-            ShowNotification($"Vous n'avez pas assez de pièces pour acheter cet item");
+            ShowNotification($"Vous n'avez pas assez de piÃ¨ces pour acheter cet item");
         }
     }
 
@@ -258,7 +258,7 @@ public class ShopManager : MonoBehaviour
 
             currentItemUI.NameUI.text = $"{itemToSell.item.itemName} x{quantityLeft}";
 
-            ShowNotification($"Vous avez vendu x{amount} '{itemToSell.item.itemName}' pour {totalPrice} pièces");
+            ShowNotification($"Vous avez vendu x{amount} '{itemToSell.item.itemName}' pour {totalPrice} piÃ¨ces");
 
             if (quantityLeft <= 0)
             {
@@ -269,30 +269,25 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            ShowNotification($"La quantité saisie est trop élevée");
+            ShowNotification($"La quantitÃ© saisie est trop Ã©levÃ©e");
         }
     }
 
-    private void BuyRecipe(RecipeToHandle recipeToBuy)
+    private void BuyRecipe(RecipeToHandle recipeToBuy, InfosUIRefs infosUIRefs)
     {
         if (playerController.Money >= recipeToBuy.price)
         {
-            if (!playerController.PlayerRecipesInventory.CheckIfHasRecipe(recipeToBuy.item))
-            {
-                playerController.PlayerRecipesInventory.AddRecipeToInventory(recipeToBuy.item);
+            playerController.PlayerRecipesInventory.AddRecipeToInventory(recipeToBuy.item);
 
-                listSlots.UpdateMoney(playerController.Money - recipeToBuy.price);
+            listSlots.UpdateMoney(playerController.Money - recipeToBuy.price);
 
-                ShowNotification($"Vous avez acheté la recette '{recipeToBuy.item.recipeName}' pour {recipeToBuy.price} pièces");
-            }
-            else
-            {
-                ShowNotification($"Vous possedez déjà cette recette");
-            }
+            ShowNotification($"Vous avez achetÃ© la recette '{recipeToBuy.item.recipeName}' pour {recipeToBuy.price} piÃ¨ces");
+
+            infosUIRefs.GetComponent<CanvasGroup>().interactable = false;
         }
         else
         {
-            ShowNotification($"Vous n'avez pas assez de pièces pour acheter cette recette");
+            ShowNotification($"Vous n'avez pas assez de piÃ¨ces pour acheter cette recette");
         }
     }
 
@@ -300,32 +295,23 @@ public class ShopManager : MonoBehaviour
     {
         int currentLevel = animalPensLevel[index];
 
-        int maxLevel = shopConfiguration.items.Count;
-
-        if (currentLevel < maxLevel)
+        if (playerController.Money >= price)
         {
-            if (playerController.Money >= price)
-            {
-                listSlots.UpdateMoney(playerController.Money - price);
+            listSlots.UpdateMoney(playerController.Money - price);
 
-                currentLevel++;
+            currentLevel++;
 
-                animalPensLevel[index] = currentLevel;
+            animalPensLevel[index] = currentLevel;
 
-                UpdateAnimalPenUI(shopConfiguration, infosUIRefs, currentLevel, type, index);
+            UpdateAnimalPenUI(shopConfiguration, infosUIRefs, currentLevel, type, index);
 
-                SaveAnimalPenLevels();
+            SaveAnimalPenLevels();
 
-                ShowNotification($"Vous avez acheté l'amélioration Lv{currentLevel} pour l'enclos n°{index} pour {price} P");
-            }
-            else
-            {
-                ShowNotification($"Vous n'avez pas assez de pièces pour améliorer cet enclos");
-            }
+            ShowNotification($"Vous avez achetÃ© l'amÃ©lioration Lv{currentLevel} pour l'enclos nÂ°{index} pour {price} P");
         }
         else
         {
-            ShowNotification($"Vous avez achetez toutes les améliorations pour cet enclos");
+            ShowNotification($"Vous n'avez pas assez de piÃ¨ces pour amÃ©liorer cet enclos");
         }
     }
 
@@ -575,9 +561,18 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+            RecipeToHandle recipeToHandle = (RecipeToHandle)objectToHandle;
 
-            infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle); });
+            if (playerController.PlayerRecipesInventory.CheckIfHasRecipe(recipeToHandle.item))
+            {
+                infosUIRefs.GetComponent<CanvasGroup>().interactable = false;
+            }
+            else
+            {
+                infosUIRefs.OperationUI.onClick.RemoveAllListeners();
+
+                infosUIRefs.OperationUI.onClick.AddListener(delegate { BuyRecipe((RecipeToHandle)objectToHandle, infosUIRefs); });
+            }
         }
     }
 
@@ -609,13 +604,13 @@ public class ShopManager : MonoBehaviour
             infosUIRefs.NameUI.text = $"Enclos Lv.{level} (max) pour {type}";
             infosUIRefs.PriceUI.text = $"0 P";
             infosUIRefs.OperationUI.onClick.RemoveAllListeners();
-            infosUIRefs.OperationUI.interactable = false;
+            infosUIRefs.GetComponent<CanvasGroup>().interactable = false;
         }
         else
         {
             int price = (int)shopConfiguration.items[level - 1].price;
 
-            infosUIRefs.NameUI.text = $"Enclos Lv.{level} -> Lv.{level + 1} pour {type}";
+            infosUIRefs.NameUI.text = $"Enclos Lv.{level} â–¶ Lv.{level + 1} pour {type}";
             infosUIRefs.PriceUI.text = $"{price} P";
             infosUIRefs.OperationUI.onClick.RemoveAllListeners();
             infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, type, index); });
