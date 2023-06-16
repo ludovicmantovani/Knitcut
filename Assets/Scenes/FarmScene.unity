@@ -11689,6 +11689,18 @@ PrefabInstance:
       value: MapCamera
       objectReference: {fileID: 0}
     - target: {fileID: 3343709568507920122, guid: 02ad47d16759a4e48a2f0ad81a5aa56b, type: 3}
+      propertyPath: playerPosition.objectName
+      value: PlayerPos
+      objectReference: {fileID: 0}
+    - target: {fileID: 3343709568507920122, guid: 02ad47d16759a4e48a2f0ad81a5aa56b, type: 3}
+      propertyPath: playerPosition.objectSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 810175ac4ca6e9d438fb750731cc5e3d, type: 3}
+    - target: {fileID: 3343709568507920122, guid: 02ad47d16759a4e48a2f0ad81a5aa56b, type: 3}
+      propertyPath: playerPosition.objectTransform
+      value: 
+      objectReference: {fileID: 1095277225}
+    - target: {fileID: 3343709568507920122, guid: 02ad47d16759a4e48a2f0ad81a5aa56b, type: 3}
       propertyPath: objectsToShow.Array.data[0].objectName
       value: RatonPicto
       objectReference: {fileID: 0}
@@ -40034,7 +40046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4934237556231945923, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.044990912
+      value: 0.04499091
       objectReference: {fileID: 0}
     - target: {fileID: 4934237556231945923, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -40042,7 +40054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4934237556231945923, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.084702894
+      value: 0.0847029
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -40114,7 +40126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.044990916
+      value: 0.04499091
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -40122,7 +40134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.08470291
+      value: 0.08470292
       objectReference: {fileID: 0}
     - target: {fileID: 7730635643159269677, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x
