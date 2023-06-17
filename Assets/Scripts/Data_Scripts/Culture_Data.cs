@@ -14,6 +14,9 @@ public class Culture_Data
 
     public float[] cropsTimer;
 
+    public int seedIndexInSlot;
+    public int seedQuantityInSlot;
+
     public Culture_Data(CultureManager cultureManager)
     {
         cropsCount = cultureManager.CropsCount;
@@ -26,6 +29,9 @@ public class Culture_Data
         cropsState = new string[cropsCount];
 
         cropsTimer = new float[cropsCount];
+
+        seedIndexInSlot = cultureManager.SeedIndexInSlot;
+        seedQuantityInSlot = cultureManager.SeedQuantityInSlot;
 
         for (int i = 0; i < cropsCount; i++)
         {

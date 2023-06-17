@@ -9,11 +9,9 @@ public class CultureManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject interactionUI;
+    [SerializeField] private GameObject itemUI;
     [SerializeField] private GameObject cultureUI;
-    [SerializeField] private GameObject seedToPlantUI;
-    [SerializeField] private Transform seedsParent;
     [SerializeField] private CropPlot currentCropPlot;
-    [SerializeField] private List<SeedToHandle> seeds;
 
     private PlayerInput playerInput;
     private PlayerController playerController;
@@ -22,13 +20,15 @@ public class CultureManager : MonoBehaviour
     private List<CropPlot> crops;
     private int[] cropsSeeds;
     private bool[] cropsCultivation;
-    public string[] cropsGrowth;
-    public string[] cropsState;
-    public float[] cropsTimer;
+    private string[] cropsGrowth;
+    private string[] cropsState;
+    private float[] cropsTimer;
+    private int seedIndexInSlot;
+    private int seedQuantityInSlot;
 
     [Header("Datas")]
+    [SerializeField] private bool inCultureArea;
     [SerializeField] private bool canPlantSeed;
-    [SerializeField] private bool cultureUIInUse;
 
     [Header("Quest")]
     [SerializeField] private QuestCompletion questCompletionPlant;
@@ -81,6 +81,18 @@ public class CultureManager : MonoBehaviour
         set { cropsTimer = value; }
     }
 
+    public int SeedIndexInSlot
+    {
+        get { return seedIndexInSlot; }
+        set { seedIndexInSlot = value; }
+    }
+
+    public int SeedQuantityInSlot
+    {
+        get { return seedQuantityInSlot; }
+        set { seedQuantityInSlot = value; }
+    }
+
     public GameObject InteractionUI
     {
         get { return interactionUI; }
@@ -91,12 +103,6 @@ public class CultureManager : MonoBehaviour
     {
         get { return playerInput; }
         set { playerInput = value; }
-    }
-
-    public GameObject CultureUI
-    {
-        get { return cultureUI; }
-        set { cultureUI = value; }
     }
 
     public CropPlot CurrentCropPlot
@@ -117,6 +123,12 @@ public class CultureManager : MonoBehaviour
         set { canPlantSeed = value; }
     }
 
+    public bool InCultureArea
+    {
+        get { return inCultureArea; }
+        set { inCultureArea = value; }
+    }
+
     #endregion
 
     private void Start()
@@ -134,7 +146,7 @@ public class CultureManager : MonoBehaviour
     private void Update()
     {
         HandlePlantSeedUI();
-        HandleCultureInventory();
+        HandleCropPlotState();
 
         HandleCultureData();
     }
@@ -154,12 +166,17 @@ public class CultureManager : MonoBehaviour
 
         cropsTimer = new float[cropsCount];
 
+        seedIndexInSlot = -1;
+        seedQuantityInSlot = 0;
+
         for (int i = 0; i < cropsCount; i++)
         {
             CropPlot crop = transform.GetChild(i).GetComponent<CropPlot>();
 
             if (!crops.Contains(crop)) crops.Add(crop);
         }
+
+        cultureUI.SetActive(false);
     }
 
     private void HandleCultureData()
@@ -172,7 +189,6 @@ public class CultureManager : MonoBehaviour
 
             if (crop.IsCultivating)
             {
-                //PlantGrowth plantGrowth = crop.SeedSource.GetComponent<PlantGrowth>();
                 if (crop.SeedSource == null) return;
 
                 if (!crop.SeedSource.TryGetComponent<PlantGrowth>(out var plantGrowth)) return;
@@ -196,7 +212,27 @@ public class CultureManager : MonoBehaviour
 
     public void SaveCulture()
     {
+        SaveItemUI();
+
         SaveSystem.Save(SaveSystem.SaveType.Save_Culture, this);
+    }
+
+    private void SaveItemUI()
+    {
+        ItemHandler itemHandler = GetItemUI();
+
+        if (itemHandler != null)
+        {
+            int itemIndex = playerController.ListSlots.GetItemIndex(itemHandler.Item);
+
+            seedIndexInSlot = itemIndex;
+            seedQuantityInSlot = itemHandler.QuantityStacked;
+        }
+        else
+        {
+            seedIndexInSlot = -1;
+            seedQuantityInSlot = 0;
+        }
     }
 
     public void LoadCulture()
@@ -210,6 +246,18 @@ public class CultureManager : MonoBehaviour
         cropsGrowth = data.cropsGrowth;
         cropsState = data.cropsState;
         cropsTimer = data.cropsTimer;
+
+        seedIndexInSlot = data.seedIndexInSlot;
+        seedQuantityInSlot = data.seedQuantityInSlot;
+
+        if (seedIndexInSlot != -1)
+        {
+            Item item = (Item)playerController.ListSlots.Stuffs[seedIndexInSlot];
+
+            if (item == null) return;
+
+            AddItem(item, seedQuantityInSlot);
+        }
 
         for (int i = 0; i < cropsCount; i++)
         {
@@ -243,99 +291,65 @@ public class CultureManager : MonoBehaviour
 
     private void HandlePlantSeedUI()
     {
-        if (canPlantSeed)
-        {
-            interactionUI.SetActive(true);
-        }
+        if (inCultureArea)
+            cultureUI.SetActive(true);
         else
-        {
+            cultureUI.SetActive(false);
+
+        if (canPlantSeed)
+            interactionUI.SetActive(true);
+        else
             interactionUI.SetActive(false);
-        }
-    }
-
-    private void HandleCultureInventory()
-    {
-        cultureUI.SetActive(cultureUIInUse);
-
-        HandleCropPlotState();
-
-        if (cultureUIInUse && playerInput.CancelAction.triggered)
-            CloseCultureUI();
     }
 
     private void HandleCropPlotState()
     {
-        if (!cultureUIInUse)
+        if (currentCropPlot == null) return;
+
+        if (!currentCropPlot.IsCultivating)
         {
-            if (currentCropPlot == null) return;
+            instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
+            interactionUI.GetComponentInChildren<Text>().text = instruction;
 
-            if (!currentCropPlot.IsCultivating)
+            if (playerInput.InteractionAction.triggered)
+                PlantSeedInSlot();
+        }
+        else if (currentCropPlot.IsCultivating && currentCropPlot.Product == null)
+        {
+            if (currentCropPlot.SeedSource == null) return;
+
+            PlantGrowth.ProductState plantProductState = currentCropPlot.SeedSource.GetComponent<PlantGrowth>().GetProductState;
+
+            if (plantProductState == PlantGrowth.ProductState.Sick)
+                instruction = $"Utiliser {playerInput.HealAction.GetBindingDisplayString()} pour soigner la plante";
+            else if (plantProductState == PlantGrowth.ProductState.Dehydrated)
+                instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
+            else
+                instruction = $"Croissance en cours...";
+
+            interactionUI.GetComponentInChildren<Text>().text = instruction;
+        }
+        else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
+        {
+            instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
+            interactionUI.GetComponentInChildren<Text>().text = instruction;
+
+            if (playerInput.InteractionAction.triggered && !playerController.PlayerInventory.InventoryIsFull())
             {
-                instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
-                interactionUI.GetComponentInChildren<Text>().text = instruction;
+                Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
 
-                if (playerInput.InteractionAction.triggered)
-                {
-                    canPlantSeed = false;
+                if (questCompletionPick != null)
+                    questCompletionPick.CompleteObjective();
 
-                    OpenCultureUI();
+                playerController.PlayerInventory.AddItemToInventory(item);
 
-                    HandleSeedsUI();
-                }
-            }
-            else if (currentCropPlot.IsCultivating && currentCropPlot.Product == null)
-            {
-                if (currentCropPlot.SeedSource == null) return;
+                Destroy(currentCropPlot.SeedSource);
 
-                PlantGrowth.ProductState plantProductState = currentCropPlot.SeedSource.GetComponent<PlantGrowth>().GetProductState;
-
-                if (plantProductState == PlantGrowth.ProductState.Sick)
-                    instruction = $"Utiliser {playerInput.HealAction.GetBindingDisplayString()} pour soigner la plante";
-                else if (plantProductState == PlantGrowth.ProductState.Dehydrated)
-                    instruction = $"Utiliser {playerInput.HydrateAction.GetBindingDisplayString()} pour hydrater la plante";
-                else
-                    instruction = $"Croissance en cours...";
-
-                interactionUI.GetComponentInChildren<Text>().text = instruction;
-            }
-            else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
-            {
-                instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
-                interactionUI.GetComponentInChildren<Text>().text = instruction;
-
-                if (playerInput.InteractionAction.triggered && !playerController.PlayerInventory.InventoryIsFull())
-                {
-                    Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
-
-                    if (questCompletionPick != null)
-                        questCompletionPick.CompleteObjective();
-
-                    playerController.PlayerInventory.AddItemToInventory(item);
-
-                    Destroy(currentCropPlot.SeedSource);
-
-                    currentCropPlot.SeedSource = null;
-                    currentCropPlot.Product = null;
-                    currentCropPlot.IsCultivating = false;
-                }
+                currentCropPlot.SeedSource = null;
+                currentCropPlot.Product = null;
+                currentCropPlot.IsCultivating = false;
             }
         }
-    }
-
-    private void OpenCultureUI()
-    {
-        cultureUIInUse = true;
-
-        MinigameManager.AddOpenInventory(cultureUI);
-    }
-
-    public void CloseCultureUI()
-    {
-        cultureUIInUse = false;
-
-        MinigameManager.RemoveOpenInventory(cultureUI);
-
-        canPlantSeed = true;
     }
 
     public void HandleCropPlot(CropPlot cropPlot, bool state)
@@ -352,80 +366,36 @@ public class CultureManager : MonoBehaviour
         }
     }
 
-    private void HandleSeedsUI()
-    {
-        Clear();
-
-        Dictionary<Item, int> seeds = new Dictionary<Item, int>();
-
-        seedsParent.GetComponent<Swipe>().ScrollPos = 1;
-
-        for (int i = 0; i < playerController.PlayerInventory.SearchItemsPossessed().Count; i++)
-        {
-            ItemHandler itemPossessed = playerController.PlayerInventory.SearchItemsPossessed()[i];
-
-            if (itemPossessed.Item.itemType == ItemType.Seed)
-            {
-                if (!seeds.ContainsKey(itemPossessed.Item))
-                {
-                    seeds.Add(itemPossessed.Item, itemPossessed.QuantityStacked);
-                }
-                else
-                {
-                    seeds.TryGetValue(itemPossessed.Item, out int currentQuantity);
-                    seeds[itemPossessed.Item] = currentQuantity + itemPossessed.QuantityStacked;
-                }
-            }
-        }
-
-        foreach (Item item in seeds.Keys)
-        {
-            seeds.TryGetValue(item, out int quantity);
-
-            ShowObjectUI(item, quantity);
-        }
-    }
-
-    private void ShowObjectUI(Item item, int quantity)
-    {
-        InfosUIRefs infosUIRefs = Instantiate(seedToPlantUI, seedsParent).GetComponent<InfosUIRefs>();
-
-        Sprite objectSprite = item.itemSprite;
-        string objectName = item.itemName;
-        float objectQuantity = quantity;
-
-        infosUIRefs.ImageUI.sprite = item.itemSprite; ;
-        infosUIRefs.NameUI.text = item.itemName;
-        infosUIRefs.PriceUI.text = $"x{quantity}";
-
-        infosUIRefs.OperationUI.onClick.AddListener(delegate { PlantSeed(item); });
-    }
-
-    private void Clear()
-    {
-        for (int j = 0; j < seedsParent.childCount; j++)
-        {
-            Destroy(seedsParent.GetChild(j).gameObject);
-        }
-    }
-
     #endregion
 
-    public void PlantSeed(Item item)
+    private void PlantSeedInSlot()
+    {
+        Slot seedSlot = cultureUI.GetComponentInChildren<Slot>();
+
+        if (seedSlot.transform.childCount == 0) return;
+
+        Item seedToPlant = seedSlot.GetComponentInChildren<ItemHandler>().Item;
+
+        if (seedToPlant.itemType != ItemType.Seed) return;
+
+        canPlantSeed = false;
+
+        PlantSeed(seedToPlant);
+    }
+
+    private void PlantSeed(Item item)
     {
         if (currentCropPlot == null) return;
 
         if (currentCropPlot != null && currentCropPlot.SeedSource != null) return;
 
-        playerController.PlayerInventory.RemoveItemQuantity(item, 1);
+        RemoveItem();
 
         GameObject plant = Instantiate(item.itemObject, currentCropPlot.transform);
 
         plant.GetComponent<PlantGrowth>().CropPlot = currentCropPlot;
 
         currentCropPlot.SeedSource = plant;
-
-        CloseCultureUI();
 
         if (questCompletionPlant != null)
             questCompletionPlant.CompleteObjective();
@@ -443,4 +413,42 @@ public class CultureManager : MonoBehaviour
 
         plant.GetComponent<PlantGrowth>().SetGrowthState(growth, state, plantSO, timeSkip);
     }
+
+    #region HandleItem
+
+    private void RemoveItem()
+    {
+        Transform slot = cultureUI.GetComponentInChildren<Slot>().transform;
+
+        // If item present in slot
+        if (slot.childCount > 0)
+        {
+            ItemHandler itemHandler = slot.GetChild(0).GetComponent<ItemHandler>();
+
+            itemHandler.QuantityStacked -= 1;
+
+            if (itemHandler.QuantityStacked <= 0)
+                Destroy(itemHandler.gameObject);
+        }
+    }
+
+    private void AddItem(Item item, int quantity)
+    {
+        Transform slot = cultureUI.GetComponentInChildren<Slot>().transform;
+
+        ItemHandler itemHandler = Instantiate(itemUI, slot).GetComponent<ItemHandler>();
+
+        itemHandler.Item = item;
+        itemHandler.QuantityStacked = quantity;
+    }
+
+    private ItemHandler GetItemUI()
+    {
+        Transform slot = cultureUI.GetComponentInChildren<Slot>().transform;
+
+        if (slot.childCount > 0) return slot.GetComponentInChildren<ItemHandler>();
+        else return null;
+    }
+
+    #endregion
 }
