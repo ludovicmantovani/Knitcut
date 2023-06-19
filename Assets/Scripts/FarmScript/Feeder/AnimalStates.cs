@@ -22,6 +22,23 @@ public class AnimalStates : MonoBehaviour
     private bool canProduceWool = false;
     private bool producingWool = false;
 
+    [Header("Hunger parameters")]
+    [SerializeField] private float hunger = 0;
+    [SerializeField] private float maxHunger = 300;
+    [SerializeField] private float hungerToDecrease = 40;
+    [SerializeField] private float timeDecreaseHunger = 60;
+
+    private bool decreasing;
+    private bool feeding;
+
+    [Header("Happiness parameters")]
+    [SerializeField] private int happiness;
+    [SerializeField] private float requiredHungerForHappiness = 0.6f;
+    [SerializeField] private Color happyColor;
+    [SerializeField] private Color sadColor;
+
+    #region Getters / Setters
+
     public string AnimalName
     {
         get { return animalName; }
@@ -40,34 +57,26 @@ public class AnimalStates : MonoBehaviour
         set { isChild = value; }
     }
 
-    [Header("Hunger parameters")]
-    [SerializeField] private float hunger = 0;
-    [SerializeField] private float maxHunger = 300;
-    [SerializeField] private float hungerToDecrease = 40;
-    [SerializeField] private float timeDecreaseHunger = 60;
-
-    private bool decreasing;
-    private bool searchingFood;
-    private bool feeding;
-
     public float Hunger
     {
         get { return hunger; }
         set { hunger = value; }
     }
 
-    [Header("Happiness parameters")]
-    [SerializeField] private int happiness;
-    [SerializeField] private float requiredHungerForHappiness = 0.6f;
-    [SerializeField] private Color happyColor;
-    [SerializeField] private Color sadColor;
+    public Feeder CurrentFeeder
+    {
+        get { return feeder; }
+        set { feeder = value; }
+    }
 
-    void Awake()
+    #endregion
+
+    private void Awake()
     {
         if (!isChild) InitializeHunger();
     }
 
-    void Update()
+    private void Update()
     {
         animalCanvas.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
         
@@ -124,7 +133,6 @@ public class AnimalStates : MonoBehaviour
         hunger = maxHunger;
 
         decreasing = false;
-        searchingFood = false;
         feeding = false;
 
         animalHungerSlider.maxValue = maxHunger;
@@ -134,16 +142,10 @@ public class AnimalStates : MonoBehaviour
     private void HandleHunger()
     {
         if (!decreasing && hunger > 0)
-        {
             StartCoroutine(DecreaseHungerOverTime());
-        }
 
-        if (!searchingFood && hunger < maxHunger)
-        {
-            searchingFood = true;
-
+        if (hunger < maxHunger)
             SearchFood();
-        }
 
         animalHungerSlider.value = hunger;
     }
@@ -162,20 +164,16 @@ public class AnimalStates : MonoBehaviour
 
             feeder.RemoveItem(food);
         }
-        else
-        {
-            searchingFood = false;
-        }
     }
 
     private void Feed(float hungerToFeed)
     {
+        Debug.Log($"Feed {hungerToFeed}");
         hunger += (int)hungerToFeed;
 
         if (hunger > maxHunger) hunger = maxHunger;
 
         feeding = false;
-        searchingFood = false;
     }
 
     private IEnumerator DecreaseHungerOverTime()

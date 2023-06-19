@@ -120,11 +120,11 @@ public class CaptureManager : MonoBehaviour
         GameObject randomAnimal = animals[randomAnimalIndex];
 
         // Verify if new random animal is same as previous
-        if (previousAnimal != null && previousAnimal == randomAnimal)
+        /*if (previousAnimal != null && previousAnimal == randomAnimal)
         {
             SpawnRandomAnimal();
             return;
-        }
+        }*/
 
         previousAnimal = randomAnimal;
 

@@ -469,6 +469,10 @@ public class AnimalPenManager : MonoBehaviour
 
         AnimalStates animal = Instantiate(animalObject, currentAnimalPenInScene).GetComponent<AnimalStates>();
 
+        animal.GetComponent<AnimalData>().CurrentAnimalPen = currentAnimalPen.currentAnimalPenState;
+        
+        animal.CurrentFeeder = currentAnimalPen.currentFeeder.GetComponent<Feeder>();
+        
         string animalID = GenerateAnimalID(animal.GetComponent<AnimalData>());
 
         animal.AnimalID = animalID;
