@@ -190,45 +190,99 @@ public class ShopManager : MonoBehaviour
 
         if (amount <= 0) return;
 
-        if (playerController.PlayerInventory.InventoryIsFull())
-        {
-            ShowNotification($"L'inventaire est plein");
-
-            return;
-        }
-
         float totalPrice = amount * itemToBuy.price;
 
         if (playerController.Money >= totalPrice)
         {
-            listSlots.UpdateMoney(playerController.Money - (int)totalPrice);
-
-            if (amount <= itemToBuy.item.maxStackSize)
-            {
-                CreateItemUI(itemToBuy, amount);
-            }
+            if (playerController.PlayerInventory.InventoryIsFull())
+                CheckQuantityAvailableInItemsPossessed(itemToBuy, amount, totalPrice);
             else
-            {
-                int nbItemsToCreate = amount / itemToBuy.item.maxStackSize;
-
-                for (int i = 0; i < nbItemsToCreate; i++)
-                {
-                    CreateItemUI(itemToBuy, itemToBuy.item.maxStackSize);
-                }
-
-                int lastQuantity = amount - (nbItemsToCreate * itemToBuy.item.maxStackSize);
-
-                if (lastQuantity == 0) return;
-
-                CreateItemUI(itemToBuy, lastQuantity);
-            }
-
-            ShowNotification($"Vous avez acheté x{amount} '{itemToBuy.item.itemName}' pour {totalPrice} pièces");
+                BuyNewItem(itemToBuy, amount, totalPrice);
         }
         else
         {
             ShowNotification($"Vous n'avez pas assez de pièces pour acheter cet item");
         }
+    }
+
+    private void CheckQuantityAvailableInItemsPossessed(ItemToHandle itemToBuy, int amount, float price)
+    {
+        List<ItemHandler> sameItems = playerController.PlayerInventory.SearchSameItemInInventory(itemToBuy.item);
+
+        if (sameItems.Count > 0)
+        {
+            int quantityAvailable = 0;
+
+            for (int i = 0; i < sameItems.Count; i++)
+            {
+                if (sameItems[i].QuantityStacked < sameItems[i].Item.maxStackSize)
+                {
+                    quantityAvailable += sameItems[i].Item.maxStackSize - sameItems[i].QuantityStacked;
+                }
+            }
+
+            if (quantityAvailable >= amount)
+            {
+                int remainingAmount = amount;
+
+                for (int i = 0; i < sameItems.Count; i++)
+                {
+                    if (remainingAmount <= 0) return;
+
+                    int quantityAvailableInItem = sameItems[i].Item.maxStackSize - sameItems[i].QuantityStacked;
+
+                    if (remainingAmount <= quantityAvailableInItem)
+                    {
+                        sameItems[i].QuantityStacked += remainingAmount;
+                    }
+                    else
+                    {
+                        sameItems[i].QuantityStacked = sameItems[i].Item.maxStackSize;
+
+                        remainingAmount -= quantityAvailableInItem;
+                    }
+                }
+
+                ShowNotification($"Vous avez acheté x{amount} '{itemToBuy.item.itemName}' pour {price} pièces");
+
+                listSlots.UpdateMoney(playerController.Money - (int)price);
+            }
+            else
+            {
+                ShowNotification($"L'inventaire est plein");
+            }
+        }
+        else
+        {
+            ShowNotification($"L'inventaire est plein");
+        }
+    }
+
+    private void BuyNewItem(ItemToHandle itemToBuy, int amount, float price)
+    {
+        if (amount <= itemToBuy.item.maxStackSize)
+        {
+            CreateItemUI(itemToBuy, amount);
+        }
+        else
+        {
+            int nbItemsToCreate = amount / itemToBuy.item.maxStackSize;
+
+            for (int i = 0; i < nbItemsToCreate; i++)
+            {
+                CreateItemUI(itemToBuy, itemToBuy.item.maxStackSize);
+            }
+
+            int lastQuantity = amount - (nbItemsToCreate * itemToBuy.item.maxStackSize);
+
+            if (lastQuantity == 0) return;
+
+            CreateItemUI(itemToBuy, lastQuantity);
+        }
+
+        listSlots.UpdateMoney(playerController.Money - (int)price);
+
+        ShowNotification($"Vous avez acheté x{amount} '{itemToBuy.item.itemName}' pour {price} pièces");
     }
 
     private void SellItem(ItemToHandle itemToSell, InfosUIRefs currentItemUI, ShopConfiguration shopConfiguration)
