@@ -332,10 +332,18 @@ public class CultureManager : MonoBehaviour
         }
         else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
         {
+            if (playerController.PlayerInventory.InventoryIsFull())
+            {
+                instruction = $"Croissance terminée\nL'inventaire est plein";
+                interactionUI.GetComponentInChildren<Text>().text = instruction;
+
+                return;
+            }
+            
             instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
             interactionUI.GetComponentInChildren<Text>().text = instruction;
 
-            if (playerInput.InteractionAction.triggered && !playerController.PlayerInventory.InventoryIsFull())
+            if (playerInput.InteractionAction.triggered/* && !playerController.PlayerInventory.InventoryIsFull()*/)
             {
                 Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
 
