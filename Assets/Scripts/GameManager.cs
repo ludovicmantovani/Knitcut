@@ -5,24 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private static List<object> dataToKeep;
+    #region Parameters
+
     private static string sceneToLoad = "FarmScene";
     private static string menuScene = "Menu";
+
+    private static bool returnToFarm = false;
+
+    private static MGType mgType;
     private static AnimalType animalTypeToKeep = AnimalType.None;
+
+    private static List<object> dataToKeep;
     private static List<int> animalPenIndexToUpgrade = new List<int>();
     private static List<Recipe> recipesPossessed;
-    private static PlayerController playerController;
     private static List<GameObject> openInventories = new List<GameObject>();
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
-    private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
-    private static bool returnToFarm = false;
-    private static MGType mgType;
 
-    private ListSlots listSlots;
-    private bool dataLoaded = false;
-    private bool animalCaptured = false;
+    private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
+
+    private static PlayerController playerController;
 
     private static event Action OnInventoryListUpdate;
+
+    private ListSlots listSlots;
+
+    private bool dataLoaded = false;
+    private bool animalCaptured = false;
 
     public enum MGType
     {
@@ -31,6 +39,8 @@ public class GameManager : MonoBehaviour
         Breeding,
         Capture
     }
+
+    #endregion
 
     #region Getters / Setters
 
@@ -93,47 +103,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (dataLoaded)
-        {
-            dataLoaded = false;
+        UpdateDataLoaded();
 
-            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<ListSlots>()) return;
+        UpdateAnimalCaptured();
 
-            CheckItemsToAdd();
-        }
+        ForceShowCursor();
 
-        if (animalCaptured)
-        {
-            if (mgType != MGType.Capture) return;
-
-            animalCaptured = false;
-
-            AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
-
-            if (SceneManager.GetActiveScene().name.Contains("Farm") && animalPenManager == null) return;
-
-            animalPenManager.InstantiateTamedAnimalInAnimalPen();
-
-            animalTypeToKeep = AnimalType.None;
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftControl) && openInventories.Count == 0)
-        {
-            if (Cursor.visible)
-            {
-                playerController.HandlePlayerMovement(true);
-
-                HandleCursor(false);
-            }
-            else
-            {
-                playerController.HandlePlayerMovement(false);
-
-                HandleCursor(true);
-            }
-        }
-
-        // Cheat Codes
+        #region Cheat Codes
 
         // Money
         if (Input.GetKeyDown(KeyCode.Keypad1))
@@ -165,7 +141,62 @@ public class GameManager : MonoBehaviour
             if (animalPenManager == null) return;
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
         }
+
+        #endregion
     }
+
+    #region In Update
+
+    private void UpdateDataLoaded()
+    {
+        if (dataLoaded)
+        {
+            dataLoaded = false;
+
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<ListSlots>()) return;
+
+            CheckItemsToAdd();
+        }
+    }
+
+    private void UpdateAnimalCaptured()
+    {
+        if (animalCaptured)
+        {
+            if (mgType != MGType.Capture) return;
+
+            animalCaptured = false;
+
+            AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
+
+            if (SceneManager.GetActiveScene().name.Contains("Farm") && animalPenManager == null) return;
+
+            animalPenManager.InstantiateTamedAnimalInAnimalPen();
+
+            animalTypeToKeep = AnimalType.None;
+        }
+    }
+
+    private void ForceShowCursor()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl) && openInventories.Count == 0)
+        {
+            if (Cursor.visible)
+            {
+                playerController.HandlePlayerMovement(true);
+
+                HandleCursor(false);
+            }
+            else
+            {
+                playerController.HandlePlayerMovement(false);
+
+                HandleCursor(true);
+            }
+        }
+    }
+
+    #endregion
 
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
@@ -449,6 +480,8 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region Switch Scenes
+
     public static void SwitchScene(string specificScene = "")
     {
         if (specificScene != "")
@@ -471,4 +504,6 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene(menuScene);
     }
+
+    #endregion
 }
