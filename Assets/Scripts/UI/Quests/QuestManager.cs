@@ -1,18 +1,33 @@
-using Gameplay.UI.Quests;
+﻿using Gameplay.Quests;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-namespace Gameplay.Quests
+namespace Gameplay.UI.Quests
 {
-    public class QuestList : MonoBehaviour
+    public class QuestManager : MonoBehaviour
     {
         [SerializeField] private List<Quest> quests = new List<Quest>();
         private List<QuestStatus> _statuses = new List<QuestStatus>();
         private int _questIndex = 0;
 
+        private static QuestManager _instance = null;
+        public static QuestManager Instance => _instance;
+
         public event Action onUpdate;
+
+        void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            else
+            {
+                _instance = this;
+            }
+            DontDestroyOnLoad(this.gameObject);
+        }
 
         private void Start()
         {
@@ -33,13 +48,12 @@ namespace Gameplay.Quests
             return null;
         }
 
-        public void AddQuest(Quest quest)
+        public void CompleteObjective(string objective)
         {
-            if (HasQuest(quest)) return;
-            QuestStatus newStatus = new QuestStatus(quest);
-            _statuses.Add(newStatus);
-            if (onUpdate != null)
-                onUpdate();
+            if (quests.Count > _questIndex)
+            {
+                CompleteObjective(quests[_questIndex], objective);
+            }
         }
 
         public void CompleteObjective(Quest quest, string objective)
@@ -48,6 +62,8 @@ namespace Gameplay.Quests
             status.CompleteObjective(objective);
             if (status.IsComplete())
             {
+                if (onUpdate != null)
+                    onUpdate();
                 _questIndex++;
             }
             if (onUpdate != null)

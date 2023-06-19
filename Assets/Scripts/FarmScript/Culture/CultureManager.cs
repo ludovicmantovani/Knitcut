@@ -1,4 +1,5 @@
 using Gameplay.Quests;
+using Gameplay.UI.Quests;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +32,8 @@ public class CultureManager : MonoBehaviour
     [SerializeField] private bool canPlantSeed;
 
     [Header("Quest")]
-    [SerializeField] private QuestCompletion questCompletionPlant;
-    [SerializeField] private QuestCompletion questCompletionPick;
+    [SerializeField] private string questCompletionPlant = "";
+    [SerializeField] private string questCompletionPick = "";
 
     private string instruction;
 
@@ -338,8 +339,8 @@ public class CultureManager : MonoBehaviour
             {
                 Item item = currentCropPlot.Product.GetComponent<KeepItem>().Item;
 
-                if (questCompletionPick != null)
-                    questCompletionPick.CompleteObjective();
+                if (questCompletionPick.Length > 0)
+                    QuestManager.Instance.CompleteObjective(questCompletionPick);
 
                 playerController.PlayerInventory.AddItemToInventory(item);
 
@@ -397,8 +398,8 @@ public class CultureManager : MonoBehaviour
 
         currentCropPlot.SeedSource = plant;
 
-        if (questCompletionPlant != null)
-            questCompletionPlant.CompleteObjective();
+        if (questCompletionPlant.Length > 0)
+            QuestManager.Instance.CompleteObjective(questCompletionPlant);
     }
 
     private void PlantSpectificPlantAtCropPlot(Plant plantSO, CropPlot currentCropPlot, string growth, string state, float timeSkip)

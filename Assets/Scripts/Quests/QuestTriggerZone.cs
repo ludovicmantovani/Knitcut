@@ -1,18 +1,18 @@
-using Gameplay.Quests;
+using Gameplay.UI.Quests;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerZone : MonoBehaviour
+public class QuestTriggerZone : MonoBehaviour
 {
-    [SerializeField] private QuestCompletion questCompletion;
+    [SerializeField] private string objectif_ref = "";
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            if (questCompletion)
+            if (objectif_ref.Length > 0)
             {
-                questCompletion.CompleteObjective();
+                QuestManager.Instance.CompleteObjective(objectif_ref);
             }
             Destroy(gameObject);
         }

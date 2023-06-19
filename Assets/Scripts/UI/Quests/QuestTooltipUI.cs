@@ -15,6 +15,8 @@ namespace Gameplay.UI.Quests
         [SerializeField] private GameObject objectiveIncompletePrefab;
         [SerializeField] private GameObject[] rewardUISection;
         [SerializeField] private TextMeshProUGUI rewardText;
+
+        private QuestManager _qM = null;
         public void Setup(QuestStatus status)
         {
             Quest quest = status.GetQuest();
@@ -66,6 +68,36 @@ namespace Gameplay.UI.Quests
                     rewardText += reward.item.itemName;
             }
             return rewardText;
+        }
+
+        private void Start()
+        {
+            UpdateData();
+        }
+
+        private void OnEnable()
+        {
+            _qM = QuestManager.Instance;
+            _qM.onUpdate += UpdateData;
+        }
+
+        private void OnDisable()
+        {
+            _qM.onUpdate -= UpdateData;
+        }
+
+        private void UpdateData()
+        {
+            QuestStatus qs = _qM.GetCurrentQuestStatus();
+            if (qs != null)
+            {
+                Setup(qs);
+            }
+            else
+            {
+                _qM.onUpdate -= UpdateData;
+                Destroy(this.gameObject);
+            }
         }
     }
 }
