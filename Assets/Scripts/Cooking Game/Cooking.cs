@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using static UnityEditor.Progress;
 
 public class Cooking : MonoBehaviour
 {
