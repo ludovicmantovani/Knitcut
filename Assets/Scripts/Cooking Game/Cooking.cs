@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using static UnityEditor.Progress;
 
 public class Cooking : MonoBehaviour
 {
@@ -103,11 +104,35 @@ public class Cooking : MonoBehaviour
     {
         consumablesInInventory.Clear();
 
-        for (int i = 0; i < GameManager.PlayerItems.Count; i++)
+        List<GameManager.PlayerItem> playerItems = GameManager.PlayerItems;
+
+        for (int i = 0; i < playerItems.Count; i++)
         {
-            if (GameManager.PlayerItems[i].item.itemType == ItemType.Consumable)
-                consumablesInInventory.Add(GameManager.PlayerItems[i]);
+            GameManager.PlayerItem itemEquivalent = GetConsumableInInventory(playerItems[i].item);
+
+            if (playerItems[i].item.itemType == ItemType.Consumable)
+            {
+                if (itemEquivalent == null)
+                    consumablesInInventory.Add(playerItems[i]);
+                else
+                    itemEquivalent.quantity += playerItems[i].quantity;
+            }
         }
+
+        for (int i = 0; i < consumablesInInventory.Count; i++)
+        {
+            Debug.Log($"{i}. {consumablesInInventory[i].item.itemName} x{consumablesInInventory[i].quantity}");
+        }
+    }
+
+    private GameManager.PlayerItem GetConsumableInInventory(Item item)
+    {
+        for (int i = 0; i < consumablesInInventory.Count; i++)
+        {
+            if (consumablesInInventory[i].item == item) return consumablesInInventory[i];
+        }
+
+        return null;
     }
 
     #region Final Product
