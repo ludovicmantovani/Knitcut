@@ -33,7 +33,7 @@ public class ResultCanvas : MonoBehaviour
         info = "Retour à la ferme";
         if (textButton) textButton.text = info;
 
-        MinigameManager.AnimalTypeToKeep = win ? _animalType : AnimalType.None;
+        GameManager.AnimalTypeToKeep = win ? _animalType : AnimalType.None;
     }
 
     public void Display(bool hideObjects = true)

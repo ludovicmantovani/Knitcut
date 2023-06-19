@@ -75,15 +75,15 @@ public class ChangeScene : MonoBehaviour
 
             if (sceneToLoad.Contains("Cooking")) CheckPlayerObjects();
 
-            MinigameManager.SwitchScene(sceneToLoad);
+            GameManager.SwitchScene(sceneToLoad);
         }
     }
 
     private void CheckPlayerObjects()
     {
-        MinigameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
+        GameManager.RecipesPossessed = playerController.PlayerRecipesInventory.GetRecipes();
 
-        MinigameManager.ClearPlayerItems(false, true);
+        GameManager.ClearPlayerItems(false, true);
 
         for (int i = 0; i < listSlots.PlayerSlots.Length; i++)
         {
@@ -91,7 +91,7 @@ public class ChangeScene : MonoBehaviour
             {
                 Item item = listSlots.PlayerSlots[i].GetComponentInChildren<ItemHandler>().Item;
                 
-                MinigameManager.AddPlayerItem(item, listSlots.QuantityStackedPlayerInventory[i]);
+                GameManager.AddPlayerItem(item, listSlots.QuantityStackedPlayerInventory[i]);
             }
         }
     }
@@ -148,7 +148,7 @@ public class ChangeScene : MonoBehaviour
                     {
                         GetAnimalType();
 
-                        if (animalPenManager.CheckAnimalPenRestrictions(MinigameManager.AnimalTypeToKeep, true))
+                        if (animalPenManager.CheckAnimalPenRestrictions(GameManager.AnimalTypeToKeep, true))
                         {
                             instruction += " pour reproduire les animaux";
                         }
@@ -198,7 +198,7 @@ public class ChangeScene : MonoBehaviour
             {
                 AnimalType animalType = animalTypeList[i];
 
-                MinigameManager.AnimalTypeToKeep = animalType;
+                GameManager.AnimalTypeToKeep = animalType;
             }
         }
     }

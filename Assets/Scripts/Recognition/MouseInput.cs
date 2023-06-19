@@ -201,7 +201,7 @@ namespace Recognition
                 if (moneyTransform) moneyTransform.GetComponent<TMP_Text>().text = $"{money}";
 
                 // Save datas
-                MinigameManager.FinalizeMG(MinigameManager.MGType.Recognition, money);
+                GameManager.FinalizeMG(GameManager.MGType.Recognition, money);
 
                 //TODO : Set commentary
 
@@ -227,7 +227,7 @@ namespace Recognition
 
         public void Quit()
         {
-            MinigameManager.SwitchScene();
+            GameManager.SwitchScene();
         }
 
         #endregion

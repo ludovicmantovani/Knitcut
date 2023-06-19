@@ -430,7 +430,7 @@ public class AnimalPenManager : MonoBehaviour
         // Get animal prefab
         for (int i = 0; i < animalsList.Count; i++)
         {
-            if (animalsList[i].GetComponent<AnimalData>().AnimalType == MinigameManager.AnimalTypeToKeep)
+            if (animalsList[i].GetComponent<AnimalData>().AnimalType == GameManager.AnimalTypeToKeep)
             {
                 tamedAnimal = animalsList[i];
             }
@@ -443,7 +443,7 @@ public class AnimalPenManager : MonoBehaviour
 
         for (int i = 0; i < animalPenList.Count; i++)
         {
-            if (animalPenList[i].animalType == MinigameManager.AnimalTypeToKeep)
+            if (animalPenList[i].animalType == GameManager.AnimalTypeToKeep)
             {
                 animalPenOfAnimalIndex = i;
             }
@@ -456,7 +456,7 @@ public class AnimalPenManager : MonoBehaviour
         else
             totalAnimalsChildren[animalPenOfAnimalIndex]++;
 
-        MinigameManager.AnimalTypeToKeep = AnimalType.None;
+        GameManager.AnimalTypeToKeep = AnimalType.None;
 
         InstantiateAnimal(tamedAnimal, animalPenList[animalPenOfAnimalIndex]);
 

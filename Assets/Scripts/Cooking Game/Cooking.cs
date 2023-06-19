@@ -32,7 +32,7 @@ public class Cooking : MonoBehaviour
     private Consumable3DSpawner consumable3DSpawner;
     private Blade blade;
 
-    private List<MinigameManager.PlayerItem> consumablesInInventory = new List<MinigameManager.PlayerItem>();
+    private List<GameManager.PlayerItem> consumablesInInventory = new List<GameManager.PlayerItem>();
 
     private VideoPlayer videoPlayer;
 
@@ -103,10 +103,10 @@ public class Cooking : MonoBehaviour
     {
         consumablesInInventory.Clear();
 
-        for (int i = 0; i < MinigameManager.PlayerItems.Count; i++)
+        for (int i = 0; i < GameManager.PlayerItems.Count; i++)
         {
-            if (MinigameManager.PlayerItems[i].item.itemType == ItemType.Consumable)
-                consumablesInInventory.Add(MinigameManager.PlayerItems[i]);
+            if (GameManager.PlayerItems[i].item.itemType == ItemType.Consumable)
+                consumablesInInventory.Add(GameManager.PlayerItems[i]);
         }
     }
 
@@ -128,7 +128,7 @@ public class Cooking : MonoBehaviour
         float finalPrice = currentRecipe.basePrice * (1 + (consumables3Dsliced / totalConsumablesRequired));
 
         // Save datas
-        MinigameManager.FinalizeMG(MinigameManager.MGType.Cooking, currentRecipe, finalPrice);
+        GameManager.FinalizeMG(GameManager.MGType.Cooking, currentRecipe, finalPrice);
 
         CookingResultCanvas cookingResultCanvas = null;
 
@@ -146,7 +146,7 @@ public class Cooking : MonoBehaviour
 
     public void Quit()
     {
-        MinigameManager.SwitchScene();
+        GameManager.SwitchScene();
     }
 
     #endregion
@@ -179,7 +179,7 @@ public class Cooking : MonoBehaviour
     private void AddRecipesAtStart()
     {
         // Get All recipes
-        recipes = MinigameManager.RecipesPossessed;
+        recipes = GameManager.RecipesPossessed;
 
         if (recipes.Count == 0) return;
 
@@ -273,7 +273,7 @@ public class Cooking : MonoBehaviour
             int index = 0;
             for (int i = 0; i < currentRecipe.consumablesRequired.Count; i++)
             {
-                MinigameManager.RemovePlayerItem(currentRecipe.consumablesRequired[i].consumable, currentRecipe.consumablesRequired[i].quantity);
+                GameManager.RemovePlayerItem(currentRecipe.consumablesRequired[i].consumable, currentRecipe.consumablesRequired[i].quantity);
 
                 for (int j = 0; j < currentRecipe.consumablesRequired[i].quantity; j++)
                 {

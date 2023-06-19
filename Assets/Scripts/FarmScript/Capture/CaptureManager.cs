@@ -219,11 +219,11 @@ public class CaptureManager : MonoBehaviour
 
                 captureUI.SetActive(false);
 
-                MinigameManager.CleanOpenInventories();
+                GameManager.CleanOpenInventories();
 
                 AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
 
-                MinigameManager.FinalizeMG(MinigameManager.MGType.Capture, animal.name, animal.AnimalType);
+                GameManager.FinalizeMG(GameManager.MGType.Capture, animal.name, animal.AnimalType);
 
                 playerController.SavePlayerPositionInScene();
 
@@ -248,7 +248,7 @@ public class CaptureManager : MonoBehaviour
 
         string sceneToLoad = captureGameSceneName[Random.Range(0, captureGameSceneName.Length)];
 
-        MinigameManager.SwitchScene(sceneToLoad);
+        GameManager.SwitchScene(sceneToLoad);
     }
 
     public ItemHandler GetItemData()

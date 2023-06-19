@@ -44,7 +44,7 @@ public class CustomAnimal : MonoBehaviour
     private void findCurrentAnimal()
     {
         AnimalType animalType = defaultAnimalType;
-        List<object> dataToKeep = MinigameManager.DataToKeep;
+        List<object> dataToKeep = GameManager.DataToKeep;
 
         if (dataToKeep != null && dataToKeep.Count > 1)
         {

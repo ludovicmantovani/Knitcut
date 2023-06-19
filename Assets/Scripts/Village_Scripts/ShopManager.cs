@@ -139,7 +139,7 @@ public class ShopManager : MonoBehaviour
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer {shopName}";
 
-        MinigameManager.AddOpenInventory(shopUI);
+        GameManager.AddOpenInventory(shopUI);
 
         playerController.PlayerInventory.OpenInventory();
     }
@@ -150,7 +150,7 @@ public class ShopManager : MonoBehaviour
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
 
-        MinigameManager.RemoveOpenInventory(shopUI);
+        GameManager.RemoveOpenInventory(shopUI);
 
         playerController.PlayerInventory.CloseInventory();
 
@@ -580,11 +580,11 @@ public class ShopManager : MonoBehaviour
     {
         InfosUIRefs infosUIRefs = Instantiate(shopConfiguration.objectsInfosUI, shopConfiguration.objectsParent).GetComponent<InfosUIRefs>();
 
-        if (MinigameManager.AnimalPenIndexToUpgrade.Contains(index))
+        if (GameManager.AnimalPenIndexToUpgrade.Contains(index))
         {
-            for (int i = 0; i < MinigameManager.AnimalPenIndexToUpgrade.Count; i++)
+            for (int i = 0; i < GameManager.AnimalPenIndexToUpgrade.Count; i++)
             {
-                if (MinigameManager.AnimalPenIndexToUpgrade[i] == index)
+                if (GameManager.AnimalPenIndexToUpgrade[i] == index)
                 {
                     animalPenLevel++;
                     UpdateAnimalPenUI(shopConfiguration, infosUIRefs, animalPenLevel++, animalPenType, index);

@@ -4,6 +4,6 @@ public class BackToFarm : MonoBehaviour
 {
     public void LoadBackToFarm()
     {
-        MinigameManager.SwitchScene();
+        GameManager.SwitchScene();
     }
 }

@@ -100,7 +100,7 @@ public class PlayerRecipesInventory : MonoBehaviour
         canOpen = false;
         gameObject.SetActive(true);
 
-        MinigameManager.AddOpenInventory(gameObject);
+        GameManager.AddOpenInventory(gameObject);
     }
 
     private void CloseInventory()
@@ -108,7 +108,7 @@ public class PlayerRecipesInventory : MonoBehaviour
         canOpen = true;
         gameObject.SetActive(false);
 
-        MinigameManager.RemoveOpenInventory(gameObject);
+        GameManager.RemoveOpenInventory(gameObject);
     }
 
     #endregion

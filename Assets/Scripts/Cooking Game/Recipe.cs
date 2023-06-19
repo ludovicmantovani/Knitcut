@@ -24,7 +24,7 @@ public class Recipe : ScriptableObject
     public bool canBeCooked;
     public Sprite recipeSprite;
 
-    public string GetInfosConsumablesRequired(List<MinigameManager.PlayerItem> consumablesInInventory)
+    public string GetInfosConsumablesRequired(List<GameManager.PlayerItem> consumablesInInventory)
     {
         HandleRecipeConditions(consumablesInInventory);
 
@@ -43,7 +43,7 @@ public class Recipe : ScriptableObject
         return builder.ToString();
     }
 
-    private int QuantityPossessed(Item consumable, List<MinigameManager.PlayerItem>  consumablesInInventory)
+    private int QuantityPossessed(Item consumable, List<GameManager.PlayerItem>  consumablesInInventory)
     {
         int quantityPossessed = 0;
 
@@ -57,7 +57,7 @@ public class Recipe : ScriptableObject
 
     #region Can Be Cooked
 
-    private void HandleRecipeConditions(List<MinigameManager.PlayerItem> consumablesInInventory)
+    private void HandleRecipeConditions(List<GameManager.PlayerItem> consumablesInInventory)
     {
         CheckIfRecipeCanBeCooked(consumablesInInventory);
 
@@ -69,12 +69,12 @@ public class Recipe : ScriptableObject
         }
     }
     
-    private void CheckIfRecipeCanBeCooked(List<MinigameManager.PlayerItem> consumablesInInventory)
+    private void CheckIfRecipeCanBeCooked(List<GameManager.PlayerItem> consumablesInInventory)
     {
         // For Each required consumable of recipe
         for (int i = 0; i < consumablesRequired.Count; i++)
         {
-            List<MinigameManager.PlayerItem> playerItems = new List<MinigameManager.PlayerItem>();
+            List<GameManager.PlayerItem> playerItems = new List<GameManager.PlayerItem>();
 
             // Check each consumable in inventory
             for (int j = 0; j < consumablesInInventory.Count; j++)

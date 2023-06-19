@@ -135,7 +135,7 @@ public class Feeder : MonoBehaviour
 
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la mangeoire";
 
-        MinigameManager.AddOpenInventory(feederInventory);
+        GameManager.AddOpenInventory(feederInventory);
 
         ShowItemsInFeeder();
 
@@ -150,7 +150,7 @@ public class Feeder : MonoBehaviour
 
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la mangeoire";
 
-        MinigameManager.RemoveOpenInventory(feederInventory);
+        GameManager.RemoveOpenInventory(feederInventory);
 
         Clear();
 

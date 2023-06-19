@@ -42,7 +42,7 @@ public class PlayerInventory : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        MinigameManager.AddOpenInventory(gameObject);
+        GameManager.AddOpenInventory(gameObject);
     }
 
     public void CloseInventory()
@@ -51,7 +51,7 @@ public class PlayerInventory : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        MinigameManager.RemoveOpenInventory(gameObject);
+        GameManager.RemoveOpenInventory(gameObject);
     }
 
     #endregion

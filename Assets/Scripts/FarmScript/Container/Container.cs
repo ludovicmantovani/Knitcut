@@ -102,7 +102,7 @@ public class Container : MonoBehaviour
 
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la réserve";
 
-        MinigameManager.AddOpenInventory(containerInventoryContent);
+        GameManager.AddOpenInventory(containerInventoryContent);
 
         playerController.PlayerInventory.OpenInventory();
     }
@@ -113,7 +113,7 @@ public class Container : MonoBehaviour
 
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la réserve";
 
-        MinigameManager.RemoveOpenInventory(containerInventoryContent);
+        GameManager.RemoveOpenInventory(containerInventoryContent);
 
         playerController.PlayerInventory.CloseInventory();
     }

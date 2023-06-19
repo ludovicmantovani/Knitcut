@@ -99,7 +99,7 @@ public class FlowerGameManager : MonoBehaviour
             if (resultCanvas)
             {
                 int nbChildren = _turn - 1;
-                MinigameManager.FinalizeMG(MinigameManager.MGType.Breeding, nbChildren);
+                GameManager.FinalizeMG(GameManager.MGType.Breeding, nbChildren);
 
                 resultCanvas.GetComponent<FlowerResultCanvas>().SetVictory(_win, nbChildren);
                 resultCanvas.SetActive(true);
@@ -175,7 +175,7 @@ public class FlowerGameManager : MonoBehaviour
     
     public void Quit()
     {
-        MinigameManager.SwitchScene();
+        GameManager.SwitchScene();
     }
     #endregion
 }

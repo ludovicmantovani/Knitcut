@@ -12,7 +12,7 @@ public class BookRecipes : MonoBehaviour
     [SerializeField] private GameObject forwardButton;
     [SerializeField] private GameObject backButton;
 
-    private List<MinigameManager.PlayerItem> consumablesInInventory = new List<MinigameManager.PlayerItem>();
+    private List<GameManager.PlayerItem> consumablesInInventory = new List<GameManager.PlayerItem>();
 
     private int index = -1;
     private bool rotate = false;
@@ -139,7 +139,7 @@ public class BookRecipes : MonoBehaviour
 
             if (itemHandler.Item.itemType == ItemType.Consumable)
             {
-                MinigameManager.PlayerItem playerItem = new MinigameManager.PlayerItem();
+                GameManager.PlayerItem playerItem = new GameManager.PlayerItem();
                 playerItem.item = itemHandler.Item;
                 playerItem.quantity = itemHandler.QuantityStacked;
 

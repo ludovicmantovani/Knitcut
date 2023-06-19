@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MinigameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private static List<object> dataToKeep;
     private static string sceneToLoad = "FarmScene";
