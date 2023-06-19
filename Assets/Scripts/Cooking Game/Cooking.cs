@@ -118,11 +118,6 @@ public class Cooking : MonoBehaviour
                     itemEquivalent.quantity += playerItems[i].quantity;
             }
         }
-
-        for (int i = 0; i < consumablesInInventory.Count; i++)
-        {
-            Debug.Log($"{i}. {consumablesInInventory[i].item.itemName} x{consumablesInInventory[i].quantity}");
-        }
     }
 
     private GameManager.PlayerItem GetConsumableInInventory(Item item)
