@@ -633,7 +633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoneDetection: 1
   animalDetection: 0
-  hideDetection: 0
+  playerHiddenDetection: 0
 --- !u!4 &35419073 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1975380435677164618, guid: bbabe91eb39e7124c93da219107a455b, type: 3}
@@ -1546,7 +1546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoneDetection: 1
   animalDetection: 0
-  hideDetection: 0
+  playerHiddenDetection: 0
 --- !u!1001 &84659915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11018,7 +11018,7 @@ MonoBehaviour:
   - WaterMiniGameScene3
   zoneDetected: 0
   animalDetected: 0
-  hideDetected: 0
+  playerIsHidden: 0
   canCheckAnimal: 0
   wildAnimal: {fileID: 0}
   fruitPlaced: {fileID: 0}
@@ -31295,7 +31295,7 @@ GameObject:
   - component: {fileID: 1496196411}
   - component: {fileID: 1496196410}
   m_Layer: 0
-  m_Name: Hide Detection
+  m_Name: Player Hidden Detection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31342,7 +31342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoneDetection: 0
   animalDetection: 0
-  hideDetection: 1
+  playerHiddenDetection: 1
 --- !u!1001 &1497993717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39439,11 +39439,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.46603614
+      value: 0.46603617
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.053476725
+      value: 0.05347674
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -39451,7 +39451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6262813186389587193, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.10067884
+      value: 0.10067886
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -39463,11 +39463,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.4676711
+      value: 0.46767113
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.03651269
+      value: 0.036512695
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.y
@@ -39475,7 +39475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231031970481475937, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.068741225
+      value: 0.06874123
       objectReference: {fileID: 0}
     - target: {fileID: 7730635642889785843, guid: ddcd7eec76c34604fad2655e7df0b5a0, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CaptureDetection : MonoBehaviour
 {
     [SerializeField] private bool zoneDetection;
     [SerializeField] private bool animalDetection;
-    [SerializeField] private bool hideDetection;
+    [SerializeField] private bool playerHiddenDetection;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,7 +25,7 @@ public class CaptureDetection : MonoBehaviour
         if (other.CompareTag("Animal") && animalDetection)
             GetComponentInParent<CaptureV2>().AnimalDetected = state;
 
-        if (other.CompareTag("Player") && hideDetection)
-            GetComponentInParent<CaptureV2>().HideDetected = state;
+        if (other.CompareTag("Player") && playerHiddenDetection)
+            GetComponentInParent<CaptureV2>().PlayerIsHidden = state;
     }
 }

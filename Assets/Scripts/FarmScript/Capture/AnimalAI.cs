@@ -14,6 +14,7 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private Text animalNameText;
     [SerializeField] private string animalName;
     [SerializeField] private bool isAttracted = false;
+    [SerializeField] private bool canBeAttracted = false;
 
     [Header("Movement")]
     [SerializeField] private float speed = 3.5f;
@@ -23,6 +24,7 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private Vector3 destination;
     [SerializeField] private bool isMoving = false;
     [SerializeField] private bool nearFruit = false;
+    private bool handleDestination = false;
     
     [Header("Timers")]
     [SerializeField] private float timeBeforeMoving = 3f;
@@ -90,6 +92,12 @@ public class AnimalAI : MonoBehaviour
         set { isAttracted = value; }
     }
 
+    public bool CanBeAttracted
+    {
+        get { return canBeAttracted; }
+        set { canBeAttracted = value; }
+    }
+
     public bool RunAway
     {
         get { return runAway; }
@@ -137,7 +145,10 @@ public class AnimalAI : MonoBehaviour
 
         if (agent == null || isMoving) return;
 
-        HandleDestination();
+        //Debug.Log($"{runAway} - {CanBeAttracted} - {isAttracted} - {isMoving} - {agent} - {currentFruitPlaced}");
+        
+        if (!handleDestination)
+            HandleDestination();
 
         StartCoroutine(GoToDestination());
     }
@@ -153,6 +164,8 @@ public class AnimalAI : MonoBehaviour
 
     private void HandleDestination()
     {
+        handleDestination = true;
+        
         if (currentFruitPlaced == null || runAway)
         {
             destination = SearchDestination();
@@ -163,7 +176,7 @@ public class AnimalAI : MonoBehaviour
         {
             Item itemFruitPlaced = currentFruitPlaced.GetComponent<KeepItem>().Item;
 
-            if (itemFruitPlaced == favoriteFruit)
+            if (itemFruitPlaced == favoriteFruit && canBeAttracted)
             {
                 destination = currentFruitPlaced.transform.position;
                 pauseLifeTimer = true;
@@ -171,6 +184,8 @@ public class AnimalAI : MonoBehaviour
             }
             else
             {
+                Debug.Log($"{isAttracted} - {canBeAttracted} - {isMoving} - {runAway}");
+                
                 destination = SearchDestination();
                 pauseLifeTimer = false;
                 isAttracted = false;
@@ -212,7 +227,7 @@ public class AnimalAI : MonoBehaviour
 
         bool canContinue = true;
 
-        while (distance > distanceMinToChange && canContinue)
+        while (distance > distanceMinToChange && canContinue && timerLife)
         {
             if (!canContinue) yield break;
 
@@ -223,6 +238,8 @@ public class AnimalAI : MonoBehaviour
                 || (destination == currentFruitPosition && (itemPlaced == null || itemPlaced != favoriteFruit)))
                 canContinue = false;
 
+            if (!timerLife) yield break;
+            
             agent.SetDestination(destination);
 
             yield return new WaitForSeconds(refreshRate);
@@ -233,6 +250,8 @@ public class AnimalAI : MonoBehaviour
         isMoving = false;
 
         if (runAway) runAway = false;
+
+        handleDestination = false;
     }
 
     private float TimeToWaitAtEnd()
@@ -250,7 +269,11 @@ public class AnimalAI : MonoBehaviour
 
     private void HandleFruit()
     {
-        if (distance > distanceMinToChange && nearFruit) nearFruit = false;
+        if (distance > distanceMinToChange && nearFruit)
+        {
+            nearFruit = false;
+            timerStartedFruit = false;
+        }
         
         if (currentFruitPlaced == null) return;
 
@@ -283,6 +306,7 @@ public class AnimalAI : MonoBehaviour
     {
         CaptureV2.instance.RemoveItem();
         currentFruitPlaced = null;
+        canBeAttracted = false;
     }
 
     private void HandleLife()
@@ -305,6 +329,8 @@ public class AnimalAI : MonoBehaviour
             }
             else
             {
+                StopAllCoroutines();
+                
                 timerLife = false;
 
                 Destroy(gameObject);
