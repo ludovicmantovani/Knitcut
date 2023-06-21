@@ -18,7 +18,6 @@ public class AnimalPen_Data
     public Dictionary<string, int> feedersItemsFeederIndex;
 
     public int pedestalItemIndex;
-    public int pedestalItemQuantity;
 
     public AnimalPen_Data(AnimalPenManager animalPenManager)
     {
@@ -31,8 +30,7 @@ public class AnimalPen_Data
             animalPenManager.FeedersItems,
             animalPenManager.FeedersItemsQuantities,
             animalPenManager.FeedersItemsFeederIndex,
-            animalPenManager.PedestalItemIndex,
-            animalPenManager.PedestalItemQuantity);
+            animalPenManager.PedestalItemIndex);
     }
 
     public AnimalPen_Data(AnimalPen_Data animalPen_Data)
@@ -46,13 +44,12 @@ public class AnimalPen_Data
             animalPen_Data.feedersItems,
             animalPen_Data.feedersItemsQuantities,
             animalPen_Data.feedersItemsFeederIndex,
-            animalPen_Data.pedestalItemIndex,
-            animalPen_Data.pedestalItemQuantity);
+            animalPen_Data.pedestalItemIndex);
     }
 
     private void Builder(int total, int[] levels, string[] types, Dictionary<string, float> hungers, int[] totalAdults, int[] totalChildren, 
         Dictionary<string, int> feedersItemsList, Dictionary<string, int> feedersItemsQuantitiesList, Dictionary<string, int> feedersItemsFeederIndexList,
-        int pedestalIndex, int pedestalQuantity)
+        int pedestalIndex)
     {
         nbAnimalPen = total;
 
@@ -83,7 +80,6 @@ public class AnimalPen_Data
             feedersItemsFeederIndex = new Dictionary<string, int>();
 
         pedestalItemIndex = pedestalIndex;
-        pedestalItemQuantity = pedestalQuantity;
 
         for (int i = 0; i < nbAnimalPen; i++)
         {

@@ -16,7 +16,7 @@ public class CaptureManager : MonoBehaviour
     [SerializeField] private Transform fruitPedestal;
     [SerializeField] private GameObject area;
     [SerializeField] private List<GameObject> animals;
-    [SerializeField] private List<Transform> spawnpoints;
+    [SerializeField] private List<Transform> spawnPoints;
 
     [SerializeField]
     private string[] captureGameSceneName = {
@@ -128,10 +128,10 @@ public class CaptureManager : MonoBehaviour
 
         previousAnimal = randomAnimal;
 
-        if (spawnpoints.Count == 0) return;
+        if (spawnPoints.Count == 0) return;
 
-        int randomSapwnpointIndex = Random.Range(0, spawnpoints.Count);
-        Transform randomSpawnpoint = spawnpoints[randomSapwnpointIndex];
+        int randomSapwnpointIndex = Random.Range(0, spawnPoints.Count);
+        Transform randomSpawnpoint = spawnPoints[randomSapwnpointIndex];
 
         if (randomAnimal == null || randomSpawnpoint == null) return;
 

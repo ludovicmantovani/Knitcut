@@ -13,23 +13,35 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private Image animalFruitImage;
     [SerializeField] private Text animalNameText;
     [SerializeField] private string animalName;
+    [SerializeField] private bool isAttracted = false;
 
-    [Header("Datas")]
+    [Header("Movement")]
     [SerializeField] private float speed = 3.5f;
     [SerializeField] private float stoppingDistance = 0f;
     [SerializeField] private float refreshRate = 0.1f;
     [SerializeField] private float distanceMinToChange = 2f;
+    [SerializeField] private Vector3 destination;
+    [SerializeField] private bool isMoving = false;
+    [SerializeField] private bool nearFruit = false;
+    
+    [Header("Timers")]
     [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private float timeBeforeEatingFruit = 5f;
     [SerializeField] private Vector2 timeAnimalLife = new Vector2(15, 30);
-    [SerializeField] private bool isMoving = false;
-    [SerializeField] private bool nearFruit = false;
-    [SerializeField] private Vector3 destination;
+    [SerializeField] private bool pauseLifeTimer = false;
+    [SerializeField] private bool timerLife = false;
+    
+    [Header("Player Detection")]
+    [SerializeField] private bool playerIsNear;
+    [SerializeField] private bool playerIsBehind;
 
     private GameObject currentFruitPlaced;
     private float distance;
-    private float timeRemaining = 0f;
-    private bool timerStarted = false;
+    private float timeRemainingLife = 0f;
+    private float timeRemainingFruit = 0f;
+    private bool timerStartedLife = false;
+    private bool timerStartedFruit = false;
+    private bool runAway = false;
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -54,6 +66,36 @@ public class AnimalAI : MonoBehaviour
         set { currentFruitPlaced = value; }
     }
 
+    public bool PlayerIsNear
+    {
+        get { return playerIsNear; }
+        set { playerIsNear = value; }
+    }
+
+    public bool PlayerIsBehind
+    {
+        get { return playerIsBehind; }
+        set { playerIsBehind = value; }
+    }
+
+    public bool PauseLifeTimer
+    {
+        get { return pauseLifeTimer; }
+        set { pauseLifeTimer = value; }
+    }
+
+    public bool IsAttracted
+    {
+        get { return isAttracted; }
+        set { isAttracted = value; }
+    }
+
+    public bool RunAway
+    {
+        get { return runAway; }
+        set { runAway = value; }
+    }
+
     #endregion
 
     private void Awake()
@@ -64,14 +106,14 @@ public class AnimalAI : MonoBehaviour
         agent.speed = speed;
         agent.stoppingDistance = stoppingDistance;
 
-        StartCoroutine(AnimalLife());
-
         animalNameText.text = animalName;
         animalFruitImage.sprite = favoriteFruit.itemSprite;
     }
 
     private void Update()
     {
+        HandleLife();
+        
         animalCanvas.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
 
         HandleMovement();
@@ -83,12 +125,15 @@ public class AnimalAI : MonoBehaviour
     {
         animator.SetBool("Walking", isMoving);
 
-        if (CaptureManager.instance.FruitPlaced != null)
-            currentFruitPlaced = CaptureManager.instance.FruitPlaced;
+        if (CaptureV2.instance.FruitPlaced != null)
+            currentFruitPlaced = CaptureV2.instance.FruitPlaced;
 
         ActualizeDirection();
 
         HandleFruit();
+
+        if (runAway)
+            isMoving = false;
 
         if (agent == null || isMoving) return;
 
@@ -97,20 +142,39 @@ public class AnimalAI : MonoBehaviour
         StartCoroutine(GoToDestination());
     }
 
+    public void ForceRunAway(bool eatFruit = true)
+    {
+        runAway = true;
+        
+        if (eatFruit) EatFruit();
+    }
+
     #region Direction & Distance
 
     private void HandleDestination()
     {
-        if (currentFruitPlaced == null)
+        if (currentFruitPlaced == null || runAway)
+        {
             destination = SearchDestination();
+            pauseLifeTimer = false;
+            isAttracted = false;
+        }
         else
         {
             Item itemFruitPlaced = currentFruitPlaced.GetComponent<KeepItem>().Item;
 
             if (itemFruitPlaced == favoriteFruit)
+            {
                 destination = currentFruitPlaced.transform.position;
+                pauseLifeTimer = true;
+                isAttracted = true;
+            }
             else
+            {
                 destination = SearchDestination();
+                pauseLifeTimer = false;
+                isAttracted = false;
+            }
         }
     }
 
@@ -167,6 +231,8 @@ public class AnimalAI : MonoBehaviour
         yield return new WaitForSeconds(TimeToWaitAtEnd());
 
         isMoving = false;
+
+        if (runAway) runAway = false;
     }
 
     private float TimeToWaitAtEnd()
@@ -184,45 +250,65 @@ public class AnimalAI : MonoBehaviour
 
     private void HandleFruit()
     {
+        if (distance > distanceMinToChange && nearFruit) nearFruit = false;
+        
         if (currentFruitPlaced == null) return;
 
-        if (destination == currentFruitPlaced.transform.position && distance <= distanceMinToChange && !timerStarted)
+        if (destination == currentFruitPlaced.transform.position && distance <= distanceMinToChange && !timerStartedFruit)
         {
             nearFruit = true;
-            timeRemaining = timeBeforeEatingFruit;
+            timeRemainingFruit = timeBeforeEatingFruit;
         }
 
         if (nearFruit)
         {
-            if (timeRemaining > 0)
+            if (timeRemainingFruit > 0)
             {
-                timerStarted = true;
+                timerStartedFruit = true;
 
-                timeRemaining -= Time.deltaTime;
+                timeRemainingFruit -= Time.deltaTime;
             }
             else
             {
-                if (currentFruitPlaced != null)
-                {
-                    CaptureManager.instance.RemoveItem();
-                    currentFruitPlaced = null;
-                }
+                if (currentFruitPlaced != null) EatFruit();
 
                 nearFruit = false;
 
-                timerStarted = false;
+                timerStartedFruit = false;
             }
         }
     }
 
-    private IEnumerator AnimalLife()
+    private void EatFruit()
     {
-        float randomTime = Random.Range(timeAnimalLife.x, timeAnimalLife.y);
+        CaptureV2.instance.RemoveItem();
+        currentFruitPlaced = null;
+    }
 
-        yield return new WaitForSeconds(randomTime);
+    private void HandleLife()
+    {
+        if (!timerLife && !timerStartedLife)
+        {
+            timerLife = true;
+            timeRemainingLife = Random.Range(timeAnimalLife.x, timeAnimalLife.y);
+        }
 
-        StopAllCoroutines();
+        if (timerLife)
+        {
+            if (pauseLifeTimer) return;
+            
+            if (timeRemainingLife > 0)
+            {
+                timerStartedLife = true;
 
-        Destroy(gameObject);
+                timeRemainingLife -= Time.deltaTime;
+            }
+            else
+            {
+                timerLife = false;
+
+                Destroy(gameObject);
+            }
+        }
     }
 }

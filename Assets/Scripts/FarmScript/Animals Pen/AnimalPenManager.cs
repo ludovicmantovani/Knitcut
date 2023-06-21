@@ -13,8 +13,8 @@ public class AnimalPenManager : MonoBehaviour
     [SerializeField] private List<GameObject> animalsChildren;
 
     private ListSlots listSlots;
-    private CaptureManager captureManager;
-
+    private CaptureV2 captureManager;
+    
     // AnimalData Pen
     private int totalAnimalPen;
     private int[] animalPenLevels;
@@ -33,7 +33,6 @@ public class AnimalPenManager : MonoBehaviour
 
     // Pedestal Capture Area
     private int pedestalItemIndex;
-    private int pedestalItemQuantity;
 
     [Serializable]
     public class AnimalPen
@@ -126,18 +125,12 @@ public class AnimalPenManager : MonoBehaviour
         set { pedestalItemIndex = value; }
     }
 
-    public int PedestalItemQuantity
-    {
-        get { return pedestalItemQuantity; }
-        set { pedestalItemQuantity = value; }
-    }
-
     #endregion
 
     private void Start()
     {
         listSlots = FindObjectOfType<ListSlots>();
-        captureManager = FindObjectOfType<CaptureManager>();
+        captureManager = CaptureV2.instance;
 
         InitializeData();
 
@@ -161,7 +154,6 @@ public class AnimalPenManager : MonoBehaviour
         feedersItemsFeederIndex = new Dictionary<string, int>();
 
         pedestalItemIndex = -1;
-        pedestalItemQuantity = 0;
 
         for (int i = 0; i < totalAnimalPen; i++)
         {
@@ -185,18 +177,16 @@ public class AnimalPenManager : MonoBehaviour
 
     private void SaveCaptureFruitPlaced()
     {
-        ItemHandler itemHandler = captureManager.GetItemData();
+        Item currentFruit = captureManager.CurrentFruit;
 
-        if (itemHandler == null)
+        if (currentFruit == null)
         {
             pedestalItemIndex = -1;
-            pedestalItemQuantity = 0;
 
             return;
         }
 
-        pedestalItemIndex = listSlots.GetItemIndex(itemHandler.Item);
-        pedestalItemQuantity = itemHandler.QuantityStacked;
+        pedestalItemIndex = listSlots.GetItemIndex(currentFruit);
     }
 
     public void SaveAnimalPenData()
@@ -233,9 +223,8 @@ public class AnimalPenManager : MonoBehaviour
         feedersItemsFeederIndex = data.feedersItemsFeederIndex;
 
         pedestalItemIndex = data.pedestalItemIndex;
-        pedestalItemQuantity = data.pedestalItemQuantity;
-
-        captureManager.LoadFruitPlaced(pedestalItemIndex, pedestalItemQuantity);
+        
+        captureManager.LoadFruitPlaced(pedestalItemIndex);
 
         HandleStates();
 

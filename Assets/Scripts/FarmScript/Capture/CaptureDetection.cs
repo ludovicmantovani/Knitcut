@@ -4,6 +4,7 @@ public class CaptureDetection : MonoBehaviour
 {
     [SerializeField] private bool zoneDetection;
     [SerializeField] private bool animalDetection;
+    [SerializeField] private bool hideDetection;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,9 +19,12 @@ public class CaptureDetection : MonoBehaviour
     private void HandleCaptureDetection(Collider other, bool state)
     {
         if (other.CompareTag("Player") && zoneDetection)
-            GetComponentInParent<CaptureManager>().ZoneDetected = state;
+            GetComponentInParent<CaptureV2>().ZoneDetected = state;
 
         if (other.CompareTag("Animal") && animalDetection)
-            GetComponentInParent<CaptureManager>().AnimalDetected = state;
+            GetComponentInParent<CaptureV2>().AnimalDetected = state;
+
+        if (other.CompareTag("Player") && hideDetection)
+            GetComponentInParent<CaptureV2>().HideDetected = state;
     }
 }
