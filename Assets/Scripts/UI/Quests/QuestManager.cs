@@ -29,14 +29,48 @@ namespace Gameplay.UI.Quests
             DontDestroyOnLoad(this.gameObject);
         }
 
+        public int GetQuestCount()
+        {
+            return quests.Count;
+        }
+
         private void Start()
         {
-            foreach (Quest quest in quests)
+            Quest_Data data = (Quest_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Quest, this);
+            if (data == null)
             {
-                _statuses.Add(new QuestStatus(quest));
+                foreach (Quest quest in quests)
+                {
+                    _statuses.Add(new QuestStatus(quest));
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<string, int> item in data.questStatusDic)
+                {
+                    Quest q = FindQuestByName(item.Key);
+                    if (q != null)
+                    {
+                        QuestStatus qs = new QuestStatus(q);
+                        qs.SetCompleted(item.Value);
+                        _statuses.Add(qs);
+                    }
+                }
             }
             if (onUpdate != null)
                 onUpdate();
+        }
+
+        private Quest FindQuestByName(string key)
+        {
+            foreach (Quest quest in quests)
+            {
+                if (quest.GetTitle() == key)
+                {
+                    return quest;
+                }
+            }
+            return null;
         }
 
         public QuestStatus GetCurrentQuestStatus()
@@ -68,6 +102,8 @@ namespace Gameplay.UI.Quests
             }
             if (onUpdate != null)
                 onUpdate();
+
+            SaveSystem.Save(SaveSystem.SaveType.Save_Quest, this);
         }
 
         public bool HasQuest(Quest quest)

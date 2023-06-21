@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Collections;
+using Gameplay.UI.Quests;
 
 public static class SaveSystem
 {
@@ -21,7 +22,8 @@ public static class SaveSystem
         Save_UIMenu,
         Save_Volume,
         Save_SceneVerification,
-        Save_Culture
+        Save_Culture,
+        Save_Quest
     }
 
     public static SaveType saveType;
@@ -90,6 +92,10 @@ public static class SaveSystem
                 Culture_Data data_Culture = new Culture_Data((CultureManager)data);
                 formatter.Serialize(stream, data_Culture);
                 break;
+            case SaveType.Save_Quest:
+                Quest_Data data_Quest = new Quest_Data((QuestManager)data);
+                formatter.Serialize(stream, data_Quest);
+                break;
             default:
                 break;
         }
@@ -142,6 +148,9 @@ public static class SaveSystem
                 case SaveType.Save_Culture:
                     dataLoaded = formatter.Deserialize(stream) as Culture_Data;
                     break;
+                case SaveType.Save_Quest:
+                    dataLoaded = formatter.Deserialize(stream) as Quest_Data;
+                    break;
                 default:
                     break;
             }
@@ -181,6 +190,8 @@ public static class SaveSystem
                 case SaveType.Save_SceneVerification:
                     break;
                 case SaveType.Save_Culture:
+                    break;
+                case SaveType.Save_Quest:
                     break;
                 default:
                     break;

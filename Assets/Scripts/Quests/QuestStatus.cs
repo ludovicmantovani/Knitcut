@@ -10,6 +10,8 @@ namespace Gameplay.Quests
         private Quest _quest;
         private List<string> _completedObjectives = new List<string>();
 
+        public List<string> CompletedObjectives { get => _completedObjectives;}
+
         public QuestStatus(Quest quest)
         {
             this._quest = quest;
@@ -44,6 +46,15 @@ namespace Gameplay.Quests
                     return false;
             }
             return true;
+        }
+
+        public void SetCompleted(int value)
+        {
+            List<Quest.Objective> qo = (List<Quest.Objective>)_quest.GetObjectives();
+            for (int index = 0; index < value; index++)
+            {
+                CompleteObjective(qo[index].reference);
+            }
         }
     }
 }
