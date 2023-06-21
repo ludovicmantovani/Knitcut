@@ -54,6 +54,8 @@ namespace Gameplay.UI.Quests
                         QuestStatus qs = new QuestStatus(q);
                         qs.SetCompleted(item.Value);
                         _statuses.Add(qs);
+                        if (qs.IsComplete())
+                            _questIndex++;
                     }
                 }
             }
