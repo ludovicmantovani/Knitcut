@@ -1,3 +1,4 @@
+using Gameplay.UI.Quests;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +27,11 @@ public class LauncherMode : MonoBehaviour
 
     public void Launch()
     {
-        if (launchMode == LaunchMode.New) SaveSystem.DeleteAllSaves();
+        if (launchMode == LaunchMode.New)
+        {
+            SaveSystem.DeleteAllSaves();
+            QuestManager.Instance.SetData();
+        }
 
         SceneManager.LoadScene(sceneToLoad);
     }

@@ -32,10 +32,14 @@ namespace Gameplay.Quests
             return _completedObjectives.Contains(objective);
         }
 
-        public void CompleteObjective(string objective)
+        public bool CompleteObjective(string objective)
         {
-            if (_quest.HasObjective(objective))
+            if (_quest.HasObjective(objective) && !_completedObjectives.Contains(objective))
+            {
                 _completedObjectives.Add(objective);
+                return true;
+            }
+            return false;
         }
 
         public bool IsComplete()

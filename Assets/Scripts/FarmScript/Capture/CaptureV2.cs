@@ -1,3 +1,4 @@
+using Gameplay.UI.Quests;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -35,6 +36,9 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
     [SerializeField] private bool canCheckAnimal;
     [SerializeField] private GameObject wildAnimal;
     [SerializeField] private GameObject fruitPlaced;
+
+    [Header("Quest")]
+    [SerializeField] private string questCompletionPlaceFruit = "";
 
     private string instruction;
     private PlayerInput playerInput;
@@ -228,6 +232,9 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
         fruitPosition.y += 1f;
 
         fruitPlaced.transform.position = fruitPosition;
+
+        if (questCompletionPlaceFruit.Length > 0)
+            QuestManager.Instance.CompleteObjective(questCompletionPlaceFruit);
     }
 
     private void DeactivateFruitOptions()

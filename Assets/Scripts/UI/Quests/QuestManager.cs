@@ -29,14 +29,21 @@ namespace Gameplay.UI.Quests
             DontDestroyOnLoad(this.gameObject);
         }
 
+        private void Start()
+        {
+            SetData();
+        }
+
         public int GetQuestCount()
         {
             return quests.Count;
         }
 
-        private void Start()
+        public void SetData()
         {
             Quest_Data data = (Quest_Data)SaveSystem.Load(SaveSystem.SaveType.Save_Quest, this);
+            _statuses.Clear();
+            _questIndex = 0;
             if (data == null)
             {
                 foreach (Quest quest in quests)
@@ -84,28 +91,34 @@ namespace Gameplay.UI.Quests
             return null;
         }
 
-        public void CompleteObjective(string objective)
+        public bool CompleteObjective(string objective)
         {
             if (quests.Count > _questIndex)
             {
-                CompleteObjective(quests[_questIndex], objective);
+                return CompleteObjective(quests[_questIndex], objective);
             }
+            return false;
         }
 
-        public void CompleteObjective(Quest quest, string objective)
+        public bool CompleteObjective(Quest quest, string objective)
         {
+            bool ret = false;
             QuestStatus status = GetQuestStatus(quest);
-            status.CompleteObjective(objective);
-            if (status.IsComplete())
+            ret = status.CompleteObjective(objective);
+            if (ret)
             {
+                if (status.IsComplete())
+                {
+                    if (onUpdate != null)
+                        onUpdate();
+                    _questIndex++;
+                }
                 if (onUpdate != null)
                     onUpdate();
-                _questIndex++;
-            }
-            if (onUpdate != null)
-                onUpdate();
 
-            SaveSystem.Save(SaveSystem.SaveType.Save_Quest, this);
+                SaveSystem.Save(SaveSystem.SaveType.Save_Quest, this);
+            }
+            return ret;
         }
 
         public bool HasQuest(Quest quest)

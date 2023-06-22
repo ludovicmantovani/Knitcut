@@ -1,3 +1,4 @@
+using Gameplay.UI.Quests;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     #region Parameters
+
+    [Header("Quest")]
+    [SerializeField] private string questCompletionCaptureAnimal = "";
 
     private static string sceneToLoad = "FarmScene";
     private static string menuScene = "Menu";
@@ -174,6 +178,9 @@ public class GameManager : MonoBehaviour
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
 
             animalTypeToKeep = AnimalType.None;
+
+            if (questCompletionCaptureAnimal.Length > 0)
+                QuestManager.Instance.CompleteObjective(questCompletionCaptureAnimal);
         }
     }
 

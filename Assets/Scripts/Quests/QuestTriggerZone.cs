@@ -12,9 +12,9 @@ public class QuestTriggerZone : MonoBehaviour
         {
             if (objectif_ref.Length > 0)
             {
-                QuestManager.Instance.CompleteObjective(objectif_ref);
+                bool completeObjective = QuestManager.Instance.CompleteObjective(objectif_ref);
+                if (completeObjective) Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
     }
 }
