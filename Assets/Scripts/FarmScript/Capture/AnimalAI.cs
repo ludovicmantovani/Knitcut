@@ -12,12 +12,16 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private GameObject animalCanvas;
     [SerializeField] private Image animalFruitImage;
     [SerializeField] private Text animalNameText;
+    [SerializeField] private Slider lifeSlider;
+    [SerializeField] private Color lifeColor;
+    [SerializeField] private Color lifePauseColor;
     [SerializeField] private string animalName;
     [SerializeField] private bool isAttracted = false;
     [SerializeField] private bool canBeAttracted = false;
 
     [Header("Movement")]
     [SerializeField] private float speed = 3.5f;
+    [SerializeField] private float runAwaySpeedModifier = 1.5f;
     [SerializeField] private float stoppingDistance = 0f;
     [SerializeField] private float refreshRate = 0.1f;
     [SerializeField] private float distanceMinToChange = 2f;
@@ -29,6 +33,7 @@ public class AnimalAI : MonoBehaviour
     [Header("Timers")]
     [SerializeField] private float timeBeforeMoving = 3f;
     [SerializeField] private float timeBeforeEatingFruit = 5f;
+    [SerializeField] private float timeRunAwaySpeed = 2f;
     [SerializeField] private Vector2 timeAnimalLife = new Vector2(15, 30);
     [SerializeField] private bool pauseLifeTimer = false;
     [SerializeField] private bool timerLife = false;
@@ -144,8 +149,6 @@ public class AnimalAI : MonoBehaviour
             isMoving = false;
 
         if (agent == null || isMoving) return;
-
-        //Debug.Log($"{runAway} - {CanBeAttracted} - {isAttracted} - {isMoving} - {agent} - {currentFruitPlaced}");
         
         if (!handleDestination)
             HandleDestination();
@@ -158,6 +161,17 @@ public class AnimalAI : MonoBehaviour
         runAway = true;
         
         if (eatFruit) EatFruit();
+
+        StartCoroutine(RunAwaySpeed());
+    }
+
+    private IEnumerator RunAwaySpeed()
+    {
+        speed *= runAwaySpeedModifier;
+        
+        yield return new WaitForSeconds(timeRunAwaySpeed);
+
+        speed /= runAwaySpeedModifier;
     }
 
     #region Direction & Distance
@@ -184,8 +198,6 @@ public class AnimalAI : MonoBehaviour
             }
             else
             {
-                Debug.Log($"{isAttracted} - {canBeAttracted} - {isMoving} - {runAway}");
-                
                 destination = SearchDestination();
                 pauseLifeTimer = false;
                 isAttracted = false;
@@ -307,6 +319,8 @@ public class AnimalAI : MonoBehaviour
         CaptureV2.instance.RemoveItem();
         currentFruitPlaced = null;
         canBeAttracted = false;
+
+        if (pauseLifeTimer) pauseLifeTimer = false;
     }
 
     private void HandleLife()
@@ -315,17 +329,27 @@ public class AnimalAI : MonoBehaviour
         {
             timerLife = true;
             timeRemainingLife = Random.Range(timeAnimalLife.x, timeAnimalLife.y);
+            
+            lifeSlider.maxValue = timeRemainingLife;
+            lifeSlider.value = timeRemainingLife;
         }
 
         if (timerLife)
         {
-            if (pauseLifeTimer) return;
+            if (pauseLifeTimer)
+            {
+                lifeSlider.fillRect.GetComponent<Image>().color = lifePauseColor;
+                return;
+            }
             
             if (timeRemainingLife > 0)
             {
                 timerStartedLife = true;
 
                 timeRemainingLife -= Time.deltaTime;
+
+                lifeSlider.value = timeRemainingLife;
+                lifeSlider.fillRect.GetComponent<Image>().color = lifeColor;
             }
             else
             {

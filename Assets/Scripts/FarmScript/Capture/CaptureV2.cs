@@ -1,11 +1,9 @@
 using Gameplay.UI.Quests;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CaptureV2 : MonoBehaviour, IDropHandler
@@ -13,8 +11,8 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
     public static CaptureV2 instance;
 
     [Header("References")]
-    [SerializeField] private GameObject itemUI;
     [SerializeField] private GameObject interactionUI;
+    [SerializeField] private GameObject infosUI;
     [SerializeField] private Transform fruitPedestal;
     [SerializeField] private GameObject area;
     [SerializeField] private List<GameObject> animals;
@@ -34,6 +32,7 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
     [SerializeField] private bool animalDetected;
     [SerializeField] private bool playerIsHidden;
     [SerializeField] private bool canCheckAnimal;
+    [SerializeField] private bool animalPenRestriction;
     [SerializeField] private GameObject wildAnimal;
     [SerializeField] private GameObject fruitPlaced;
 
@@ -99,7 +98,10 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
         animalDetected = false;
         playerIsHidden = false;
         canCheckAnimal = false;
-
+        animalPenRestriction = false;
+        
+        infosUI.SetActive(false);
+        
         instance = this;
     }
 
@@ -167,6 +169,11 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
 
     private void RecoverFruitPlacedOnClick()
     {
+        if (fruitPlaced == null) 
+            infosUI.SetActive(false);
+        else
+            infosUI.SetActive(true);
+        
         if (Input.GetMouseButtonDown(0) && fruitPlaced != null && playerIsHidden)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -251,6 +258,8 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
         Destroy(fruitPlaced);
         fruitPlaced = null;
         currentFruit = null;
+
+        if (canCheckAnimal) canCheckAnimal = false;
     }
     
     #endregion
@@ -261,29 +270,21 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
     {
         if (zoneDetected)
         {
+            if (wildAnimal == null && canCheckAnimal) Debug.Log($"Error animal destroyed when can check");
+
             if (fruitPlaced == null)
-                instruction = $"Placer un fruit sur la souche au centre";
+            {
+                if (animalPenRestriction)
+                    StartCoroutine(ShowAnimalPenRestriction());
+                else
+                    instruction = $"Placer un fruit sur la souche au centre";
+            }
             else
             {
                 AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
-                /*if (animal != previousAnimal.GetComponent<AnimalAI>())
-                    canCheckAnimal = false;*/
 
                 if (canCheckAnimal && animalDetected)
-                {
-                    bool animalPenRestrictionsOK = animalPenManager.CheckAnimalPenRestrictions((animal));
-
-                    Debug.Log($"animal pen restriction : {animalPenRestrictionsOK}");
-                    
-                    if (!animalPenRestrictionsOK)
-                    {
-                        instruction = "L'enclos associé à l'animal n'est pas assez grand";
-
-                        AnimalRunAway(animal);
-                    }
-                    else
                         CheckPlayerNearAnimal(animal);
-                }
                 else if (!canCheckAnimal)
                 {
                     if (playerIsHidden)
@@ -292,18 +293,32 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
 
                         animal.CanBeAttracted = false;
                         animal.IsAttracted = false;
-                        
+
                         if (animal.PlayerIsNear || animal.PlayerIsBehind)
                             AnimalRunAway(animal, false);
                     }
                     else if (!playerIsHidden)
                     {
                         animal.CanBeAttracted = true;
-                        
+
                         if (animalDetected && animal.IsAttracted)
-                            canCheckAnimal = true;
+                        {
+                            bool animalPenRestrictionsOK = animalPenManager.CheckAnimalPenRestrictions((animal));
+                    
+                            if (!animalPenRestrictionsOK)
+                            {
+                                animalPenRestriction = true;
+                                
+                                AnimalRunAway(animal);
+                            }
+                            else
+                                canCheckAnimal = true;
+                        }
                         
-                        instruction = $"Attendez qu'un animal soit attiré au centre";
+                        if (animalPenRestriction)
+                            instruction = $"L'enclos associé à l'animal n'est pas assez grand";
+                        else
+                            instruction = $"Attendez qu'un animal soit attiré au centre";
                     }
                 }
             }
@@ -315,14 +330,18 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
             interactionUI.SetActive(false);
     }
 
+    private IEnumerator ShowAnimalPenRestriction()
+    {
+        yield return new WaitForSeconds(2f);
+
+        animalPenRestriction = false;
+    }
+
     private void CheckPlayerNearAnimal(AnimalAI animal)
     {
-        Debug.Log($"animal : {animal}");
         if (animal == null) return;
 
-        instruction = $"Un(e) {animal.AnimalType} a été attiré(e), approchez-vous derrière lui pour le capturer en appuyant sur {playerInput.InteractionAction.GetBindingDisplayString()}!";
-        
-        Debug.Log($"check player animal : {instruction}");
+        instruction = $"Un animal a été attiré, approchez-vous derrière lui puis appuyez sur {playerInput.InteractionAction.GetBindingDisplayString()} pour le capturer";
         
         if (animal.PlayerIsNear)
         {
@@ -332,13 +351,8 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
                     StartCapture(animal);
             }
             else
-            {
-                Debug.Log($"Run away eat fruit player not behind");
                 AnimalRunAway(animal);
-            }
         }
-        /*else
-            instruction = $"Un(e) {animal.AnimalType} a été attiré(e), approchez-vous derrière lui pour le capturer !";*/
     }
 
     private void StartCapture(AnimalAI animal)
@@ -360,7 +374,7 @@ public class CaptureV2 : MonoBehaviour, IDropHandler
     private void AnimalRunAway(AnimalAI animal, bool eatFruit = true)
     {
         animal.ForceRunAway(eatFruit);
-        
+
         canCheckAnimal = false;
     }
 
