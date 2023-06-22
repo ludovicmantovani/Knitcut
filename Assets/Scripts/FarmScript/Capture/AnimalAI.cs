@@ -138,8 +138,8 @@ public class AnimalAI : MonoBehaviour
     {
         animator.SetBool("Walking", isMoving);
 
-        if (CaptureV2.instance.FruitPlaced != null)
-            currentFruitPlaced = CaptureV2.instance.FruitPlaced;
+        if (CaptureManager.instance.FruitPlaced != null)
+            currentFruitPlaced = CaptureManager.instance.FruitPlaced;
 
         ActualizeDirection();
 
@@ -316,7 +316,7 @@ public class AnimalAI : MonoBehaviour
 
     private void EatFruit()
     {
-        CaptureV2.instance.RemoveItem();
+        CaptureManager.instance.RemoveItem();
         currentFruitPlaced = null;
         canBeAttracted = false;
 

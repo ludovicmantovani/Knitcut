@@ -20,12 +20,12 @@ public class CaptureDetection : MonoBehaviour
     private void HandleCaptureDetection(Collider other, bool state)
     {
         if (other.CompareTag("Player") && zoneDetection)
-            GetComponentInParent<CaptureV2>().ZoneDetected = state;
+            GetComponentInParent<CaptureManager>().ZoneDetected = state;
 
         if (other.CompareTag("Animal") && animalDetection)
-            GetComponentInParent<CaptureV2>().AnimalDetected = state;
+            GetComponentInParent<CaptureManager>().AnimalDetected = state;
 
         if (other.CompareTag("Player") && playerHiddenDetection)
-            GetComponentInParent<CaptureV2>().PlayerIsHidden = state;
+            GetComponentInParent<CaptureManager>().PlayerIsHidden = state;
     }
 }

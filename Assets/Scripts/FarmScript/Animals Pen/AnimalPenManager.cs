@@ -13,7 +13,7 @@ public class AnimalPenManager : MonoBehaviour
     [SerializeField] private List<GameObject> animalsChildren;
 
     private ListSlots listSlots;
-    private CaptureV2 captureManager;
+    private CaptureManager captureManager;
     
     // AnimalData Pen
     private int totalAnimalPen;
@@ -130,7 +130,7 @@ public class AnimalPenManager : MonoBehaviour
     private void Start()
     {
         listSlots = FindObjectOfType<ListSlots>();
-        captureManager = CaptureV2.instance;
+        captureManager = CaptureManager.instance;
 
         InitializeData();
 
