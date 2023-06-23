@@ -47,6 +47,7 @@ namespace Recognition
         private int index;
         private LineRenderer lineToDraw = null;
         private bool canCreateLine;
+        private bool tutorialActive = false;
 
         private VideoPlayer videoPlayer;
 
@@ -67,6 +68,8 @@ namespace Recognition
 
         public void PlayTutorial()
         {
+            tutorialActive = true;
+            
             tutorialCanvas.gameObject.SetActive(true);
 
             videoPlayer = tutorialCanvas.GetComponent<VideoPlayer>();
@@ -86,6 +89,8 @@ namespace Recognition
             videoPlayer.Stop();
 
             tutorialCanvas.gameObject.SetActive(false);
+
+            tutorialActive = false;
         }
 
         #endregion
@@ -103,6 +108,8 @@ namespace Recognition
 
         private void Update()
         {
+            if (tutorialActive) return;
+            
             SetupLine();
 
             DetectGesture();
@@ -110,6 +117,8 @@ namespace Recognition
 
         private void FixedUpdate()
         {
+            if (tutorialActive) return;
+            
             HandleArea();
         }
 
