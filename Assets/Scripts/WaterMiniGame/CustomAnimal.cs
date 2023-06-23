@@ -65,6 +65,7 @@ public class CustomAnimal : MonoBehaviour
                         _currentAnimalName = tempSpriteAnimalPair.displayName;
                     if (tempSpriteAnimalPair.sprite != null)
                         _currentAnimalSprite = tempSpriteAnimalPair.sprite;
+                    _isMale = tempSpriteAnimalPair.male;
                     _currentAnimalType = animalType;
                     break;
                 }
