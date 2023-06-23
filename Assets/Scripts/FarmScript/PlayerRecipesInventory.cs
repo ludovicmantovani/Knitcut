@@ -88,9 +88,6 @@ public class PlayerRecipesInventory : MonoBehaviour
             OpenInventory();
         else if (player.PlayerInput.RecipesInventoryAction.triggered && !canOpen)
             CloseInventory();
-
-        if (!canOpen && player.PlayerInput.CancelAction.triggered)
-            CloseInventory();
     }
 
     private void OpenInventory()
@@ -100,15 +97,15 @@ public class PlayerRecipesInventory : MonoBehaviour
         canOpen = false;
         gameObject.SetActive(true);
 
-        GameManager.AddOpenInventory(gameObject);
+        GameManager.AddOpenInventory(this, gameObject);
     }
 
-    private void CloseInventory()
+    public void CloseInventory()
     {
         canOpen = true;
         gameObject.SetActive(false);
 
-        GameManager.RemoveOpenInventory(gameObject);
+        GameManager.RemoveOpenInventory(this, gameObject);
     }
 
     #endregion

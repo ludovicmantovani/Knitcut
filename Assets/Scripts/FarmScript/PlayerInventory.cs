@@ -31,9 +31,6 @@ public class PlayerInventory : MonoBehaviour
             if (!inUse) OpenInventory();
             else CloseInventory();
         }
-
-        if (player.PlayerInput.CancelAction.triggered && inUse)
-            CloseInventory();
     }
 
     public void OpenInventory()
@@ -42,7 +39,7 @@ public class PlayerInventory : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        GameManager.AddOpenInventory(gameObject);
+        GameManager.AddOpenInventory(this, gameObject);
     }
 
     public void CloseInventory()
@@ -51,7 +48,7 @@ public class PlayerInventory : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        GameManager.RemoveOpenInventory(gameObject);
+        GameManager.RemoveOpenInventory(this, gameObject);
     }
 
     #endregion

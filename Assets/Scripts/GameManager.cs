@@ -1,11 +1,16 @@
 using Gameplay.UI.Quests;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using HoudiniEngineUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    
     #region Parameters
 
     [Header("Quest")]
@@ -22,7 +27,7 @@ public class GameManager : MonoBehaviour
     private static List<object> dataToKeep;
     private static List<int> animalPenIndexToUpgrade = new List<int>();
     private static List<Recipe> recipesPossessed;
-    private static List<GameObject> openInventories = new List<GameObject>();
+    private static Dictionary<object, GameObject> openInventoriesDict;
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
 
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
@@ -35,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     private bool dataLoaded = false;
     private bool animalCaptured = false;
+
+    private float refreshRateReturnToMenu = 0.5f;
 
     public enum MGType
     {
@@ -77,12 +84,6 @@ public class GameManager : MonoBehaviour
         set { recipesPossessed = value; }
     }
 
-    public static List<GameObject> OpenInventories
-    {
-        get { return openInventories; }
-        set { openInventories = value; }
-    }
-
     public static List<PlayerItem> PlayerItems
     {
         get { return playerItems; }
@@ -91,11 +92,25 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+            instance = this;
+        
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoaded;
 
         OnInventoryListUpdate += OnInventoryOpen;
+        //OnReturnToMenu += ReturnToMenu;
     }
 
     private void OnDisable()
@@ -103,22 +118,38 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnLevelFinishedLoaded;
 
         OnInventoryListUpdate -= OnInventoryOpen;
+        //OnReturnToMenu -= ReturnToMenu;
     }
     
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name.Contains("Menu")) return;
+
+        if ((SceneManager.GetActiveScene().name.Contains("Farm") ||
+             SceneManager.GetActiveScene().name.Contains("Village"))
+            && listSlots == null && FindObjectOfType<ListSlots>())
+            listSlots = FindObjectOfType<ListSlots>();
+        
         UpdateDataLoaded();
 
-        UpdateAnimalCaptured();
+        if (playerController != null)
+        {
+            if (playerController.PlayerInput.CancelAction.triggered)
+            {
+                if (openInventoriesDict.Count == 0)
+                    ReturnToMenu();
+                else
+                    CloseAllOpenInventories();
+            }
+        }
 
-        ForceShowCursor();
+        UpdateAnimalCaptured();
 
         #region Cheat Codes
 
         // Money
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
-            listSlots = FindObjectOfType<ListSlots>();
             if (listSlots == null) return;
             listSlots.UpdateMoney(listSlots.PlayerControl.Money + 400);
         }
@@ -128,6 +159,8 @@ public class GameManager : MonoBehaviour
         {
             CultureManager culture = FindObjectOfType<CultureManager>();
             if (culture == null) return;
+            if (culture.CurrentCropPlot == null) return;
+            if (culture.CurrentCropPlot.SeedSource == null) return;
             PlantGrowth plant = culture.CurrentCropPlot.SeedSource.GetComponent<PlantGrowth>();
             if (plant == null) return;
             plant.SetGrowthState("End", "InGrowth", plant.CurrentPlant, 0);
@@ -157,8 +190,6 @@ public class GameManager : MonoBehaviour
         {
             dataLoaded = false;
 
-            if (SceneManager.GetActiveScene().name.Contains("Farm") && !FindObjectOfType<ListSlots>()) return;
-
             CheckItemsToAdd();
         }
     }
@@ -184,37 +215,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ForceShowCursor()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && openInventories.Count == 0)
-        {
-            if (Cursor.visible)
-            {
-                playerController.HandlePlayerMovement(true);
-
-                HandleCursor(false);
-            }
-            else
-            {
-                playerController.HandlePlayerMovement(false);
-
-                HandleCursor(true);
-            }
-        }
-    }
-
     #endregion
 
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
-        SceneManager.sceneLoaded -= OnLevelFinishedLoaded;
+        openInventoriesDict = new Dictionary<object, GameObject>();
+
+        if (OnInventoryListUpdate == null)
+            OnInventoryListUpdate += OnInventoryOpen;
+        
+        if (SceneManager.GetActiveScene().name.Contains("Menu"))
+        {
+            HandleCursor(true);
+            
+            return;
+        }
         
         playerController = FindObjectOfType<PlayerController>();
-
+        
         if (playerController != null)
         {
             if (returnToFarm) playerController.LoadPlayerPositionInScene();
-
+            
             OnInventoryListUpdate?.Invoke();
         }
 
@@ -252,47 +274,72 @@ public class GameManager : MonoBehaviour
 
     #region Open Inventories
 
-    public static void AddOpenInventory(GameObject inventory)
+    private void CloseAllOpenInventories()
     {
-        if (!openInventories.Contains(inventory))
-            openInventories.Add(inventory);
+        foreach (object script in openInventoriesDict.Keys.ToList())
+        {
+            if (script.GetType() == typeof(PlayerInventory))
+            {
+                PlayerInventory playerInventory = (PlayerInventory)script;
+                playerInventory.CloseInventory();
+            }
+            else if (script.GetType() == typeof(PlayerRecipesInventory))
+            {
+                PlayerRecipesInventory playerRecipesInventory = (PlayerRecipesInventory)script;
+                playerRecipesInventory.CloseInventory();
+            }
+            else if (script.GetType() == typeof(Container))
+            {
+                Container container = (Container)script;
+                container.CloseContainerInventory();
+            }
+            else if (script.GetType() == typeof(Feeder))
+            {
+                Feeder feeder = (Feeder)script;
+                feeder.CloseFeederInventory();
+            }
+            else if (script.GetType() == typeof(ShopManager))
+            {
+                ShopManager shopManager = (ShopManager)script;
+                shopManager.CloseShopUI();
+            }
+        }
+        
+        HandleCursor(false);
+    }
+
+    public static void AddOpenInventory(object script, GameObject inventory)
+    {
+        if (!openInventoriesDict.Keys.Contains(script))
+            openInventoriesDict.Add(script, inventory);
 
         OnInventoryListUpdate?.Invoke();
     }
 
-    public static void RemoveOpenInventory(GameObject inventory)
+    public static void RemoveOpenInventory(object script, GameObject inventory)
     {
-        if (openInventories.Contains(inventory))
-            openInventories.Remove(inventory);
-
-        for (int i = 0; i < openInventories.Count; i++)
-        {
-            if (openInventories[i] == null) openInventories.Remove(openInventories[i]);
-        }
+        if (openInventoriesDict.Keys.Contains(script))
+            openInventoriesDict.Remove(script);
 
         OnInventoryListUpdate?.Invoke();
     }
 
     public static void CleanOpenInventories()
     {
-        openInventories.Clear();
+        openInventoriesDict.Clear();
     }
 
-    public static void OnInventoryOpen()
+    private static void OnInventoryOpen()
     {
-        if (openInventories.Count > 0)
+        if (openInventoriesDict.Count > 0)
         {
             playerController.HandlePlayerMovement(false);
-
-            playerController.ReturnToMenuButton.gameObject.SetActive(false);
 
             HandleCursor(true);
         }
         else
         {
             playerController.HandlePlayerMovement(true);
-
-            playerController.ReturnToMenuButton.gameObject.SetActive(true);
 
             HandleCursor(false);
         }
@@ -330,8 +377,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckItemsToAdd()
     {
-        if (SceneManager.GetActiveScene().name.Contains("Farm"))
-            listSlots = FindObjectOfType<ListSlots>();
+        if (listSlots == null) return;
 
         switch (mgType)
         {
@@ -507,10 +553,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void ReturnToMenu()
+    public void ReturnToMenu()
     {
-        FindObjectOfType<ListSlots>().SaveData();
+        if (listSlots == null) return;
+        
+        StartCoroutine(ReturningToMenu());
+    }
 
+    private IEnumerator ReturningToMenu()
+    {
+        listSlots.SaveData();
+        
+        yield return new WaitForSeconds(refreshRateReturnToMenu);
+        
         SceneManager.LoadScene(menuScene);
     }
 

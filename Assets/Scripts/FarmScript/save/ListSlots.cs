@@ -161,6 +161,7 @@ public class ListSlots : MonoBehaviour
     public void SaveData()
     {
         SaveSystem.Save(SaveSystem.SaveType.Save_PlayerController, playerController);
+        playerController.SavePlayerPositionInScene();
 
         AutoSavePlayerInventory();
 

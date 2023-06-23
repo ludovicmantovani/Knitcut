@@ -122,9 +122,6 @@ public class Feeder : MonoBehaviour
                 CloseFeederInventory();
             }
         }
-
-        if (feederInUse && playerInput.CancelAction.triggered)
-            CloseFeederInventory();
     }
 
     private void OpenFeederInventory()
@@ -135,14 +132,14 @@ public class Feeder : MonoBehaviour
 
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la mangeoire";
 
-        GameManager.AddOpenInventory(feederInventory);
+        GameManager.AddOpenInventory(this, feederInventory);
 
         ShowItemsInFeeder();
 
         playerController.PlayerInventory.OpenInventory();
     }
 
-    private void CloseFeederInventory()
+    public void CloseFeederInventory()
     {
         feederInUse = false;
 
@@ -150,7 +147,7 @@ public class Feeder : MonoBehaviour
 
         interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la mangeoire";
 
-        GameManager.RemoveOpenInventory(feederInventory);
+        GameManager.RemoveOpenInventory(this, feederInventory);
 
         Clear();
 

@@ -10,25 +10,6 @@ public class UI_Menu : MonoBehaviour
     [Header("Launcher Mode")]
     [SerializeField] private LauncherMode launcherMode;
 
-    [Header("References Texts")]
-    public TMP_InputField moveForward;
-    public TMP_InputField moveBackward;
-    public TMP_InputField moveRight;
-    public TMP_InputField moveLeft;
-    public TMP_InputField interact;
-    public TMP_InputField hydratePlante;
-    public TMP_InputField healPlante;
-    public TMP_InputField inventory;
-
-    public KeyCode moveF;
-    public KeyCode moveB;
-    public KeyCode moveL;
-    public KeyCode moveR;
-    public KeyCode inter;
-    public KeyCode hydrateP;
-    public KeyCode healP;
-    public KeyCode invent;
-
     [Header("References Objects")]
     [SerializeField] private GameObject menuInterface;
     [SerializeField] private GameObject menuOptions;
@@ -92,18 +73,6 @@ public class UI_Menu : MonoBehaviour
         {
             ScrollCredits();
         }
-    }
-
-    public void UpperCaseVerif()
-    {
-        moveForward.text = moveForward.text.ToUpper();
-        moveBackward.text = moveBackward.text.ToUpper();
-        moveRight.text = moveRight.text.ToUpper();
-        moveLeft.text = moveLeft.text.ToUpper();
-        interact.text = interact.text.ToUpper();
-        hydratePlante.text = hydratePlante.text.ToUpper();
-        healPlante.text = healPlante.text.ToUpper();
-        inventory.text = inventory.text.ToUpper();
     }
 
     public void OptionsMenu()

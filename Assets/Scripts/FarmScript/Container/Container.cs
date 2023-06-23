@@ -48,7 +48,7 @@ public class Container : MonoBehaviour
         containerInUse = false;
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la réserve";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir le coffre";
     }
 
     private void Update()
@@ -91,29 +91,26 @@ public class Container : MonoBehaviour
                 CloseContainerInventory();
             }
         }
-
-        if (containerInUse && playerInput.CancelAction.triggered)
-            CloseContainerInventory();
     }
 
     private void OpenContainerInventory()
     {
         containerInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la réserve";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer le coffre";
 
-        GameManager.AddOpenInventory(containerInventoryContent);
+        GameManager.AddOpenInventory(this, containerInventoryContent);
 
         playerController.PlayerInventory.OpenInventory();
     }
 
-    private void CloseContainerInventory()
+    public void CloseContainerInventory()
     {
         containerInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la réserve";
+        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir le coffre";
 
-        GameManager.RemoveOpenInventory(containerInventoryContent);
+        GameManager.RemoveOpenInventory(this, containerInventoryContent);
 
         playerController.PlayerInventory.CloseInventory();
     }

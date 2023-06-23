@@ -128,9 +128,6 @@ public class ShopManager : MonoBehaviour
                 CloseShopUI();
             }
         }
-
-        if (shopInUse && playerInput.CancelAction.triggered)
-            CloseShopUI();
     }
 
     private void OpenShopUI()
@@ -139,18 +136,18 @@ public class ShopManager : MonoBehaviour
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer {shopName}";
 
-        GameManager.AddOpenInventory(shopUI);
+        GameManager.AddOpenInventory(this, shopUI);
 
         playerController.PlayerInventory.OpenInventory();
     }
 
-    private void CloseShopUI()
+    public void CloseShopUI()
     {
         shopInUse = false;
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
 
-        GameManager.RemoveOpenInventory(shopUI);
+        GameManager.RemoveOpenInventory(this, shopUI);
 
         playerController.PlayerInventory.CloseInventory();
 

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,8 +10,6 @@ public class PlayerController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject inventoryKeyUI;
     [SerializeField] private GameObject recipesInventoryKeyUI;
-    [SerializeField] private GameObject cursorKeyUI;
-    [SerializeField] private GameObject returnToMenuButton;
 
     [Header("References")]
     [SerializeField] private string farmSceneName = "FarmScene";
@@ -59,12 +56,6 @@ public class PlayerController : MonoBehaviour
     private bool teleportToSpawn = false;
 
     #region Getters / Setters
-
-    public GameObject ReturnToMenuButton
-    {
-        get { return returnToMenuButton; }
-        set { returnToMenuButton = value; }
-    }
 
     public PlayerInventory PlayerInventory
     {
@@ -182,8 +173,6 @@ public class PlayerController : MonoBehaviour
     {
         inventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.InventoryAction.GetBindingDisplayString();
         recipesInventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.RecipesInventoryAction.GetBindingDisplayString();
-        cursorKeyUI.GetComponentInChildren<Text>().text = $"L Ctrl";
-        //cursorKeyUI.GetComponentInChildren<Text>().text = KeyCode.LeftControl.ToString();
     }
 
     #region Camera Sensibility
@@ -291,7 +280,6 @@ public class PlayerController : MonoBehaviour
         if (!canMove) return;
 
         // Movement
-
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
 
         currentSpeed = Mathf.Abs(input.x);
@@ -345,7 +333,7 @@ public class PlayerController : MonoBehaviour
             Player_Data data = (Player_Data)SaveSystem.Load(SaveSystem.SaveType.Save_PlayerInput, playerInput);
 
             if (data == null) return;
-
+            
             if (data.playerPosition == null) return;
 
             playerPosition = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
@@ -368,11 +356,6 @@ public class PlayerController : MonoBehaviour
     {
         sceneVerif.LoadLastScene();
         LoadPlayerPosition();
-    }
-
-    private void OnApplicationQuit()
-    {
-        SavePlayerPositionInScene();
     }
 
     #endregion

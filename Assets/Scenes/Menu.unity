@@ -1937,7 +1937,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: 0,00
 --- !u!222 &411856044
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6063,6 +6063,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215664318}
   m_CullTransparentMesh: 1
+--- !u!1001 &1282300565
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463456, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463458, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: questCompletionCaptureAnimal
+      value: CapturerAnimal
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463459, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463461, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: m_Name
+      value: Game Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
 --- !u!1001 &1283726020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6249,22 +6314,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launcherMode: {fileID: 802075978}
-  moveForward: {fileID: 0}
-  moveBackward: {fileID: 0}
-  moveRight: {fileID: 0}
-  moveLeft: {fileID: 0}
-  interact: {fileID: 0}
-  hydratePlante: {fileID: 0}
-  healPlante: {fileID: 0}
-  inventory: {fileID: 0}
-  moveF: 122
-  moveB: 115
-  moveL: 113
-  moveR: 100
-  inter: 101
-  hydrateP: 113
-  healP: 102
-  invent: 105
   menuInterface: {fileID: 1182575631}
   menuOptions: {fileID: 998103698}
   menuKeybinding: {fileID: 940197234}
@@ -7087,7 +7136,7 @@ MonoBehaviour:
   m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.0001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -7540,7 +7589,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 1
+  m_Text: 0,00
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
