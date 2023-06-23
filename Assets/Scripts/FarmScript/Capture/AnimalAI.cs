@@ -61,6 +61,12 @@ public class AnimalAI : MonoBehaviour
         set { animalType = value; }
     }
 
+    public Item FavoriteFruit
+    {
+        get { return favoriteFruit; }
+        set { favoriteFruit = value; }
+    }
+
     public GameObject Area
     {
         get { return area; }
@@ -356,6 +362,8 @@ public class AnimalAI : MonoBehaviour
                 StopAllCoroutines();
                 
                 timerLife = false;
+
+                CaptureManager.instance.WildsAnimals.Remove(gameObject);
 
                 Destroy(gameObject);
             }

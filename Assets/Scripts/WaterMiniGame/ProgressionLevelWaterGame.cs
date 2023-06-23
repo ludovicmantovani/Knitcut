@@ -48,7 +48,6 @@ public class ProgressionLevelWaterGame : MonoBehaviour
         videoPlayer.loopPointReached += StopTutorial;
 
         videoPlayer.Play();
-        Debug.Log($"video player {videoPlayer.clip}");
     }
 
     public void SkipTutorial()

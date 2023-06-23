@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CaptureDetection : MonoBehaviour
 {
@@ -20,12 +19,19 @@ public class CaptureDetection : MonoBehaviour
     private void HandleCaptureDetection(Collider other, bool state)
     {
         if (other.CompareTag("Player") && zoneDetection)
-            GetComponentInParent<CaptureManager>().ZoneDetected = state;
+            CaptureManager.instance.ZoneDetected = state;
 
-        if (other.CompareTag("Animal") && animalDetection)
-            GetComponentInParent<CaptureManager>().AnimalDetected = state;
+        if (animalDetection && other.CompareTag("Animal"))
+        {
+            AnimalAI animal = CaptureManager.instance.WildAnimalAttracted;
+            
+            if (animal == null) return;
+            
+            if (other.gameObject == animal.gameObject)
+                CaptureManager.instance.AnimalDetected = state;
+        }
 
         if (other.CompareTag("Player") && playerHiddenDetection)
-            GetComponentInParent<CaptureManager>().PlayerIsHidden = state;
+            CaptureManager.instance.PlayerIsHidden = state;
     }
 }

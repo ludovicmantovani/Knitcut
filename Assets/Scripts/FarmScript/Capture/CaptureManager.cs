@@ -33,13 +33,16 @@ public class CaptureManager : MonoBehaviour, IDropHandler
     [SerializeField] private bool playerIsHidden;
     [SerializeField] private bool canCheckAnimal;
     [SerializeField] private bool animalPenRestriction;
-    [SerializeField] private GameObject wildAnimal;
+    [SerializeField] private AnimalAI wildAnimalAttracted;
+    [SerializeField] private int maxWildsAnimals = 3;
+    [SerializeField] private List<GameObject> wildsAnimals;
     [SerializeField] private GameObject fruitPlaced;
 
     [Header("Quest")]
     [SerializeField] private string questCompletionPlaceFruit = "";
 
     private string instruction;
+    private bool searchWildAnimal;
     private PlayerInput playerInput;
     private PlayerController playerController;
     private ListSlots listSlots;
@@ -67,10 +70,16 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         set { playerIsHidden = value; }
     }
 
-    public GameObject WildAnimal
+    public List<GameObject> WildsAnimals
     {
-        get { return wildAnimal; }
-        set { wildAnimal = value; }
+        get { return wildsAnimals; }
+        set { wildsAnimals = value; }
+    }
+
+    public AnimalAI WildAnimalAttracted
+    {
+        get { return wildAnimalAttracted; }
+        set { wildAnimalAttracted = value; }
     }
 
     public GameObject FruitPlaced
@@ -94,11 +103,15 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         listSlots = FindObjectOfType<ListSlots>();
         animalPenManager = FindObjectOfType<AnimalPenManager>();
 
+        wildsAnimals = new List<GameObject>();
+
         zoneDetected = false;
         animalDetected = false;
         playerIsHidden = false;
         canCheckAnimal = false;
         animalPenRestriction = false;
+
+        searchWildAnimal = false;
         
         infosUI.SetActive(false);
         
@@ -118,17 +131,20 @@ public class CaptureManager : MonoBehaviour, IDropHandler
 
     private void HandleAnimals()
     {
-        if (wildAnimal == null)
+        if (wildsAnimals.Count < maxWildsAnimals)
         {
-            if (animalDetected) animalDetected = false;
+            if (wildAnimalAttracted == null && animalDetected) animalDetected = false;
 
-            SpawnRandomAnimal();
+            for (int i = 0; i < maxWildsAnimals; i++)
+            {
+                SpawnRandomAnimal();
+            }
         }
     }
 
     private void SpawnRandomAnimal()
     {
-        if (animals.Count == 0) return;
+        if (animals.Count == 0 || wildsAnimals.Count >= maxWildsAnimals) return;
 
         int randomAnimalIndex = Random.Range(0, animals.Count);
 
@@ -150,8 +166,10 @@ public class CaptureManager : MonoBehaviour, IDropHandler
 
         if (randomAnimal == null || randomSpawnpoint == null) return;
 
-        wildAnimal = Instantiate(randomAnimal, randomSpawnpoint);
+        GameObject wildAnimal = Instantiate(randomAnimal, randomSpawnpoint);
         wildAnimal.GetComponent<AnimalAI>().Area = area;
+        
+        wildsAnimals.Add(wildAnimal);
     }
 
     #endregion
@@ -266,12 +284,30 @@ public class CaptureManager : MonoBehaviour, IDropHandler
     
     #region Handle Capture
 
+    private AnimalAI GetAnimalAttracted()
+    {
+        searchWildAnimal = true;
+
+        AnimalAI animal = null;
+        
+        for (int i = 0; i < wildsAnimals.Count; i++)
+        {
+            AnimalAI wildAnimal = wildsAnimals[i].GetComponent<AnimalAI>();
+            Item fruitItem = fruitPlaced.GetComponent<KeepItem>().Item;
+
+            if (fruitItem == wildAnimal.FavoriteFruit && wildAnimalAttracted == null)
+                animal = wildAnimal;
+        }
+
+        searchWildAnimal = false;
+        
+        return animal;
+    }
+    
     private void HandleCapture()
     {
         if (zoneDetected)
         {
-            if (wildAnimal == null && canCheckAnimal) Debug.Log($"Error animal destroyed when can check");
-
             if (fruitPlaced == null)
             {
                 if (animalPenRestriction)
@@ -281,35 +317,39 @@ public class CaptureManager : MonoBehaviour, IDropHandler
             }
             else
             {
-                AnimalAI animal = wildAnimal.GetComponent<AnimalAI>();
+                //AnimalAI animal = GetAnimalAttracted();
+                if (!searchWildAnimal && wildAnimalAttracted == null)
+                    wildAnimalAttracted = GetAnimalAttracted();
+
+                if (wildAnimalAttracted == null) return;
 
                 if (canCheckAnimal && animalDetected)
-                        CheckPlayerNearAnimal(animal);
+                        CheckPlayerNearAnimal(wildAnimalAttracted);
                 else if (!canCheckAnimal)
                 {
                     if (playerIsHidden)
                     {
                         instruction = $"Eloignez-vous le temps qu'un animal soit attiré par le fruit";
 
-                        animal.CanBeAttracted = false;
-                        animal.IsAttracted = false;
+                        wildAnimalAttracted.CanBeAttracted = false;
+                        wildAnimalAttracted.IsAttracted = false;
 
-                        if (animal.PlayerIsNear || animal.PlayerIsBehind)
-                            AnimalRunAway(animal, false);
+                        if (wildAnimalAttracted.PlayerIsNear || wildAnimalAttracted.PlayerIsBehind)
+                            AnimalRunAway(wildAnimalAttracted, false);
                     }
                     else if (!playerIsHidden)
                     {
-                        animal.CanBeAttracted = true;
+                        wildAnimalAttracted.CanBeAttracted = true;
 
-                        if (animalDetected && animal.IsAttracted)
+                        if (animalDetected && wildAnimalAttracted.IsAttracted)
                         {
-                            bool animalPenRestrictionsOK = animalPenManager.CheckAnimalPenRestrictions((animal));
+                            bool animalPenRestrictionsOK = animalPenManager.CheckAnimalPenRestrictions((wildAnimalAttracted));
                     
                             if (!animalPenRestrictionsOK)
                             {
                                 animalPenRestriction = true;
                                 
-                                AnimalRunAway(animal);
+                                AnimalRunAway(wildAnimalAttracted);
                             }
                             else
                                 canCheckAnimal = true;

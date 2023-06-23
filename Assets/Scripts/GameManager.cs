@@ -138,9 +138,9 @@ public class GameManager : MonoBehaviour
         {
             CaptureManager captureManager = FindObjectOfType<CaptureManager>();
             if (captureManager == null) return;
-            if (captureManager.WildAnimal == null) return;
-            animalTypeToKeep = captureManager.WildAnimal.GetComponent<AnimalAI>().AnimalType;
-            Destroy(captureManager.WildAnimal);
+            if (captureManager.WildAnimalAttracted == null) return;
+            animalTypeToKeep = captureManager.WildAnimalAttracted.GetComponent<AnimalAI>().AnimalType;
+            Destroy(captureManager.WildAnimalAttracted);
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
             if (animalPenManager == null) return;
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
