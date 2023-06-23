@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.Video;
 
 public class ProgressionLevelWaterGame : MonoBehaviour
@@ -9,6 +9,7 @@ public class ProgressionLevelWaterGame : MonoBehaviour
     public NavMeshAgent NMA;
     public GameObject EndOfGameW;
     [SerializeField]private float tempsBeforeStoping = 0f;
+    [SerializeField]private float speedModifier = 2f;
     private bool startMoving = false;
     private bool Moving = false;
     private float tempsSecurity = 0f;
@@ -23,6 +24,7 @@ public class ProgressionLevelWaterGame : MonoBehaviour
 
     private VideoPlayer videoPlayer;
     private bool initialize = false;
+    private float defaultSpeed = 0f;
 
     void Start()
     {
@@ -35,6 +37,8 @@ public class ProgressionLevelWaterGame : MonoBehaviour
 
         victoryWaterGame = FindObjectOfType<VictoryWaterGame>();
         _running = true;
+
+        defaultSpeed = NMA.speed;
     }
 
     #region Tutorial
@@ -143,6 +147,19 @@ public class ProgressionLevelWaterGame : MonoBehaviour
         Moving = true;
     }
 
-    
-       
+    public void SpeedModifier()
+    {
+        TMP_Text buttonText = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>();
+
+        if (NMA.speed == defaultSpeed)
+        {
+            NMA.speed *= speedModifier;
+            buttonText.text = $"Ralentir (x1)";
+        }
+        else if (NMA.speed > defaultSpeed)
+        {
+            NMA.speed /= speedModifier;
+            buttonText.text = $"Accélerer (x2)";
+        }
+    }
 }
