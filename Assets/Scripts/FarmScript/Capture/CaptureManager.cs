@@ -48,8 +48,6 @@ public class CaptureManager : MonoBehaviour, IDropHandler
     private ListSlots listSlots;
     private AnimalPenManager animalPenManager;
 
-    private GameObject previousAnimal = null;
-
     #region Getters / Setters
 
     public bool ZoneDetected
@@ -150,14 +148,12 @@ public class CaptureManager : MonoBehaviour, IDropHandler
 
         GameObject randomAnimal = animals[randomAnimalIndex];
 
-        // Verify if new random animal is same as previous
-        if (previousAnimal != null && previousAnimal == randomAnimal)
+        // Verify if new random animal is aleady here
+        if (AnimalIsInArea(randomAnimal) != null)
         {
             SpawnRandomAnimal();
             return;
         }
-
-        previousAnimal = randomAnimal;
 
         if (spawnPoints.Count == 0) return;
 
@@ -170,6 +166,16 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         wildAnimal.GetComponent<AnimalAI>().Area = area;
         
         wildsAnimals.Add(wildAnimal);
+    }
+
+    private GameObject AnimalIsInArea(GameObject animal)
+    {
+        for (int i = 0; i < wildsAnimals.Count; i++)
+        {
+            if (wildsAnimals[i].name.Contains(animal.name)) return wildsAnimals[i];
+        }
+
+        return null;
     }
 
     #endregion
