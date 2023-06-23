@@ -313,7 +313,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2438901173890801025}
-  m_LocalRotation: {x: 0.047002915, y: 0.8676634, z: -0.08360314, w: 0.48781312}
+  m_LocalRotation: {x: 0.044990912, y: -0.87907684, z: 0.084702894, w: 0.46693176}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
@@ -675,7 +675,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5743545934113397702}
-  m_LocalRotation: {x: 0.03814554, y: 0.8690373, z: -0.067848705, w: 0.48858553}
+  m_LocalRotation: {x: 0.03651269, y: -0.8804688, z: 0.068741225, w: 0.4676711}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
@@ -752,7 +752,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6087692599362268869}
-  m_LocalRotation: {x: 0.055868216, y: 0.8659991, z: -0.09937167, w: 0.4868774}
+  m_LocalRotation: {x: 0.053476725, y: -0.8773906, z: 0.10067884, w: 0.46603614}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
@@ -910,6 +910,7 @@ GameObject:
   - component: {fileID: 7730635642889785840}
   - component: {fileID: 7730635642889785841}
   - component: {fileID: 7730635642889785842}
+  - component: {fileID: 816790560}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -924,8 +925,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7730635642889785836}
-  m_LocalRotation: {x: 0.047002926, y: 0.8676634, z: -0.08360314, w: 0.48781306}
-  m_LocalPosition: {x: -9.184523, y: 3.5, z: 5.586327}
+  m_LocalRotation: {x: 0.044990916, y: -0.8790768, z: 0.08470291, w: 0.4669318}
+  m_LocalPosition: {x: 5.938009, y: 2.6666667, z: 4.0126243}
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children: []
   m_Father: {fileID: 6542243303300282677}
@@ -1049,6 +1050,22 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &816790560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730635642889785836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 128
+  m_MaxRayIntersections: 0
 --- !u!1 &7730635643159269678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,7 +1093,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7730635643159269678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.184523, y: 3.5, z: 5.586327}
+  m_LocalPosition: {x: 5.938009, y: 2.6666667, z: 4.0126243}
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children:
   - {fileID: 6262813186389587193}
@@ -1348,6 +1365,7 @@ MonoBehaviour:
   playerBody: {fileID: 1433809146070728421}
   spawn: {fileID: 0}
   money: 0
+  timeTeleport: 0.5
   farmHandler: {fileID: 4722433445077263227}
   villageHandler: {fileID: 6524494167120167513}
   cameraFerme: {fileID: 7730635642889785836}

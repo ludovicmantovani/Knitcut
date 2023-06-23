@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
 
         OnInventoryListUpdate -= OnInventoryOpen;
     }
-
+    
     private void Update()
     {
         UpdateDataLoaded();
@@ -207,6 +207,8 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoaded;
+        
         playerController = FindObjectOfType<PlayerController>();
 
         if (playerController != null)

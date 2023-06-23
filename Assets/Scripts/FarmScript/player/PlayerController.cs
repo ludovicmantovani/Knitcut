@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform spawn;
     [SerializeField] private int money = 0;
+    [SerializeField] private float timeTeleport = 1f;
 
     private CharacterController characterController;
     private SceneVerification sceneVerif;
@@ -53,6 +56,7 @@ public class PlayerController : MonoBehaviour
     private float currentSpeed;
 
     private bool canMove = true;
+    private bool teleportToSpawn = false;
 
     #region Getters / Setters
 
@@ -210,19 +214,33 @@ public class PlayerController : MonoBehaviour
         {
             farmHandler.SetActive(true);
             villageHandler.SetActive(false);
-
-            PlayerMovementFarm();
+            
+            if (teleportToSpawn)
+                StartCoroutine(WaitTeleport());
+            else
+                PlayerMovementFarm();
 
             UpdateCameraSensibility();
         }
     }
 
+    private IEnumerator WaitTeleport()
+    {
+        listSlots.SaveData();
+
+        transform.position = spawn.position;
+        
+        yield return new WaitForSeconds(timeTeleport);
+
+        teleportToSpawn = false;
+        canMove = true;
+    }
+
     private void PlayerMovementFarm()
     {
         if (!canMove) return;
-
+        
         // Gravity
-
         bool groundedPlayer = characterController.isGrounded;
 
         if (groundedPlayer && verticalVelocity < 0)
@@ -233,7 +251,6 @@ public class PlayerController : MonoBehaviour
         verticalVelocity -= gravity * Time.deltaTime;
 
         // Movement
-
         Vector2 input = playerInput.MoveAction.ReadValue<Vector2>();
 
         currentSpeed = Mathf.Abs(input.x) + Mathf.Abs(input.y);
@@ -307,6 +324,12 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Handle Save & Load of Player Position
+
+    public void TeleportPlayer()
+    {
+        teleportToSpawn = true;
+        canMove = false;
+    }
 
     private void SavePlayerPosition()
     {
