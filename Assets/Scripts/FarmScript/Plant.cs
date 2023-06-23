@@ -4,7 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class Plant : ScriptableObject
 {
-    [Header("Culture")]
+    [Header("Culture")] 
+    public string plantName;
     public GameObject source;
     public GameObject seed;
     public GameObject sprout;

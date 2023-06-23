@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class PlantGrowth : MonoBehaviour
 {
@@ -7,12 +9,17 @@ public class PlantGrowth : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Plant plant;
+    [SerializeField] private Text plantText;
+    [SerializeField] private GameObject plantCanvas;
+    [SerializeField] private Image plantFill;
     [SerializeField] private ProductGrowth productGrowth;
     [SerializeField] private ProductState productState;
     [SerializeField] private MeshRenderer plantRenderer;
     [SerializeField] private SkinnedMeshRenderer plantSkinRenderer;
     [SerializeField] private bool loadGrowthState = false;
 
+    private float maxTime = 0f;
+    
     private CropPlot cropPlot;
     private GameObject stateObject;
 
@@ -98,10 +105,14 @@ public class PlantGrowth : MonoBehaviour
             productGrowth = ProductGrowth.Seed;
             productState = ProductState.InGrowth;
         }
+
+        plantText.text = plant.plantName;
     }
 
     private void Update()
     {
+        plantCanvas.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+        
         HandleTimer();
 
         HandleProductGrowth();
@@ -113,6 +124,9 @@ public class PlantGrowth : MonoBehaviour
         if (productState == ProductState.InGrowth)
         {
             currentTime -= Time.deltaTime;
+
+            //plantFill.fillAmount -= 1.0f / currentTime * Time.deltaTime;
+            plantFill.fillAmount = currentTime / maxTime;
 
             if (currentTime <= 0)
             {
@@ -177,6 +191,7 @@ public class PlantGrowth : MonoBehaviour
     private void SeedGrowth()
     {
         currentTime = plant.timeOfGrowthSeed;
+        maxTime = plant.timeOfGrowthSeed;
 
         productGrowth = ProductGrowth.Sprout;
     }
@@ -188,6 +203,7 @@ public class PlantGrowth : MonoBehaviour
         ActualizePlant(plant.sprout);
 
         currentTime = plant.timeOfGrowthSprout;
+        maxTime = plant.timeOfGrowthSprout;
 
         productGrowth = ProductGrowth.Flower;
     }
@@ -199,6 +215,7 @@ public class PlantGrowth : MonoBehaviour
         ActualizePlant(plant.plant);
 
         currentTime = plant.timeOfGrowthFlower;
+        maxTime = plant.timeOfGrowthFlower;
 
         GetRandomState();
 
@@ -216,6 +233,7 @@ public class PlantGrowth : MonoBehaviour
         transform.position = productPosition;
 
         currentTime = plant.timeOfGrowthFruit;
+        maxTime = plant.timeOfGrowthFruit;
 
         productGrowth = ProductGrowth.End;
     }
