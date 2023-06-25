@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class UI_Menu : MonoBehaviour
 {
     [Header("Launcher Mode")]
     [SerializeField] private LauncherMode launcherMode;
+
 
     [Header("References Objects")]
     [SerializeField] private GameObject menuInterface;
@@ -23,15 +25,15 @@ public class UI_Menu : MonoBehaviour
     private float yStartPos;
 
     public Slider volume;
-    public InputField volumeValue;
+    public TMP_InputField volumeValue;
     public VolumeCTRL audioVolume;
 
     private Music_Scene musicScene;
 
     public Slider cameraSensibilityX;
-    public InputField cameraSensibilityXValue;
+    public TMP_InputField cameraSensibilityXValue;
     public Slider cameraSensibilityY;
-    public InputField cameraSensibilityYValue;
+    public TMP_InputField cameraSensibilityYValue;
 
     private Rebinding rebinding;
 
@@ -46,7 +48,6 @@ public class UI_Menu : MonoBehaviour
         get { return waitingBinding; }
         set { waitingBinding = value; }
     }
-
     public GameObject MenuKeybinding
     {
         get { return menuKeybinding; }
@@ -201,7 +202,7 @@ public class UI_Menu : MonoBehaviour
 
     public void OnVolumeSliderChanged()
     {
-        volumeValue.text = volume.value.ToString();
+        volumeValue.text = Math.Round(volume.value, 1).ToString();
 
         musicScene.UpdateVolume(volume.value);
     }
@@ -217,7 +218,7 @@ public class UI_Menu : MonoBehaviour
 
     public void OnSensibilityXSliderChanged()
     {
-        cameraSensibilityXValue.text = cameraSensibilityX.value.ToString();
+        cameraSensibilityXValue.text = Math.Round(cameraSensibilityX.value, 2).ToString();
     }
 
     public void OnSensibilityXInputChanged()
@@ -231,7 +232,7 @@ public class UI_Menu : MonoBehaviour
 
     public void OnSensibilityYSliderChanged()
     {
-        cameraSensibilityYValue.text = cameraSensibilityY.value.ToString();
+        cameraSensibilityYValue.text = Math.Round(cameraSensibilityY.value, 2).ToString();
     }
 
     public void OnSensibilityYInputChanged()

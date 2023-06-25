@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -81,7 +82,7 @@ public class Rebinding : MonoBehaviour
 
     public void RebindComplete(KeyBindingRefs keyBindingRefs, InputAction action)
     {
-        keyBindingRefs.TriggerRebindButton.GetComponentInChildren<Text>().text = InputControlPath.ToHumanReadableString(
+        keyBindingRefs.TriggerRebindButton.GetComponentInChildren<TMP_Text>().text = InputControlPath.ToHumanReadableString(
             action.controls[keyBindingRefs.InputActionBindingIndex].displayName,
             InputControlPath.HumanReadableStringOptions.OmitDevice);
     }
