@@ -36,7 +36,7 @@ public class FlowerGameManager : MonoBehaviour
     #region UNITY_METHOD
     void Start()
     {
-        PlayTutorial();
+        CheckTutorialAlreadyPlayed();
     }
 
     private void InitializeFlower()
@@ -62,6 +62,14 @@ public class FlowerGameManager : MonoBehaviour
     }
 
     #region Tutorial
+
+    private void CheckTutorialAlreadyPlayed()
+    {
+        if (GameManager.TutorialsPlayed.Contains(name)) return;
+            
+        GameManager.TutorialsPlayed.Add(name);
+        PlayTutorial();
+    }
 
     public void PlayTutorial()
     {

@@ -2005,7 +2005,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &329135631
 GameObject:
@@ -3124,6 +3124,10 @@ PrefabInstance:
       propertyPath: shopsUI
       value: 
       objectReference: {fileID: 1297514647}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: questsUI
+      value: 
+      objectReference: {fileID: 1760015750}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopName
       value: Shop Enclos
@@ -8922,6 +8926,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas Fade
       objectReference: {fileID: 0}
+    - target: {fileID: 6070085559326244819, guid: f3c71f4ffe1452e45892bfe77979ad5e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7662834846046243832, guid: f3c71f4ffe1452e45892bfe77979ad5e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -13493,6 +13501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3028423004454198985, guid: 2e2e99d0ffc6bf640accc222ff626522, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3170205176317137009, guid: 2e2e99d0ffc6bf640accc222ff626522, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13698,6 +13710,11 @@ PrefabInstance:
 --- !u!224 &1760015749 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1479783587905921902, guid: 2e2e99d0ffc6bf640accc222ff626522, type: 3}
+  m_PrefabInstance: {fileID: 1760015748}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1760015750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3028423004454198985, guid: 2e2e99d0ffc6bf640accc222ff626522, type: 3}
   m_PrefabInstance: {fileID: 1760015748}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1760582319
@@ -15886,6 +15903,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1297514647}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: questsUI
+      value: 
+      objectReference: {fileID: 1760015750}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopName
       value: Shop Fruits
       objectReference: {fileID: 0}
@@ -16354,6 +16375,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1297514647}
     - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
+      propertyPath: questsUI
+      value: 
+      objectReference: {fileID: 1760015750}
+    - target: {fileID: 1500982518, guid: 92c08b6161e6d8149bafc8138da8f10b, type: 3}
       propertyPath: shopName
       value: Shop Items/Recettes
       objectReference: {fileID: 0}
@@ -16757,7 +16782,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8526252944702592417, guid: d6b8cebb3f81aa244899f6efc6f34f09, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8526252944702592417, guid: d6b8cebb3f81aa244899f6efc6f34f09, type: 3}
       propertyPath: m_LocalPosition.x

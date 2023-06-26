@@ -18,6 +18,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private string shopName;
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private GameObject shopsUI;
+    [SerializeField] private GameObject questsUI;
 
     private string interaction;
 
@@ -99,8 +100,6 @@ public class ShopManager : MonoBehaviour
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
 
         interactionUI.SetActive(false);
-
-        interactionUI.SetActive(false);
     }
 
     private void Update()
@@ -133,6 +132,8 @@ public class ShopManager : MonoBehaviour
     private void OpenShopUI()
     {
         shopInUse = true;
+        
+        questsUI.SetActive(false);
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer {shopName}";
 
@@ -144,6 +145,8 @@ public class ShopManager : MonoBehaviour
     public void CloseShopUI()
     {
         shopInUse = false;
+        
+        questsUI.SetActive(true);
 
         interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
 

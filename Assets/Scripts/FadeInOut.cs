@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class FadeInOut : MonoBehaviour
@@ -11,10 +10,10 @@ public class FadeInOut : MonoBehaviour
 
     private void Update()
     {
-        Fade();
+        HandleFade();
     }
 
-    private void Fade()
+    private void HandleFade()
     {
         if (fadeIn)
         {

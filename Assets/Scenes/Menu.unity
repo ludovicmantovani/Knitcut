@@ -1710,7 +1710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "0,3\u200B"
+  m_text: "0,5\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad2d689b8d01baf478c818751e450006, type: 2}
   m_sharedMaterial: {fileID: 3292731198803843995, guid: ad2d689b8d01baf478c818751e450006, type: 2}
@@ -2147,7 +2147,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 0,3
+  m_Text: 0,5
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -5055,7 +5055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
+  m_Color: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7148,6 +7148,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2978405581155463458, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
+      propertyPath: refreshRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978405581155463458, guid: f6b08fda0f83ccf4ebf093b486337692, type: 3}
       propertyPath: questCompletionCaptureAnimal
       value: CapturerAnimal
       objectReference: {fileID: 0}
@@ -7926,6 +7930,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas Fade
       objectReference: {fileID: 0}
+    - target: {fileID: 6070085559326244819, guid: f3c71f4ffe1452e45892bfe77979ad5e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7662834846046243832, guid: f3c71f4ffe1452e45892bfe77979ad5e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -8307,7 +8315,7 @@ MonoBehaviour:
   m_MinValue: 0.1
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.3
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
