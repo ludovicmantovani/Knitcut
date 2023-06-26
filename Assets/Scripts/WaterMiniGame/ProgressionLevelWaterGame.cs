@@ -28,7 +28,7 @@ public class ProgressionLevelWaterGame : MonoBehaviour
 
     void Start()
     {
-        PlayTutorial();
+        CheckTutorialAlreadyPlayed();
     }
 
     private void InitializeWaterGame()
@@ -42,6 +42,14 @@ public class ProgressionLevelWaterGame : MonoBehaviour
     }
 
     #region Tutorial
+
+    private void CheckTutorialAlreadyPlayed()
+    {
+        if (GameManager.TutorialsPlayed.Contains(name)) return;
+            
+        GameManager.TutorialsPlayed.Add(name);
+        PlayTutorial();
+    }
 
     public void PlayTutorial()
     {

@@ -49,10 +49,18 @@ public class Cooking : MonoBehaviour
 
         HandlePlayerConsumables();
 
-        PlayTutorial();
+        CheckTutorialAlreadyPlayed();
     }
 
     #region Tutorial
+
+    private void CheckTutorialAlreadyPlayed()
+    {
+        if (GameManager.TutorialsPlayed.Contains(name)) return;
+            
+        GameManager.TutorialsPlayed.Add(name);
+        PlayTutorial();
+    }
 
     public void PlayTutorial()
     {
@@ -156,7 +164,7 @@ public class Cooking : MonoBehaviour
             cookingResultCanvas.SetData(
                 Mathf.FloorToInt(finalPrice).ToString(),
                 Mathf.FloorToInt(consumables3Dsliced).ToString() + "/" + Mathf.FloorToInt(totalConsumablesRequired).ToString(),
-                currentRecipe.finalProduct.GetComponent<DishInfos>().dishName + " préparé(e)  avec succès !",
+                currentRecipe.finalProduct.GetComponent<DishInfos>().dishName + " prÃ©parÃ©(e)  avec succÃ¨s !",
                 currentRecipe.finalProduct.GetComponent<DishInfos>().dishSprite
                 );
             resultUI.gameObject.SetActive(true);
@@ -268,7 +276,7 @@ public class Cooking : MonoBehaviour
         if (_cookingGameCanvas)
         {
             _cookingGameCanvas.HideRecipeSelector();
-            _cookingGameCanvas.SetRecipeData("Coupez les différents ingrédients");
+            _cookingGameCanvas.SetRecipeData("Coupez les diffÃ©rents ingrÃ©dients");
         }
         
         recipeInPreparation = true;
@@ -323,7 +331,7 @@ public class Cooking : MonoBehaviour
             while (timeToWait > -1)
             {
                 _cookingGameCanvas.SetRecipeData(
-                    "Coupez les différents ingrédients",
+                    "Coupez les diffÃ©rents ingrÃ©dients",
                     timeToWait.ToString());
                 yield return new WaitForSeconds(1f);
                 timeToWait--;
