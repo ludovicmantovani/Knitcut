@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     
     #region Parameters
 
+    [Header("Data")]
+    [SerializeField] private float refreshRate = 0.5f;
+    
     [Header("Quest")]
     [SerializeField] private string questCompletionCaptureAnimal = "";
 
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
     private static List<Recipe> recipesPossessed;
     private static Dictionary<object, GameObject> openInventoriesDict;
     private static List<PlayerItem> playerItems = new List<PlayerItem>();
+    private static List<string> tutorialsPlayed = new List<string>();
 
     private static Dictionary<Item, int> itemsToRemoveQuantity = new Dictionary<Item, int>();
 
@@ -42,10 +46,6 @@ public class GameManager : MonoBehaviour
     private bool dataLoaded = false;
     private bool animalCaptured = false;
 
-    private float refreshRateReturnToMenu = 0.5f;
-
-    private FadeInOut fade;
-
     public enum MGType
     {
         Cooking,
@@ -57,6 +57,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Getters / Setters
+
+    public static List<string> TutorialsPlayed
+    {
+        get { return tutorialsPlayed; }
+        set { tutorialsPlayed = value; }
+    }
 
     public class PlayerItem
     {
@@ -222,8 +228,8 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
-        fade = FindObjectOfType<FadeInOut>();
-        fade.FadeOut();
+        //fade = FindObjectOfType<FadeInOut>();
+        //fade.FadeOut();
         
         openInventoriesDict = new Dictionary<object, GameObject>();
 
@@ -551,43 +557,44 @@ public class GameManager : MonoBehaviour
 
             returnToFarm = false;
             switchSceneToLoad = specificScene;
-            //SceneManager.LoadScene(specificScene);
         }
         else
         {
             returnToFarm = true;
             switchSceneToLoad = sceneToLoad;
-            //SceneManager.LoadScene(sceneToLoad);
         }
-        StaticCoroutine.StartStaticCoroutine();
-    }
-
-    public static IEnumerator SwitchingScene()
-    {
-        yield return new WaitForSeconds(1f);
         
-        SceneManager.LoadScene(switchSceneToLoad);
+        instance.LoadScene(switchSceneToLoad);
     }
 
     public void ReturnToMenu()
     {
         if (listSlots == null) return;
         
-        StartCoroutine(ReturningToMenu());
+        instance.LoadScene(menuScene);
     }
 
-    private IEnumerator ReturningToMenu()
+    public void LoadScene(string sceneToLoad)
     {
-        listSlots.SaveData();
-        
-        yield return new WaitForSeconds(refreshRateReturnToMenu);
+        StartCoroutine(LoadSceneAsync(sceneToLoad));
+    }
 
-        fade = FindObjectOfType<FadeInOut>();
-        fade.FadeIn();
+    private IEnumerator LoadSceneAsync(string scene)
+    {
+        FindObjectOfType<FadeInOut>().FadeIn();
         
-        //yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(refreshRate);
         
-        SceneManager.LoadScene(menuScene);
+        if (listSlots != null) listSlots.SaveData();
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
+
+        while (!operation.isDone)
+        {
+            yield return null;
+        }
+        
+        FindObjectOfType<FadeInOut>().FadeOut();
     }
 
     #endregion

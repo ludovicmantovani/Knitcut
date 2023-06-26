@@ -43,17 +43,19 @@ public class LauncherMode : MonoBehaviour
             QuestManager.Instance.SetData();
         }
 
-        StartCoroutine(Launching());
+        GameManager.instance.LoadScene(sceneToLoad);
+
+        //StartCoroutine(Launching());
     }
 
-    private IEnumerator Launching()
+    /*private IEnumerator Launching()
     {
         fade.FadeIn();
 
         yield return new WaitForSeconds(1f);
 
         SceneManager.LoadScene(sceneToLoad);
-    }
+    }*/
 
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
