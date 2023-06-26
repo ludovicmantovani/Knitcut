@@ -1,11 +1,14 @@
+using System;
+using System.Collections;
 using Gameplay.UI.Quests;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LauncherMode : MonoBehaviour
 {
     [SerializeField] private string sceneToLoad = "FarmScene";
+
+    private FadeInOut fade;
 
     public enum LaunchMode
     {
@@ -14,6 +17,13 @@ public class LauncherMode : MonoBehaviour
     }
 
     public LaunchMode launchMode;
+
+    private void Start()
+    { 
+        fade = FindObjectOfType<FadeInOut>();
+        
+        fade.FadeOut();
+    }
 
     private void OnEnable()
     {
@@ -32,6 +42,15 @@ public class LauncherMode : MonoBehaviour
             SaveSystem.DeleteAllSaves();
             QuestManager.Instance.SetData();
         }
+
+        StartCoroutine(Launching());
+    }
+
+    private IEnumerator Launching()
+    {
+        fade.FadeIn();
+
+        yield return new WaitForSeconds(1f);
 
         SceneManager.LoadScene(sceneToLoad);
     }

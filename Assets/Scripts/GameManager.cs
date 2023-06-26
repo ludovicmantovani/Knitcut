@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     private static string sceneToLoad = "FarmScene";
     private static string menuScene = "Menu";
+    private static string switchSceneToLoad;
 
     private static bool returnToFarm = false;
 
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviour
     private bool animalCaptured = false;
 
     private float refreshRateReturnToMenu = 0.5f;
+
+    private FadeInOut fade;
 
     public enum MGType
     {
@@ -219,6 +222,9 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
+        fade = FindObjectOfType<FadeInOut>();
+        fade.FadeOut();
+        
         openInventoriesDict = new Dictionary<object, GameObject>();
 
         if (OnInventoryListUpdate == null)
@@ -544,13 +550,23 @@ public class GameManager : MonoBehaviour
             HandleCursor(true);
 
             returnToFarm = false;
-            SceneManager.LoadScene(specificScene);
+            switchSceneToLoad = specificScene;
+            //SceneManager.LoadScene(specificScene);
         }
         else
         {
             returnToFarm = true;
-            SceneManager.LoadScene(sceneToLoad);
+            switchSceneToLoad = sceneToLoad;
+            //SceneManager.LoadScene(sceneToLoad);
         }
+        StaticCoroutine.StartStaticCoroutine();
+    }
+
+    public static IEnumerator SwitchingScene()
+    {
+        yield return new WaitForSeconds(1f);
+        
+        SceneManager.LoadScene(switchSceneToLoad);
     }
 
     public void ReturnToMenu()
@@ -565,6 +581,11 @@ public class GameManager : MonoBehaviour
         listSlots.SaveData();
         
         yield return new WaitForSeconds(refreshRateReturnToMenu);
+
+        fade = FindObjectOfType<FadeInOut>();
+        fade.FadeIn();
+        
+        //yield return new WaitForSeconds(1f);
         
         SceneManager.LoadScene(menuScene);
     }
