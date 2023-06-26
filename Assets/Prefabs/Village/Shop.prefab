@@ -75,7 +75,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2497518462712199441
 Transform:
   m_ObjectHideFlags: 0
@@ -207,6 +207,7 @@ MonoBehaviour:
   shopName: 
   interactionUI: {fileID: 0}
   shopsUI: {fileID: 0}
+  questsUI: {fileID: 0}
   canUseShop: 0
   shopInUse: 0
   shopUI: {fileID: 0}
@@ -338,7 +339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 581846469831015180, guid: 7a1ba8b88fccef447a40b30447204474, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 581846469831015180, guid: 7a1ba8b88fccef447a40b30447204474, type: 3}
       propertyPath: m_StaticEditorFlags
