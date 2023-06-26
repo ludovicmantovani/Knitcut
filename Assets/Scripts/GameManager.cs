@@ -228,8 +228,7 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelFinishedLoaded(Scene scene, LoadSceneMode sceneMode)
     {
-        //fade = FindObjectOfType<FadeInOut>();
-        //fade.FadeOut();
+        FindObjectOfType<FadeInOut>().FadeOut();
         
         openInventoriesDict = new Dictionary<object, GameObject>();
 
