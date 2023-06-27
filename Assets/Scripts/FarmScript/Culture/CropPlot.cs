@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,7 +69,7 @@ public class CropPlot : MonoBehaviour
 
     private void ResumePlantGrowth(PlantGrowth plant)
     {
-        cultureManager.InteractionUI.GetComponentInChildren<Text>().text = $"Une graine est actuellement en production sur cette parcelle";
+        cultureManager.InteractionUI.GetComponentInChildren<TMP_Text>().text = $"Une graine est actuellement en production sur cette parcelle";
 
         plant.GetProductState = PlantGrowth.ProductState.InGrowth;
 

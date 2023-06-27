@@ -321,10 +321,11 @@ public class PlantGrowth : MonoBehaviour
         if (datas == null) return;
 
         GameObject objectToPlant = (GameObject)datas[0];
-        currentTime = Convert.ToInt32(datas[1]);
+        maxTime = Convert.ToInt32(datas[1]);
 
         ActualizePlant(objectToPlant);
 
         currentTime = timeSkip;
+        plantFill.fillAmount = currentTime / maxTime;
     }
 }
