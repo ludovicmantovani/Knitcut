@@ -12,6 +12,7 @@ public class AnimalStates : MonoBehaviour
     [SerializeField] private Slider animalHungerSlider;
     [SerializeField] private Image animalHappinessImage;
     [SerializeField] private GameObject woolPrefab;
+    [SerializeField] private Transform woolDrop;
     [SerializeField] private float timeWoolProduction = 20f;
     [SerializeField] private float timeAutoDestroy = 10f;
 
@@ -117,7 +118,7 @@ public class AnimalStates : MonoBehaviour
 
             if (!canProduceWool) break;
 
-            GameObject wool = Instantiate(woolPrefab, transform.position, Quaternion.identity);
+            GameObject wool = Instantiate(woolPrefab, woolDrop.position, Quaternion.identity);
 
             Destroy(wool, timeAutoDestroy);
         }
