@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ namespace Recognition
         [SerializeField] private List<Texture2D> texturesPatterns;
         [SerializeField] private List<Texture2D> texturesToDisplay;
         [SerializeField] private RawImage imageModel;
-        [SerializeField] private Text score;
+        [SerializeField] private TMP_Text score;
 
         private int currentPatternIndex = -1;
 
@@ -23,7 +24,7 @@ namespace Recognition
             get => texturesToDisplay[currentPatternIndex];
         }
 
-        public Text Score
+        public TMP_Text Score
         {
             get => score;
         }
