@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
 namespace Recognition
@@ -18,6 +17,7 @@ namespace Recognition
         [Tooltip("The distance of the rayCast to see if a object is Interactive")]
         [SerializeField] private float distanceRayCast = 2.5f;
         [SerializeField] private GestureClass gesture = new GestureClass();
+        [SerializeField] private int piecesToGain = 25;
         [SerializeField] private float correctRate;
         [SerializeField] private Vector2 resolution;
         [Range(0.01f, 1f)][SerializeField] private float percentageExtraLimit = 20f;
@@ -193,14 +193,14 @@ namespace Recognition
 
             //Clear();
 
-            ShowResult(texture2D, $"{score * 100:0}%", 25);
+            ShowResult(texture2D, $"{score * 100:0}%");
         }
 
         #endregion
 
         #region Display result
 
-        private void ShowResult(Texture2D texture2D, string score, int money)
+        private void ShowResult(Texture2D texture2D, string score)
         {
             if (gameCanvas && panel && resultCanvas)
             {
@@ -215,10 +215,11 @@ namespace Recognition
 
                 //TODO : Set money
                 Transform moneyTransform = resultCanvas.transform.Find("TextCoin (TMP)");
-                if (moneyTransform) moneyTransform.GetComponent<TMP_Text>().text = $"{money}";
+                if (moneyTransform) moneyTransform.GetComponent<TMP_Text>().text = $"{piecesToGain}";
 
                 // Save datas
-                GameManager.FinalizeMG(GameManager.MGType.Recognition, money);
+                GameManager.PiecesGain += piecesToGain;
+                //GameManager.FinalizeMG(GameManager.MGType.Recognition, piecesToGain);
 
                 //TODO : Set commentary
 

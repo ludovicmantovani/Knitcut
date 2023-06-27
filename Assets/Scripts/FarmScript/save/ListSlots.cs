@@ -126,6 +126,7 @@ public class ListSlots : MonoBehaviour
     public void UpdateMoney(int moneyUpdated)
     {
         playerController.Money = moneyUpdated;
+        
         moneyUI.text = $"{playerController.Money}";
 
         AutoSaveMoney();
