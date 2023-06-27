@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class AnimalStates : MonoBehaviour
     [Header("References")]
     [SerializeField] private Feeder feeder;
     [SerializeField] private GameObject animalCanvas;
-    [SerializeField] private Text animalNameText;
+    [SerializeField] private TMP_Text animalNameText;
     [SerializeField] private Slider animalHungerSlider;
     [SerializeField] private Image animalHappinessImage;
     [SerializeField] private GameObject woolPrefab;

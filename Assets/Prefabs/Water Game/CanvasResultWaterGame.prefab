@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Aller \xE0 la ferme"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4aca00b899db0ff4b8c8d21389a8989a, type: 2}
-  m_sharedMaterial: {fileID: 4515079058984696191, guid: 4aca00b899db0ff4b8c8d21389a8989a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ad2d689b8d01baf478c818751e450006, type: 2}
+  m_sharedMaterial: {fileID: 3292731198803843995, guid: ad2d689b8d01baf478c818751e450006, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -154,7 +154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2360994967946422222
 RectTransform:
   m_ObjectHideFlags: 0
@@ -581,7 +581,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -244}
-  m_SizeDelta: {x: 550, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2360994968940223097
 CanvasRenderer:
@@ -613,8 +613,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Vous avez attrap\xE9 un lama !"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4aca00b899db0ff4b8c8d21389a8989a, type: 2}
-  m_sharedMaterial: {fileID: 4515079058984696191, guid: 4aca00b899db0ff4b8c8d21389a8989a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ad2d689b8d01baf478c818751e450006, type: 2}
+  m_sharedMaterial: {fileID: 3292731198803843995, guid: ad2d689b8d01baf478c818751e450006, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -638,13 +638,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67
-  m_fontSizeBase: 67
+  m_fontSize: 65
+  m_fontSizeBase: 65
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -745,7 +745,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 9f5434d1d533e1849b8023f51d6bd9e9, type: 3}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0

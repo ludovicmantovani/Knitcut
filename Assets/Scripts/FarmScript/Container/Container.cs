@@ -1,7 +1,7 @@
-using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.InputSystem;
-
 
 public class Container : MonoBehaviour
 {
@@ -48,7 +48,7 @@ public class Container : MonoBehaviour
         containerInUse = false;
 
         interaction = "Utiliser " + playerInput.InteractionAction.GetBindingDisplayString();
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir le coffre";
+        interactionPanel.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir le coffre";
     }
 
     private void Update()
@@ -97,7 +97,7 @@ public class Container : MonoBehaviour
     {
         containerInUse = true;
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer le coffre";
+        interactionPanel.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour fermer le coffre";
 
         GameManager.AddOpenInventory(this, containerInventoryContent);
 
@@ -108,7 +108,7 @@ public class Container : MonoBehaviour
     {
         containerInUse = false;
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir le coffre";
+        interactionPanel.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir le coffre";
 
         GameManager.RemoveOpenInventory(this, containerInventoryContent);
 

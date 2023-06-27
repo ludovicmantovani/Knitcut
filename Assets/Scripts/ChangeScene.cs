@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using TMPro;
 
 public class ChangeScene : MonoBehaviour
 {
@@ -111,7 +111,7 @@ public class ChangeScene : MonoBehaviour
 
             if (sceneToLoad.Contains("Farm"))
             {
-                instruction += " pour aller à la ferme";
+                instruction += " pour aller Ã  la ferme";
             }
 
             if (isMinigame)
@@ -126,11 +126,11 @@ public class ChangeScene : MonoBehaviour
                     else if (playerController.PlayerRecipesInventory.GetRecipes().Count == 0)
                     {
                         canChangeScene = false;
-                        instruction = "Vous ne possédez aucune recette";
+                        instruction = "Vous ne possÃ©dez aucune recette";
                     }
                     else
                     {
-                        instruction += " pour accéder à la cuisine";
+                        instruction += " pour accÃ©der Ã  la cuisine";
                     }
                 }
                 else if (sceneToLoad.Contains("Recognition"))
@@ -155,13 +155,13 @@ public class ChangeScene : MonoBehaviour
                         else
                         {
                             canChangeScene = false;
-                            instruction = "L'enclos associé n'est pas assez grand";
+                            instruction = "L'enclos associÃ© n'est pas assez grand";
                         }
                     }
                 }
             }
 
-            interactionPanel.GetComponentInChildren<Text>().text = instruction;
+            interactionPanel.GetComponentInChildren<TMP_Text>().text = instruction;
         }
     }
 

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -64,7 +65,7 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             if (item.isStackable)
             {
                 transform.GetChild(0).gameObject.SetActive(true);
-                transform.GetChild(0).GetChild(0).GetComponent<Text>().text = quantityStacked.ToString();
+                transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = quantityStacked.ToString();
             }
             else
             {
@@ -151,7 +152,7 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         if (overSlot == null || item == null || quantityStacked == 1) return;
 
-        if (overSlot.GetComponent<Text>()) return;
+        if (overSlot.GetComponent<TMP_Text>()) return;
 
         ItemHandler itemFounded = overSlot.GetComponentInChildren<ItemHandler>();
 

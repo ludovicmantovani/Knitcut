@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AnimalPenManager : MonoBehaviour
 {
@@ -347,7 +347,7 @@ public class AnimalPenManager : MonoBehaviour
 
             animalPen.currentPanel.GetComponentInChildren<Renderer>().sharedMaterial = animalPen.animalPanelMat;
 
-            animalPen.currentPanel.GetComponentInChildren<Text>().text = $"Niveau {animalPen.animalPenLevel}";
+            animalPen.currentPanel.GetComponentInChildren<TMP_Text>().text = $"Niveau {animalPen.animalPenLevel}";
 
             currentState.animalPenObject.SetActive(true);
 

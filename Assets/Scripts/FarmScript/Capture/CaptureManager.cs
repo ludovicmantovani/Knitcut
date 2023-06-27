@@ -1,10 +1,10 @@
 using Gameplay.UI.Quests;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class CaptureManager : MonoBehaviour, IDropHandler
 {
@@ -369,7 +369,7 @@ public class CaptureManager : MonoBehaviour, IDropHandler
                 }
             }
             
-            interactionUI.GetComponentInChildren<Text>().text = instruction;
+            interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
             interactionUI.SetActive(true);
         }
         else
@@ -404,7 +404,7 @@ public class CaptureManager : MonoBehaviour, IDropHandler
     private void StartCapture(AnimalAI animal)
     {
         instruction = "Début de la capture";
-        interactionUI.GetComponentInChildren<Text>().text = instruction;
+        interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
         RemoveItem();
 

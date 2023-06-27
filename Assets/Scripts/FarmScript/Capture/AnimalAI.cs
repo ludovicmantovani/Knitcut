@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ public class AnimalAI : MonoBehaviour
     [SerializeField] private Item favoriteFruit;
     [SerializeField] private GameObject animalCanvas;
     [SerializeField] private Image animalFruitImage;
-    [SerializeField] private Text animalNameText;
+    [SerializeField] private TMP_Text animalNameText;
     [SerializeField] private Slider lifeSlider;
     [SerializeField] private Color lifeColor;
     [SerializeField] private Color lifePauseColor;

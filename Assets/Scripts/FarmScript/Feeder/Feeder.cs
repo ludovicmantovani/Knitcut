@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using System;
+using TMPro;
 
 public class Feeder : MonoBehaviour
 {
@@ -104,7 +103,7 @@ public class Feeder : MonoBehaviour
         canUseFeeder = state;
 
         if (canUseFeeder)
-            interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la mangeoire";
+            interactionPanel.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir la mangeoire";
 
         interactionPanel.SetActive(state);
     }
@@ -130,7 +129,7 @@ public class Feeder : MonoBehaviour
 
         feederInventory.SetActive(true);
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour fermer la mangeoire";
+        interactionPanel.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour fermer la mangeoire";
 
         GameManager.AddOpenInventory(this, feederInventory);
 
@@ -145,7 +144,7 @@ public class Feeder : MonoBehaviour
 
         feederInventory.SetActive(false);
 
-        interactionPanel.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir la mangeoire";
+        interactionPanel.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir la mangeoire";
 
         GameManager.RemoveOpenInventory(this, feederInventory);
 

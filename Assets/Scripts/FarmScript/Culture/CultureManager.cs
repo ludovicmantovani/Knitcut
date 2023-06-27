@@ -1,6 +1,7 @@
 using Gameplay.UI.Quests;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -137,7 +138,7 @@ public class CultureManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
 
         instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
-        interactionUI.GetComponentInChildren<Text>().text = instruction;
+        interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
         SetupCulture();
         LoadCulture();
@@ -309,7 +310,7 @@ public class CultureManager : MonoBehaviour
         if (!currentCropPlot.IsCultivating)
         {
             instruction = $"Utiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour planter une graine";
-            interactionUI.GetComponentInChildren<Text>().text = instruction;
+            interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
             if (playerInput.InteractionAction.triggered)
                 PlantSeedInSlot();
@@ -327,20 +328,20 @@ public class CultureManager : MonoBehaviour
             else
                 instruction = $"Croissance en cours...";
 
-            interactionUI.GetComponentInChildren<Text>().text = instruction;
+            interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
         }
         else if (currentCropPlot.IsCultivating && currentCropPlot.Product != null)
         {
             if (playerController.PlayerInventory.InventoryIsFull())
             {
                 instruction = $"Croissance terminée\nL'inventaire est plein";
-                interactionUI.GetComponentInChildren<Text>().text = instruction;
+                interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
                 return;
             }
             
             instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
-            interactionUI.GetComponentInChildren<Text>().text = instruction;
+            interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
             if (playerInput.InteractionAction.triggered/* && !playerController.PlayerInventory.InventoryIsFull()*/)
             {
