@@ -65,10 +65,15 @@ public class FlowerGameManager : MonoBehaviour
 
     private void CheckTutorialAlreadyPlayed()
     {
-        if (GameManager.TutorialsPlayed.Contains(name)) return;
-            
-        GameManager.TutorialsPlayed.Add(name);
-        PlayTutorial();
+        if (GameManager.TutorialsPlayed.Contains(name))
+        {
+            InitializeFlower();
+        }
+        else
+        {
+            GameManager.TutorialsPlayed.Add(name);
+            PlayTutorial();
+        }
     }
 
     public void PlayTutorial()
