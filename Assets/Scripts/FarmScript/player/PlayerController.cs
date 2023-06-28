@@ -326,6 +326,8 @@ public class PlayerController : MonoBehaviour
 
     private void LoadPlayerPosition()
     {
+        canMove = false;
+        
         Vector3 playerPosition = Vector3.zero;
 
         if (SceneManager.GetActiveScene().name.Contains("Farm"))
@@ -344,6 +346,16 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = playerPosition;
+
+        StartCoroutine(WaitLoadPosition());
+
+    }
+
+    private IEnumerator WaitLoadPosition()
+    {
+        yield return new WaitForSeconds(timeTeleport);
+        
+        canMove = true;
     }
 
     public void SavePlayerPositionInScene()

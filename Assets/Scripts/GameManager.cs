@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private bool dataLoaded = false;
     private bool animalCaptured = false;
     private bool piecesGained = false;
+    private bool switchingScene = false;
 
     public enum MGType
     {
@@ -591,11 +592,15 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(string sceneToLoad)
     {
+        if (switchingScene) return;
+        
         StartCoroutine(LoadSceneAsync(sceneToLoad));
     }
 
     private IEnumerator LoadSceneAsync(string scene)
     {
+        switchingScene = true;
+        
         FindObjectOfType<FadeInOut>().FadeIn();
         
         yield return new WaitForSeconds(refreshRate);
@@ -610,6 +615,8 @@ public class GameManager : MonoBehaviour
         }
         
         FindObjectOfType<FadeInOut>().FadeOut();
+
+        switchingScene = false;
     }
 
     #endregion
