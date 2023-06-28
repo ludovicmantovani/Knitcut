@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9166481609886442131}
   - component: {fileID: 5231557551436442934}
   - component: {fileID: 8034086014436858364}
+  - component: {fileID: 209780980457785743}
   m_Layer: 0
   m_Name: Barriere_end_L_green_red
   m_TagString: Untagged
@@ -82,3 +83,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &209780980457785743
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394202666810406953}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4248959121410117105, guid: 3b78776be4751f04e9227e0168d48326, type: 3}
