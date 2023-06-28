@@ -1,9 +1,13 @@
+using Gameplay.UI.Quests;
 using UnityEngine;
 
 public class KeepItem : MonoBehaviour
 {
     [SerializeField] private Item item;
     [SerializeField] private bool canPickUp;
+
+    [Header("Quest")]
+    [SerializeField] private string questCompletionRecupLaineAmelioration = "RecupLaine";
 
     public Item Item
     {
@@ -20,7 +24,11 @@ public class KeepItem : MonoBehaviour
             if (!player.PlayerInventory.InventoryIsFull())
             {
                 player.PlayerInventory.AddItemToInventory(item);
-
+                QuestManager qm = QuestManager.Instance;
+                if (qm && item.itemName == "Wool")
+                {
+                    qm.CompleteObjective(questCompletionRecupLaineAmelioration);
+                }
                 Destroy(gameObject);
             }
         }
