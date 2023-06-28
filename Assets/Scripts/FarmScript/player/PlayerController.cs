@@ -1,9 +1,9 @@
 using System.Collections;
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -171,8 +171,8 @@ public class PlayerController : MonoBehaviour
 
     private void LoadKeysUI()
     {
-        inventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.InventoryAction.GetBindingDisplayString();
-        recipesInventoryKeyUI.GetComponentInChildren<Text>().text = playerInput.RecipesInventoryAction.GetBindingDisplayString();
+        inventoryKeyUI.GetComponentInChildren<TMP_Text>().text = playerInput.InventoryAction.GetBindingDisplayString();
+        recipesInventoryKeyUI.GetComponentInChildren<TMP_Text>().text = playerInput.RecipesInventoryAction.GetBindingDisplayString();
     }
 
     #region Camera Sensibility

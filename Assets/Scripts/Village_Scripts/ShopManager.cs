@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -135,7 +136,7 @@ public class ShopManager : MonoBehaviour
         
         questsUI.SetActive(false);
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour fermer {shopName}";
+        interactionUI.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour fermer {shopName}";
 
         GameManager.AddOpenInventory(this, shopUI);
 
@@ -148,7 +149,7 @@ public class ShopManager : MonoBehaviour
         
         questsUI.SetActive(true);
 
-        interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
+        interactionUI.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir {shopName}";
 
         GameManager.RemoveOpenInventory(this, shopUI);
 
@@ -162,7 +163,7 @@ public class ShopManager : MonoBehaviour
         interactionUI.SetActive(state);
 
         if (state)
-            interactionUI.GetComponentInChildren<Text>().text = $"{interaction} pour ouvrir {shopName}";
+            interactionUI.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir {shopName}";
     }
 
     #endregion
@@ -799,7 +800,7 @@ public class ShopManager : MonoBehaviour
 
         notification.transform.SetAsLastSibling();
 
-        notification.GetComponentInChildren<Text>().text = textToShow;
+        notification.GetComponentInChildren<TMP_Text>().text = textToShow;
 
         Destroy(notification, timeNotification);
     }

@@ -1,6 +1,6 @@
 using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlantGrowth : MonoBehaviour
@@ -9,7 +9,7 @@ public class PlantGrowth : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Plant plant;
-    [SerializeField] private Text plantText;
+    [SerializeField] private TMP_Text plantText;
     [SerializeField] private GameObject plantCanvas;
     [SerializeField] private Image plantFill;
     [SerializeField] private ProductGrowth productGrowth;
@@ -321,10 +321,11 @@ public class PlantGrowth : MonoBehaviour
         if (datas == null) return;
 
         GameObject objectToPlant = (GameObject)datas[0];
-        currentTime = Convert.ToInt32(datas[1]);
+        maxTime = Convert.ToInt32(datas[1]);
 
         ActualizePlant(objectToPlant);
 
         currentTime = timeSkip;
+        plantFill.fillAmount = currentTime / maxTime;
     }
 }

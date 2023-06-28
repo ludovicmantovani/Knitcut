@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     private static string menuScene = "Menu";
     private static string switchSceneToLoad;
 
+    private static int piecesGain = 0;
+
     private static bool returnToFarm = false;
 
     private static MGType mgType;
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     private bool dataLoaded = false;
     private bool animalCaptured = false;
+    private bool piecesGained = false;
 
     public enum MGType
     {
@@ -57,6 +60,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Getters / Setters
+
+    public static int PiecesGain
+    {
+        get { return piecesGain; }
+        set { piecesGain = value; }
+    }
 
     public static List<string> TutorialsPlayed
     {
@@ -149,6 +158,15 @@ public class GameManager : MonoBehaviour
                     ReturnToMenu();
                 else
                     CloseAllOpenInventories();
+            }
+
+            if (piecesGained)
+            {
+                piecesGained = false;
+                
+                listSlots.UpdateMoney(listSlots.PlayerControl.Money + piecesGain);
+                
+                piecesGain = 0;
             }
         }
 
@@ -247,6 +265,8 @@ public class GameManager : MonoBehaviour
         if (playerController != null)
         {
             if (returnToFarm) playerController.LoadPlayerPositionInScene();
+
+            if (piecesGain > 0) piecesGained = true;
             
             OnInventoryListUpdate?.Invoke();
         }
@@ -492,11 +512,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleRecognitionData()
     {
-        if (dataToKeep == null || dataToKeep.Count == 0) return;
-
-        listSlots.UpdateMoney(listSlots.PlayerControl.Money + Convert.ToInt32(dataToKeep[0]));
-
-        dataToKeep.Clear();
+        
     }
 
     private void HandleBreedingData()
@@ -541,7 +557,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleCaptureData()
     {
-
+        
     }
 
     #endregion

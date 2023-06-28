@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,9 +6,9 @@ public class InfosUIRefs : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Image imageUI;
-    [SerializeField] private Text nameUI;
-    [SerializeField] private Text priceUI;
-    [SerializeField] private InputField amountUI;
+    [SerializeField] private TMP_Text nameUI;
+    [SerializeField] private TMP_Text priceUI;
+    [SerializeField] private TMP_InputField amountUI;
     [SerializeField] private Button amountButtonUp;
     [SerializeField] private Button amountButtonDown;
     [SerializeField] private Button operationUI;
@@ -18,19 +19,19 @@ public class InfosUIRefs : MonoBehaviour
         set { imageUI = value; }
     }
 
-    public Text NameUI
+    public TMP_Text NameUI
     {
         get { return nameUI; }
         set { nameUI = value; }
     }
 
-    public Text PriceUI
+    public TMP_Text PriceUI
     {
         get { return priceUI; }
         set { priceUI = value; }
     }
 
-    public InputField AmountUI
+    public TMP_InputField AmountUI
     {
         get { return amountUI; }
         set { amountUI = value; }

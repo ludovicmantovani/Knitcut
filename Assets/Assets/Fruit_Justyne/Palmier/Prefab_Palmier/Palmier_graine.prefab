@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6905569939042981035}
   - component: {fileID: 7528427381544639246}
   - component: {fileID: 5737216047390011332}
-  - component: {fileID: 1756088138419293110}
+  - component: {fileID: -1267792530966273450}
   m_Layer: 0
   m_Name: Palmier_graine
   m_TagString: Untagged
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1756088138419293110
+--- !u!114 &-1267792530966273450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,6 +95,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a190c8397bff5346a948539ec452b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
-  plant: {fileID: 0}
+  item: {fileID: 11400000, guid: bab7538936c25a84e949625cf99b75ff, type: 2}
   canPickUp: 0

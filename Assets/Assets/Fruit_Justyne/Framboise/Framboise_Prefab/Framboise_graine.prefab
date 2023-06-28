@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8308008689993781707}
   - component: {fileID: 4964130585980116590}
   - component: {fileID: 7133936273796885156}
+  - component: {fileID: -103435404096604277}
   m_Layer: 0
   m_Name: Framboise_graine
   m_TagString: Untagged
@@ -82,3 +83,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-103435404096604277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8646956701133589361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a190c8397bff5346a948539ec452b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: d67336e8df5d0194091877b11e76061d, type: 2}
+  canPickUp: 0

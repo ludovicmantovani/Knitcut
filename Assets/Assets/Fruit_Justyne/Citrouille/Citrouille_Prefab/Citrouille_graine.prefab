@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2113564542708890221}
   - component: {fileID: 3097131109222790600}
   - component: {fileID: 945702167247438082}
+  - component: {fileID: 5103766200992026870}
   m_Layer: 0
   m_Name: Citrouille_graine
   m_TagString: Untagged
@@ -82,3 +83,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5103766200992026870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594049334087147735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a190c8397bff5346a948539ec452b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 7db4531cd36f715488cd0d1f911ba7a9, type: 2}
+  canPickUp: 0

@@ -1,6 +1,6 @@
 using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ListSlots : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class ListSlots : MonoBehaviour
     private bool checkLoad = false;
 
     [Header("Money")]
-    [SerializeField] private Text moneyUI;
+    [SerializeField] private TMP_Text moneyUI;
 
     [Header("Player Inventory")]
     [SerializeField] private Transform playerSlotsParent;
@@ -126,6 +126,7 @@ public class ListSlots : MonoBehaviour
     public void UpdateMoney(int moneyUpdated)
     {
         playerController.Money = moneyUpdated;
+        
         moneyUI.text = $"{playerController.Money}";
 
         AutoSaveMoney();
