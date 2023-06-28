@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98fd486f1a299554e97dfd02beef05fc, type: 3}
-  m_Name: CapturerAnimal
+  m_Name: Reproduire
   m_EditorClassIdentifier: 
-  titre: Capturer un animal
+  titre: "Faire un b\xE9b\xE9 animal"
   objectives:
-  - reference: AllerForet
-    description: "Aller dans la for\xEAt"
-  - reference: DeposerFruit
-    description: "D\xE9poser un fruit sur le tronc d'arbre"
-  - reference: CapturerAnimal
-    description: "Capturer l'animal attir\xE9 par le fruit"
+  - reference: CaptureDeuxAnimaux
+    description: "Avoir deux animaux dans le m\xEAme enclos"
+  - reference: UtiliserCoeur
+    description: Utiliser le coeur dans l'enclos
+  - reference: AvoirUnBebe
+    description: Gagner au jeu de reproduction
   rewards: []
   canGiveRewards: 0

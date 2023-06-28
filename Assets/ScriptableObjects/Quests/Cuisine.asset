@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98fd486f1a299554e97dfd02beef05fc, type: 3}
-  m_Name: AmeliorerEnclos
+  m_Name: Cuisine
   m_EditorClassIdentifier: 
-  titre: 
+  titre: Cuisiner un plat
   objectives:
-  - reference: RecupLaine
-    description: "R\xE9cup\xE9rer de la laine d'un animal captur\xE9"
-  - reference: AllerVIllage
-    description: Utiliser votre camion pour aller au village
-  - reference: VendreLaine
-    description: Vendre la laine au stand de Pablo
-  - reference: AchatAmelioration
-    description: "Acheter am\xE9lioration enclos au stand de Tony"
-  - reference: AllerFerme
+  - reference: AllerVIllageCuisine
+    description: Aller au village
+  - reference: AchatRecette
+    description: Acheter recette de cuisine au stand de Pablo
+  - reference: AchatFruits
+    description: Acheter des fruits au stand de Pablo
+  - reference: AllerFermeCuisine
     description: "Retourner \xE0 la ferme"
+  - reference: Cuisiner
+    description: Utiliser la maison pour cuisiner un plat
   rewards: []
   canGiveRewards: 0
