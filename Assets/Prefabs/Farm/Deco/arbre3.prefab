@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5063459925422040475}
   - component: {fileID: 2891926304005742342}
   - component: {fileID: 624649478980683920}
+  - component: {fileID: 6026049478834508244}
   m_Layer: 0
   m_Name: Tree_base_N_3
   m_TagString: Untagged
@@ -114,6 +115,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6026049478834508244
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122051413942583673}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.1, y: 1.86, z: 8.485918}
+  m_Center: {x: 0.10941911, y: -0.04, z: 3.9930742}
 --- !u!1 &7118342893366039266
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +139,7 @@ GameObject:
   - component: {fileID: 243053242188515846}
   - component: {fileID: 3130961564800255713}
   - component: {fileID: 8022913155446192064}
+  - component: {fileID: 4847526070469692222}
   m_Layer: 0
   m_Name: feuillage3
   m_TagString: Untagged
@@ -196,3 +211,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4847526070469692222
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7118342893366039266}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7247501732844082879, guid: 9e5f145b5094dfe4b8a5843b0bc130d9, type: 3}

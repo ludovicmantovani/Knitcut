@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 1049486121211706090}
   - component: {fileID: 7399994272416261202}
   - component: {fileID: 8025735466880422543}
+  - component: {fileID: 1655500882632055403}
   m_Layer: 0
   m_Name: GeoSphere003
   m_TagString: Untagged
@@ -113,3 +114,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1655500882632055403
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5899758062117987744}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4715642113876736137, guid: 35950d0d1149dac43866fd2d4ee60d46, type: 3}
