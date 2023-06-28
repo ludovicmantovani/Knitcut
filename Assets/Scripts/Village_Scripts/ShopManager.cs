@@ -665,7 +665,7 @@ public class ShopManager : MonoBehaviour
         {
             int price = (int)shopConfiguration.items[level - 1].price;
 
-            infosUIRefs.NameUI.text = $"Enclos Lv.{level} ▶ Lv.{level + 1} pour {type}";
+            infosUIRefs.NameUI.text = $"Enclos Lv.{level} > Lv.{level + 1} pour {type}";
             infosUIRefs.PriceUI.text = $"{price} P";
             infosUIRefs.OperationUI.onClick.RemoveAllListeners();
             infosUIRefs.OperationUI.onClick.AddListener(delegate { UpgradeAnimalPen(shopConfiguration, infosUIRefs, price, type, index); });
