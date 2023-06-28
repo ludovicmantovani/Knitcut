@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 778892426864931594}
   - component: {fileID: 5367437067207981949}
   - component: {fileID: 3057109326037949730}
+  - component: {fileID: 8425181357240214118}
   m_Layer: 0
   m_Name: de_a_coudre_low
   m_TagString: Untagged
@@ -113,3 +114,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8425181357240214118
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3116935717531381395}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7045303704416111715, guid: 152744c96609854469ed25a3d8bd578f, type: 3}
