@@ -1,6 +1,8 @@
 using Gameplay.UI.Quests;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Gameplay.Quests;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -135,9 +137,30 @@ public class CaptureManager : MonoBehaviour, IDropHandler
 
             for (int i = 0; i < maxWildsAnimals; i++)
             {
-                SpawnRandomAnimal();
+                if (CurrentQuestIsCapture())
+                    SpawnSpecificAnimal(AnimalType.Fox);
+                else
+                    SpawnRandomAnimal();
             }
         }
+    }
+
+    private bool CurrentQuestIsCapture()
+    {
+        bool isQuestCapture = false;
+        
+        QuestManager questManager = QuestManager.Instance;
+        if (questManager == null) return isQuestCapture;
+
+        QuestStatus questStatus = questManager.GetCurrentQuestStatus();
+        if (questStatus == null) return isQuestCapture;
+
+        Quest quest = questStatus.GetQuest();
+        if (quest == null) return isQuestCapture;
+
+        if (quest.GetTitle().Contains("Capturer")) isQuestCapture = true;
+
+        return isQuestCapture;
     }
 
     private void SpawnRandomAnimal()
@@ -168,6 +191,26 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         wildAnimal.GetComponent<AnimalAI>().Area = area;
         
         wildsAnimals.Add(wildAnimal);
+    }
+
+    private void SpawnSpecificAnimal(AnimalType animalType)
+    {
+        for (int i = 0; i < animals.Count; i++)
+        {
+            if (animals[i].GetComponent<AnimalAI>().AnimalType != animalType) return;
+            
+            if (spawnPoints.Count == 0) return;
+
+            int randomSapwnpointIndex = Random.Range(0, spawnPoints.Count);
+            Transform randomSpawnpoint = spawnPoints[randomSapwnpointIndex];
+
+            if (animals[i] == null || randomSpawnpoint == null) return;
+
+            GameObject wildAnimal = Instantiate(animals[i], randomSpawnpoint);
+            wildAnimal.GetComponent<AnimalAI>().Area = area;
+    
+            wildsAnimals.Add(wildAnimal);
+        }
     }
 
     private GameObject AnimalIsInArea(GameObject animal)
