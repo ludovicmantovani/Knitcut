@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
             if (captureManager == null) return;
             if (captureManager.WildAnimalAttracted == null) return;
             animalTypeToKeep = captureManager.WildAnimalAttracted.GetComponent<AnimalAI>().AnimalType;
-            Destroy(captureManager.WildAnimalAttracted);
+            captureManager.WildAnimalAttracted.EndLife();
             AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
             if (animalPenManager == null) return;
             animalPenManager.InstantiateTamedAnimalInAnimalPen();
