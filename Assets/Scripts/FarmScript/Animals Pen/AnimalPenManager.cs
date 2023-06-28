@@ -46,6 +46,7 @@ public class AnimalPenManager : MonoBehaviour
         public List<AnimalPenStates> animalPenStates;
         public AnimalType animalType;
         public int animalPenLevel = 1;
+        public List<ObjectsToHandle> objectsToHandle;
     }
     
     [Serializable]
@@ -55,6 +56,13 @@ public class AnimalPenManager : MonoBehaviour
         public int levelRequired;
         public int maxAdultsRestriction = 1;
         public int maxChildrenRestriction = 0;
+    }
+
+    [Serializable]
+    public class ObjectsToHandle
+    {
+        public int levelRequired;
+        public List<GameObject> objects;
     }
 
     #region Getters / Setters
@@ -351,10 +359,39 @@ public class AnimalPenManager : MonoBehaviour
 
             currentState.animalPenObject.SetActive(true);
 
+            HandleObjectsToShow(animalPen);
+
             ActualizeAnimals(animalPen, animalPen.animalPenInScene);
         }
         else
             currentState.animalPenObject.SetActive(false);
+    }
+
+    private void HandleObjectsToShow(AnimalPen animalPen)
+    {
+        ClearObjectsToHandle(animalPen);
+        
+        for (int i = 0; i < animalPen.objectsToHandle.Count; i++)
+        {
+            if (animalPen.objectsToHandle[i].levelRequired == animalPen.animalPenLevel)
+            {
+                for (int j = 0; j < animalPen.objectsToHandle[i].objects.Count; j++)
+                {
+                    animalPen.objectsToHandle[i].objects[j].SetActive(true);
+                }
+            }
+        }
+    }
+
+    private void ClearObjectsToHandle(AnimalPen animalPen)
+    {
+        for (int i = 0; i < animalPen.objectsToHandle.Count; i++)
+        {
+            for (int j = 0; j < animalPen.objectsToHandle[i].objects.Count; j++)
+            {
+                animalPen.objectsToHandle[i].objects[j].SetActive(false);
+            }
+        }
     }
 
     private void ActualizeAnimals(AnimalPen animalPen, GameObject currentAnimalPenState)
