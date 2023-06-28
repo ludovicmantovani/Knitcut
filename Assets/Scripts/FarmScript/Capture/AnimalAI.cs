@@ -360,14 +360,19 @@ public class AnimalAI : MonoBehaviour
             }
             else
             {
-                StopAllCoroutines();
-                
-                timerLife = false;
-
-                CaptureManager.instance.WildsAnimals.Remove(gameObject);
-
-                Destroy(gameObject);
+                EndLife();
             }
         }
+    }
+
+    public void EndLife()
+    {
+        StopAllCoroutines();
+                
+        timerLife = false;
+
+        CaptureManager.instance.WildsAnimals.Remove(gameObject);
+
+        Destroy(gameObject);
     }
 }

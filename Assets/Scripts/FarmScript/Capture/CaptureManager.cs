@@ -148,6 +148,8 @@ public class CaptureManager : MonoBehaviour, IDropHandler
 
         GameObject randomAnimal = animals[randomAnimalIndex];
 
+        if (randomAnimal == null) return;
+        
         // Verify if new random animal is aleady here
         if (AnimalIsInArea(randomAnimal) != null)
         {
@@ -189,6 +191,8 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         Item fruitItem = (Item)listSlots.GetItemByIndex(fruitIndex);
         
         HandleItemOnPedestal(fruitItem);
+
+        wildAnimalAttracted = null;
     }
 
     private void RecoverFruitPlacedOnClick()
@@ -284,6 +288,8 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         currentFruit = null;
 
         if (canCheckAnimal) canCheckAnimal = false;
+
+        wildAnimalAttracted = null;
     }
     
     #endregion
@@ -299,9 +305,13 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         for (int i = 0; i < wildsAnimals.Count; i++)
         {
             AnimalAI wildAnimal = wildsAnimals[i].GetComponent<AnimalAI>();
-            Item fruitItem = fruitPlaced.GetComponent<KeepItem>().Item;
 
-            if (fruitItem == wildAnimal.FavoriteFruit && wildAnimalAttracted == null)
+            Item fruitItem = null;
+            
+            if (fruitPlaced != null)
+                fruitItem = fruitPlaced.GetComponent<KeepItem>().Item;
+
+            if (fruitItem == wildAnimal.FavoriteFruit)
                 animal = wildAnimal;
         }
 
@@ -323,7 +333,6 @@ public class CaptureManager : MonoBehaviour, IDropHandler
             }
             else
             {
-                //AnimalAI animal = GetAnimalAttracted();
                 if (!searchWildAnimal && wildAnimalAttracted == null)
                     wildAnimalAttracted = GetAnimalAttracted();
 
