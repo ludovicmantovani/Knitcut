@@ -169,7 +169,11 @@ public class ChangeScene : MonoBehaviour
                         else
                         {
                             canChangeScene = false;
-                            instruction = "L'enclos associé n'est pas assez grand";
+                            
+                            if (animalPenManager.GetLinkedAnimalPen(GameManager.AnimalTypeToKeep).animalPenLevel == animalPenManager.GetLinkedAnimalPen(GameManager.AnimalTypeToKeep).animalPenStates.Count)
+                                instruction = "Nombre maximal de bébés\natteint pour cet enclos";
+                            else
+                                instruction = "L'enclos associé n'est pas assez grand";
                         }
                     }
                 }

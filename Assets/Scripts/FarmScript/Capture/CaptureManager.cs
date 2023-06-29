@@ -401,7 +401,7 @@ public class CaptureManager : MonoBehaviour, IDropHandler
 
                         if (animalDetected && wildAnimalAttracted.IsAttracted)
                         {
-                            bool animalPenRestrictionsOK = animalPenManager.CheckAnimalPenRestrictions((wildAnimalAttracted));
+                            bool animalPenRestrictionsOK = animalPenManager.CheckAnimalPenRestrictions((wildAnimalAttracted.AnimalType));
                     
                             if (!animalPenRestrictionsOK)
                             {

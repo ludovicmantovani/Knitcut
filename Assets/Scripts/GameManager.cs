@@ -17,9 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float refreshRate = 0.5f;
     
     [Header("Quest")]
-    [SerializeField] private string questCompletionCaptureAnimal = "CapturerAnimal";
-    [SerializeField] private string questCompletionCaptureAnimalRepro = "CaptureDeuxAnimaux";
-    [SerializeField] private string questCompletionAvoirBebe = "AvoirUnBebe";
+    [SerializeField] private string questCompletionCaptureAnimal = "";
 
     private static string sceneToLoad = "FarmScene";
     private static string menuScene = "Menu";
@@ -242,8 +240,6 @@ public class GameManager : MonoBehaviour
 
             if (questCompletionCaptureAnimal.Length > 0)
                 QuestManager.Instance.CompleteObjective(questCompletionCaptureAnimal);
-            if (questCompletionCaptureAnimalRepro.Length > 0)
-                QuestManager.Instance.CompleteObjective(questCompletionCaptureAnimalRepro);
         }
     }
 
@@ -269,7 +265,8 @@ public class GameManager : MonoBehaviour
         
         if (playerController != null)
         {
-            if (returnToFarm) playerController.LoadPlayerPositionInScene();
+            //if (returnToFarm) playerController.LoadPlayerPositionInScene();
+            if (scene.name.Contains("Farm")) playerController.LoadPlayerPositionInScene();
 
             if (piecesGain > 0) piecesGained = true;
             
@@ -525,40 +522,36 @@ public class GameManager : MonoBehaviour
         if (dataToKeep == null || dataToKeep.Count == 0 || mgType != MGType.Breeding) return;
 
         int nbChildrenToInstantiate = Convert.ToInt32(dataToKeep[0]);
+        
+        if (nbChildrenToInstantiate <= 0) return;
+        
+        AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
+        AnimalType currentAnimalType = animalTypeToKeep;
 
-        if (nbChildrenToInstantiate > 0)
+        animalTypeToKeep = AnimalType.None;
+        dataToKeep.Clear();
+        
+        if (!animalPenManager.CheckAnimalPenRestrictions(currentAnimalType, true)) return;
+
+        AnimalPenManager.AnimalPen linkedAnimalPen = animalPenManager.GetLinkedAnimalPen(currentAnimalType);
+        AnimalPenManager.AnimalPenStates currentAnimalStates = animalPenManager.GetCurrentRestrictions(linkedAnimalPen);
+
+        int currentChildren = animalPenManager.GetAnimalsCount(linkedAnimalPen.animalPenInScene.transform)[1];
+
+        if (nbChildrenToInstantiate > currentAnimalStates.maxChildrenRestriction)
         {
-            AnimalPenManager animalPenManager = FindObjectOfType<AnimalPenManager>();
-            AnimalType currentAnimalType = animalTypeToKeep;
+            nbChildrenToInstantiate = currentAnimalStates.maxChildrenRestriction;
+        }
 
-            animalTypeToKeep = AnimalType.None;
-            dataToKeep.Clear();
+        if (currentChildren > 0 && currentChildren + nbChildrenToInstantiate > currentAnimalStates.maxChildrenRestriction)
+        {
+            nbChildrenToInstantiate = currentAnimalStates.maxChildrenRestriction - currentChildren;
+        }
 
-            if (animalPenManager.CheckAnimalPenRestrictions(currentAnimalType, true))
-            {
-                AnimalPenManager.AnimalPen linkedAnimalPen = animalPenManager.GetLinkedAnimalPen(currentAnimalType);
-                AnimalPenManager.AnimalPenStates currentAnimalStates = animalPenManager.GetCurrentRestrictions(linkedAnimalPen);
-
-                int currentChildren = animalPenManager.GetAnimalsCount(linkedAnimalPen.animalPenInScene.transform)[1];
-
-                if (nbChildrenToInstantiate > currentAnimalStates.maxChildrenRestriction)
-                {
-                    nbChildrenToInstantiate = currentAnimalStates.maxChildrenRestriction;
-                }
-
-                if (currentChildren > 0 && currentChildren + nbChildrenToInstantiate > currentAnimalStates.maxChildrenRestriction)
-                {
-                    nbChildrenToInstantiate = currentAnimalStates.maxChildrenRestriction - currentChildren;
-                }
-
-                QuestManager.Instance.CompleteObjective(questCompletionAvoirBebe);
-
-                for (int i = 0; i < nbChildrenToInstantiate; i++)
-                {
-                    animalTypeToKeep = currentAnimalType;
-                    animalPenManager.InstantiateTamedAnimalInAnimalPen(true);
-                }
-            }
+        for (int i = 0; i < nbChildrenToInstantiate; i++)
+        {
+            animalTypeToKeep = currentAnimalType;
+            animalPenManager.InstantiateTamedAnimalInAnimalPen(true);
         }
     }
 
