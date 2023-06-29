@@ -209,7 +209,7 @@ public class ListSlots : MonoBehaviour
         //ItemCreation(4, 4); // fruit citrouille
         //ItemCreation(7, 2); // fruit radis
 
-        ItemCreation(13, 2); // graine framboise
+        //ItemCreation(13, 2); // graine framboise
         ItemCreation(14, 2); // graine palmier
     }
 
