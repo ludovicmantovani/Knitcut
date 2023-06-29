@@ -45,10 +45,15 @@ public class ProgressionLevelWaterGame : MonoBehaviour
 
     private void CheckTutorialAlreadyPlayed()
     {
-        if (GameManager.TutorialsPlayed.Contains(name)) return;
-            
-        GameManager.TutorialsPlayed.Add(name);
-        PlayTutorial();
+        if (GameManager.TutorialsPlayed.Contains(name))
+        {
+            InitializeWaterGame();
+        }
+        else
+        {
+            GameManager.TutorialsPlayed.Add(name);
+            PlayTutorial();
+        }
     }
 
     public void PlayTutorial()
@@ -80,10 +85,9 @@ public class ProgressionLevelWaterGame : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if (_running) StopMiniGameWater();
-
     }
+    
     void MovingWaterStart()
     {
         NMA.isStopped = false;
@@ -99,8 +103,8 @@ public class ProgressionLevelWaterGame : MonoBehaviour
                 Pieces[i].layer = LayerMask.NameToLayer("Ignore Raycast");
             }
         }
-
     }
+    
     void StopMovingVerification()
     {
         
