@@ -131,17 +131,18 @@ public class CaptureManager : MonoBehaviour, IDropHandler
 
     private void HandleAnimals()
     {
-        if (wildsAnimals.Count < maxWildsAnimals)
-        {
-            if (wildAnimalAttracted == null && animalDetected) animalDetected = false;
+        if (wildsAnimals.Count >= maxWildsAnimals) return;
+        
+        if (wildAnimalAttracted == null && animalDetected) animalDetected = false;
 
-            for (int i = 0; i < maxWildsAnimals; i++)
-            {
-                if (CurrentQuestIsCapture())
-                    SpawnSpecificAnimal(AnimalType.Fox);
-                else
-                    SpawnRandomAnimal();
-            }
+        int nbAnimalsToSpawn = maxWildsAnimals - wildsAnimals.Count;
+        
+        for (int i = 0; i < nbAnimalsToSpawn; i++)
+        {
+            if (CurrentQuestIsCapture())
+                SpawnSpecificAnimal(AnimalType.Fox);
+            else
+                SpawnRandomAnimal();
         }
     }
 
