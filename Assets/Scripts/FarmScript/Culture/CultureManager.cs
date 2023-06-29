@@ -334,13 +334,13 @@ public class CultureManager : MonoBehaviour
         {
             if (playerController.PlayerInventory.InventoryIsFull())
             {
-                instruction = $"Croissance terminée\nL'inventaire est plein";
+                instruction = $"Croissance terminï¿½e\nL'inventaire est plein";
                 interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
                 return;
             }
             
-            instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
+            instruction = $"Croissance terminï¿½e\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
             interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
             if (playerInput.InteractionAction.triggered/* && !playerController.PlayerInventory.InventoryIsFull()*/)
@@ -355,7 +355,8 @@ public class CultureManager : MonoBehaviour
 
                 playerController.PlayerInventory.AddItemToInventory(fruitProduced);
 
-                RandomToKeepSeedsAfterPickUp(seedSource);
+                if (!playerController.PlayerInventory.InventoryIsFull())
+                    RandomToKeepSeedsAfterPickUp(seedSource);
                 
                 Destroy(currentCropPlot.SeedSource);
 
