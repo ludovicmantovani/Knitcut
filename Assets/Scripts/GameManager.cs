@@ -269,8 +269,7 @@ public class GameManager : MonoBehaviour
         
         if (playerController != null)
         {
-            //if (returnToFarm) playerController.LoadPlayerPositionInScene();
-            if (scene.name.Contains("Farm")) playerController.LoadPlayerPositionInScene();
+            if (returnToFarm) playerController.LoadPlayerPositionInScene();
 
             if (piecesGain > 0) piecesGained = true;
             
