@@ -79,6 +79,7 @@ namespace Gameplay.UI.Quests
         {
             _qM = QuestManager.Instance;
             _qM.onUpdate += UpdateData;
+            UpdateData();
         }
 
         private void OnDisable()

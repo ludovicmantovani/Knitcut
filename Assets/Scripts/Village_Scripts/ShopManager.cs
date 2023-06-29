@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gameplay.UI.Quests;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -146,7 +147,7 @@ public class ShopManager : MonoBehaviour
     public void CloseShopUI()
     {
         shopInUse = false;
-        
+
         questsUI.SetActive(true);
 
         interactionUI.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir {shopName}";
@@ -315,11 +316,17 @@ public class ShopManager : MonoBehaviour
 
             ShowNotification($"Vous avez vendu x{amount} '{itemToSell.item.itemName}' pour {totalPrice} pièces");
 
+            if (itemToSell.item.itemName == "Wool")
+            {
+                QuestManager.Instance.CompleteObjective("VendreLaine");
+            }
+
             if (quantityLeft <= 0)
             {
                 shopConfiguration.items.Remove(itemToSell);
 
                 Destroy(currentItemUI.gameObject);
+
             }
         }
         else
@@ -363,6 +370,8 @@ public class ShopManager : MonoBehaviour
             SaveAnimalPenLevels();
 
             ShowNotification($"Vous avez acheté l'amélioration Lv{currentLevel} pour l'enclos n°{index} pour {price} P");
+
+            QuestManager.Instance.CompleteObjective("AchatAmelioration");
         }
         else
         {

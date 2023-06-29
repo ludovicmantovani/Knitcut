@@ -158,7 +158,7 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         Quest quest = questStatus.GetQuest();
         if (quest == null) return isQuestCapture;
 
-        if (quest.GetTitle().Contains("Capturer")) isQuestCapture = true;
+        if (quest.GetTitle().Contains("bébé")) isQuestCapture = true;
 
         return isQuestCapture;
     }

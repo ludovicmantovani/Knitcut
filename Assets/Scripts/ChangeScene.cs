@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Gameplay.UI.Quests;
 
 public class ChangeScene : MonoBehaviour
 {
@@ -74,6 +75,19 @@ public class ChangeScene : MonoBehaviour
             listSlots.SaveData();
 
             if (sceneToLoad.Contains("Cooking")) CheckPlayerObjects();
+
+            if (sceneToLoad.Contains("Village"))
+            {
+                QuestManager.Instance.CompleteObjective("AllerVillage");
+            };
+            if (sceneToLoad.Contains("Farm"))
+            {
+                QuestManager.Instance.CompleteObjective("AllerFerme");
+            };
+            if (sceneToLoad.Contains("Flower"))
+            {
+                QuestManager.Instance.CompleteObjective("UtiliserCoeur");
+            }
 
             GameManager.SwitchScene(sceneToLoad);
         }
