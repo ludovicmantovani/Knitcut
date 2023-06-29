@@ -12,8 +12,10 @@ namespace Gameplay.Quests
         [SerializeField] private List<Objective> objectives = new List<Objective>();
         [SerializeField] private List<Reward> rewards = new List<Reward>();
         [SerializeField] private bool canGiveRewards = true;
+        [SerializeField] private bool canSeeRewards = false;
 
         public bool CanGiveRewards { get => canGiveRewards;}
+        public bool CanSeeRewards { get => canSeeRewards;}
 
         [System.Serializable]
         public class Reward
@@ -21,6 +23,7 @@ namespace Gameplay.Quests
             [Min(1)]
             public int number;
             public Item item;
+            public bool inInventory = true;
         }
 
         [System.Serializable]

@@ -119,24 +119,25 @@ public class Container : MonoBehaviour
 
     #region Items
 
-    public void AddItemToInventory(Item item, GameObject inventory)
+    public void AddItemToInventory(Item item, int quantity)
     {
-        Transform slotParent = GetFreeSlot(inventory);
+        Transform slotParent = GetFreeSlot();
 
         if (slotParent == null) return;
 
         GameObject itemObject = Instantiate(itemUI, slotParent);
 
         itemObject.GetComponent<ItemHandler>().Item = item;
+        itemObject.GetComponent<ItemHandler>().QuantityStacked = quantity;
 
         itemObject.GetComponent<Image>().sprite = item.itemSprite;
     }
 
-    private Transform GetFreeSlot(GameObject inventory)
+    private Transform GetFreeSlot()
     {
-        for (int i = 0; i < inventory.transform.childCount; i++)
+        for (int i = 0; i < containerInventoryContent.transform.childCount; i++)
         {
-            Transform slotObject = inventory.transform.GetChild(i);
+            Transform slotObject = containerInventoryContent.transform.GetChild(i);
 
             if (slotObject.childCount == 0)
             {
