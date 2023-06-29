@@ -334,13 +334,13 @@ public class CultureManager : MonoBehaviour
         {
             if (playerController.PlayerInventory.InventoryIsFull())
             {
-                instruction = $"Croissance termin�e\nL'inventaire est plein";
+                instruction = $"Croissance terminée\nL'inventaire est plein";
                 interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
                 return;
             }
             
-            instruction = $"Croissance termin�e\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
+            instruction = $"Croissance terminée\nUtiliser {playerInput.InteractionAction.GetBindingDisplayString()} pour ramasser le fruit";
             interactionUI.GetComponentInChildren<TMP_Text>().text = instruction;
 
             if (playerInput.InteractionAction.triggered/* && !playerController.PlayerInventory.InventoryIsFull()*/)
