@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Gameplay.UI.Quests;
 
 public class Container : MonoBehaviour
 {
@@ -102,6 +103,8 @@ public class Container : MonoBehaviour
         GameManager.AddOpenInventory(this, containerInventoryContent);
 
         playerController.PlayerInventory.OpenInventory();
+
+        QuestManager.Instance.CompleteObjective("AvoirLaineTisser");
     }
 
     public void CloseContainerInventory()

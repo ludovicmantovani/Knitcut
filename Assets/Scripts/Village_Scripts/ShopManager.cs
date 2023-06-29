@@ -346,6 +346,8 @@ public class ShopManager : MonoBehaviour
             ShowNotification($"Vous avez acheté la recette '{recipeToBuy.item.recipeName}' pour {recipeToBuy.price} pièces");
 
             infosUIRefs.GetComponent<CanvasGroup>().interactable = false;
+
+            QuestManager.Instance.CompleteObjective("AchatRecette");
         }
         else
         {

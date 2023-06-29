@@ -35,7 +35,7 @@ namespace Gameplay.UI.Quests
                 objectiveText.text = objective.description;
             }
             
-            if (rewardUISection != null && quest.GetRewardsCount() > 0)
+            if (rewardUISection != null && quest.GetRewardsCount() > 0 && quest.CanSeeRewards)
             {
                 foreach (GameObject go in rewardUISection)
                 {

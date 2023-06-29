@@ -74,19 +74,30 @@ public class ChangeScene : MonoBehaviour
 
             listSlots.SaveData();
 
-            if (sceneToLoad.Contains("Cooking")) CheckPlayerObjects();
+            if (sceneToLoad.Contains("Cooking"))
+            {
+                CheckPlayerObjects();
+                QuestManager.Instance.CompleteObjective("Cuisiner");
+            }
 
             if (sceneToLoad.Contains("Village"))
             {
                 QuestManager.Instance.CompleteObjective("AllerVillage");
+                QuestManager.Instance.CompleteObjective("AllerVIllageCuisine");
+                QuestManager.Instance.CompleteObjective("VillageFin");
             };
             if (sceneToLoad.Contains("Farm"))
             {
                 QuestManager.Instance.CompleteObjective("AllerFerme");
+                QuestManager.Instance.CompleteObjective("AllerFermeCuisine");
             };
             if (sceneToLoad.Contains("Flower"))
             {
                 QuestManager.Instance.CompleteObjective("UtiliserCoeur");
+            }
+            if (sceneToLoad.Contains("Recognition"))
+            {
+                QuestManager.Instance.CompleteObjective("Coudre");
             }
 
             GameManager.SwitchScene(sceneToLoad);

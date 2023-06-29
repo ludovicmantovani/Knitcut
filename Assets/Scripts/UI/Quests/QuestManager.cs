@@ -11,8 +11,6 @@ namespace Gameplay.UI.Quests
         private int _questIndex = 0;
 
         private static QuestManager _instance = null;
-        private PlayerController playerController;
-        private Container container;
         public static QuestManager Instance => _instance;
 
         public event Action onUpdate;
@@ -33,8 +31,6 @@ namespace Gameplay.UI.Quests
 
         private void Start()
         {
-            playerController = FindObjectOfType<PlayerController>();
-            container = FindObjectOfType<Container>();
             SetData();
         }
 
@@ -113,19 +109,17 @@ namespace Gameplay.UI.Quests
             {
                 if (status.IsComplete())
                 {
-                    if (onUpdate != null)
-                        onUpdate();
                     if (quest.CanGiveRewards)
                     {
                         foreach (Quest.Reward reward in quest.GetRewards())
                         {
                             if (reward.inInventory)
                             {
-                                playerController.PlayerInventory.AddItemToInventory(reward.item, reward.number);
+                                FindObjectOfType<PlayerController>().PlayerInventory.AddItemToInventory(reward.item, reward.number);
                             }
                             else
                             {
-                                container.AddItemToInventory(reward.item, reward.number);
+                                FindObjectOfType<Container>().AddItemToInventory(reward.item, reward.number);
                             }
                         }
                     }

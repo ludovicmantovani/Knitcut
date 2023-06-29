@@ -10,18 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98fd486f1a299554e97dfd02beef05fc, type: 3}
-  m_Name: Cuisine
+  m_Name: FinirTuto
   m_EditorClassIdentifier: 
-  titre: Cuisiner un plat
+  titre: Finir le tutoriel
   objectives:
-  - reference: AllerVIllageCuisine
-    description: Aller au village
-  - reference: AchatRecette
-    description: Acheter recette de cuisine au stand de Pablo
-  - reference: AllerFermeCuisine
-    description: "Retourner \xE0 la ferme"
-  - reference: Cuisiner
-    description: Utiliser la maison pour cuisiner un plat
+  - reference: VillageFin
+    description: "Acheter graines \xE0 Aby et commencer une nouvelle vie."
   rewards: []
   canGiveRewards: 0
   canSeeRewards: 0
