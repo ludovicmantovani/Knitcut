@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float refreshRate = 0.5f;
     
     [Header("Quest")]
-    [SerializeField] private string questCompletionCaptureAnimal = "";
+    [SerializeField] private string questCompletionCaptureAnimal = "CapturerAnimal";
+    [SerializeField] private string questCompletionCaptureAnimalRepro = "CaptureDeuxAnimaux";
+    [SerializeField] private string questCompletionAvoirBebe = "AvoirUnBebe";
 
     private static string sceneToLoad = "FarmScene";
     private static string menuScene = "Menu";
@@ -240,6 +242,8 @@ public class GameManager : MonoBehaviour
 
             if (questCompletionCaptureAnimal.Length > 0)
                 QuestManager.Instance.CompleteObjective(questCompletionCaptureAnimal);
+            if (questCompletionCaptureAnimalRepro.Length > 0)
+                QuestManager.Instance.CompleteObjective(questCompletionCaptureAnimalRepro);
         }
     }
 
@@ -547,6 +551,8 @@ public class GameManager : MonoBehaviour
         {
             nbChildrenToInstantiate = currentAnimalStates.maxChildrenRestriction - currentChildren;
         }
+        
+        QuestManager.Instance.CompleteObjective(questCompletionAvoirBebe);
 
         for (int i = 0; i < nbChildrenToInstantiate; i++)
         {
