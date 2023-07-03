@@ -139,7 +139,8 @@ public class CaptureManager : MonoBehaviour, IDropHandler
         
         for (int i = 0; i < nbAnimalsToSpawn; i++)
         {
-            if (CurrentQuestIsCapture())
+            //if (CurrentQuestIsCapture())
+            if (false)
                 SpawnSpecificAnimal(AnimalType.Fox);
             else
                 SpawnRandomAnimal();

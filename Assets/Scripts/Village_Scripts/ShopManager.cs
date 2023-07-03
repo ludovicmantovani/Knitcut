@@ -135,7 +135,7 @@ public class ShopManager : MonoBehaviour
     {
         shopInUse = true;
         
-        questsUI.SetActive(false);
+        //questsUI.SetActive(false);
 
         interactionUI.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour fermer {shopName}";
 
@@ -148,7 +148,7 @@ public class ShopManager : MonoBehaviour
     {
         shopInUse = false;
 
-        questsUI.SetActive(true);
+        //questsUI.SetActive(true);
 
         interactionUI.GetComponentInChildren<TMP_Text>().text = $"{interaction} pour ouvrir {shopName}";
 
