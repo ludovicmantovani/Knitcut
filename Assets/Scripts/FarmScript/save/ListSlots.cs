@@ -200,17 +200,21 @@ public class ListSlots : MonoBehaviour
     {
         UpdateMoney(200);
 
-        ItemCreation(6, 5);
-        ItemCreation(7, 5);
-        ItemCreation(8, 5);
-        ItemCreation(9, 5);
-        ItemCreation(10, 5);
+        //ItemCreation(6, 5);
+        //ItemCreation(7, 5);
+        //ItemCreation(8, 5);
+        //ItemCreation(9, 5);
+        //ItemCreation(10, 5);
 
         //ItemCreation(4, 4); // fruit citrouille
         //ItemCreation(7, 2); // fruit radis
 
-        //ItemCreation(13, 2); // graine framboise
-        ItemCreation(14, 2); // graine palmier
+        ItemCreation(12, 2); // graine framboise
+        ItemCreation(13, 2); // graine framboise
+        ItemCreation(14, 2); // graine framboise
+        ItemCreation(15, 2); // graine framboise
+        ItemCreation(16, 2); // graine framboise
+        ItemCreation(17, 2); // graine palmier
     }
 
     private void ItemCreation(int indexItem, int quantity)
